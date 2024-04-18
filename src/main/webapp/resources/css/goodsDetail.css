@@ -2,12 +2,15 @@
 font-family: 'Poppins', sans-serif;
 font-family: 'Varela Round', sans-serif; 
 */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&family=Varela+Round&display=swap');
 section{
     font-family: 'Poppins', sans-serif; /*앞: 메인폰트, 뒤: 대체폰트(구현안될시)*/
     padding: 5rem 0; /*1.상하 2.좌우 ','사용금지*/
 }
 section .goods-detail{
     display: flex;
+    justify-content: space-between;
+    margin-bottom: 50px;
 }
 section .goods-detail .left{
     width: 500px;
@@ -15,9 +18,11 @@ section .goods-detail .left{
 }
 section .goods-detail .left img{
     width: 100%;
+    height: 100%;
 }
 
 section .goods-detail .left .prev{
+    display: none;
     border-radius: 50%;
     width: 40px;
     height: 40px;
@@ -30,6 +35,7 @@ section .goods-detail .left .prev{
 }
 
 section .goods-detail .left .next{
+    display: none;
     border-radius: 50%;
     width: 40px;
     height: 40px;
@@ -74,14 +80,25 @@ section .goods-detail .left .select{
 
 /* 프로필 영역 css*/
 section .goods-detail .right{
-    width: 50%;
-    padding: 0 2rem;
+    width: 600px;
+    position: relative;
+}
+
+section .goods-detail .right .report{
+    display: flex;
+    justify-content: right;
+    padding: 1rem;
+}
+
+section .goods-detail .right button{
+    padding: 5px;
+    font-size: 1rem;
 }
 
 section .goods-detail .right .profile{
     display: flex;
     justify-content: left;
-    background-color: gray;
+    background-color: #A0D468;
     border-radius: 1rem;
     padding: 1rem;
 }
@@ -96,16 +113,60 @@ section .goods-detail .right .profile .left img{
 }
 
 section .goods-detail .right .profile .right{
-    position: flex;
+    display: flex;
     flex-direction: column;
-    align-items: center;
+    font-size: 1.3rem;
 }
 
-section .goods-detail .right .profile .right p{
-    font-size: 1.3rem;
+section .goods-detail .right .profile .right .reivew{
+    display: flex;
+}
+section .goods-detail .right .profile .right .reivew p{
+    margin-right: 3rem;
 }
 
 section .goods-detail .right .profile .right .user_name{
     margin-bottom: 1rem;
 }
 
+section .goods-detail .right .subject{
+    display: flex;
+    justify-content: space-between;
+}
+
+section .goods-detail .right .subject > * {
+    font-size: 1.3rem;
+}
+
+section .goods-detail .right .subject .icon{
+    margin-right: 2rem;
+}
+
+section .goods-detail .right .subject .icon i{
+    color: pink;
+}
+
+
+section .goods-detail .right .subject, .price, .place, .reg-date{
+    padding: 1rem;
+    font-size: 18px;
+}
+
+section .goods-detail .right .btn{
+    display: flex;
+    justify-content: center;
+    bottom: 0;
+}
+
+section .goods-detail .right .btn button{
+    font-size: 1.5rem;
+    padding: 1rem;
+}
+
+section .goods-content{
+	width: 100%;
+}
+
+section .goods-content img{
+	width: 100%;
+}
