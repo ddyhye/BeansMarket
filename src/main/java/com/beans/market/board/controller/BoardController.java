@@ -29,7 +29,7 @@ public class BoardController {
 			logger.info("DB 접속 실패");
 		}
 		
-		return "detail";
+		return "board/saleOfGoodsWrite";
 	}
 	
 }
