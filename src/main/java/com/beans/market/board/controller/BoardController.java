@@ -32,4 +32,13 @@ public class BoardController {
 		return "detail";
 	}
 	
+	//윤경배 테스트
+	@RequestMapping(value="/yuntest")
+	public String yuntest() {
+		logger.info("yun testing");
+		return "yuntesting";
+		
+	}
+	
+
 }
