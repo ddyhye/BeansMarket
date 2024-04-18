@@ -17,6 +17,7 @@ public class BoardController {
 	@Autowired BoardService boardSevice;
 	
 	//
+
 	@RequestMapping(value="/")
 	public String home() {
 		logger.info("TEST");
@@ -29,8 +30,9 @@ public class BoardController {
 			logger.info("DB 접속 실패");
 		}
 		
-		return "detail";
+		return "board/saleOfGoodsWrite";
 	}
+
 	
 	//윤경배 테스트
 	@RequestMapping(value="/yuntest")
