@@ -1,0 +1,64 @@
+@charset "UTF-8";
+/* css 기본 초기화 */
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+li{
+    list-style: none;
+}
+.container{
+    width: 1400px;  /*수정필요 1*/
+    margin: 0 auto;
+}
+/* css 기본 초기화 */
+
+table, th, td {
+	border: 1px solid black;
+	border-collapse: collapse;
+}
+
+th, td {
+	padding: 5px 10px;
+}
+
+button {
+	margin: 5px
+}
+
+textarea {
+	resize: none;
+	width: 500px;
+	height: 150px;
+}
+
+input[type="text"] {
+	width: 100%;
+}
+
+img.icon{
+	width: 15px;
+	height: 15px;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
