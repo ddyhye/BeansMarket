@@ -19,16 +19,17 @@ public class BoardController {
 	@Autowired BoardService boardSevice;
 	@Autowired PhotoService photoService;
 	
+
 	// goodsDetail로 이동
 	@RequestMapping(value="/goodsDetail.go", method = RequestMethod.GET)
 	public String goodsDetailGo(Model model, int idx) {
 		logger.info("{} 디테일로 이동", idx);
 		int option_idx = 1;
-		
+
 		boardSevice.goodsDetail(idx, model);
 		photoService.boardPhoto(idx, model, option_idx);
 		
 		return "board/saleOfGoodsDetail";
 	}
-	
+
 }
