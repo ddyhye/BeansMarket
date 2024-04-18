@@ -1,0 +1,82 @@
+@charset "UTF-8";
+.salewrite {
+  margin: 10% auto; /* 수평 가운데 정렬 */
+  width: 70%; /* salewrite의 너비를 조정하여 중앙 정렬 */
+  border: 2px solid #CCCCCC;
+  border-radius: 10px;
+  padding: 20px;
+  overflow-y: auto;
+}
+
+.salewrite div {
+  padding: 10px 0; /* 상하 여백을 줄임 */
+}
+
+.salemethod {
+  display: flex;
+  align-items: center;
+}
+
+.option-container {
+  display: flex;
+  margin-left: 10px; /* 옵션 컨테이너를 오른쪽으로 이동 */
+}
+
+.option {
+  border: 1px solid #CCCCCC;
+  cursor: pointer;
+  font-size: 12px;
+  padding: auto;
+}
+
+.option.selected {
+  background-color: #CCCCCC;
+}
+
+.price-container {
+  display: flex;
+  align-items: center;
+}
+
+.price-container input {
+  margin-right: 20px;
+}
+
+.title input {
+  width: 100%; /* 너비를 부모 요소에 맞춤 */
+  max-width: 400px; /* 최대 너비 설정 */
+}
+
+.photo input[type="file"] {
+  width: 100%; /* 너비를 부모 요소에 맞춤 */
+  max-width: 300px; /* 최대 너비 설정 */
+}
+
+.content {
+  display: flex;
+  flex-direction: column; /* 컨텐츠를 세로로 배치 */
+  margin-bottom: 20px; /* 아래쪽 간격 추가 */
+}
+
+label {
+  margin-bottom: 10px; /* 라벨 아래쪽 간격 추가 */
+}
+
+.content textarea {
+  width: 100%; /* 너비를 부모 요소에 맞춤 */
+  max-width: 700px; /* 최대 너비 설정 */
+  height: 150px;
+}
+
+.buttons {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.buttons button {
+  margin-left: 10px;
+}
+
+p {
+  font-size: 12px; /* 기본 글꼴 크기 증가 */
+}
