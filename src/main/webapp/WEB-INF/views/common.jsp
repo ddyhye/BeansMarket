@@ -6,6 +6,7 @@
 <title>Insert title here</title>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 <link rel="stylesheet" href="resources/css/common.css" type="text/css"/>
+<link rel="stylesheet" href="resources/css/common_top.css" type="text/css"/>
 <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
 <style>
 </style>
@@ -31,13 +32,28 @@
 				<div class="alarm-subject">
 					<p>최근 알림</p>
 				</div>
-				<div class="alarm-content"></div>
+				<div class="alarm-content">
+					<div class="alarm-content-list">
+						<div class="alarm-content-list-left">
+							<img src="resources/img/unRead.png" alt="안읽음" />
+						</div>
+						<div class="alarm-content-list-center">
+							<span>안녕하세요반가워요잘지내요</span>
+						</div>
+						<div class="alarm-content-list-right">
+							<div class="unRead"></div>
+							<div class="unRead-div"></div>
+							<span>2024-04-10</span> <span>22:20</span>
+						</div>
+						<div class="alarm-content-list-new"></div>
+					</div>
+				</div>
 				<div class="alarm-bottom">
 					<p>알림은 6개월 보관 후 삭제됩니다.</p>
 				</div>
 			</div>
-			<a href=""><img src="resources/img/noteMessage.png" alt="쪽지" /></a> <a
-				href=""><img src="resources/img/home.png" alt="홈페이지" /></a>
+			<a href=""><img src="resources/img/noteMessage.png" alt="쪽지" /></a> 
+			<a href="main"><img src="resources/img/home.png" alt="홈페이지" /></a>
 		</div>
 	</div>
 

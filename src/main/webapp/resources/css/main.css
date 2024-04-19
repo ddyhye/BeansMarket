@@ -1,25 +1,9 @@
 @charset "UTF-8";
-/* css 기본 초기화 */
-*{
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
-li{
-    list-style: none;
-}
-.container{
-    width: 1200px;  /*수정필요 1*/
-    margin: 0 auto;
-}
-/* css 기본 초기화 */
-
-
 
 
 .main-subject {
    display: flex;
-   flex-direction: row; /* 자식들 가로로 정렬 */
+   flex-direction: row; 
    justify-content: flex-start;
    align-items: center;
 
@@ -85,16 +69,16 @@ li{
 }
 .goods-top-left {
    display: flex;
-   align-items: center; /* 세로선 가운데 */
-   justify-content: flex-start; /* 가로선 왼쪽 */
+   align-items: center;
+   justify-content: flex-start; 
 
    position: relative;
    width: 50%;
 }
 .goods-top-right {
    display: flex;
-   align-items: center; /* 세로선 가운데 */
-   justify-content: flex-end; /* 가로선 왼쪽 */
+   align-items: center; 
+   justify-content: flex-end;
 
    position: relative;
    width: 50%;
@@ -115,26 +99,81 @@ li{
 }
 .goods-photo {
    display: flex;
+   align-items:center;
+   justify-content: center;
 
    position: relative;
-   height: 50%;
+   height: 48%;
 
    border-top: 2px solid lightgray;
+}
+.goods-photo img {
+   position: relative;
+   width: 90%;
+   height: 90%;
+}
+.goods-photo img:last-child {
+   position: absolute;
+   width: 20%;
+   height: auto; 
+   right: 5%;
+   bottom: 5%; 
+   z-index: 1;
 }
 .goods-subject {
    display: flex;
+   align-items: center;
+   justify-content: center;
+   text-align: center;
+   vertical-align: center;
 
    position: relative;
-   height: 20%;
+   height: 15%;
 
    border-top: 2px solid lightgray;
 }
-.goods-price {
+.goods-subject span {
+   position: relative;
+   width: 90%;
+   font-size: 20px;
+   font-weight: bold;
+}
+.goods-price-1 {
    display: flex;
    flex-direction: row;
 
    position: relative;
-   height: 10%;
+   height: 9%;
+
+   border-top: 2px solid lightgray;
+}
+.goods-price-1-left {
+   display: flex;
+   align-items: center; 
+   justify-content: flex-start; 
+
+   position: relative;
+   width: 80%;
+}
+#Price {
+   font-weight: bold;
+}
+.goods-price-1-right {
+   display: flex;
+   align-items: center; 
+   justify-content: flex-end; 
+
+   position: relative;
+   width: 20%;
+}
+.goods-price-2 {
+   display: flex;
+   align-items: center; 
+   justify-content: flex-start; 
+
+
+   position: relative;
+   height: 9%;
 
    border-top: 2px solid lightgray;
 }
@@ -143,7 +182,23 @@ li{
    flex-direction: row;
 
    position: relative;
-   height: 10%;
+   height: 9%;
 
    border-top: 2px solid lightgray;
+}
+.goods-bottom-left {
+   display: flex;
+   align-items: center; 
+   justify-content: flex-start; 
+
+   position: relative;
+   width: 35%;
+}
+.goods-bottom-right {
+   display: flex;
+   align-items: center; 
+   justify-content: flex-end; 
+
+   position: relative;
+   width: 65%;
 }
