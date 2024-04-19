@@ -53,7 +53,7 @@
 				</div>
 			</div>
 			<a href=""><img src="resources/img/noteMessage.png" alt="쪽지" /></a> 
-			<a href="main"><img src="resources/img/home.png" alt="홈페이지" /></a>
+			<a href="/main"><img src="resources/img/home.png" alt="홈페이지" /></a>
 		</div>
 	</div>
 
@@ -139,7 +139,7 @@ $('.top-second-right-border-bottom-icon').on('click', function() {
         borderDiv.css('height', '600%');
         borderDiv.append('<div class="memberService"><a href="">마이페이지</a></div>');
         borderDiv.append('<div class="memberService"><a href="">관심</a></div>');
-        borderDiv.append('<div class="memberService"><a href="">물품팔기</a></div>');
+        borderDiv.append('<div class="memberService"><a href="goodsWrite.go">물품팔기</a></div>');
         borderDiv.append('<div class="memberService"><a href="">판매리스트</a></div>');
         borderDiv.append('<div class="memberService"><a href="">최근 본 물품</a></div>');
     }
