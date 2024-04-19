@@ -10,7 +10,7 @@
 	<select id="photos" resultType="com.beans.market.photo.dto.PhotoDTO">
 		SELECT 
 			new_picname, pic_idx, main, idx, option_idx
-		FROM photo WHERE idx = #{param1} AND option_idx = #{param1}
+		FROM photo WHERE idx = #{param1} AND option_idx = #{param2}
 	</select>
 	
 	

@@ -14,4 +14,6 @@ public interface BoardDAO {
 
 	int interestDel(int bbsIdx, String email);
 
+	BoardDTO auctionDetail(int idx);
+
 }

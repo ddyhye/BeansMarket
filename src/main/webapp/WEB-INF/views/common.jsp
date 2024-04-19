@@ -78,10 +78,10 @@
 
 		<div class="top-second-center">
 			<div>
-				<a href="" class="top-second-center-link">로그인</a>
+				<a href="login.go" class="top-second-center-link">로그인</a>
 			</div>
 			<div>
-				<a href="" class="top-second-center-link">회원가입</a>
+				<a href="join.go" class="top-second-center-link">회원가입</a>
 			</div>
 			<div class="top-second-center-parent">
 				<div class="top-second-center-head">
