@@ -3,15 +3,18 @@
 	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.beans.market.board.dao.BoardDAO">	
 	
-
-	<!-- 디비 접속 테스트 -->
 	<update id="upHit">
 		UPDATE bbs SET bHit = bHit+1 WHERE idx = #{param1}
 	</update>
 	
 	<select id="goodsDetail" resultType="com.beans.market.board.dto.BoardDTO">
-		SELECT idx, email, subject, price, place, reg_date, content FROM bbs
+		SELECT idx, email, option, subject, price, place, reg_date, content FROM bbs
 			WHERE idx = #{param1}
+	</select>
+	
+	<select id="auctionDetail" resultType="com.beans.market.board.dto.BoardDTO">
+		SELECT b.idx, b.email, b.option, b.subject, b.price, b.place, b.reg_date, b.content, a.start_price, a.successful_bid, a.auction_period, a.close_date, a.bid_count 
+			FROM auction a join bbs b on a.idx=b.idx WHERE b.idx = #{param1};
 	</select>
 	
 	<insert id="interestInsert">
@@ -22,10 +25,5 @@
 	<delete id="interestDel">
 		DELETE FROM interest WHERE idx = #{param1} AND email = #{param2};
 	</delete>
-	
-	<insert id="write" parameterType="map">
-		INSERT INTO bbs(idx, email, option, category, subject, location, price, content, place, reg_date, bHit, blind, bbs_state, reverse_email, draft);
-	</insert>
-	
 	
 </mapper>

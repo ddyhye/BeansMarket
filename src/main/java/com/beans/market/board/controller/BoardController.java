@@ -1,5 +1,8 @@
 package com.beans.market.board.controller;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.time.temporal.ChronoUnit;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -25,27 +28,19 @@ public class BoardController {
 	
 	@Autowired BoardService boardService;
 	@Autowired PhotoService photoService;
-	
 
 	// goodsDetail로 이동
 	@RequestMapping(value="/goodsDetail.go", method = RequestMethod.GET)
-	public String goodsDetailGo(Model model, int idx) {
+	public String goodsDetailGo(Model model, Integer idx) {
 		logger.info("{} 디테일로 이동", idx);
-		int option_idx = 1;
+		int option_idx = 1; // 게시글이라는 의미
+		String page = "redirect:/";
+		if(idx != null) {
+			page = boardService.goodsDetail(idx, model);
+			photoService.boardPhoto(idx, model, option_idx);						
+		}
 		
-		boardService.goodsDetail(idx, model);
-		photoService.boardPhoto(idx, model, option_idx);
-		
-		return "board/saleOfGoodsDetail";
-	}
-	
-	// report
-	@RequestMapping(value="/report.do", method = RequestMethod.POST)
-	public String reportDo(Model model, @RequestParam Map<String, String> map) {
-		logger.info("{} 번 게시글 신고", map.get("idx"));
-		logger.info("{}", map);
-		
-		return "redirect:/";
+		return page;
 	}
 	
 	// 관심 목록 추가 및 삭제
@@ -84,4 +79,25 @@ public class BoardController {
 	}
 	
 
+	// 관심 목록 추가 및 삭제
+	@RequestMapping(value = "/remaingTime.ajax", method = RequestMethod.GET)
+	@ResponseBody
+	public Map<String, Object> remaingTime(String close_date){
+		logger.info("remaingTime.do close_date : {}", close_date);
+		Map<String, Object> map = new HashMap<String, Object>();
+		
+		LocalDateTime currentTime = LocalDateTime.now();
+
+        // 비교할 특정 시간 설정하기
+        LocalDateTime specificTime = LocalDateTime.parse(close_date, DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
+
+        // 현재 시간과 특정 시간 사이의 차이 계산하기
+        long remaingTime = ChronoUnit.SECONDS.between(currentTime, specificTime);
+		
+        logger.info("남은 시간 : {}", remaingTime);
+
+		map.put("remaingTime", remaingTime);
+		return map;
+	}	
+	
 }

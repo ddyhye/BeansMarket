@@ -23,25 +23,39 @@ public class BoardService {
 	@Autowired BoardDAO boardDAO;
 	@Autowired PhotoDAO photoDAO;
 
-	public void goodsDetail(int idx, Model model) {
+	public String goodsDetail(int idx, Model model) {
+		String page = "board/saleOfGoodsDetail";
+		BoardDTO dto = boardDAO.goodsDetail(idx);
+		
+		if(dto.getOption().equals("경매")) {
+			page = "board/auctionOfGoodsDetail";
+			dto = boardDAO.auctionDetail(idx);
+		} 
+		
 		// 조회수 증가
 		boardDAO.upHit(idx); // upHit
 		
-		// 판매 게시글 출력
-		BoardDTO dto = boardDAO.goodsDetail(idx);
+		// 게시글 출력
 		model.addAttribute("bbs", dto);
-        
+        logger.info("{} 게시물 정보  {}", idx, dto);
+		
 		// reg_date가 .0이 붙어서 나오는 관계로 포멧 작업
         // SimpleDateFormat을 사용하여 날짜 형식 지정 -> dateFormat으로 날짜 포맷
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         String formattedDateTime = dateFormat.format(dto.getReg_date());
-        model.addAttribute("reg_date",formattedDateTime);
+		model.addAttribute("reg_date",formattedDateTime);
+		if(dto.getOption().equals("경매")) {
+			formattedDateTime = dateFormat.format(dto.getClose_date());
+			model.addAttribute("close_date",formattedDateTime);			
+		}
         
         // 프로필 사진
         ProfilePicDTO profile = photoDAO.profile(dto.getEmail());
         model.addAttribute("profilePic", profile);
         
+        logger.info(page);
         
+		return page;  
 	}
 
 	public String interestToggle(String className, int bbsIdx) {
