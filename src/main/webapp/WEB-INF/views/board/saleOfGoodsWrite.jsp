@@ -17,8 +17,11 @@
 </style>
 </head>
 <body>
+<jsp:include page="../common.jsp" />
+
 	<div class="salewrite">
-		<form>
+		<div><a href="TempSave">임시저장 글</a></div>
+		<form action="write">
 			<div class="salemethod">
 				거래방식
 				<div class="option-container">
@@ -90,11 +93,11 @@
 				<button type="button" id="temporary-save-button">임시저장</button>
 				<button type="submit" id="save-button">저장</button>
 			</div>
-
 		</form>
+	</div>
 
 </body>
-		<script>
+<script>
     // 거래방식에 따른 입력요소 변경
     function toggleSaleMethod(method) {
     const salePriceContainer = document.getElementById('sale-price-container');
@@ -135,7 +138,9 @@
     } else {
         priceText.innerText = '*나눔의 경우 가격을 0으로 설정해주세요';
     }
-});
+	});
+    
+    
 
 </script>
 </html>

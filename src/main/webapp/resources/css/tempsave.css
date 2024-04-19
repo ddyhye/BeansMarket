@@ -1,0 +1,13 @@
+@charset "UTF-8";
+.tempsave {
+  margin: 10% auto; /* 수평 가운데 정렬 */
+  width: 70%; /* salewrite의 너비를 조정하여 중앙 정렬 */
+  border: 2px solid #CCCCCC;
+  border-radius: 10px;
+  padding: 20px;
+  overflow-y: auto;
+}
+
+.salewrite div {
+  padding: 10px 0; /* 상하 여백을 줄임 */
+}

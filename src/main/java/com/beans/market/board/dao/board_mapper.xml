@@ -22,4 +22,10 @@
 	<delete id="interestDel">
 		DELETE FROM interest WHERE idx = #{param1} AND email = #{param2};
 	</delete>
+	
+	<insert id="write" parameterType="map">
+		INSERT INTO bbs(idx, email, option, category, subject, location, price, content, place, reg_date, bHit, blind, bbs_state, reverse_email, draft);
+	</insert>
+	
+	
 </mapper>

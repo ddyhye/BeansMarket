@@ -1,5 +1,7 @@
 package com.beans.market.board.dao;
 
+import java.util.Map;
+
 import com.beans.market.board.dto.BoardDTO;
 
 public interface BoardDAO {
@@ -13,5 +15,7 @@ public interface BoardDAO {
 	int interestInsert(int bbsIdx, String email);
 
 	int interestDel(int bbsIdx, String email);
+
+	int write(Map<String, String> map);
 
 }

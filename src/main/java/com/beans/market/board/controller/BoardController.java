@@ -3,6 +3,8 @@ package com.beans.market.board.controller;
 import java.util.HashMap;
 import java.util.Map;
 
+import javax.servlet.http.HttpSession;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,7 +23,7 @@ public class BoardController {
 	
 	Logger logger = LoggerFactory.getLogger(getClass());
 	
-	@Autowired BoardService boardSevice;
+	@Autowired BoardService boardService;
 	@Autowired PhotoService photoService;
 	
 
@@ -31,7 +33,7 @@ public class BoardController {
 		logger.info("{} 디테일로 이동", idx);
 		int option_idx = 1;
 		
-		boardSevice.goodsDetail(idx, model);
+		boardService.goodsDetail(idx, model);
 		photoService.boardPhoto(idx, model, option_idx);
 		
 		return "board/saleOfGoodsDetail";
@@ -52,9 +54,34 @@ public class BoardController {
 	public Map<String, Object> interestToggle(String className, String bbsIdx){
 		logger.info("interestToggle.do className : {}, bbsIdx : {}", className, bbsIdx);
 		Map<String, Object> map = new HashMap<String, Object>();
-		String result = boardSevice.interestToggle(className, Integer.parseInt(bbsIdx));
+		String result = boardService.interestToggle(className, Integer.parseInt(bbsIdx));
 		map.put("result", result);
 		return map;
 	}
+	
+	
+	// 물품 페이지 김정언 test
+	/* @RequestMapping(value = "/jetest", method = RequestMethod.GET)
+	public String jetest() {
+		return "board/saleOfGoodsWrite";
+	}
+	*/
+	
+	// 물품 글쓰기
+	@RequestMapping(value = "/write", method = RequestMethod.GET)
+	public String write(HttpSession session, @RequestParam Map<String,String> map) {
+		logger.info("param = {}", map);
+		
+		int row = boardService.write(map);
+		return "board/saleOfGoodsWrite";
+	}
+	
+	
+	// 임시저장 글로 이동
+	@RequestMapping(value = "/TempSave")
+	public String tempSave() {
+		return "board/TempSave";
+	}
+	
 
 }

@@ -24,12 +24,6 @@ public class MemberController {
 	
 	@Autowired MemberService memberService;
 	
-	@RequestMapping(value="/")
-	public String go() {
-		
-		return "login/login";
-	}
-
 	//나의 빈즈 내역 : 윤경배
 	@RequestMapping(value="/mybeans")
 	public String mybeans() {

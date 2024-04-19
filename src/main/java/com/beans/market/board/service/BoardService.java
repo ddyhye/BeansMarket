@@ -1,6 +1,7 @@
 package com.beans.market.board.service;
 
 import java.text.SimpleDateFormat;
+import java.util.Map;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -59,6 +60,13 @@ public class BoardService {
 		}
 		
 		return result;
+	}
+
+	public int write(Map<String, String> map) {
+		int row = -1;
+		row = boardDAO.write(map);
+		logger.info("insert count :"+row);
+		return row;
 	}
 
 	
