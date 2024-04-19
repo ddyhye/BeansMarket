@@ -7,6 +7,11 @@ section{
     font-family: 'Poppins', sans-serif; /*앞: 메인폰트, 뒤: 대체폰트(구현안될시)*/
     padding: 5rem 0; /*1.상하 2.좌우 ','사용금지*/
 }
+
+section img{
+    padding: 0;
+}
+
 section .goods-detail{
     display: flex;
     justify-content: space-between;
@@ -53,10 +58,6 @@ section .goods-detail .left .select-pic{
     left: 50%;
     transform: translateX(-50%);
     display: flex;
-}
-
-section .goods-detail .left .select-pic:last-child{
-    margin-right: 0px;
 }
 
 section .goods-detail .left .unselect{
@@ -169,4 +170,53 @@ section .goods-content{
 
 section .goods-content img{
 	width: 100%;
+	height: auto;
 }
+
+section .goods-content p{
+	margin-bottom: 3rem;
+}
+
+section #reportForm{
+    position: absolute;
+    display: none;
+    top: 10%;
+    left: 30%;
+    width: 500px;
+    height: 400px;
+    background-color: white;
+    border: 1px solid black;
+}
+
+section #reportForm form{
+    position: relative;
+    width: 100%;
+    height: 100%;
+    padding: 50px;
+}
+
+section #reportForm form #report_option{
+    width: 400px;
+    margin-bottom: 15px;
+    font-size: 18px;
+    text-align: center;
+}
+
+section #reportForm form textarea{
+	resize: none;
+    width: 400px;
+    height: 200px;
+    margin-bottom: 15px;
+}
+
+section #reportForm form .btn-controller{
+    width: 400px;
+    display: flex;
+    justify-content: right;
+}
+
+section #reportForm form .btn-controller button{
+    padding: 5px 10px;
+    margin-left: 30px;
+}
+

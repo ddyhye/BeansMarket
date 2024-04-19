@@ -43,6 +43,24 @@ public class BoardService {
         
 	}
 
+	public String interestToggle(String className, int bbsIdx) {
+		String result = "실패";
+		int row = 0;
+		if(className.equals("fa-solid fa-heart")) {
+			row = boardDAO.interestInsert(bbsIdx, "zxz0608@naver.com");
+			if(row == 1) {
+				result = "추가";
+			}
+		} else {
+			row = boardDAO.interestDel(bbsIdx, "zxz0608@naver.com");
+			if(row == 1) {
+				result = "삭제";				
+			}
+		}
+		
+		return result;
+	}
+
 	
 	
 	

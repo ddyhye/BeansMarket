@@ -10,4 +10,8 @@ public interface BoardDAO {
 
 	BoardDTO goodsDetail(int idx);
 
+	int interestInsert(int bbsIdx, String email);
+
+	int interestDel(int bbsIdx, String email);
+
 }

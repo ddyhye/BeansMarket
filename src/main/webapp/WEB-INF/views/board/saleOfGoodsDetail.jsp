@@ -28,7 +28,7 @@
                 </div>
                 <div class="right">
                     <div class="report">
-                        <button>신고하기</button> 
+                        <button class="reportBtn">신고하기</button> 
                     </div>
                     <div class="profile">
                         <div class="left">
@@ -37,14 +37,16 @@
                         <div class="right">
                             <p class="user_name">${bbs.email}</p>
                             <div class="reivew">
-                            	<p>&#x1F44D 17</p>
-                                <p>&#x1F44E 3</p> 아직 안만듬
+                            	<!-- 로그인 관련해서 완성되면 추가 -->
+                            	<p><i class="fa-solid fa-thumbs-up"></i> 17</p>
+                                <p><i class="fa-solid fa-thumbs-down"></i> 3</p>
                             </div>
                         </div>
                     </div>
                     <div class="subject">
                         <p>${bbs.subject}</p>
                         <div class="icon">
+                        	<!-- 로그인 관련해서 완성되면 추가 -->
                             <!-- <i class="fa-solid fa-heart"></i> -->
                             <i class="fa-regular fa-heart"></i> <!-- 빈 하트 -->
                         </div>
@@ -69,12 +71,35 @@
 					<br/>				
 				</c:forEach>
             </div>
-        </div>
+            <div id="reportForm">
+                <form action="./report.do" method="post">
+                    <div class="option">
+                        <p>신고 분류</p>
+                        <select id="report_option" name="category_idx">
+                            <option value="r001">도배</option>
+                            <option value="r002">욕설</option>
+                            <option value="r003">성희롱</option>
+                        </select>
+                    </div>
+                    <div class="content">
+                        <p>신고 사유를 입력해주세요</p>
+                        <textarea name="content"></textarea>
+                    </div>
+                    <input type="hidden" name="idx" value=${bbs.idx}>
+                    <input type="hidden" name="perpet_email" value=${bbs.email}>
+                    <div class="btn-controller">
+                        <button class="ok">확인</button>
+                        <button type="button" class="reportBtn">취소</button>
+                    </div>
+                </form>
+            </div>
+        </div> <!--container 종료-->
     </section>
 </body>
 <script>
     var picCount = 0;     // 현재 사진이 몇번째 사진인지
-
+	var bbsIdx = '${bbs.idx}'; // String	
+	
     // 특정 게시물 모든 사진 이름 받아오기
     var photoArray = [];
     $('.goods-content img').each(function() {
@@ -83,9 +108,16 @@
 
     // 사진 밑에 점
     for (var photo_idx = 0;  photo_idx < '${photos.size()}'; photo_idx++) {
-        $('.select-pic').append(photo_idx == 0 ? '<button class="select"></button>' : '<button class="unselect"></button>');        
+        $('.select-pic').append(photo_idx == 0 ? '<button class="select" onclick="photoChange('+photo_idx+')"></button>' : '<button class="unselect" onclick="photoChange('+photo_idx+')"></button>');        
     }
-
+	
+    function photoChange(photo_idx) {
+        $('.goodsImg').attr('src', photoArray[photo_idx]);
+        $('.select').removeClass('select').addClass('unselect');
+        $('.select-pic button').eq(photo_idx).removeClass('unselect').addClass('select');
+	}
+    
+    
     // 사진 이동 버튼
     $('.goods-detail .left').hover(function(){
         $('.next').show();
@@ -99,18 +131,34 @@
 
     // 관심 목록 추가 및 삭제
     $('.icon').click(function(){
-        var i = $('.icon i');
+    	var i = $('.icon i');
         if(i.attr('class') == 'fa-regular fa-heart'){
             i.removeClass('fa-regular fa-heart').addClass('fa-solid fa-heart');
-            // 관심 목록 관련 ajax 추가
+            interest(i.attr('class'));
         } else if(i.attr('class') == 'fa-solid fa-heart'){
             i.removeClass('fa-solid fa-heart').addClass('fa-regular fa-heart');
-            // 관심 목록 관련 ajax 추가
+            interest(i.attr('class'));
         }
     });
 
     // 관심목록 ajax
-	
+    function interest(className){
+		$.ajax({
+			type:'get',
+			url:'./interest.ajax',
+			data:{
+				'className':className,
+				'bbsIdx':bbsIdx
+			},
+			dataType:'json',
+			success:function(data){
+				console.log(data.result);
+			},
+			error:function(error){
+				console.log(error);
+			}
+		});
+	}
 
     // 다음 버튼 클릭 시
     $('.next').click(function() {        
@@ -146,7 +194,9 @@
         $('.goodsImg').attr('src', photoArray[picCount]);
     });
 
+    $('.reportBtn').click(function(){
+        $('#reportForm').toggle();
+    });
 
-    
 </script>
 </html>
