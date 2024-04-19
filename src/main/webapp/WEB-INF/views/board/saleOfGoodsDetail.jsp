@@ -12,6 +12,7 @@
 </style>
 </head>
 <body>
+	<jsp:include page="../common.jsp" />
     <section>
         <div class="container">
             <div class="goods-detail">
@@ -56,7 +57,7 @@
                     <p class="place">거래 희망 장소 : ${bbs.place}</p>
                     <p class="reg-date">등록일 : ${reg_date}</p>
                     <div class="btn">
-                        <button> <i class="fa-solid fa-paper-plane">&nbsp;</i> 쪽지 보내기</button> 
+                        <button class="messageSend"> <i class="fa-solid fa-paper-plane">&nbsp;</i> 쪽지 보내기</button> 
                     </div>
                 </div>
             </div> 
@@ -72,7 +73,7 @@
 				</c:forEach>
             </div>
             <div id="reportForm">
-                <form action="./report.do" method="post">
+                <div class="form">
                     <div class="option">
                         <p>신고 분류</p>
                         <select id="report_option" name="category_idx">
@@ -85,13 +86,12 @@
                         <p>신고 사유를 입력해주세요</p>
                         <textarea name="content"></textarea>
                     </div>
-                    <input type="hidden" name="idx" value=${bbs.idx}>
-                    <input type="hidden" name="perpet_email" value=${bbs.email}>
+                    <input type="hidden" name="option_idx" value="RB001">
                     <div class="btn-controller">
-                        <button class="ok">확인</button>
+                        <button class="ok" onclick="report()">확인</button>
                         <button type="button" class="reportBtn">취소</button>
                     </div>
-                </form>
+                </div>
             </div>
         </div> <!--container 종료-->
     </section>
@@ -99,6 +99,7 @@
 <script>
     var picCount = 0;     // 현재 사진이 몇번째 사진인지
 	var bbsIdx = '${bbs.idx}'; // String	
+	var bbsEmail = '${bbs.email}';
 	
     // 특정 게시물 모든 사진 이름 받아오기
     var photoArray = [];
@@ -111,14 +112,14 @@
         $('.select-pic').append(photo_idx == 0 ? '<button class="select" onclick="photoChange('+photo_idx+')"></button>' : '<button class="unselect" onclick="photoChange('+photo_idx+')"></button>');        
     }
 	
+    // select-pic 의 버튼을 누르면 사진이 바뀌게
     function photoChange(photo_idx) {
         $('.goodsImg').attr('src', photoArray[photo_idx]);
         $('.select').removeClass('select').addClass('unselect');
         $('.select-pic button').eq(photo_idx).removeClass('unselect').addClass('select');
 	}
     
-    
-    // 사진 이동 버튼
+    // 사진 이동 버튼 표시
     $('.goods-detail .left').hover(function(){
         $('.next').show();
         $('.prev').show();
@@ -144,13 +145,13 @@
     // 관심목록 ajax
     function interest(className){
 		$.ajax({
-			type:'get',
+			type:'GET',
 			url:'./interest.ajax',
 			data:{
 				'className':className,
 				'bbsIdx':bbsIdx
 			},
-			dataType:'json',
+			dataType:'JSON',
 			success:function(data){
 				console.log(data.result);
 			},
@@ -198,5 +199,38 @@
         $('#reportForm').toggle();
     });
 
+    // 신고 ajax
+    function report(){
+		var category_idx = $('select[name="category_idx"]').val();
+        var content = $('textarea[name="content"]').val();
+        var option_idx = $('input[name="option_idx"]').val();
+        
+        console.log(category_idx, content, option_idx, bbsEmail, bbsIdx);
+        
+		$.ajax({
+			type:'POST',
+			url:'./report.do',
+			data:{
+                'category_idx':category_idx,
+                'content':content,
+                'option_idx':option_idx,
+                'perpet_email':bbsEmail,
+                'idx':bbsIdx
+            },
+            dataType:'JSON',
+			success:function(data){
+				$('#reportForm').toggle();
+				alert(data.msg);
+			}, 
+			error:function(error){
+				console.log(error);
+			} 
+		});
+        
+    }
+
+    $('.messageSend').click(function(){
+    	location.href='noteMessage.go';
+    });
 </script>
 </html>
