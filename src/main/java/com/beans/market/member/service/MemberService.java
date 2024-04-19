@@ -1,6 +1,10 @@
 package com.beans.market.member.service;
 
+<<<<<<< HEAD
 import java.util.List;
+=======
+import java.util.Map;
+>>>>>>> origin/master
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -44,5 +48,16 @@ public class MemberService {
 	public int getMyAmount(String email) {
 		return memberDAO.getMyAmount(email);
 	}
+
+	public void lastdate(String email, String password) {
+		memberDAO.lastdate(email,password);
+		
+	}
+
+	public int join(Map<String, String> param) {
+
+		return memberDAO.join(param);
+	}
+
 
 }

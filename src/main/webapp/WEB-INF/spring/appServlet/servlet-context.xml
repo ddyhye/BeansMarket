@@ -32,6 +32,8 @@
    	<beans:property name="username" value="web_user"/>
    	<beans:property name="password" value="admin@pass"/>
    </beans:bean>
+   
+   
 	
 	<!-- 쿼리문이 있는 장소 설정(DB 접속시 무엇을 이용할지 지정) -->
 	<!-- name : 아마 지정되어 있음 |  id: 임의로 정할 수 있음-->

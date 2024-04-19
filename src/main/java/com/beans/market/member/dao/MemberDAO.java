@@ -1,6 +1,7 @@
 package com.beans.market.member.dao;
 
 import java.util.List;
+import java.util.Map;
 
 import com.beans.market.member.dto.MemberDTO;
 
@@ -17,5 +18,8 @@ public interface MemberDAO {
 	List<MemberDTO> list();
 
 	int getMyAmount(String email);
+	void lastdate(String email, String password);
+
+	int join(Map<String, String> param);
 
 }
