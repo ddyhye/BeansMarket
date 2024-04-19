@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC	"-//mybatis.org//DTD Mapper 3.0//EN"
 	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="~~~DAO">	
+<mapper namespace="com.beans.market.member.dao.MemberDAO">	
 	
 	<!-- 아이디 등록 여부 -->
 	<select id="overlay" resultType="int">
@@ -16,6 +16,16 @@
 	<update id = "newPW">
 		UPDATE member SET pw= #{param1} where pw is not null
 	</update>
+	
+	<!--  나의 빈즈 내역 -->
+	<select id="list" resultType="com.beans.market.member.dto.MemberDTO">
+		SELECT idx, email, option, price, content, reg_date from pay_hist
+	</select>
+	
+	<!--  나의 빈즈페이 액수 -->
+	<select id="getMyAmount" resultType="int">
+    	SELECT point FROM member WHERE email = #{email}
+	</select>
 
 	
 </mapper>

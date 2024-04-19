@@ -1,5 +1,9 @@
 package com.beans.market.member.dao;
 
+import java.util.List;
+
+import com.beans.market.member.dto.MemberDTO;
+
 public interface MemberDAO {
 
 	int connectTest();
@@ -9,5 +13,9 @@ public interface MemberDAO {
 	String login(String email, String pw);
 
 	String newPW(String pw);
+
+	List<MemberDTO> list();
+
+	int getMyAmount(String email);
 
 }

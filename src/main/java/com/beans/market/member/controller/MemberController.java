@@ -1,6 +1,7 @@
 package com.beans.market.member.controller;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpSession;
@@ -15,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.beans.market.board.service.BoardService;
+import com.beans.market.member.dto.MemberDTO;
 import com.beans.market.member.service.MemberService;
 
 @Controller
@@ -24,18 +26,21 @@ public class MemberController {
 	
 	@Autowired MemberService memberService;
 	
-	@RequestMapping(value="/")
-	public String go() {
-		
-		return "login/login";
-	}
 
 	//나의 빈즈 내역 : 윤경배
 	@RequestMapping(value="/mybeans")
-	public String mybeans() {
+	public String mybeans(Model model) {
+		logger.info("나의 빈즈 내역 요청");
+		//빈즈페이 금액
+		String email = "zeus@hanmail.net"; //테스트를 위한 이메일 //테스트 끝나고는 매개변수로 email입력받음
+		int amount = memberService.getMyAmount(email);
+        model.addAttribute("my_amount", amount);
+		//빈즈내역
+		List<MemberDTO> mybeanshist = memberService.list();
+		model.addAttribute("beans", mybeanshist);
 		return "member/myBeansPay";
 	}
-	
+
 	//로그인
 	@RequestMapping(value ="login", method=RequestMethod.POST )
 	public String login(HttpSession session, Model model, String email, String password) {

@@ -1,11 +1,14 @@
 package com.beans.market.member.service;
 
+import java.util.List;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.beans.market.member.dao.MemberDAO;
+import com.beans.market.member.dto.MemberDTO;
 
 @Service
 public class MemberService {
@@ -31,6 +34,15 @@ public class MemberService {
 	public String newPW(String pw) {
 		
 		return memberDAO.newPW(pw);
+	}
+
+	public List<MemberDTO> list() {
+		logger.info("memberservice list 요청");
+		return memberDAO.list();
+	}
+
+	public int getMyAmount(String email) {
+		return memberDAO.getMyAmount(email);
 	}
 
 }
