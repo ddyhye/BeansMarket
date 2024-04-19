@@ -23,7 +23,7 @@ public class BoardDTO {
 	private int start_price;
 	private int successful_bid;
 	private int auction_period;
-	private String close_date;
+	private Timestamp close_date;
 	private int bid_count;
 	//private int idx;
 	
@@ -145,10 +145,10 @@ public class BoardDTO {
 	public void setAuction_period(int auction_period) {
 		this.auction_period = auction_period;
 	}
-	public String getClose_date() {
-		return close_date.toString();
+	public Timestamp getClose_date() {
+		return close_date;
 	}
-	public void setClose_date(String close_date) {
+	public void setClose_date(Timestamp close_date) {
 		this.close_date = close_date;
 	}
 	public int getBid_count() {

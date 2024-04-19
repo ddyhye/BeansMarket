@@ -43,9 +43,10 @@ public class BoardService {
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         String formattedDateTime = dateFormat.format(dto.getReg_date());
 		model.addAttribute("reg_date",formattedDateTime);
-		
-		formattedDateTime = dateFormat.format(dto.getClose_date());
-		model.addAttribute("close_date",formattedDateTime);
+		if(dto.getOption().equals("경매")) {
+			formattedDateTime = dateFormat.format(dto.getClose_date());
+			model.addAttribute("close_date",formattedDateTime);			
+		}
         
         // 프로필 사진
         ProfilePicDTO profile = photoDAO.profile(dto.getEmail());
