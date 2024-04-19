@@ -1,0 +1,204 @@
+@charset "UTF-8";
+
+
+.main-subject {
+   display: flex;
+   flex-direction: row; 
+   justify-content: flex-start;
+   align-items: center;
+
+   position: relative;
+   width: 100%;
+   height: 100px;
+}
+#main-subject-text {
+   font-size: 25px;
+   font-weight: bold;
+}
+#main-subject-sort {
+   position: relative;
+   width: 100px;
+   height: 30px;
+   font-size: 15px;
+}
+.main-subject-saleOption {
+   display: flex;
+   align-items: center;
+   justify-content: flex-end;
+
+   position: relative;
+   width: 100%;
+   height: 40px;
+
+   font-size: 15px;
+}
+/* .seleOption-checkbox {
+   
+   border-radius: 50%;
+   background-color: lightgray;
+}
+.seleOption-checkbox:checked {
+   border-radius: 50%;
+   background-color: black;
+} */
+
+.main-content {
+   display: flex;
+   flex-wrap: wrap;
+
+   position: relative;
+   width: 100%;
+   height: 800px; /* 임시 */
+}
+.main-content-goods {
+   display: flex;
+   flex-direction: column;
+
+   position: relative;
+   width: 300px;
+   height: 400px;
+   border: 2px solid lightgray;
+   margin: 12.5px;
+}
+.goods-top {
+   display: flex;
+   flex-direction: row;
+
+   position: relative;
+   height: 10%;
+}
+.goods-top-left {
+   display: flex;
+   align-items: center;
+   justify-content: flex-start; 
+
+   position: relative;
+   width: 50%;
+}
+.goods-top-right {
+   display: flex;
+   align-items: center; 
+   justify-content: flex-end;
+
+   position: relative;
+   width: 50%;
+}
+.saleOption-Auc {
+   position: relative;
+   width: 60px;
+   height: 25px;
+   text-align: center;
+
+   background-color: pink;
+   border-left: 2px solid lightgray;
+   border-top: 2px solid lightgray;
+   border-bottom: 2px solid lightgray;
+}
+.saleOption-Auc span{
+   font-weight: bold;
+}
+.goods-photo {
+   display: flex;
+   align-items:center;
+   justify-content: center;
+
+   position: relative;
+   height: 48%;
+
+   border-top: 2px solid lightgray;
+}
+.goods-photo img {
+   position: relative;
+   width: 90%;
+   height: 90%;
+}
+.goods-photo img:last-child {
+   position: absolute;
+   width: 20%;
+   height: auto; 
+   right: 5%;
+   bottom: 5%; 
+   z-index: 1;
+}
+.goods-subject {
+   display: flex;
+   align-items: center;
+   justify-content: center;
+   text-align: center;
+   vertical-align: center;
+
+   position: relative;
+   height: 15%;
+
+   border-top: 2px solid lightgray;
+}
+.goods-subject span {
+   position: relative;
+   width: 90%;
+   font-size: 20px;
+   font-weight: bold;
+}
+.goods-price-1 {
+   display: flex;
+   flex-direction: row;
+
+   position: relative;
+   height: 9%;
+
+   border-top: 2px solid lightgray;
+}
+.goods-price-1-left {
+   display: flex;
+   align-items: center; 
+   justify-content: flex-start; 
+
+   position: relative;
+   width: 80%;
+}
+#Price {
+   font-weight: bold;
+}
+.goods-price-1-right {
+   display: flex;
+   align-items: center; 
+   justify-content: flex-end; 
+
+   position: relative;
+   width: 20%;
+}
+.goods-price-2 {
+   display: flex;
+   align-items: center; 
+   justify-content: flex-start; 
+
+
+   position: relative;
+   height: 9%;
+
+   border-top: 2px solid lightgray;
+}
+.goods-bottom {
+   display: flex;
+   flex-direction: row;
+
+   position: relative;
+   height: 9%;
+
+   border-top: 2px solid lightgray;
+}
+.goods-bottom-left {
+   display: flex;
+   align-items: center; 
+   justify-content: flex-start; 
+
+   position: relative;
+   width: 35%;
+}
+.goods-bottom-right {
+   display: flex;
+   align-items: center; 
+   justify-content: flex-end; 
+
+   position: relative;
+   width: 65%;
+}

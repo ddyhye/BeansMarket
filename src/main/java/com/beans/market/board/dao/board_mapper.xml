@@ -5,8 +5,21 @@
 	
 
 	<!-- 디비 접속 테스트 -->
-	<select id="connectTest" resultType="int">
-		SELECT COUNT(email) FROM `member` m
+	<update id="upHit">
+		UPDATE bbs SET bHit = bHit+1 WHERE idx = #{param1}
+	</update>
+	
+	<select id="goodsDetail" resultType="com.beans.market.board.dto.BoardDTO">
+		SELECT idx, email, subject, price, place, reg_date, content FROM bbs
+			WHERE idx = #{param1}
 	</select>
 	
+	<insert id="interestInsert">
+		INSERT INTO interest(email, idx)
+			VALUES(#{param2}, #{param1});
+	</insert>
+	
+	<delete id="interestDel">
+		DELETE FROM interest WHERE idx = #{param1} AND email = #{param2};
+	</delete>
 </mapper>

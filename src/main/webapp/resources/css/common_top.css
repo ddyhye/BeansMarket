@@ -1,0 +1,319 @@
+@charset "EUC-KR";
+
+
+a {
+   display: block;
+   padding: 10px 0;
+
+   text-align: center;
+   vertical-align: center;
+   text-decoration: none;
+   color: black;
+}
+a img {
+   margin: 0 10px;
+   width: 40px;
+   height: 40px;
+}
+img {
+   margin: 0 10px;
+   width: 40px;
+   height: 40px;
+}
+#deleteBtn {
+   padding: 5px;
+   position: relative;
+   width: 40px;
+   height: 40px;
+
+   border: none;
+   background-color: white;
+   font-size: 25px;
+   color: gray;
+}
+
+
+
+.top-first {
+   display: flex;
+   position: relative;
+   flex-direction: row;
+   width: 100%;
+   height: 7%;
+}
+.top-first-left {
+   display: flex;
+   position: relative;
+   justify-content: center;
+   align-items: center;
+   
+   width: 10%;
+}
+#top-first-left-projectName {
+   position: relative;
+   
+   margin: 0;
+   
+   font-weight: bold;
+   font-size : 30px;
+}
+.top-first-center {
+   display: flex;
+   position: relative;
+   justify-content: flex-start;
+   align-items: center;
+   
+   width: 78%;
+}
+#top-first-center-search {
+   position: relative;
+   width: 50%;
+   height: 60%;
+   border: 3px solid black;
+   border-radius: 5px;
+}
+
+.top-first-right {
+   display: flex;
+   position: relative;
+   text-align: right;
+   align-items: center;
+   
+   width: 12%;
+}
+
+
+
+.top-second {
+   display: flex;
+   position: relative;
+   flex-direction: row;
+   width: 100%;
+   height: 6%;
+   
+   border-top: 2px solid lightgray;
+   border-bottom: 2px solid lightgray;
+   box-sizing: border-box;
+}
+.top-second-left, .top-second-center, .top-second-right {
+   display: flex;
+   position: relative;
+   align-items: center; 
+}
+.top-second-left {
+   justify-content: center; 
+   
+   width: 10%;
+}
+.top-second-left-border {
+   display: flex;
+   align-items: center; /* 가로축 중앙 정렬 */
+   justify-content: center; /* 세로축 중앙 정렬 */
+   flex-direction: column; /*자식 요소들 세로로 정렬*/
+   position: relative;
+   width: 70%;
+   height: 100%;
+
+   border-left: 2px solid lightgray;
+   border-right: 2px solid lightgray;
+}
+.top-second-left-head {
+   display: flex;
+   flex-direction: row;
+}
+.top-second-left-down {
+   color: gray;
+}
+.top-second-left-body {
+   display: none;
+}
+.top-second-left-body.active {
+   display: block;
+   position: absolute; 
+   width: 100%; 
+   top: 100%;
+   left: 0;
+   background-color: #fff; 
+   box-shadow: 0 8px 16px rgba(0,0,0,0.1);
+   z-index: 1000;
+   transition: all 0.3s ease;
+}
+
+.top-second-center {
+   justify-content: flex-end;
+   
+   width: 80%;
+}
+.top-second-center-link {
+   padding: 0px 25px;
+}
+.top-second-center-parent {
+   display: block;
+   position: relative;
+   text-align: center; 
+   vertical-align: middle; 
+}
+.top-second-center-body {
+   display: none;
+   text-align: center;
+}
+.top-second-center-body.active {
+   display: block;
+   position: absolute;
+   width: 100%;
+   top: 100%;
+   left: 0;
+   background-color: white;
+   box-shadow: 0 8px 16px rgba(0,0,0,0.1);
+   z-index: 1000;
+   transition: all 0.3s ease;
+}
+
+.top-second-right {
+   justify-content: center;
+   
+   width: 10%;
+}
+.top-second-right-border {
+   display: flex;
+   flex-direction: column;
+   align-items: center;
+   justify-content: center;
+   position: absolute;
+   width: 70%;
+   height: 150%;
+   top: 0%;
+
+   background-color: white;
+   border-left: 2px solid lightgray;
+   border-right: 2px solid lightgray;
+   border-bottom: 2px solid lightgray;
+}
+.top-second-right-border-bottom-icon {
+   margin: 0;
+   position: absolute;
+   left: 50%;
+   bottom: -20px;
+   transform: translateX(-50%);
+   width: 40px;
+   height: 40px;
+}
+.top-second-right-border-top {
+   display: flex;
+   flex-direction: column;
+   align-items: center;
+   justify-content: center;
+   position: absolute;
+   top: 5px;
+}
+.top-second-right p {
+   position: relative;
+   margin: 0;
+
+}
+
+
+
+
+
+
+/* 알람ㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁ */
+.alarm {
+   display: none;
+}
+.alarm.active {
+   display: block;
+   position: fixed;
+   top: 50%;
+   left: 50%;
+   transform: translate(-50%, -50%);
+   width: 700px;
+   height: 800px;
+   z-index: 1000;
+
+   background-color: white;
+   border: 2px solid lightgray;
+}
+.alarm-delete {
+   position: relative;
+   height: 5%;
+}
+.alarm-subject {
+   display: flex;
+   align-items: center;
+   justify-content: center;
+
+   position: relative;
+   height: 6%;
+
+   font-size: 22px;
+   font-weight: bold;
+   border-bottom: 3px solid lightgray;
+}
+.alarm-content {
+   display: flex;
+   justify-content: center;
+
+   position: relative;
+   height: 84%;
+}
+.alarm-content-list {
+   display: flex;
+
+   position: relative;
+   width: 95%;
+   height: 70px;
+
+   border-bottom: 2px solid lightgray;
+}
+.alarm-content-list-left {
+   display: flex;
+   align-items: center;
+   justify-content: center;
+   
+   position: relative;
+   width: 15%;
+}
+.alarm-content-list-center {
+   display: flex;
+   align-items: center;
+   justify-content: flex-start;
+
+   position: relative;
+   width: 60%;
+}
+.alarm-content-list-right {
+   display: flex;
+   align-items: flex-end;
+   justify-content: center;
+   flex-direction: column;
+
+   position: relative;
+   width: 23%;
+}
+.unRead {
+   position: relative;
+   width: 15px;
+   height: 15px;
+
+   background-color: pink;
+   border-radius: 50%;
+}
+.unRead-div {
+   position: relative;
+   width: 100%;
+   height: 8px;
+}
+.alarm-content-list-new {
+   position: inherit;
+   width: 2%;
+}
+.alarm-bottom {
+   display: flex;
+   align-items: center;
+   justify-content: center;
+
+   position: relative;
+   height: 5%;
+}
+

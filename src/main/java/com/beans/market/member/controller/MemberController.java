@@ -29,6 +29,12 @@ public class MemberController {
 		
 		return "login/login";
 	}
+
+	//나의 빈즈 내역 : 윤경배
+	@RequestMapping(value="/mybeans")
+	public String mybeans() {
+		return "member/myBeansPay";
+	}
 	
 	//로그인
 	@RequestMapping(value ="login", method=RequestMethod.POST )

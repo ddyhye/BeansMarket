@@ -5,7 +5,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.beans.market.board.dao.BoardDAO;
 import com.beans.market.member.dao.MemberDAO;
 
 @Service

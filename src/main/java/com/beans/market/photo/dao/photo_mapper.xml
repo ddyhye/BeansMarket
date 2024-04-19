@@ -1,8 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC	"-//mybatis.org//DTD Mapper 3.0//EN"
 	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="~~~DAO">	
+<mapper namespace="com.beans.market.photo.dao.PhotoDAO">	
 	
-
+	<select id="profile" resultType="com.beans.market.photo.dto.ProfilePicDTO">
+		SELECT new_filename FROM member_profilepic WHERE email = #{param1};
+	</select>
+	
+	<select id="photos" resultType="com.beans.market.photo.dto.PhotoDTO">
+		SELECT 
+			new_picname, pic_idx, main, idx, option_idx
+		FROM photo WHERE idx = #{param1} AND option_idx = #{param1}
+	</select>
+	
 	
 </mapper>

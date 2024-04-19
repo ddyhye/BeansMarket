@@ -16,7 +16,6 @@
 <style>
 </style>
 </head>
-
 <body>
 	<div class="salewrite">
 		<form>
