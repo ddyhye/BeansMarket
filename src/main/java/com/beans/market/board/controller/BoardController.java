@@ -17,19 +17,19 @@ public class BoardController {
 	@Autowired BoardService boardSevice;
 	
 	//
-	@RequestMapping(value="/")
-	public String home() {
-		logger.info("TEST");
-		
-		int cnt = boardSevice.connectTest();
-		
-		if (cnt > 0) {
-			logger.info("DB 접속 성공");
-		} else {
-			logger.info("DB 접속 실패");
-		}
-		
-		return "board/saleOfGoodsWrite";
-	}
+//	@RequestMapping(value="/")
+//	public String home() {
+//		logger.info("TEST");
+//		
+//		int cnt = boardSevice.connectTest();
+//		
+//		if (cnt > 0) {
+//			logger.info("DB 접속 성공");
+//		} else {
+//			logger.info("DB 접속 실패");
+//		}
+//		
+//		return "board/saleOfGoodsWrite";
+//	}
 	
 }

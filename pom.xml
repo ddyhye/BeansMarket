@@ -34,6 +34,35 @@
 		</dependency>
 		
 		
+		<!-- STMP 메일 전송 관련 라이브러리 -->
+<dependency>
+          <groupId>javax.mail</groupId>
+          <artifactId>javax.mail-api</artifactId>
+          <version>1.5.5</version>
+      </dependency>
+<dependency>
+    <groupId>javax.mail</groupId>
+    <artifactId>mail</artifactId>
+    <version>1.4.7</version>
+</dependency>
+<dependency>
+    <groupId>com.sun.mail</groupId>
+    <artifactId>javax.mail</artifactId>
+    <version>1.5.3</version>
+</dependency>
+<dependency>
+    <groupId>org.apache.httpcomponents</groupId>
+    <artifactId>httpclient</artifactId>
+    <version>4.5.13</version>
+</dependency>
+<dependency>
+    <groupId>org.apache.commons</groupId>
+    <artifactId>commons-email</artifactId>
+    <version>1.5</version>
+</dependency>
+
+		
+		
 		
 		<!-- jackson databind : Map 등을 json 형태로, 문자열을 json 형태로 변경 -->
 		<!-- https://central.sonatype.com/artifact/com.fasterxml.jackson.core/jackson-databind -->
