@@ -82,7 +82,7 @@ public class BoardService {
 	public int writeBoard(String email, String subject, String content, String place, String category_idx, int price,
 			List<MultipartFile> imageFiles, Timestamp regDate) {
         
-		List<String> fileNames = uploadImageFiles(imageFiles);
+		// List<String> fileNames = uploadImageFiles(imageFiles);
 
         // BoardDTO 객체 생성
         BoardDTO boardDTO = new BoardDTO();
@@ -99,12 +99,13 @@ public class BoardService {
         // DAO를 통해 DB에 글 쓰기
         return boardDAO.insertBoard(boardDTO);
         
-		return 0;
+
 	}
 
-	private List<String> uploadImageFiles(List<MultipartFile> imageFiles) {
-		// TODO Auto-generated method stub
-		return null;
+	// 임시저장 글 삭제
+	public void tempdel(String idx) {
+		// 임시저장 Y일 때만 삭제하도록
+		boardDAO.tempdel(idx);
 	}
 
 	

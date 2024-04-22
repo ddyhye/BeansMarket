@@ -20,4 +20,6 @@ public interface BoardDAO {
 
 	int insertBoard(BoardDTO boardDTO);
 
+	void tempdel(String idx);
+
 }

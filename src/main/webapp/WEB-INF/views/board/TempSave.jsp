@@ -28,13 +28,16 @@
 	      <td>등록일시</td>
 	      <td>삭제</td>
 	    </tr>
-	     <c:forEach items="${temporaryPosts}" var="post">
-                <tr>
-                    <td>${post.idx}</td>
-                    <td>${post.subject}</td>
-                    <td>${post.reg_date}</td>
-                    <td><button onclick="deletePost(${post.idx})">삭제</button></td>
-                </tr>
+	    <c:if test="${templist.size()<1}">
+	    	<tr><td colspan="4">임시저장 글이 없습니다.</td></tr>
+	    </c:if>
+	    <c:forEach items="${templist}" var="post">
+              <tr>
+                  <td>${bbs.idx}</td>
+                  <td>${bbs.subject}</td>
+                  <td>${bbs.reg_date}</td>
+                  <td><button onclick="deletePost(${bbs.idx})">삭제</button></td>
+              </tr>
             </c:forEach>
 	  </table>
 </div>

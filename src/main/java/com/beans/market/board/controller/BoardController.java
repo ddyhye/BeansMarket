@@ -58,7 +58,7 @@ public class BoardController {
 	
 	
 	// 물품 팔기 페이지로 이동
-	@RequestMapping(value = "/goodsWrite.go", method = RequestMethod.GET)
+	@RequestMapping(value = "/board/goodsWrite.go", method = RequestMethod.GET)
 	public String goodsWrite() {
 		logger.info("물품 팔기 페이지...");
 		
@@ -67,7 +67,7 @@ public class BoardController {
 	
 	
 	// 물풀 팔기 글쓰기
-	@RequestMapping(value = "/goodsWrite.do", method = RequestMethod.POST)
+	@RequestMapping(value = "/board/goodsWrite.do", method = RequestMethod.POST)
     public String goodsWrite(HttpSession session, Model model,
                              String subject, String content, String place,
                              String category_idx, int price, List<MultipartFile> imageFiles) {
@@ -93,10 +93,22 @@ public class BoardController {
 
 	}
 	
+	
+	
 	// 임시저장 글로 이동
 	@RequestMapping(value = "/TempSave.go")
 	public String tempSave() {
 		return "board/TempSave";
+	}
+	
+	// 임시저장 글 삭제
+	@RequestMapping(value = "tempdel")
+	public String tempdel(HttpSession session, String idx) {
+		String page = "redirect:/";
+		logger.info("삭제 ID : "+idx);
+		boardService.tempdel(idx);
+		
+		return page;
 	}
 	
 
