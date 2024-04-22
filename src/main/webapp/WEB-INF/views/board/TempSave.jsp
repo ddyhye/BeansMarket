@@ -20,7 +20,7 @@
 <jsp:include page="../common.jsp" />
 <div class="tempsave">
 	<p>임시저장 글 목록</p>
-	<button onclick="location.href='saleOfgoods.jsp'">글쓰기</button>
+	<button style="float: right;" onclick="location.href='goodsWrite.go'">글쓰기</button>
 	  <table>
 	    <tr>
 	      <td>글번호</td>
@@ -28,6 +28,14 @@
 	      <td>등록일시</td>
 	      <td>삭제</td>
 	    </tr>
+	     <c:forEach items="${temporaryPosts}" var="post">
+                <tr>
+                    <td>${post.idx}</td>
+                    <td>${post.subject}</td>
+                    <td>${post.reg_date}</td>
+                    <td><button onclick="deletePost(${post.idx})">삭제</button></td>
+                </tr>
+            </c:forEach>
 	  </table>
 </div>
 

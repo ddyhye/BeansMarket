@@ -18,4 +18,6 @@ public interface BoardDAO {
 
 	BoardDTO auctionDetail(int idx);
 
+	int insertBoard(BoardDTO boardDTO);
+
 }

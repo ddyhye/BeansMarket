@@ -21,7 +21,7 @@
 
 	<div class="salewrite">
 		<div><a href="TempSave">임시저장 글</a></div>
-		<form action="write">
+		<form action="goodsWrite.go">
 			<div class="salemethod">
 				거래방식
 				<div class="option-container">

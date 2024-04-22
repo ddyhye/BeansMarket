@@ -1,9 +1,11 @@
 package com.beans.market.board.controller;
 
+import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpSession;
@@ -15,8 +17,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.beans.market.board.service.BoardService;
 import com.beans.market.photo.service.PhotoService;
@@ -55,25 +57,44 @@ public class BoardController {
 	}
 	
 	
-	// 물품 페이지 김정언 test
-	/* @RequestMapping(value = "/jetest", method = RequestMethod.GET)
-	public String jetest() {
-		return "board/saleOfGoodsWrite";
-	}
-	*/
-	
-	// 물품 글쓰기
-	@RequestMapping(value = "/write", method = RequestMethod.GET)
-	public String write(HttpSession session, @RequestParam Map<String,String> map) {
-		logger.info("param = {}", map);
+	// 물품 팔기 페이지로 이동
+	@RequestMapping(value = "/goodsWrite.go", method = RequestMethod.GET)
+	public String goodsWrite() {
+		logger.info("물품 팔기 페이지...");
 		
-		int row = boardService.write(map);
 		return "board/saleOfGoodsWrite";
 	}
 	
+	
+	// 물풀 팔기 글쓰기
+	@RequestMapping(value = "/goodsWrite.do", method = RequestMethod.POST)
+    public String goodsWrite(HttpSession session, Model model,
+                             String subject, String content, String place,
+                             String category_idx, int price, List<MultipartFile> imageFiles) {
+
+		String email = (String) session.getAttribute("email");
+        
+        if (email == null) {
+            return "redirect:/login";
+        }
+        
+		// 등록날짜 설정
+        LocalDateTime currentDateTime = LocalDateTime.now();
+        Timestamp regDate = Timestamp.valueOf(currentDateTime);
+        
+        // 글쓰기 서비스 호출
+        int boardIdx = boardService.writeBoard(email, subject, content, place, category_idx, price, imageFiles, regDate);
+        
+        // 상세보기 페이지로 이동하는 URL 생성
+        String detailPageUrl = "/goodsDetail.go?idx=" + boardIdx;
+
+        // 상세보기 페이지로 리다이렉트
+        return "redirect:" + detailPageUrl;
+
+	}
 	
 	// 임시저장 글로 이동
-	@RequestMapping(value = "/TempSave")
+	@RequestMapping(value = "/TempSave.go")
 	public String tempSave() {
 		return "board/TempSave";
 	}

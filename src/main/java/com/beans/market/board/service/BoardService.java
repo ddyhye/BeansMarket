@@ -1,6 +1,8 @@
 package com.beans.market.board.service;
 
+import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
+import java.util.List;
 import java.util.Map;
 
 import org.slf4j.Logger;
@@ -8,6 +10,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.beans.market.board.dao.BoardDAO;
 import com.beans.market.board.dto.BoardDTO;
@@ -76,15 +79,34 @@ public class BoardService {
 		return result;
 	}
 
-	public int write(Map<String, String> map) {
-		int row = -1;
-		row = boardDAO.write(map);
-		logger.info("insert count :"+row);
-		return row;
+	public int writeBoard(String email, String subject, String content, String place, String category_idx, int price,
+			List<MultipartFile> imageFiles, Timestamp regDate) {
+        
+		List<String> fileNames = uploadImageFiles(imageFiles);
+
+        // BoardDTO 객체 생성
+        BoardDTO boardDTO = new BoardDTO();
+        boardDTO.setEmail(email);
+        boardDTO.setSubject(subject);
+        boardDTO.setContent(content);
+        boardDTO.setPlace(place);
+        boardDTO.setCategory_idx(category_idx);
+        boardDTO.setPrice(price);
+        boardDTO.setReg_date(regDate);
+        
+        // boardDTO.setImageFiles(fileNames);
+
+        // DAO를 통해 DB에 글 쓰기
+        return boardDAO.insertBoard(boardDTO);
+        
+		return 0;
 	}
 
-	
-	
+	private List<String> uploadImageFiles(List<MultipartFile> imageFiles) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 	
 	
 }
