@@ -49,13 +49,13 @@ public class MemberController {
 	//로그인
 	@RequestMapping(value ="member/login.do", method=RequestMethod.POST)
 	public String login(HttpSession session, Model model, String email, String password) {
-<<<<<<< HEAD
+
 	    logger.info("로그인 시도");
 	    String page = "login/login";
 	    String msg = "로그인에 실패하였습니다.";   
 	    MemberDTO loginId = memberService.login(email,password);
 		String logEmail = memberService.logEmail(email,password);
-	    logger.info("info : {}", loginInfo);
+		logger.info("info: {}", loginId);
 
 	    if(loginId != null) {
 	        page = "redirect:/main";

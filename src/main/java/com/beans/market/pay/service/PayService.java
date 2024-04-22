@@ -1,6 +1,5 @@
 package com.beans.market.pay.service;
 
-<<<<<<< HEAD
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,10 +8,8 @@ import org.springframework.stereotype.Service;
 import com.beans.market.pay.dto.PayDTO;
 import com.beans.market.pay.dao.PayDAO;
 
-=======
-import org.springframework.stereotype.Service;
 
->>>>>>> origin/master
+
 @Service
 public class PayService {
 
@@ -22,8 +19,14 @@ public class PayService {
 		return payDAO.getMyAmount(email);
 	}
 
-	public List<PayDTO> list() {
-		return payDAO.list();
+	public List<PayDTO> list(String email) {
+		return payDAO.list(email);
 	}
+
+	public String getUsernameByEmail(String email) {
+		return payDAO.getUsernameByEmail(email);
+	}
+
+
 
 }

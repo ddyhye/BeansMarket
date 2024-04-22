@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC	"-//mybatis.org//DTD Mapper 3.0//EN"
 	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.beans.market.member.dao.PayDAO">	
+<mapper namespace="com.beans.market.pay.dao.PayDAO">	
 	
 	<!--  나의 빈즈 내역 -->
-	<select id="list" resultType="com.beans.market.member.dto.PayDTO">
-		SELECT idx, email, option, price, content, reg_date from pay_hist
+	<select id="list" resultType="com.beans.market.pay.dto.PayDTO">
+		SELECT idx, email, option, price, content, reg_date from pay_hist WHERE email = #{email} order by reg_date desc;
 	</select>
 	
 	<!--  나의 빈즈페이 액수 -->
@@ -14,9 +14,16 @@
 	</select>
 	<!--  나의 빈즈페이 아이디 -->
 	<select id="getUsernameByEmail" resultType="string">
-		SELECT email FROM users WHERE email = #{email}
+		SELECT name FROM member WHERE email = #{email}
 	</select>
 	
+	<!--  충전 -->
+   <!--  <update id="updateChargeAmount" parameterType="map">
+        UPDATE user_account
+        SET balance = balance + #{amount}
+        WHERE user_id = #{userId}
+    </update>
+	 -->
 
 
 	
