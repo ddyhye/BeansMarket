@@ -5,8 +5,11 @@ import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import javax.servlet.http.HttpSession;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -18,6 +21,7 @@ import org.springframework.web.multipart.MultipartFile;
 import com.beans.market.board.dao.BoardDAO;
 import com.beans.market.board.dto.BoardDTO;
 import com.beans.market.history.dao.HistoryDAO;
+import com.beans.market.main.dao.MainDAO;
 import com.beans.market.member.dao.MemberDAO;
 import com.beans.market.member.dto.MemberDTO;
 import com.beans.market.member.dto.SellerDTO;
@@ -36,6 +40,7 @@ public class BoardService {
 	@Autowired MemberDAO memberDAO;
 	@Autowired HistoryDAO historyDAO;
 	@Autowired PayService payService;
+	@Autowired MainDAO mainDAO;
 
 	public String goodsDetail(int idx, Model model) {
 		String page = "board/saleOfGoodsDetail";
@@ -64,7 +69,7 @@ public class BoardService {
 		
 		if(dto.getOption().equals("경매")) {
 			formattedDateTime = dateFormat.format(dto.getClose_date());
-			model.addAttribute("close_date",formattedDateTime);			
+			model.addAttribute("close_date", formattedDateTime);
 		}
 		
         // 판매자 정보 - 이름, 거래 후기
@@ -122,10 +127,13 @@ public class BoardService {
 		if (bbsInfo.getBbs_state().equals("거래가능") && remaingTime > 0) { // 거래가능 상태이고, 남은 시간이 종료되지 않았는가
 			// bid_price와 비교 + 현재 내 페이 가격 가져오기 비교후 처리
 			if ((bbsInfo.getPrice() > bid_price) || (bid_price == bbsInfo.getPrice() && bbsInfo.getBid_count() != 0)) { // 입찰금이 현재입찰가 보다 높은가
+				logger.info("입찰 가능액보다 적게 입력");
 				result = 2;
 			} else if (bid_price > nowPoint) { // 현재 자신 포인트보다 입찰가 보다 높은가
+				logger.info("포인트 부족");
 				result = 3;
 			} else if (bid_price%1000 > 0) { // 1000단위 입찰을 하였는가
+				logger.info("입찰 가능액보다 적게 입력");
 				result = 4;
 			} else {
 				if(bbsInfo.getSuccessful_bid() == bid_price) { // 즉시 구매시
@@ -144,23 +152,20 @@ public class BoardService {
 					} 
 					if(bbsInfo.getBid_count() != 0) {
 						// 이전 입찰자에게 반환과정 필요
-						
-						// 이전 입찰 내역 가져오기 입찰 히스토리 DTO
-						
-						// 그 회원에게 금액 만큼 반환
-						
-						// 입출금 히스토리 추가
+						payService.bidReturn(bbsIdx);
 						
 					}					
 				}
 				// 입찰 히스토리에 추가
 				int bidHisResult = historyDAO.bidHistoryInsert(email, bid_price, bbsIdx);
+				if(bidHisResult == 1) logger.info("{} 번 게시물 입찰 완료", bbsIdx);
+				
+				// 입찰금 차감하고 입출금 히스토리 남기기
+				payService.bidWithdrawal(email, bid_price, bbsIdx);						
 				
 				// 게시물 가격, 입찰횟수 변경
 				int bbsResult = boardDAO.bidResultUpdate(bbsIdx, bid_price);
 				
-				// 입찰금 차감하고 입출금 히스토리 남기기
-				// int payChange = payService.bidPayChange(email, bid_price);
 				logger.info("history {}, bbsResult {}", bidHisResult, bbsResult);
 				
 				if(bidHisResult == 1 && bbsResult == 2) result = 1;
@@ -204,6 +209,17 @@ public class BoardService {
 	public void tempdel(String idx) {
 		// 임시저장 Y일 때만 삭제하도록
 		boardDAO.tempdel(idx);
+	}
+
+	public Map<String, Object> detailAjax(String idx) {
+		Map<String, Object> map = new HashMap<String, Object>();
+		BoardDTO bbsInfo = boardDAO.auctionDetail(Integer.parseInt(idx));
+		map.put("bbs_state", bbsInfo.getBbs_state());
+		map.put("bid_count", bbsInfo.getBid_count());
+		map.put("close_date", bbsInfo.getClose_date().toString());
+		map.put("price", bbsInfo.getPrice());
+		
+		return map;
 	}
 
 	

@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC	"-//mybatis.org//DTD Mapper 3.0//EN"
 	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.beans.market.member.dao.PayDAO">	
+<mapper namespace="com.beans.market.pay.dao.PayDAO">	
 	
 	<!--  나의 빈즈 내역 -->
-	<select id="list" resultType="com.beans.market.member.dto.PayDTO">
+	<select id="list" resultType="com.beans.market.pay.dto.PayDTO">
 		SELECT idx, email, option, price, content, reg_date from pay_hist
 	</select>
 	
@@ -17,7 +17,17 @@
 		SELECT email FROM users WHERE email = #{email}
 	</select>
 	
-
-
+	<update id="payDeposit">
+		UPDATE member m
+			SET m.point = m.point + (SELECT price FROM deal_aution_hist WHERE idx = #{param1} ORDER BY reg_date DESC LIMIT 1)
+		WHERE m.email = (SELECT email FROM deal_aution_hist WHERE idx = #{param1} ORDER BY reg_date DESC LIMIT 1)
+	</update>
 	
+	<update id="payWithdrawal">
+		UPDATE member
+			SET point = point - #{param2}
+		WHERE email = #{param1}
+	</update>
+
+
 </mapper>

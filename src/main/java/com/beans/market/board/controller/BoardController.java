@@ -21,7 +21,9 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.beans.market.board.service.BoardService;
+import com.beans.market.main.service.MainService;
 import com.beans.market.member.dto.MemberDTO;
+import com.beans.market.member.service.MemberService;
 import com.beans.market.photo.service.PhotoService;
 
 @Controller
@@ -31,10 +33,11 @@ public class BoardController {
 	
 	@Autowired BoardService boardService;
 	@Autowired PhotoService photoService;
+	@Autowired MemberService memberService;
 
 	// 게시글로 이동
 	@RequestMapping(value="/board/detail.go", method = RequestMethod.GET)
-	public String boardDetailGo(Model model, Integer idx) {
+	public String boardDetailGo(HttpSession session, Model model, Integer idx) {
 		logger.info("{} 디테일로 이동", idx);
 		int option_idx = 1; // 게시글이라는 의미
 		String page = "redirect:/";
@@ -43,7 +46,21 @@ public class BoardController {
 			photoService.boardPhoto(idx, model, option_idx);						
 		}
 		
+		if (session.getAttribute("loginInfo") != null) {
+			MemberDTO loginInfo = (MemberDTO) session.getAttribute("loginInfo");
+			int mine = memberService.getInterest(idx, loginInfo.getEmail());
+			model.addAttribute("mine", mine);
+		}
+		
 		return page;
+	}
+	
+	// 게시글 정보 새로 받아오기
+	@RequestMapping(value = "/board/detail.ajax", method = RequestMethod.GET)
+	@ResponseBody
+	public Map<String, Object> detailAjax(String idx){
+		logger.info("detail idx ajax : {}", idx);
+		return boardService.detailAjax(idx);
 	}
 	
 	// 관심 목록 추가 및 삭제
@@ -53,7 +70,7 @@ public class BoardController {
 		logger.info("interestToggle.do className : {}, bbsIdx : {}", className, bbsIdx);
 		Map<String, Object> map = new HashMap<String, Object>();
 		MemberDTO loginInfo = (MemberDTO) session.getAttribute("loginInfo");
-		String result = boardSevice.interestToggle(loginInfo.getEmail(), className, Integer.parseInt(bbsIdx));
+		String result = boardService.interestToggle(loginInfo.getEmail(), className, Integer.parseInt(bbsIdx));
 		map.put("result", result);
 		return map;
 	}
@@ -142,7 +159,7 @@ public class BoardController {
 		MemberDTO loginInfo = (MemberDTO) session.getAttribute("loginInfo");
 		logger.info("{} 님이 {} 번 게시물 입찰 시도", loginInfo.getEmail(), bbsIdx);
 		
-		int result = boardSevice.biddingAjax(loginInfo, Integer.parseInt(bid_price), Integer.parseInt(bbsIdx));
+		int result = boardService.biddingAjax(loginInfo, Integer.parseInt(bid_price), Integer.parseInt(bbsIdx));
 		String content = "";
 		
 		if (result == 1) {

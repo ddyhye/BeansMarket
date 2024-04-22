@@ -1,6 +1,10 @@
 package com.beans.market.pay.controller;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+
+import javax.servlet.http.HttpSession;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -8,7 +12,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.beans.market.member.dto.MemberDTO;
 import com.beans.market.pay.dto.PayDTO;
 import com.beans.market.pay.service.PayService;
 
@@ -30,6 +37,16 @@ public class PayController {
 		List<PayDTO> mybeansHist = payService.list();
 		model.addAttribute("beans", mybeansHist);
 		return "pay/myBeansPay";
+	}
+	
+	@RequestMapping(value = "/pay/getPoint.ajax", method = RequestMethod.POST)
+	@ResponseBody
+	public Map<String, Object> getPointAjax(String email){
+		logger.info("{} point 요청", email);
+		Map<String, Object> map = new HashMap<String, Object>();
+		int point = payService.getMyAmount(email);
+		map.put("point", point);
+		return map;
 	}
 	
 }

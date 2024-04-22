@@ -49,18 +49,18 @@ public class MemberController {
 	//로그인
 	@RequestMapping(value ="member/login.do", method=RequestMethod.POST)
 	public String login(HttpSession session, Model model, String email, String password) {
-<<<<<<< HEAD
+
 	    logger.info("로그인 시도");
 	    String page = "login/login";
 	    String msg = "로그인에 실패하였습니다.";   
-	    MemberDTO loginId = memberService.login(email,password);
+	    MemberDTO loginInfo = memberService.login(email,password);
 		String logEmail = memberService.logEmail(email,password);
 	    logger.info("info : {}", loginInfo);
 
-	    if(loginId != null) {
-	        page = "redirect:/main";
+	    if(loginInfo != null) {
+	        page = "redirect:/";
 	        msg = "로그인 되었습니다.";
-	        session.setAttribute("loginfo", loginId);
+	        session.setAttribute("loginInfo", loginInfo);
 			session.setAttribute("logEmail", logEmail);
 	        model.addAttribute("msg", msg);
 			//memberService.lastdate(email,password);

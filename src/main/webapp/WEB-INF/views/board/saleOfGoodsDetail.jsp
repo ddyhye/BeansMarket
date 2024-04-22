@@ -133,16 +133,29 @@
         $('.next').hide();
         $('.prev').hide();
     });
+    
+    // 로그인을 안했으면 alert 창 출력 후 로그인으로 이동 - 체크는 서버 측에서도 한번더 하면 좋을거 같음
+    function loginCheck() {
+        var login = true;
+        if('${loginInfo}' == ''){
+            alert('로그인이 필요한 서비스 입니다.');
+            location.href="<c:url value="/member/login.go"/>";
+            login = false;
+        }
+        return login;
+    }
 
     // 관심 목록 추가 및 삭제
     $('.icon').click(function(){
-    	var i = $('.icon i');
-        if(i.attr('class') == 'fa-regular fa-heart'){
-            i.removeClass('fa-regular fa-heart').addClass('fa-solid fa-heart');
-            interest(i.attr('class'));
-        } else if(i.attr('class') == 'fa-solid fa-heart'){
-            i.removeClass('fa-solid fa-heart').addClass('fa-regular fa-heart');
-            interest(i.attr('class'));
+    	if(loginCheck()){
+            var i = $('.icon i');
+            if(i.attr('class') == 'fa-regular fa-heart'){
+                i.removeClass('fa-regular fa-heart').addClass('fa-solid fa-heart');
+                interest(i.attr('class'));
+            } else if(i.attr('class') == 'fa-solid fa-heart'){
+                i.removeClass('fa-solid fa-heart').addClass('fa-regular fa-heart');
+                interest(i.attr('class'));
+            }
         }
     });
 
@@ -199,8 +212,11 @@
         $('.goodsImg').attr('src', photoArray[picCount]);
     });
 
+    // 신고 버튼 클릭 시 - 회원
     $('.reportBtn').click(function(){
-        $('#reportForm').toggle();
+        if(loginCheck()){
+            $('#reportForm').toggle();
+        }
     });
 
     // 신고 ajax
@@ -234,6 +250,7 @@
 
     // 메시지 보내기
     $('.messageSend').click(function(){
+    	// 로그인해야 가능하게
     	location.href='../message/noteMessage.go';
     });
 

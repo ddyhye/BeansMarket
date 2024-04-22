@@ -5,7 +5,7 @@ font-family: 'Varela Round', sans-serif;
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&family=Varela+Round&display=swap');
 section{
     font-family: 'Poppins', sans-serif; /*앞: 메인폰트, 뒤: 대체폰트(구현안될시)*/
-    padding: 5rem 0; /*1.상하 2.좌우 ','사용금지*/
+    padding: 10rem 0 5rem 0; /*1.상하 2.좌우 ','사용금지*/
 }
 
 section img{
@@ -85,7 +85,7 @@ section .goods-detail .left .select{
 
 /* 프로필 영역 css*/
 section .goods-detail .right{
-    width: 600px;
+    width: 650px;
     position: relative;
 }
 
@@ -169,9 +169,18 @@ section .goods-detail .right .subject .icon .interest{
     background-color: white;
 }
 
-section .goods-detail .right .subject, .price, .place, .reg-date, .successful-bid{
+section .goods-detail .right .subject, .right .price, .place, .reg-date, .successful-bid{
     padding: 1rem;
     font-size: 18px;
+}
+
+section .goods-detail .right .now-price{
+    display: flex;
+}
+
+section .goods-detail .right .now-price p{
+    padding: 1rem;
+    font-size: 18px
 }
 
 section .goods-detail .right .btn{
@@ -327,7 +336,7 @@ section #bidForm .bidForm-price div .title{
 
 section #bidForm #bid-msg{
     position: fixed;
-    display: flex;
+    display: none;
     width: 300px;
     height: 150px;
     top: 50%;

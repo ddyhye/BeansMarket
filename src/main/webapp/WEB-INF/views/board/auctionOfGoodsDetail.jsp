@@ -56,19 +56,24 @@
                     </div>
                     <hr/>
                     <div class="bid-price">
-                        <p class="price">현재 입찰가 ${bbs.price}원 (시작가 : ${bbs.start_price}원)</p>
+                        <div class="now-price">
+                            <p>현재 입찰가 </p>
+                            <p class="price">${bbs.price}</p>
+                            <p>원</p>
+                            <p> (시작가 : ${bbs.start_price}원)</p> 
+                        </div>
                         <p class="successful-bid">즉시 구매가 ${bbs.successful_bid}원</p>
                     </div>
                     <hr/>
                     <div class="bid-info">
                         <div class="bid-count">
                             <p>입찰수</p>
-                            <p>${bbs.bid_count} 회</p>
+                            <p class="count">${bbs.bid_count} 회</p>
                         </div>
                         <div class="time">
                             <p>남은시간 </p>
                             <p class="remaing-time">123456</p>
-                            <p>(종료 : ${close_date})</p>
+                            <p class="close-date">(종료 : ${close_date})</p>
                         </div>
                     </div>
                     <hr/>
@@ -122,8 +127,8 @@
 	            <hr/>
 	            <div class="bidForm-price">
 	                <div>
-	                 <p class="title">현재 입찰가</p>
-	                    <p class="current">${bbs.price}</p>
+	                 	<p class="title">현재 입찰가</p>
+	                    <p class="price">${bbs.price}</p>
 	                    <p>원</p>
 	                    <p class="start-price">(시작가 : ${bbs.start_price}원)</p>
 	                </div>                    
@@ -140,7 +145,7 @@
 	                <br/>
 	                <div>
 	                    <p class="title">나의 빈즈페이</p>
-	                    <p id=remain-pay>${loginInfo.point}</p>
+	                    <p id=remain-pay></p>
 	                    <p>원</p>
 	                    <input type="button" value="충전하기" />
 	                </div>
@@ -176,6 +181,33 @@
     
     runEverySecond();
     
+    // 관심 표시 되어있으면 하트가 차있도록
+    if('${mine}' == 1){
+    	
+    }
+    
+    // 입찰 후 내용 수정용으로 bbs 정보 받아오기
+    function getDetail(){
+        $.ajax({
+			type:'GET',
+			url:'<c:url value="/board/detail.ajax"/>',
+			data:{
+				'idx':bbsIdx,
+			},
+			dataType:'JSON',
+			success:function(data){
+				$('.price').text(data.price);
+                $('.count').text(data.bid_count+'회');
+                $('.close-date').text('(종료 : '+data.close_date+')');
+                $('#bid-able').text(data.price+1000);
+                $('#bid-price').val(data.price+1000);
+            },
+			error:function(error){
+				console.log(error);
+			}
+		});
+    }
+
     // 특정 게시물 모든 사진 이름 받아오기
     var photoArray = [];
     $('.goods-content img').each(function() {
@@ -260,7 +292,7 @@
         var login = true;
         if('${loginInfo}' == ''){
             alert('로그인이 필요한 서비스 입니다.');
-            location.href="./login.go";
+            location.href="<c:url value="/member/login.go"/>";
             login = false;
         }
         return login;
@@ -366,9 +398,29 @@
     }
     setInterval(runEverySecond, 1000);
 
+    // 회원 포인트 가져오기
+    function getPoint(){
+        $.ajax({
+                type:'POST',
+                url:'../pay/getPoint.ajax',
+                data:{
+                    'email' : '${loginInfo.email}'
+                },
+                dataType:'JSON',
+                success:function(data){
+                    $('#remain-pay').text(data.point);
+                },
+                error:function(error){
+                    console.log(error);
+                }
+        });
+    }
+
     // 입찰창 띄우기 - auction
     $('.btn button').click(function(){ 
         if (loginCheck()) {
+            getPoint();
+
             $('#bidForm').show();
             var bid_able = parseInt('${bbs.price}')+1000;
             $('#bid-able').text(bid_able);
@@ -396,11 +448,17 @@
             },
             dataType:'JSON',
             success:function(data){
+                $('#bid-msg').css({'display':'flex'});
+                getPoint();
+                getDetail();
                 if(!data.result){
                 	console.log(data.content);
                     $('#bid-msg .head').text("입찰에 실패 했습니다.");
                     $('#bid-msg .content').text(data.content);
+                    $('.bidForm-price .price').css({'color':'red'});
+                    $('#bid-able').css({'color':'red'});
                 }
+                // 입찰 가능가 + 현재 입찰가등 bbs 정보 새로 받아오기
             },
             error:function(error){
                 console.log(error);

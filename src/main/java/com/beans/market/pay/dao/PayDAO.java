@@ -10,6 +10,8 @@ public interface PayDAO {
 
 	List<PayDTO> list();
 
-	
+	int payDeposit(int bbsIdx);
+
+	int payWithdrawal(String email, int bid_price);
 
 }
