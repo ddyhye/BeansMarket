@@ -1,6 +1,7 @@
 package com.beans.market.board.dao;
 
 import java.sql.Timestamp;
+import java.util.Map;
 
 import com.beans.market.board.dto.BoardDTO;
 
@@ -23,5 +24,8 @@ public interface BoardDAO {
 	void updateCloseDate(Timestamp newCloseTimestamp);
 
 	int bidResultUpdate(int bbsIdx, int bid_price);
+	int insertBoard(BoardDTO boardDTO);
+
+	void tempdel(String idx);
 
 }

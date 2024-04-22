@@ -9,16 +9,19 @@
 	href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css"
 	integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA=="
 	crossorigin="anonymous" referrerpolicy="no-referrer" />
-<link rel="stylesheet" href="resources/css/common.css" type="text/css" />
-<link rel="stylesheet" href="resources/css/detail.css" type="text/css" />
-<link rel="stylesheet" href="resources/css/saleofgoods.css" type="text/css" />
+<link rel="stylesheet" href="../resources/css/common.css" type="text/css" />
+<link rel="stylesheet" href="../resources/css/detail.css" type="text/css" />
+<link rel="stylesheet" href="../resources/css/saleofgoods.css" type="text/css" />
 <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
 <style>
 </style>
 </head>
 <body>
+<jsp:include page="../common.jsp" />
+
 	<div class="salewrite">
-		<form>
+		<div><a href="TempSave">임시저장 글</a></div>
+		<form action="goodsWrite.go">
 			<div class="salemethod">
 				거래방식
 				<div class="option-container">
@@ -90,11 +93,11 @@
 				<button type="button" id="temporary-save-button">임시저장</button>
 				<button type="submit" id="save-button">저장</button>
 			</div>
-
 		</form>
+	</div>
 
 </body>
-		<script>
+<script>
     // 거래방식에 따른 입력요소 변경
     function toggleSaleMethod(method) {
     const salePriceContainer = document.getElementById('sale-price-container');
@@ -135,7 +138,9 @@
     } else {
         priceText.innerText = '*나눔의 경우 가격을 0으로 설정해주세요';
     }
-});
+	});
+    
+    
 
 </script>
 </html>

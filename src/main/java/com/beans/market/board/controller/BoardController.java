@@ -1,9 +1,11 @@
 package com.beans.market.board.controller;
 
+import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpSession;
@@ -16,6 +18,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.beans.market.board.service.BoardService;
 import com.beans.market.member.dto.MemberDTO;
@@ -26,7 +29,7 @@ public class BoardController {
 	
 	Logger logger = LoggerFactory.getLogger(getClass());
 	
-	@Autowired BoardService boardSevice;
+	@Autowired BoardService boardService;
 	@Autowired PhotoService photoService;
 
 	// 게시글로 이동
@@ -36,7 +39,7 @@ public class BoardController {
 		int option_idx = 1; // 게시글이라는 의미
 		String page = "redirect:/";
 		if(idx != null) {
-			page = boardSevice.goodsDetail(idx, model);
+			page = boardService.goodsDetail(idx, model);
 			photoService.boardPhoto(idx, model, option_idx);						
 		}
 		
@@ -54,6 +57,62 @@ public class BoardController {
 		map.put("result", result);
 		return map;
 	}
+	
+	
+	// 물품 팔기 페이지로 이동
+	@RequestMapping(value = "/board/goodsWrite.go", method = RequestMethod.GET)
+	public String goodsWrite() {
+		logger.info("물품 팔기 페이지...");
+		
+		return "board/saleOfGoodsWrite";
+	}
+	
+	
+	// 물풀 팔기 글쓰기
+	@RequestMapping(value = "/board/goodsWrite.do", method = RequestMethod.POST)
+    public String goodsWrite(HttpSession session, Model model,
+                             String subject, String content, String place,
+                             String category_idx, int price, List<MultipartFile> imageFiles) {
+
+		String email = (String) session.getAttribute("email");
+        
+        if (email == null) {
+            return "redirect:/login";
+        }
+        
+		// 등록날짜 설정
+        LocalDateTime currentDateTime = LocalDateTime.now();
+        Timestamp regDate = Timestamp.valueOf(currentDateTime);
+        
+        // 글쓰기 서비스 호출
+        int boardIdx = boardService.writeBoard(email, subject, content, place, category_idx, price, imageFiles, regDate);
+        
+        // 상세보기 페이지로 이동하는 URL 생성
+        String detailPageUrl = "/goodsDetail.go?idx=" + boardIdx;
+
+        // 상세보기 페이지로 리다이렉트
+        return "redirect:" + detailPageUrl;
+
+	}
+	
+	
+	
+	// 임시저장 글로 이동
+	@RequestMapping(value = "/TempSave.go")
+	public String tempSave() {
+		return "board/TempSave";
+	}
+	
+	// 임시저장 글 삭제
+	@RequestMapping(value = "tempdel")
+	public String tempdel(HttpSession session, String idx) {
+		String page = "redirect:/";
+		logger.info("삭제 ID : "+idx);
+		boardService.tempdel(idx);
+		
+		return page;
+	}
+	
 
 	// 남은 시간 변경 AJAX
 	@RequestMapping(value = "/board/remaingTime.ajax", method = RequestMethod.GET)
