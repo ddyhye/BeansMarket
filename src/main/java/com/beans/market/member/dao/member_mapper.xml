@@ -13,14 +13,27 @@
 	</select>
 	<!-- 로그인 이메일만 -->
 	<select id="logEmail" resultType="String">
-		SELECT email FROM member WHERE email= #{param1} AND pw= #{param2}
+		SELECT email, location, scope, name, birth_date, gender, point, dormant, login_count, warn_count
+			FROM member 
+		WHERE email= #{param1} AND pw= #{param2}
 	</select>
 	
-	<!-- 비밀번호 변경하기 -->
-	<update id = "newPW">
-		UPDATE member SET pw= #{param1} where pw is not null
+	<!-- 로그인 마지막날짜 업데이트 -->
+	<update id="updateLastLoginDate" parameterType="java.util.Map">
+    	UPDATE member
+    	SET last_login = #{lastLoginDate}
+    	WHERE email = #{email}
 	</update>
 	
+
+	<!-- 비밀번호 변경하기 -->
+	<update id="newPW" parameterType="String">
+	    UPDATE member
+	    SET pw = #{param2}
+	    WHERE email = #{param1}
+	</update>
+	
+
 	<!--  나의 빈즈 내역 -->
 	<select id="list" resultType="com.beans.market.member.dto.MemberDTO">
 		SELECT idx, email, option, price, content, reg_date from pay_hist
@@ -30,11 +43,37 @@
 	<select id="getMyAmount" resultType="int">
     	SELECT point FROM member WHERE email = #{email}
 	</select>
+	
 	<!-- 회원가입 -->
 	<insert id = "join" parameterType="Map">
-		INSERT INTO member(email,pw,name,birth_date,gender)
-		VALUES()
+	    INSERT INTO member(email,pw,name,birth_date,gender,location,scope)
+	    VALUES(#{email},#{pw},#{name},#{birth},#{gender},#{location},#{scope})
 	</insert>
+	
+	<!-- 프로필사진 -->
+	<insert id="saveprofile" parameterType="Map">
+	    INSERT INTO member_profilepic (email, new_filename, reg_date)
+	    VALUES (#{email},#{newFilename},NOW()
+	    )
+	</insert>
+	
+	<!-- 회원가입중복체크 -->
+	<select id="joinoverlay" resultType="Object">
+		SELECT COUNT(email)FROM member WHERE email = #{param1}
+	</select>
 
+	<!-- 판매자 정보 받아오기 -->
+	<select id ="sellerInfo" resultType="com.beans.market.member.dto.SellerDTO">
+		SELECT 
+			name 
+			,email
+			,(SELECT count(coment) FROM deal_coment WHERE email = #{param1} AND coment = 'positive') AS positiveCount
+			,(SELECT count(coment) FROM deal_coment WHERE email = #{param1} AND coment = 'negative') AS negativeCount
+		FROM member WHERE email = #{param1}
+	</select>
+	
+	<select id="nowPoint" resultType="Integer">
+		SELECT point FROM member WHERE email = #{param1}
+	</select>
 	
 </mapper>
