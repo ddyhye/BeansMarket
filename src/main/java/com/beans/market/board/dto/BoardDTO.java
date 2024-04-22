@@ -18,6 +18,7 @@ public class BoardDTO {
 	private String bbs_state;
 	private String reserve_email;
 	private String draft;
+	private String hidden;
 	
 	/* 경매 컬럼 */
 	private int start_price;
@@ -156,6 +157,12 @@ public class BoardDTO {
 	}
 	public void setBid_count(int bid_count) {
 		this.bid_count = bid_count;
+	}
+	public String getHidden() {
+		return hidden;
+	}
+	public void setHidden(String hidden) {
+		this.hidden = hidden;
 	}
 	
 }

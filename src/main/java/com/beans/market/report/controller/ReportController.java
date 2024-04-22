@@ -25,7 +25,7 @@ public class ReportController {
 	@Autowired ReportService reportService;
 	
 	// report
-	@RequestMapping(value="/report.do", method = RequestMethod.POST)
+	@RequestMapping(value="/report/report.do", method = RequestMethod.POST)
 	@ResponseBody
 	public Map<String, Object> reportDo(Model model, @RequestParam Map<String, String> map, HttpSession session) {
 		logger.info("신고 정보 : {}", map);
