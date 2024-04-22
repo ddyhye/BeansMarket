@@ -1,6 +1,21 @@
 @charset "UTF-8";
 
-
+/* css 기본 초기화 */
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+li{
+    list-style: none;
+}
+.container {
+	position: relative;
+	top: 13%;
+	width: 1300px;
+	margin: 0 auto;	
+}
+/* css 기본 초기화 */
 .main-subject {
    display: flex;
    flex-direction: row; 
@@ -55,7 +70,7 @@
 
    position: relative;
    width: 300px;
-   height: 400px;
+   height: 380px;
    border: 2px solid lightgray;
    margin: 12.5px;
 }
@@ -82,7 +97,27 @@
    position: relative;
    width: 50%;
 }
-.saleOption-Auc {
+.sold-out {
+	opacity: 0.4;
+}
+.goods-top-right-mark1 {
+   position: relative;
+   width: 80px;
+   height: 25px;
+   text-align: center;
+
+   background-color: #97001b;
+   border-left: 2px solid #97001b;
+   border-top: 2px solid #97001b;
+   border-bottom: 2px solid #97001b;
+   
+   opacity: 1;
+}
+.goods-top-right-mark1 span{
+   color: white;
+   font-weight: bold;
+}
+.goods-top-right-mark2 {
    position: relative;
    width: 60px;
    height: 25px;
@@ -93,7 +128,7 @@
    border-top: 2px solid lightgray;
    border-bottom: 2px solid lightgray;
 }
-.saleOption-Auc span{
+.goods-top-right-mark2 span{
    font-weight: bold;
 }
 .goods-photo {
@@ -102,18 +137,18 @@
    justify-content: center;
 
    position: relative;
-   height: 48%;
+   height: 54%;
 
-   border-top: 2px solid lightgray;
+   /* border-top: 2px solid lightgray; */
 }
 .goods-photo img {
    position: relative;
    width: 90%;
-   height: 90%;
+   height: 95%;
 }
 .goods-photo img:last-child {
    position: absolute;
-   width: 20%;
+   width: 22%;
    height: auto; 
    right: 5%;
    bottom: 5%; 
@@ -129,12 +164,12 @@
    position: relative;
    height: 15%;
 
-   border-top: 2px solid lightgray;
+   /* border-top: 2px solid lightgray; */
 }
 .goods-subject span {
    position: relative;
    width: 90%;
-   font-size: 20px;
+   font-size: 18px;
    font-weight: bold;
 }
 .goods-price-1 {
@@ -142,9 +177,9 @@
    flex-direction: row;
 
    position: relative;
-   height: 9%;
+   height: 7%;
 
-   border-top: 2px solid lightgray;
+   /* border-top: 2px solid lightgray; */
 }
 .goods-price-1-left {
    display: flex;
@@ -172,18 +207,18 @@
 
 
    position: relative;
-   height: 9%;
+   height: 7%;
 
-   border-top: 2px solid lightgray;
+   /* border-top: 2px solid lightgray; */
 }
 .goods-bottom {
    display: flex;
    flex-direction: row;
 
    position: relative;
-   height: 9%;
+   height: 7%;
 
-   border-top: 2px solid lightgray;
+   /* border-top: 2px solid lightgray; */
 }
 .goods-bottom-left {
    display: flex;

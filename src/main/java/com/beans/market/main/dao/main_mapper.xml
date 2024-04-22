@@ -6,29 +6,111 @@
 
 
 	<!-- 게시글 리스트 불러오기 -->
+	<!-- 최신순 -->
 	<select id="goodsList" resultType="com.beans.market.main.dto.MainDTO">
-		SELECT *
+		SELECT idx, option, email, subject, price, reg_date, bbs_state
 		FROM bbs
-		ORDER BY reg_date DESC
+		ORDER BY 
+			CASE 
+				WHEN bbs_state ='거래가능' OR bbs_state ='예약' THEN 1 
+				ELSE 2 
+			END, 
+			reg_date DESC
 	</select>
 	<select id="goodsList2" resultType="com.beans.market.main.dto.MainDTO">
-		SELECT *
+		SELECT idx, option, email, subject, price, reg_date, bbs_state
 		FROM bbs
 		WHERE option = '판매'
-		ORDER BY reg_date DESC
+		ORDER BY 
+			CASE 
+				WHEN bbs_state ='거래가능' OR bbs_state ='예약' THEN 1 
+				ELSE 2 
+			END, 
+			reg_date DESC
 	</select>
 	<select id="goodsList3" resultType="com.beans.market.main.dto.MainDTO">
-		SELECT *
+		SELECT idx, option, email, subject, price, reg_date, bbs_state
 		FROM bbs
 		WHERE option = '경매'
-		ORDER BY reg_date DESC
+		ORDER BY 
+			CASE 
+				WHEN bbs_state ='거래가능' OR bbs_state ='예약' THEN 1 
+				ELSE 2 
+			END, 
+			reg_date DESC
 	</select>
 	<select id="goodsList4" resultType="com.beans.market.main.dto.MainDTO">
-		SELECT *
+		SELECT idx, option, email, subject, price, reg_date, bbs_state
 		FROM bbs
 		WHERE option != '판매' AND option != '경매'
-		ORDER BY reg_date DESC
+		ORDER BY 
+			CASE 
+				WHEN bbs_state ='거래가능' OR bbs_state ='예약' THEN 1 
+				ELSE 2 
+			END, 
+			reg_date DESC
 	</select>
+	<!-- 인기순 -->
+	<select id="goodsHitList" resultType="com.beans.market.main.dto.MainDTO">
+		SELECT b.idx, b.option, b.email, b.subject, b.price, b.bbs_state, b.reg_date
+		FROM bbs b 
+			LEFT OUTER JOIN interest i 
+			ON b.idx = i.idx
+		GROUP BY b.idx
+		ORDER BY 
+			CASE 
+				WHEN b.bbs_state ='거래가능' OR b.bbs_state ='예약' THEN 1 
+				ELSE 2
+			END, 
+			COUNT(i.email) DESC , 
+			b.reg_date DESC;
+	</select>
+	<select id="goodsHitList2" resultType="com.beans.market.main.dto.MainDTO">
+		SELECT b.idx, b.option, b.email, b.subject, b.price, b.bbs_state, b.reg_date
+		FROM bbs b 
+			LEFT OUTER JOIN interest i 
+			ON b.idx = i.idx
+		WHERE option = '판매'
+		GROUP BY b.idx
+		ORDER BY 
+			CASE 
+				WHEN b.bbs_state ='거래가능' OR b.bbs_state ='예약' THEN 1 
+				ELSE 2
+			END, 
+			COUNT(i.email) DESC , 
+			b.reg_date DESC;
+	</select>
+	<select id="goodsHitList3" resultType="com.beans.market.main.dto.MainDTO">
+		SELECT b.idx, b.option, b.email, b.subject, b.price, b.bbs_state, b.reg_date
+		FROM bbs b 
+			LEFT OUTER JOIN interest i 
+			ON b.idx = i.idx
+		WHERE option = '경매'
+		GROUP BY b.idx
+		ORDER BY 
+			CASE 
+				WHEN b.bbs_state ='거래가능' OR b.bbs_state ='예약' THEN 1 
+				ELSE 2
+			END, 
+			COUNT(i.email) DESC , 
+			b.reg_date DESC;
+	</select>
+	<select id="goodsHitList4" resultType="com.beans.market.main.dto.MainDTO">
+		SELECT b.idx, b.option, b.email, b.subject, b.price, b.bbs_state, b.reg_date
+		FROM bbs b 
+			LEFT OUTER JOIN interest i 
+			ON b.idx = i.idx
+		WHERE option != '판매' AND option != '경매'
+		GROUP BY b.idx
+		ORDER BY 
+			CASE 
+				WHEN b.bbs_state ='거래가능' OR b.bbs_state ='예약' THEN 1 
+				ELSE 2
+			END, 
+			COUNT(i.email) DESC , 
+			b.reg_date DESC;
+	</select>
+	
 	<!-- 판매자 닉네임 -->
 	<select id="sellerName" resultType="String">
 		SELECT name 
@@ -41,6 +123,12 @@
 		FROM photo 
 		WHERE idx = #{param1} AND main = 'Y';
 	</select>
+	<!-- 게시글의 총 관심 개수 -->
+	<select id="heartCnt" resultType="Integer">
+		SELECT COUNT(email) 
+		FROM interest 
+		WHERE idx = #{param1}
+	</select>
 	<!-- 경매 - 즉시 낙찰가, 입찰 횟수 -->
 	<select id="fullPrice" resultType="Integer">
 		SELECT successful_bid
@@ -50,6 +138,82 @@
 	<select id="bidCnt" resultType="Integer">
 		SELECT bid_count
 		FROM auction 
+		WHERE idx = #{param1}
+	</select>
+	<!-- 로그인 시, 나의 관심목록 표시 -->
+	<select id="mine" resultType="Integer">
+		SELECT COUNT(email) AS mine 
+		FROM interest 
+		WHERE idx = #{param1} AND email = #{param2}
+	</select>
+	
+	
+	
+	<!-- 게시글 관심 등록삭제 -->
+	<insert id="clickHeart">
+		INSERT INTO interest (idx, email)
+		VALUES (#{param1}, #{param2})
+	</insert>
+	<delete id="deleteHeart">
+		DELETE FROM interest
+		WHERE idx = #{param1} AND email = #{param2}
+	</delete>
+	
+	
+	
+	<!-- 게시글 제목 검색 -->
+	<select id="bbsSearch" resultType="com.beans.market.main.dto.MainDTO">
+		SELECT idx, option, email, subject, price, reg_date, bbs_state
+		FROM bbs
+		WHERE subject LIKE CONCAT('%', #{param1}, '%')
+		ORDER BY 
+			CASE 
+				WHEN bbs_state ='거래가능' OR bbs_state ='예약' THEN 1 
+				ELSE 2 
+			END, 
+			reg_date DESC
+	</select>
+	
+	
+	
+	<!-- 게시글 카테고리 검색 -->
+	<select id="bbsCategorySearch" resultType="com.beans.market.main.dto.MainDTO">
+		SELECT idx, option, email, subject, price, reg_date, bbs_state
+		FROM bbs
+		WHERE category_idx = (SELECT category_idx FROM category WHERE category_name = #{param1})
+		ORDER BY 
+			CASE 
+				WHEN bbs_state ='거래가능' OR bbs_state ='예약' THEN 1 
+				ELSE 2 
+			END, 
+			reg_date DESC
+	</select>
+	
+	
+	
+	<!-- 알림 -->
+	<select id="newAlarm" resultType="Integer">
+		SELECT COUNT(email)
+		FROM alarm
+		WHERE email = #{param1} AND checked = 'N';
+	</select>
+	<select id="alarm" resultType="com.beans.market.main.dto.MainDTO">
+		SELECT idx, email, checked, content, link, reg_date
+		FROM alarm
+		WHERE email = #{param1}
+		ORDER BY reg_date DESC
+	</select>
+	<!-- 알림 읽음 -->
+	<update id="alarmRead">
+		UPDATE alarm SET checked = 'Y' WHERE idx = #{param}
+	</update>
+	
+	
+	
+	<!-- 최근 본 게시글 -->
+	<select id="recentBBS" resultType="com.beans.market.main.dto.MainDTO">
+		SELECT idx, option, email, subject, price, reg_date, bbs_state
+		FROM bbs
 		WHERE idx = #{param1}
 	</select>
 	

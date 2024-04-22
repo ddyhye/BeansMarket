@@ -17,7 +17,6 @@ public interface MemberDAO {
 
 	MemberDTO login(String email, String pw);
 
-
 	String newPW(String pw);
 
 
@@ -43,6 +42,8 @@ public interface MemberDAO {
 	SellerDTO sellerInfo(String email);
 
 	int nowPoint(String email);
+
+	String logEmail(String email, String password);
 
 
 }

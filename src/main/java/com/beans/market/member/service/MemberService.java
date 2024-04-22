@@ -60,5 +60,10 @@ public class MemberService {
 		
 	} 
 
+		// 메인 임시 로그인
+	public String logEmail(String email, String password) {
+		return memberDAO.logEmail(email, password);
+	}
+
 
 }

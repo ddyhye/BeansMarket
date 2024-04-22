@@ -41,11 +41,7 @@ public class MemberController {
 
 	
 	//로그인페이지
-<<<<<<< HEAD
 	@RequestMapping(value="member/login.go")
-=======
-	@RequestMapping(value="/member/login.go")
->>>>>>> 14380dd329806e4ec0a1fc2c11390c43394d9e6a
 	public String logingo() {
 		logger.info("로그인페이지 이동");
 		return "/login/login";
@@ -58,13 +54,16 @@ public class MemberController {
 	    String page = "login/login";
 	    String msg = "로그인에 실패하였습니다.";   
 	    MemberDTO loginId = memberService.login(email,password);
-	    logger.info("info :"+ loginId);
+		String logEmail = memberService.logEmail(email,password);
+	    logger.info("info : {}", loginInfo);
 
 	    if(loginId != null) {
 	        page = "redirect:/main";
 	        msg = "로그인 되었습니다.";
 	        session.setAttribute("loginfo", loginId);
+			session.setAttribute("logEmail", logEmail);
 	        model.addAttribute("msg", msg);
+			//memberService.lastdate(email,password);
 	        // 로그인 성공 시 마지막 로그인 날짜 업데이트 메서드 호출
 	        Map<String, Object> params = new HashMap<>();
 	        params.put("email", email);
@@ -73,26 +72,7 @@ public class MemberController {
 	    }
 	    model.addAttribute("msg", msg);
 	    return page;
-	}     
-	
-=======
-		logger.info("로그인 시도");
-		String page = "login/login";
-		String msg = "로그인에 실패하였습니다.";	
-		MemberDTO loginInfo = memberService.login(email,password);
-		logger.info("info : {}", loginInfo);
-	
-		if(loginInfo != null) {
-			page="main";
-			msg = "로그인 되었습니다.";
-			session.setAttribute("loginInfo", loginInfo);
-			model.addAttribute("msg",msg);
-			// memberService.lastdate(email, password);
-		}
-		model.addAttribute("msg",msg);	
-		return page;
-	}	
->>>>>>> 14380dd329806e4ec0a1fc2c11390c43394d9e6a
+	}    
 	
 	//아이디 등록 확인
 	@RequestMapping(value = "/member/findEmail.go")
