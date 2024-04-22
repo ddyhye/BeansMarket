@@ -40,7 +40,7 @@ public class MemberController {
 	}
 	
 	//로그인페이지
-	@RequestMapping(value="/login.go")
+	@RequestMapping(value="/member/login.go")
 	public String logingo() {
 		logger.info("로그인페이지 이동");
 		return "login/login";
@@ -51,15 +51,15 @@ public class MemberController {
 		logger.info("로그인 시도");
 		String page = "login/login";
 		String msg = "로그인에 실패하였습니다.";	
-		String loginId = memberService.login(email,password);
-		logger.info("info :"+ loginId);
+		MemberDTO loginInfo = memberService.login(email,password);
+		logger.info("info : {}", loginInfo);
 	
-		if(loginId!=null) {
+		if(loginInfo != null) {
 			page="main";
 			msg = "로그인 되었습니다.";
-			session.setAttribute("loginfo", loginId);
-			model.addAttribute("msg",msg);	
-			memberService.lastdate(email,password);
+			session.setAttribute("loginInfo", loginInfo);
+			model.addAttribute("msg",msg);
+			// memberService.lastdate(email, password);
 		}
 		model.addAttribute("msg",msg);	
 		return page;

@@ -162,6 +162,7 @@ $(function() {
     });
 });
 
+/*
 $(function(){
     $('#loginForm').submit(function(event){
         var failureCount = parseInt(localStorage.getItem('failureCount')) || 0;
@@ -179,6 +180,7 @@ $(function(){
         localStorage.removeItem('failureCount'); // 로그인 실패 횟수 초기화
     });
 });
+*/
 </script>
 </body>
 </html>

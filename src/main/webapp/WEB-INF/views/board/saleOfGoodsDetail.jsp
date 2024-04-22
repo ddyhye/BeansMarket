@@ -3,16 +3,18 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>BEANS-${bbs.subject}</title>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-<link rel="stylesheet" href="resources/css/common.css" type="text/css"/>
-<link rel="stylesheet" href="resources/css/goodsDetail.css" type="text/css"/>
+<link rel="stylesheet" href="../resources/css/common.css" type="text/css"/>
+<link rel="stylesheet" href="../resources/css/goodsDetail.css" type="text/css"/>
 <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
 <style>
 </style>
 </head>
 <body>
-	<jsp:include page="../common.jsp" />
+    <header>
+        <jsp:include page="../common.jsp" />
+    </header>
     <section>
         <div class="container">
             <div class="goods-detail">
@@ -28,19 +30,19 @@
                     </div><!-- 사진 선택 공간 -->
                 </div>
                 <div class="right">
-                    <div class="report">
+                    <div class="top">
+                        <p class="bbs-state">${bbs.bbs_state}</p>
                         <button class="reportBtn">신고하기</button> 
                     </div>
                     <div class="profile">
                         <div class="left">
-                            <img src="/photo/${profilePic.new_filename}" alt="profileImage"/>
+                            <img src="/photo/${sellerPic.new_filename}" alt="profileImage"/>
                         </div>
                         <div class="right">
-                            <p class="user_name">${bbs.email}</p>
+                            <p class="user_name">${sellerInfo.name}</p>
                             <div class="reivew">
-                            	<!-- 로그인 관련해서 완성되면 추가 -->
-                            	<p><i class="fa-solid fa-thumbs-up"></i> 17</p>
-                                <p><i class="fa-solid fa-thumbs-down"></i> 3</p>
+                            	<p><i class="fa-solid fa-thumbs-up"></i> ${sellerInfo.positiveCount}</p>
+                                <p><i class="fa-solid fa-thumbs-down"></i> ${sellerInfo.negativeCount}</p>
                             </div>
                         </div>
                     </div>
@@ -49,7 +51,7 @@
                         <div class="icon">
                         	<!-- 로그인 관련해서 완성되면 추가 -->
                             <!-- <i class="fa-solid fa-heart"></i> -->
-                            <i class="fa-regular fa-heart"></i> <!-- 빈 하트 -->
+                            <button class="interest"><i class="fa-regular fa-heart"></i></button><!-- 빈 하트 -->
                         </div>
                     </div>
                     <p class="price">${bbs.price} 원</p>
@@ -101,6 +103,8 @@
 	var bbsIdx = '${bbs.idx}'; // String	
 	var bbsEmail = '${bbs.email}';
 	
+
+
     // 특정 게시물 모든 사진 이름 받아오기
     var photoArray = [];
     $('.goods-content img').each(function() {
@@ -209,7 +213,7 @@
         
 		$.ajax({
 			type:'POST',
-			url:'./report.do',
+			url:'../report/report.do',
 			data:{
                 'category_idx':category_idx,
                 'content':content,
@@ -226,11 +230,26 @@
 				console.log(error);
 			} 
 		});
-        
     }
 
+    // 메시지 보내기
     $('.messageSend').click(function(){
-    	location.href='noteMessage.go';
+    	location.href='../message/noteMessage.go';
     });
+
+    // 판매 상태에 따른 CSS 차이
+    $(document).ready(function() {
+        var bbs_state = '${bbs.bbs_state}';
+        bbsState(bbs_state);
+    });
+
+    function bbsState(bbs_state){
+        console.log(bbs_state);
+        if (bbs_state == '거래완료') {
+            $('.bbs-state').css({'background-color':'gray'});
+        } else if (bbs_state == '예약중'){
+            $('.bbs-state').css({'background-color':'lightgreen'});
+        }
+    }
 </script>
 </html>

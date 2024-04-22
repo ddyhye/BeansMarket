@@ -27,7 +27,7 @@ public class MemberService {
 		return memberDAO.overlay(id);
 	}
 
-	public String login(String email, String password) {
+	public MemberDTO login(String email, String password) {
 		
 		return memberDAO.login(email,password);
 	}

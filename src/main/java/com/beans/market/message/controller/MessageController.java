@@ -14,7 +14,7 @@ public class MessageController {
 	Logger logger = LoggerFactory.getLogger(getClass());
 	@Autowired MessageService messageService;
 	
-	@RequestMapping(value = "/noteMessage.go")
+	@RequestMapping(value = "/message/noteMessage.go")
 	public String noteMessageGo() {
 		
 		return "noteMessage/noteMessage";
