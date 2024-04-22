@@ -20,7 +20,7 @@
 <jsp:include page="../common.jsp" />
 
 	<div class="salewrite">
-		<div><a href="TempSave">임시저장 글</a></div>
+		<div><i class="fa-regular fa-bookmark"></i><a href="TempSave">임시저장 글</a></div>
 		<form action="goodsWrite.go">
 			<div class="salemethod">
 				거래방식

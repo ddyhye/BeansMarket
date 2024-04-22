@@ -101,6 +101,7 @@ public class BoardController {
 		return "board/TempSave";
 	}
 	
+	
 	// 임시저장 글 삭제
 	@RequestMapping(value = "tempdel")
 	public String tempdel(HttpSession session, String idx) {
