@@ -8,22 +8,30 @@
 	</update>
 	
 	<select id="goodsDetail" resultType="com.beans.market.board.dto.BoardDTO">
-		SELECT idx, email, option, subject, price, place, reg_date, content FROM bbs
+		SELECT idx, email, option, subject, price, place, reg_date, content, hidden, bbs_state FROM bbs
 			WHERE idx = #{param1}
 	</select>
 	
 	<select id="auctionDetail" resultType="com.beans.market.board.dto.BoardDTO">
-		SELECT b.idx, b.email, b.option, b.subject, b.price, b.place, b.reg_date, b.content, a.start_price, a.successful_bid, a.auction_period, a.close_date, a.bid_count 
-			FROM auction a join bbs b on a.idx=b.idx WHERE b.idx = #{param1};
+		SELECT b.idx, b.email, b.option, b.subject, b.price, b.place, b.reg_date, b.content, b.hidden, b.bbs_state, a.start_price, a.successful_bid, a.auction_period, a.close_date, a.bid_count 
+			FROM auction a join bbs b on a.idx=b.idx WHERE b.idx = #{param1}
 	</select>
 	
 	<insert id="interestInsert">
-		INSERT INTO interest(email, idx)
-			VALUES(#{param2}, #{param1});
+		INSERT INTO interest(idx, email)
+			VALUES(#{param1}, #{param2})
 	</insert>
 	
 	<delete id="interestDel">
-		DELETE FROM interest WHERE idx = #{param1} AND email = #{param2};
+		DELETE FROM interest WHERE idx = #{param1} AND email = #{param2}
 	</delete>
+	
+	<update id="bidResultUpdate">
+		UPDATE bbs AS b
+			JOIN auction AS a ON b.idx = a.idx 
+			SET b.price = #{param2}, a.bid_count = a.bid_count + 1 
+		WHERE b.idx = #{param1} AND a.idx = #{param1}
+	</update>
+	
 	
 </mapper>
