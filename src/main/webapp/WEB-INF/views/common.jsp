@@ -41,7 +41,7 @@
 				<div class="alarm-content">
 					<div class="alarm-content-list">
 						<div class="alarm-content-list-left">
-							<img src="../resources/img/unRead.png" alt="안읽음" />
+							<i class="fa-regular fa-envelope"></i>
 						</div>
 						<div class="alarm-content-list-center">
 							<span>안녕하세요반가워요잘지내요</span>
@@ -93,7 +93,7 @@
 
 		<div class="top-second-center">
 			<div>
-				<a href="login.go" class="top-second-center-link" id="top-second-center-link-log">로그인</a>
+				<a href="<c:url value="/member/login.go"/>" class="top-second-center-link" id="top-second-center-link-log">로그인</a>
 			</div>
 			<div>
 				<a href="join.go" class="top-second-center-link">회원가입</a>
@@ -114,8 +114,9 @@
 					<p>Member</p>
 					<p>Service</p>
 				</div>
-				<img src="../resources/img/detailIcon.png"
-					class="top-second-right-border-bottom-icon" />
+				<!-- <i class="fa-solid fa-square-caret-down"></i> -->
+				<img src="<c:url value='/resources/img/detailIcon.png'/>"
+					class="top-second-right-border-bottom-icon" /> 
 			</div>
 		</div>
 	</div>
@@ -206,11 +207,11 @@
 		var borderDiv = $('.top-second-right-border');
 
 		if (isToggled) {
-			$(this).attr('src', '../resources/img/detailIcon.png');
+			$(this).attr('src', '<c:url value="/resources/img/detailIcon.png"/>');
 			borderDiv.css('height', '90px');
 			borderDiv.find('.memberService').remove();
 		} else {
-			$(this).attr('src','../resources/img/reverseDetailIcon.png');
+			$(this).attr('src','<c:url value="/resources/img/reverseDetailIcon.png"/>');
 			borderDiv.css('height', '520px');
 			borderDiv.append('<div class="memberService"><i class="fa-solid fa-user"></i><p>마이페이지</p></div>');
 			borderDiv.append('<div class="memberService"><i class="fa-solid fa-heart"></i><p>관심</p></div>');
@@ -361,7 +362,7 @@
 			content += '<div class="alarm-content-list">';
 			content += '<div class="alarm-idx" style="display: none;">'+item.idx+'</div>';
 			content += '<div class="alarm-content-list-left">';
-			var readImg = item.checked === 'Y'? '../resources/img/read.png':'../resources/img/unRead.png';
+			var readImg = item.checked === 'Y'? '<c:url value="/resources/img/read.png"/>':'<c:url value="/resources/img/unRead.png"/>';
 			content += '<img src="'+readImg+'" alt="읽음여부"/>';
 			content += '</div>';
 			content += '<div class="alarm-content-list-center">';

@@ -233,8 +233,8 @@
 			content += '</div></div>';
 			content += '<div class="goods-photo">';
 			content += '<img src="/photo/'+item.new_picname+'" alt="'+item.new_picname+'"/>';
-			var heart_img_path = item.mine == 1? 'heart.png': 'unHeart.png';
-			content += '<img src="../resources/img/'+heart_img_path+'" class="clickHeart" alt="찜"/></div>';
+			var heart_img_path = item.mine == 1? '<c:url value="/resources/img/heart.png"/>': '<c:url value="/resources/img/unHeart.png"/>';
+			content += '<img src="'+heart_img_path+'" class="clickHeart" alt="찜"/></div>';
 			content += '<div class="goods-subject"><span>'+item.subject+'</span></div>';
 			content += '<div class="goods-price-1">';
 			content += '<div class="goods-price-1-left">';
