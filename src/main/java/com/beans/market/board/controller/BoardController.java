@@ -53,7 +53,7 @@ public class BoardController {
 		logger.info("interestToggle.do className : {}, bbsIdx : {}", className, bbsIdx);
 		Map<String, Object> map = new HashMap<String, Object>();
 		MemberDTO loginInfo = (MemberDTO) session.getAttribute("loginInfo");
-		String result = boardSevice.interestToggle(loginInfo.getEmail(), className, Integer.parseInt(bbsIdx));
+		String result = boardService.interestToggle(loginInfo.getEmail(), className, Integer.parseInt(bbsIdx));
 		map.put("result", result);
 		return map;
 	}
@@ -143,7 +143,7 @@ public class BoardController {
 		MemberDTO loginInfo = (MemberDTO) session.getAttribute("loginInfo");
 		logger.info("{} 님이 {} 번 게시물 입찰 시도", loginInfo.getEmail(), bbsIdx);
 		
-		int result = boardSevice.biddingAjax(loginInfo, Integer.parseInt(bid_price), Integer.parseInt(bbsIdx));
+		int result = boardService.biddingAjax(loginInfo, Integer.parseInt(bid_price), Integer.parseInt(bbsIdx));
 		String content = "";
 		
 		if (result == 1) {
