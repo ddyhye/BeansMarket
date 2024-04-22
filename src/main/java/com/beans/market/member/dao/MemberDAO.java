@@ -15,9 +15,6 @@ public interface MemberDAO {
 
 	String newPW(String pw);
 
-	List<MemberDTO> list();
-
-	int getMyAmount(String email);
 	void lastdate(String email, String password);
 
 	int join(Map<String, String> param);

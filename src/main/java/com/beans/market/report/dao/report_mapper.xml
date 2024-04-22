@@ -1,8 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC	"-//mybatis.org//DTD Mapper 3.0//EN"
 	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="~~~DAO">	
+<mapper namespace="com.beans.market.report.dao.ReportDAO">	
 	
-
+	<insert id="reportDo" parameterType="com.beans.market.report.dto.ReportDTO">
+		INSERT INTO report(option_idx, category_idx, content, perpet_email, idx, reporter_email)
+			VALUES(#{option_idx},#{category_idx},#{content},#{perpet_email},#{idx},#{reporter_email});
+	</insert>
 	
 </mapper>

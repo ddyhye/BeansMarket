@@ -19,6 +19,24 @@ public class BoardDTO {
 	private String reserve_email;
 	private String draft;
 	
+	/* 경매 컬럼 */
+	private int start_price;
+	private int successful_bid;
+	private int auction_period;
+	private Timestamp close_date;
+	private int bid_count;
+	//private int idx;
+	
+	/* 대표 사진 경로 (url 저장용) */
+	private String new_picname;
+	
+	
+	public String getNew_picname() {
+		return new_picname;
+	}
+	public void setNew_picname(String new_picname) {
+		this.new_picname = new_picname;
+	}
 	public int getIdx() {
 		return idx;
 	}
@@ -108,6 +126,36 @@ public class BoardDTO {
 	}
 	public void setDraft(String draft) {
 		this.draft = draft;
+	}
+	public int getStart_price() {
+		return start_price;
+	}
+	public void setStart_price(int start_price) {
+		this.start_price = start_price;
+	}
+	public int getSuccessful_bid() {
+		return successful_bid;
+	}
+	public void setSuccessful_bid(int successful_bid) {
+		this.successful_bid = successful_bid;
+	}
+	public int getAuction_period() {
+		return auction_period;
+	}
+	public void setAuction_period(int auction_period) {
+		this.auction_period = auction_period;
+	}
+	public Timestamp getClose_date() {
+		return close_date;
+	}
+	public void setClose_date(Timestamp close_date) {
+		this.close_date = close_date;
+	}
+	public int getBid_count() {
+		return bid_count;
+	}
+	public void setBid_count(int bid_count) {
+		this.bid_count = bid_count;
 	}
 	
 }

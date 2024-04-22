@@ -25,19 +25,7 @@ public class MemberController {
 	
 	@Autowired MemberService memberService;
 	
-	//나의 빈즈 내역 : 윤경배
-	@RequestMapping(value="/mybeans")
-	public String mybeans(Model model) {
-		logger.info("나의 빈즈 내역 요청");
-		//빈즈페이 금액
-		String email = "zeus@hanmail.net"; //테스트를 위한 이메일 //테스트 끝나고는 매개변수로 email입력받음
-		int amount = memberService.getMyAmount(email);
-        model.addAttribute("my_amount", amount);
-		//빈즈내역
-		List<MemberDTO> mybeanshist = memberService.list();
-		model.addAttribute("beans", mybeanshist);
-		return "member/myBeansPay";
-	}
+
 	
 	//로그인페이지
 	@RequestMapping(value="/login.go")

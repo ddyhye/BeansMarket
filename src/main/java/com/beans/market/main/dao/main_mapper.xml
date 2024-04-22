@@ -6,10 +6,51 @@
 
 
 	<!-- 게시글 리스트 불러오기 -->
-	<select id="goodsList" resultType="com.beans.market.board.dto.BoardDTO">
-		SELECT email, option, category_idx, subject, price
+	<select id="goodsList" resultType="com.beans.market.main.dto.MainDTO">
+		SELECT *
 		FROM bbs
-		WHERE idx = 1
+		ORDER BY reg_date DESC
+	</select>
+	<select id="goodsList2" resultType="com.beans.market.main.dto.MainDTO">
+		SELECT *
+		FROM bbs
+		WHERE option = '판매'
+		ORDER BY reg_date DESC
+	</select>
+	<select id="goodsList3" resultType="com.beans.market.main.dto.MainDTO">
+		SELECT *
+		FROM bbs
+		WHERE option = '경매'
+		ORDER BY reg_date DESC
+	</select>
+	<select id="goodsList4" resultType="com.beans.market.main.dto.MainDTO">
+		SELECT *
+		FROM bbs
+		WHERE option != '판매' AND option != '경매'
+		ORDER BY reg_date DESC
+	</select>
+	<!-- 판매자 닉네임 -->
+	<select id="sellerName" resultType="String">
+		SELECT name 
+		FROM member 
+		WHERE email = (SELECT email FROM bbs WHERE idx=#{param1});
+	</select>
+	<!-- 게시글 대표 사진 -->
+	<select id="mainPhoto" resultType="String">
+		SELECT new_picname 
+		FROM photo 
+		WHERE idx = #{param1} AND main = 'Y';
+	</select>
+	<!-- 경매 - 즉시 낙찰가, 입찰 횟수 -->
+	<select id="fullPrice" resultType="Integer">
+		SELECT successful_bid
+		FROM auction 
+		WHERE idx = #{param1}
+	</select>
+	<select id="bidCnt" resultType="Integer">
+		SELECT bid_count
+		FROM auction 
+		WHERE idx = #{param1}
 	</select>
 	
 </mapper>

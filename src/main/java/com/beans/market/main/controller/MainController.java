@@ -1,14 +1,21 @@
 package com.beans.market.main.controller;
 
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.beans.market.board.dto.BoardDTO;
 import com.beans.market.board.service.BoardService;
 import com.beans.market.main.service.MainService;
+import com.beans.market.photo.dto.PhotoDTO;
 
 @Controller
 public class MainController {
@@ -18,24 +25,35 @@ public class MainController {
 	@Autowired BoardService boardService;
 	
 	@RequestMapping(value="/")
-	public String main() {
+	public String main(Model model) {
 		logger.info("메인 페이지...");
+		
+		mainService.goodsList(model);
 		
 		return "main";
 	}
-	
-	@RequestMapping(value="/main")
-	public String main2() {
-		logger.info("메인 페이지...");
+	// AJAX 리스트 출력
+	@RequestMapping(value="/list.ajax")
+	@ResponseBody
+	public Map<String, Object> listAjax(String selectedSort, String sellOptionChk, String AuctionOptionChk){
+		Map<String, Object> map = new HashMap<String, Object>();
 		
-		BoardDTO dto = mainService.goodsList();
-		logger.info("판매자: "+dto.getEmail());
-		logger.info("게시글 옵션: "+dto.getOption());
-		logger.info("제목: "+dto.getSubject());
-		logger.info("가격: "+dto.getPrice());
+		boolean isSell = sellOptionChk.equals("true")? true : false;
+		boolean isAuction = AuctionOptionChk.equals("true")? true : false;
 		
-		return "main";
+		//mainService.goodsListAjax(map);
+		mainService.goodsListAjax(map, selectedSort, isSell, isAuction);
+		
+		return map;
 	}
 	
+	
+	// 물품 팔기 페이지 이동
+	@RequestMapping(value="/goodsWrite.go")
+	public String goodsWrite_go() {
+		logger.info("메인 페이지...");
+		
+		return "board/saleOfGoodsWrite";
+	}
 
 }
