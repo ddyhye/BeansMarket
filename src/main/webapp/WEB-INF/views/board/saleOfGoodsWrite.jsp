@@ -20,11 +20,13 @@
 <jsp:include page="../common.jsp" />
 
 	<div class="salewrite">
-		<div><a href="TempSave">임시저장 글</a></div>
-		<form action="goodsWrite.go">
+		<div><i class="fa-regular fa-bookmark"></i><a href="<c:url value="/board/TempSave.go"/>">임시저장 글</a></div>
+		<form action="goodsWrite.do", method="POST" enctype="multipart/form-data">
 			<div class="salemethod">
 				거래방식
 				<div class="option-container">
+					<!-- 숨겨진 필드 추가 -->
+    				<input type="hidden" id="selectedOption" name="option" value=""/>
 					<div class="option" id="sale-option"
 						onclick="toggleSaleMethod('sale')">나눔/판매</div>
 					<div class="option" id="auction-option"
@@ -34,7 +36,7 @@
 
 			<!-- 나눔/판매 선택 시 보여질 요소들 -->
 			<div class="price-container" id="sale-price-container">
-				<input type="text" id="price" placeholder="가격을 입력해 주세요">
+				<input name="price" type="text" id="price" placeholder="가격을 입력해 주세요">
 				<p id="price-text">*나눔의 경우 가격을 0으로 설정해주세요</p>
 			</div>
 
@@ -61,22 +63,22 @@
 
 			<!--공통 요소들-->
 			<div class="salecategory">
-				<label for="category">카테고리</label> <select name="category">
-					<option value="">선택</option>
-					<option value="학생">디지털기기</option>
-					<option value="회사원">가구/인테리어</option>
-					<option value="기타">유아동</option>
+				<label for="category">카테고리</label> 
+				<select name="category">
+					<option value="m001">선택</option>
+					<option value="m001">남성 패션/잡화</option>
+					<option value="m002">디지털 기기</option>
 				</select>
 			</div>
 
 			<div class="title">
-				<label for="title">제목</label> <input type="text" name="title"
+				<label for="title">제목</label> <input type="text" name="subject"
 					placeholder="제목을 입력해 주세요">
 			</div>
 
 			<div class="photo">
-				<label for="photo">사진선택</label> <input type="file"
-					multiple="multiple" name="imageFiles">
+				<label for="photo">사진선택</label> 
+					<input type="file" multiple="multiple" name="photos">
 			</div>
 
 			<div class="content">
@@ -102,13 +104,16 @@
     function toggleSaleMethod(method) {
     const salePriceContainer = document.getElementById('sale-price-container');
     const auctionDetails = document.getElementById('auction-details');
+    var selectedOptionInput = document.getElementById('selectedOption');
 
         if (method === 'sale') {
             salePriceContainer.style.display = 'block';
             auctionDetails.style.display = 'none';
+            selectedOptionInput.value = '판매'; // 숨겨진 필드 값 업데이트
         } else if (method === 'auction') {
             salePriceContainer.style.display = 'none';
             auctionDetails.style.display = 'block';
+            selectedOptionInput.value = '경매'; // 숨겨진 필드 값 업데이트
         }
     }
 

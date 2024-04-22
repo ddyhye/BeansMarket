@@ -80,3 +80,12 @@ label {
 p {
   font-size: 12px; /* 기본 글꼴 크기 증가 */
 }
+
+.fa-bookmark {
+ font-size: 12px;	
+}
+
+a {
+    display: inline-block; /* 링크를 인라인 블록 요소로 표시하여 한 줄에 나란히 배치 */
+    vertical-align: middle; /* 아이콘과 텍스트를 수직 가운데 정렬 */
+}

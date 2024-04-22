@@ -8,6 +8,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.beans.market.main.dao.MainDAO;
 import com.beans.market.member.dao.MemberDAO;
 import com.beans.market.member.dto.MemberDTO;
 
@@ -17,6 +18,7 @@ public class MemberService {
 	Logger logger = LoggerFactory.getLogger(getClass());
 	
 	@Autowired MemberDAO memberDAO;
+	@Autowired MainDAO mainDAO;
 
 	public int connectTest() {
 		return memberDAO.connectTest();
@@ -63,6 +65,12 @@ public class MemberService {
 		// 메인 임시 로그인
 	public String logEmail(String email, String password) {
 		return memberDAO.logEmail(email, password);
+	}
+
+	// 회원 특정 게시물 좋아요 정보 가져오기
+	public int getInterest(Integer idx, String email) {
+		logger.info("좋아요 정보 가져오기");
+		return mainDAO.mine(idx, email);
 	}
 
 

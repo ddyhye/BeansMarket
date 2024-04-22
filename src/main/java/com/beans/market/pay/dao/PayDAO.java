@@ -8,8 +8,13 @@ public interface PayDAO {
 
 	int getMyAmount(String email);
 
-	List<PayDTO> list();
+	List<PayDTO> list(String email);
 
-	
+	String getUsernameByEmail(String email);
+
+
+	int payDeposit(int bbsIdx);
+
+	int payWithdrawal(String email, int bid_price);
 
 }

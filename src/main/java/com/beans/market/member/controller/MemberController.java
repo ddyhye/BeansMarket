@@ -52,14 +52,14 @@ public class MemberController {
 	    logger.info("로그인 시도");
 	    String page = "login/login";
 	    String msg = "로그인에 실패하였습니다.";   
-	    MemberDTO loginId = memberService.login(email,password);
+	    MemberDTO loginInfo = memberService.login(email,password);
 		String logEmail = memberService.logEmail(email,password);
-	    logger.info("info : {}", loginId);
+		logger.info("info: {}", loginId);
 
-	    if(loginId != null) {
-	        page = "redirect:/main";
+	    if(loginInfo != null) {
+	        page = "redirect:/";
 	        msg = "로그인 되었습니다.";
-	        session.setAttribute("loginfo", loginId);
+	        session.setAttribute("loginInfo", loginInfo);
 			session.setAttribute("logEmail", logEmail);
 	        model.addAttribute("msg", msg);
 			//memberService.lastdate(email,password);
