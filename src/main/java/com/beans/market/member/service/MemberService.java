@@ -27,7 +27,7 @@ public class MemberService {
 		return memberDAO.overlay(id);
 	}
 
-	public String login(String email, String password) {
+	public MemberDTO login(String email, String password) {
 		
 		return memberDAO.login(email,password);
 	}
@@ -54,6 +54,13 @@ public class MemberService {
 	public int join(Map<String, String> param) {
 
 		return memberDAO.join(param);
+	}
+
+	
+	
+	// 메인 임시 로그인
+	public String logEmail(String email, String password) {
+		return memberDAO.logEmail(email, password);
 	}
 
 

@@ -1,5 +1,6 @@
 package com.beans.market.main.service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -42,41 +43,13 @@ public class MainService {
 			dto.setNew_picname(photo);
 			dto.setSuccessful_bid(successful_bid);
 			dto.setBid_count(bid_count);
-			
-			logger.info(dto.getSubject()+" 옵션 ["+dto.getOption()+"]");
 		}
 		
 		model.addAttribute("list", list);
 	}
 
 
-//	public Map<String, Object> goodsListAjax(Map<String, Object> map) {
-//		List<MainDTO> list = mainDao.goodsList();
-//
-//		for (MainDTO dto : list) {
-//			String seller = mainDao.sellerName(dto.getIdx());
-//			String photo = mainDao.mainPhoto(dto.getIdx());
-//			int successful_bid = 0;
-//			int bid_count = 0;
-//
-//			if (dto.getOption().equals("경매")) { // 시작가와 종료날짜는 디테일에서,,,?
-//				successful_bid = mainDao.fullPrice(dto.getIdx());
-//				bid_count = mainDao.bidCnt(dto.getIdx());
-//			}
-//
-//			dto.setSellerName(seller);
-//			dto.setNew_picname(photo);
-//			dto.setSuccessful_bid(successful_bid);
-//			dto.setBid_count(bid_count);
-//
-//			logger.info(dto.getSubject() + " 옵션 [" + dto.getOption() + "]");
-//		}
-//		
-//		map.put("list", list);
-//		
-//		return map;
-//	}
-	public Map<String, Object> goodsListAjax(Map<String, Object> map, String selectedSort, boolean isSell, boolean isAuction) {
+	public Map<String, Object> goodsListAjax(Map<String, Object> map, String logEmail, String selectedSort, boolean isSell, boolean isAuction) {
 		
 		List<MainDTO> list;
 		
@@ -96,35 +69,122 @@ public class MainService {
 				}
 			}
 		} else {
-			list = mainDao.goodsList();
-		}
-
-		for (MainDTO dto : list) {
-			String seller = mainDao.sellerName(dto.getIdx());
-			String photo = mainDao.mainPhoto(dto.getIdx());
-			int successful_bid = 0;
-			//int heartCnt = mainDao.heartCnt(dto.getIdx());
-			int bid_count = 0;
-
-			if (dto.getOption().equals("경매")) { // 시작가와 종료날짜는 디테일에서,,,?
-				successful_bid = mainDao.fullPrice(dto.getIdx());
-				bid_count = mainDao.bidCnt(dto.getIdx());
-				
+			if (isSell) {
+				if (isAuction) {
+					list = mainDao.goodsHitList();
+				} else {
+					list = mainDao.goodsHitList2();
+				}
+			} else {
+				if (isAuction) {
+					list = mainDao.goodsHitList3();
+				} else {
+					list = mainDao.goodsHitList4();
+				}
 			}
-
-			dto.setSellerName(seller);
-			dto.setNew_picname(photo);
-			dto.setSuccessful_bid(successful_bid);
-			//dto.setHeartCnt(heartCnt);
-			dto.setBid_count(bid_count);
-
-			logger.info(dto.getSubject() + " 옵션 [" + dto.getOption() + "]");
 		}
-		
-		map.put("list", list);
+
+		map.put("list", bbsListDB(list, logEmail));
 		
 		return map;
 	}
+	
+	
+	
+	public void goodsHeartAjax(int idxInt, String logEmail) {
+		mainDao.clickHeart(idxInt, logEmail);
+	}
+	public void goodsDeleteHeartAjax(int idxInt, String logEmail) {
+		mainDao.deleteHeart(idxInt, logEmail);
+	}
+
+
+	
+	
+	public Map<String, Object> bbsSearch(Map<String, Object> map, String textVal, String logEmail) {
+		List<MainDTO> list = mainDao.bbsSearch(textVal);
+		
+		map.put("list", bbsListDB(list, logEmail));
+		
+		return map;
+	}
+
+
+	public Map<String, Object> bbsCategorySearch(Map<String, Object> map, String textVal, String logEmail) {
+		List<MainDTO> list = mainDao.bbsCategorySearch(textVal);
+		
+		map.put("list", bbsListDB(list, logEmail));
+		
+		return map;
+	}
+	
+	
+	public Map<String, Object> recentBBS(Map<String, Object> map, List<String> currLookArr, String logEmail) {
+		List<MainDTO> list = new ArrayList<>();
+		
+		for (String item : currLookArr) {
+			int idx = Integer.parseInt(item);
+			
+			MainDTO dto = mainDao.recentBBS(idx);
+			
+			if (dto != null) {
+				list.add(dto);
+			} else {
+				list.add(MainDTO.emptyDTO());
+			}
+		}
+		
+		map.put("list", bbsListDB(list, logEmail));
+		
+		return map;
+	}
+	
+	
+	// 판매자 닉네임, 대표사진, 관심개수, 로그인사용자의 찜 확인, 즉구가(낙찰), 입찰 횟수(낙찰) 의 경우,
+	// 각 게시글의 idx로 찾아와야 한다.
+	public List<MainDTO> bbsListDB(List<MainDTO> list, String logEmail) {
+		for (MainDTO dto : list) {
+			// dto가 존재할 경우에만 (idx==0이면 매퍼에서 0을 반환했다는 의미)
+			if (dto.getIdx() != 0) {
+				String seller = mainDao.sellerName(dto.getIdx());
+				String photo = mainDao.mainPhoto(dto.getIdx());
+				int successful_bid = 0;
+				int heartCnt = mainDao.heartCnt(dto.getIdx());
+				int bid_count = 0;
+				int mine = 0;
+				
+				if (!logEmail.equals("")) {		//nullPointException 해결하기
+					mine = mainDao.mine(dto.getIdx(), logEmail);
+				}
+				if (dto.getOption().equals("경매")) {
+					successful_bid = mainDao.fullPrice(dto.getIdx());
+					bid_count = mainDao.bidCnt(dto.getIdx());
+					
+				}
+				dto.setSellerName(seller);
+				dto.setNew_picname(photo);
+				dto.setSuccessful_bid(successful_bid);
+				dto.setHeartCnt(heartCnt);
+				dto.setBid_count(bid_count);
+				dto.setMine(mine);
+			}
+		}
+		
+		return list;
+	}
+
+
+	public int newAlarm(String logEmail) {
+		return mainDao.newAlarm(logEmail);
+	}
+	public List<MainDTO> alarm(String logEmail) {
+		return mainDao.alarm(logEmail);
+	}
+	public void alarmRead(int idxInt) {
+		mainDao.alarmRead(idxInt);
+	}
+
+
 
 
 }

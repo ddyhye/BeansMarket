@@ -11,7 +11,7 @@ public interface MemberDAO {
 
 	int overlay(String id);
 
-	String login(String email, String pw);
+	MemberDTO login(String email, String pw);
 
 	String newPW(String pw);
 
@@ -21,5 +21,7 @@ public interface MemberDAO {
 	void lastdate(String email, String password);
 
 	int join(Map<String, String> param);
+
+	String logEmail(String email, String password);
 
 }

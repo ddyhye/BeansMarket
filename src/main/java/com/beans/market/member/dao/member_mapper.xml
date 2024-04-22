@@ -8,8 +8,12 @@
 		SELECT COUNT(email)FROM member WHERE email = #{param1}
 	</select>
 	<!--로그인-->
-	<select id="login" resultType="String">
-		SELECT email,pw FROM member WHERE email= #{param1} AND pw= #{param2}
+	<select id="login" resultType="com.beans.market.member.dto.MemberDTO">
+		SELECT email,location,scope,name,birth_date,gender,point FROM member WHERE email= #{param1} AND pw= #{param2}
+	</select>
+	<!-- 로그인 이메일만 -->
+	<select id="logEmail" resultType="String">
+		SELECT email FROM member WHERE email= #{param1} AND pw= #{param2}
 	</select>
 	
 	<!-- 비밀번호 변경하기 -->

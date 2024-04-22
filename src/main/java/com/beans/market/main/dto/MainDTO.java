@@ -28,15 +28,53 @@ public class MainDTO {
 	private int auction_period;
 	//private String close_date;
 	private int bid_count;
-	//private int idx;
+	//private int idx;  위에 있음
 	
 	/* 대표 사진 경로 (url 저장용) */
 	private String new_picname;
 	/* 관심목록 개수 */
 	private int heartCnt;
+	/* 로그인 기능 : 관심 목록 */
+	private int mine;
+	
+	/* 알람 기능 : 알람 읽음 여부, 내용, 날짜 */
+	//private String email;  위에있음
+	private String checked;
+	//private String content; 위에 있음
+	private String link;
+	//private Timestamp reg_date;  위에 있음
 	
 	
+	/* 반환된 값이 아무 것도 없을 경우도 MainDTO list 객체에 담기 위하여 */
+	public static MainDTO emptyDTO() {
+		MainDTO empty = new MainDTO();
+		
+		empty.setIdx(0);
+		// idx, option, email, subject, price, reg_date, bbs_state, 
+		// 판매자 닉네임, 대표사진, 관심개수, 로그인사용자의 찜 확인, 즉구가(낙찰), 입찰 횟수(낙찰) 의 경우,
+		
+		return empty;
+	}
 	
+	
+	public int getMine() {
+		return mine;
+	}
+	public String getChecked() {
+		return checked;
+	}
+	public String getLink() {
+		return link;
+	}
+	public void setChecked(String checked) {
+		this.checked = checked;
+	}
+	public void setLink(String link) {
+		this.link = link;
+	}
+	public void setMine(int mine) {
+		this.mine = mine;
+	}
 	public int getHeartCnt() {
 		return heartCnt;
 	}

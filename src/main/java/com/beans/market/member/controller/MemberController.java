@@ -51,15 +51,17 @@ public class MemberController {
 		logger.info("로그인 시도");
 		String page = "login/login";
 		String msg = "로그인에 실패하였습니다.";	
-		String loginId = memberService.login(email,password);
+		MemberDTO loginId = memberService.login(email,password);
+		String logEmail = memberService.logEmail(email,password);
 		logger.info("info :"+ loginId);
 	
 		if(loginId!=null) {
 			page="main";
 			msg = "로그인 되었습니다.";
 			session.setAttribute("loginfo", loginId);
+			session.setAttribute("logEmail", logEmail);
 			model.addAttribute("msg",msg);	
-			memberService.lastdate(email,password);
+			//memberService.lastdate(email,password);
 		}
 		model.addAttribute("msg",msg);	
 		return page;
