@@ -38,22 +38,14 @@ public class MemberController {
 	
 	@Autowired MemberService memberService;
 	
-	//나의 빈즈 내역 : 윤경배
-	@RequestMapping(value="/mybeans")
-	public String mybeans(Model model) {
-		logger.info("나의 빈즈 내역 요청");
-		//빈즈페이 금액
-		String email = "zeus@hanmail.net"; //테스트를 위한 이메일 //테스트 끝나고는 매개변수로 email입력받음
-		int amount = memberService.getMyAmount(email);
-        model.addAttribute("my_amount", amount);
-		//빈즈내역
-		List<MemberDTO> mybeanshist = memberService.list();
-		model.addAttribute("beans", mybeanshist);
-		return "member/myBeansPay";
-	}
+
 	
 	//로그인페이지
+<<<<<<< HEAD
 	@RequestMapping(value="member/login.go")
+=======
+	@RequestMapping(value="/member/login.go")
+>>>>>>> 14380dd329806e4ec0a1fc2c11390c43394d9e6a
 	public String logingo() {
 		logger.info("로그인페이지 이동");
 		return "/login/login";
@@ -61,6 +53,7 @@ public class MemberController {
 	//로그인
 	@RequestMapping(value ="member/login.do", method=RequestMethod.POST)
 	public String login(HttpSession session, Model model, String email, String password) {
+<<<<<<< HEAD
 	    logger.info("로그인 시도");
 	    String page = "login/login";
 	    String msg = "로그인에 실패하였습니다.";   
@@ -82,6 +75,24 @@ public class MemberController {
 	    return page;
 	}     
 	
+=======
+		logger.info("로그인 시도");
+		String page = "login/login";
+		String msg = "로그인에 실패하였습니다.";	
+		MemberDTO loginInfo = memberService.login(email,password);
+		logger.info("info : {}", loginInfo);
+	
+		if(loginInfo != null) {
+			page="main";
+			msg = "로그인 되었습니다.";
+			session.setAttribute("loginInfo", loginInfo);
+			model.addAttribute("msg",msg);
+			// memberService.lastdate(email, password);
+		}
+		model.addAttribute("msg",msg);	
+		return page;
+	}	
+>>>>>>> 14380dd329806e4ec0a1fc2c11390c43394d9e6a
 	
 	//아이디 등록 확인
 	@RequestMapping(value = "/member/findEmail.go")

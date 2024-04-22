@@ -7,6 +7,7 @@ import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Update;
 
 import com.beans.market.member.dto.MemberDTO;
+import com.beans.market.member.dto.SellerDTO;
 
 public interface MemberDAO {
 
@@ -16,9 +17,14 @@ public interface MemberDAO {
 
 	MemberDTO login(String email, String pw);
 
+
+	String newPW(String pw);
+
+
 	List<MemberDTO> list();
 
 	int getMyAmount(String email);
+
 
 	int join(Map<String, String> param);
 
@@ -31,6 +37,12 @@ public interface MemberDAO {
 	void saveprofile(Map<String, Object> profileParam);
 
 
+	void lastdate(String email, String password);
+
+
+	SellerDTO sellerInfo(String email);
+
+	int nowPoint(String email);
 
 
 }

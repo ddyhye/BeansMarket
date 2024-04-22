@@ -33,14 +33,6 @@ public class MemberService {
 	}
 
 
-	public List<MemberDTO> list() {
-		logger.info("memberservice list 요청");
-		return memberDAO.list();
-	}
-
-	public int getMyAmount(String email) {
-		return memberDAO.getMyAmount(email);
-	}
 
 	public int join(Map<String, String> param) {
 

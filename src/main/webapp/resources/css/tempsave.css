@@ -1,0 +1,39 @@
+@charset "UTF-8";
+.tempsave {
+  margin: 10% auto; /* 수평 가운데 정렬 */
+  width: 70%; /* salewrite의 너비를 조정하여 중앙 정렬 */
+  border: 2px solid #CCCCCC;
+  border-radius: 10px;
+  padding: 20px;
+  overflow-y: auto;
+}
+
+.salewrite div {
+  padding: 10px 0; /* 상하 여백을 줄임 */
+}
+
+.tempsave table {
+  width: 100%; /* 테이블을 부모 요소에 맞게 확장합니다. */
+  border-collapse: collapse; /* 테이블의 경계를 합칩니다. */
+}
+
+.tempsave th,
+.tempsave td {
+  padding: 8px; /* 셀의 내부 여백을 설정합니다. */
+}
+
+.tempsave th {
+  background-color: #f2f2f2; /* 테이블 헤더의 배경색을 설정합니다. */
+  font-weight: bold; /* 테이블 헤더의 글자를 두껍게 만듭니다. */
+  border-top: 1px solid #ddd; /* 헤더의 위쪽에만 테두리를 추가합니다. */
+  border-bottom: 1px solid #ddd; /* 헤더의 아래쪽에만 테두리를 추가합니다. */
+}
+
+.tempsave td {
+  border-bottom: 1px solid #ddd; /* 각 행의 아래쪽에만 테두리를 추가합니다. */
+}
+
+.tempsave tr:last-child td {
+  border-bottom: none; /* 마지막 행의 아래쪽 테두리를 없앱니다. */
+}
+
