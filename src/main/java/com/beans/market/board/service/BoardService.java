@@ -1,11 +1,13 @@
 package com.beans.market.board.service;
 
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
-import java.util.List;
 import java.util.Map;
 
 import org.slf4j.Logger;
@@ -30,6 +32,8 @@ import com.beans.market.photo.dto.ProfilePicDTO;
 public class BoardService {
 	
 	Logger logger = LoggerFactory.getLogger(getClass());
+	
+	public String upload_root="C:/upload/";
 	
 	@Autowired BoardDAO boardDAO;
 	@Autowired PhotoDAO photoDAO;
@@ -176,36 +180,80 @@ public class BoardService {
 	}
 
 	
-
-	public int writeBoard(String email, String subject, String content, String place, String category_idx, int price,
-			List<MultipartFile> imageFiles, Timestamp regDate) {
-        
-		// List<String> fileNames = uploadImageFiles(imageFiles);
-
-        // BoardDTO 객체 생성
-        BoardDTO boardDTO = new BoardDTO();
-        boardDTO.setEmail(email);
-        boardDTO.setSubject(subject);
-        boardDTO.setContent(content);
-        boardDTO.setPlace(place);
-        boardDTO.setCategory_idx(category_idx);
-        boardDTO.setPrice(price);
-        boardDTO.setReg_date(regDate);
-        
-        // boardDTO.setImageFiles(fileNames);
-
-        // DAO를 통해 DB에 글 쓰기
-        return boardDAO.insertBoard(boardDTO);
-        
-
-	}
-
+	
+	
+	
 	// 임시저장 글 삭제
 	public void tempdel(String idx) {
 		// 임시저장 Y일 때만 삭제하도록
 		boardDAO.tempdel(idx);
 	}
-
 	
+	
+	
+	
+	// 글작성
+//	public int writeBoard(Map<String, String> params) {
+//		
+//		return boardDAO.writeBoard(params);
+//	}
+
+	public void writeBoard2(Map<String, String> params, int priceInt, int start_priceInt, int immediate_priceInt, int auction_period, MultipartFile[] photos) {
+		BoardDTO dto = new BoardDTO();
+		dto.setEmail(params.get("logEmail"));
+		dto.setOption(params.get("option"));
+		dto.setCategory_idx(params.get("category"));
+		dto.setSubject(params.get("subject"));
+		dto.setContent(params.get("content"));
+		dto.setPlace(params.get("place"));
+		
+		if(boardDAO.writeBoard(dto) > 0) {
+			logger.info("글 작성 완료");
+			
+			int idx = dto.getIdx();
+			
+			if (dto.getOption().equals("판매")) {
+				boardDAO.updatePrice(priceInt, idx);
+				logger.info("사진왜안됨");
+				logger.info("photos: {}", photos);
+				fileSave(idx, photos);
+			} else {
+				boardDAO.updateAuctionPrice(start_priceInt, immediate_priceInt, idx);
+				boardDAO.updateAuctionPrice2(start_priceInt, immediate_priceInt, auction_period, idx);
+				fileSave(idx, photos);
+			}
+		}
+	}
+
+
+	// 사진 DB에 저장
+	private void fileSave(int idx, MultipartFile[] photos) {
+		logger.info("사진왜안됨2");
+     
+		
+		
+     for(MultipartFile photo : photos) {
+        // 1. 원래 이름 추출
+        String orifilename = photo.getOriginalFilename();
+        // 2. 확장만 뗴내서 새로운 이름 생성
+        String ext = orifilename.substring(orifilename.lastIndexOf("."));
+        String newfileName = System.currentTimeMillis()+ext;
+        
+        try {
+           // 3. 파일 저장
+           Path path = Paths.get(upload_root+newfileName);
+           Files.write(path, photo.getBytes());
+           // 4. DB에 저장
+           if (photo == photos[0]) {
+        	   boardDAO.savePhoto(idx,orifilename,newfileName);
+           } else {
+        	   boardDAO.savePhoto2(idx,orifilename,newfileName);
+           }
+           Thread.sleep(1);
+        } catch (Exception e) {
+           e.printStackTrace();
+        }
+      }
+	}
 	
 }

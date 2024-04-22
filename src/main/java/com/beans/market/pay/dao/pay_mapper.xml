@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC	"-//mybatis.org//DTD Mapper 3.0//EN"
 	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.beans.market.member.dao.PayDAO">	
+<mapper namespace="com.beans.market.pay.dao.PayDAO">	
 	
 	<!--  나의 빈즈 내역 -->
-	<select id="list" resultType="com.beans.market.member.dto.PayDTO">
+	<select id="list" resultType="com.beans.market.pay.dto.PayDTO">
 		SELECT idx, email, option, price, content, reg_date from pay_hist
 	</select>
 	

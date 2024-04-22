@@ -17,6 +17,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -71,34 +72,39 @@ public class BoardController {
 	// 물풀 팔기 글쓰기
 	@RequestMapping(value = "/board/goodsWrite.do", method = RequestMethod.POST)
     public String goodsWrite(HttpSession session, Model model,
-                             String subject, String content, String place,
-                             String category_idx, int price, List<MultipartFile> imageFiles) {
+                             MultipartFile[] photos,
+                             @RequestParam Map<String, String> params) {
 
-		String email = (String) session.getAttribute("email");
-        
-        if (email == null) {
-            return "redirect:/login";
-        }
-        
-		// 등록날짜 설정
-        LocalDateTime currentDateTime = LocalDateTime.now();
-        Timestamp regDate = Timestamp.valueOf(currentDateTime);
-        
-        // 글쓰기 서비스 호출
-        int boardIdx = boardService.writeBoard(email, subject, content, place, category_idx, price, imageFiles, regDate);
-        
-        // 상세보기 페이지로 이동하는 URL 생성
-        String detailPageUrl = "/goodsDetail.go?idx=" + boardIdx;
+		String logEmail = (String) session.getAttribute("logEmail");
+		
+		params.put("logEmail", logEmail);
+		
+		int priceInt = 0;
+		int start_priceInt = 0;
+		int immediate_priceInt = 0;
+		int auction_period = Integer.parseInt(params.get("auction-period"));
+		
+		// 판매일 경우, start-price가 안들어온다.
+		if (params.get("start_priceInt") == null) {
+			priceInt = Integer.parseInt(params.get("price"));
+		}
+		// 경매일 경우, price가 안들어온다.
+		if (params.get("price") == null) {
+			start_priceInt = Integer.parseInt(params.get("start-price"));
+			immediate_priceInt = Integer.parseInt(params.get("immediate-price"));
+		}
 
-        // 상세보기 페이지로 리다이렉트
-        return "redirect:" + detailPageUrl;
+		boardService.writeBoard2(params, priceInt, start_priceInt, immediate_priceInt, auction_period, photos);
+		
+		// 해당 글 상세보기 페이지로 이동
+		return "board/saleOfGoodsWrite";
 
 	}
 	
 	
 	
 	// 임시저장 글로 이동
-	@RequestMapping(value = "/TempSave.go")
+	@RequestMapping(value = "/board/TempSave.go")
 	public String tempSave() {
 		return "board/TempSave";
 	}
