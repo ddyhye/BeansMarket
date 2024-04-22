@@ -41,7 +41,7 @@ public class MemberController {
 
 	
 	//로그인페이지
-	@RequestMapping(value="member/login.go")
+	@RequestMapping(value="/member/login.go")
 	public String logingo() {
 		logger.info("로그인페이지 이동");
 		return "/login/login";

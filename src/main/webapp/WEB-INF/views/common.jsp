@@ -93,7 +93,7 @@
 
 		<div class="top-second-center">
 			<div>
-				<a href="login.go" class="top-second-center-link" id="top-second-center-link-log">로그인</a>
+				<a href="<c:url value="/member/login.go"/>" class="top-second-center-link" id="top-second-center-link-log">로그인</a>
 			</div>
 			<div>
 				<a href="join.go" class="top-second-center-link">회원가입</a>

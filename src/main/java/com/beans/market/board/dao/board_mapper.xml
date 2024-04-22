@@ -34,4 +34,41 @@
 	</update>
 	
 	
+	
+	<!-- 글작성 ::판매 이미지도 해야함!!!!!!!!!!!!, 가격,사용자 위치, -->
+	<insert id="writeBoard"
+			useGeneratedKeys="true"
+			keyColumn="idx"
+			keyProperty="idx"
+			parameterType="com.beans.market.board.dto.BoardDTO">
+		INSERT into bbs(email, option, category_idx, subject, content, place)
+		VALUES (#{email}, #{option}, #{category_idx}, #{subject}, #{content}, #{place});
+	</insert>
+	<!-- 글작성 ::판매 -->
+	<update id="updatePrice">
+		UPDATE bbs 
+		SET price = #{param1} 
+		WHERE idx = #{param2}
+	</update>
+	<update id="updateAuctionPrice">
+		UPDATE bbs 
+		SET price = #{param1} 
+		WHERE idx = #{param3}
+	</update>
+	<insert id="updateAuctionPrice2">
+		INSERT INTO auction(start_price, successful_bid, auction_period, idx)
+		VALUES(#{param1}, #{param2}, #{param3},  #{param4});
+	</insert>
+	<!-- main, new_picname, idx, option_idx -->
+	<!-- void savePhoto(int idx, String orifilename, String newfileName); -->
+	<insert id="savePhoto">
+		INSERT INTO photo (idx, option_idx, main, new_picname)
+		VALUES(#{param1}, 1, 'Y', #{param3})
+	</insert>
+	<insert id="savePhoto2">
+		INSERT INTO photo (idx, option_idx, main, new_picname)
+		VALUES(#{param1}, 1, 'N', #{param3})
+	</insert>
+
+	
 </mapper>

@@ -9,6 +9,8 @@ import com.beans.market.pay.dto.PayDTO;
 import com.beans.market.pay.dao.PayDAO;
 
 
+import org.springframework.stereotype.Service;
+
 
 @Service
 public class PayService {
