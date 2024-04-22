@@ -3,6 +3,9 @@ package com.beans.market.member.dao;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.ibatis.annotations.Param;
+import org.apache.ibatis.annotations.Update;
+
 import com.beans.market.member.dto.MemberDTO;
 
 public interface MemberDAO {
@@ -11,15 +14,23 @@ public interface MemberDAO {
 
 	int overlay(String id);
 
-	String login(String email, String pw);
-
-	String newPW(String pw);
+	MemberDTO login(String email, String pw);
 
 	List<MemberDTO> list();
 
 	int getMyAmount(String email);
-	void lastdate(String email, String password);
 
 	int join(Map<String, String> param);
+
+	Object joinoverlay(String email);
+
+	void updateLastLoginDate(Map<String, Object> params);
+
+	void newPW(String email, String pw);
+
+	void saveprofile(Map<String, Object> profileParam);
+
+
+
 
 }

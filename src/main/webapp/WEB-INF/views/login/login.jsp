@@ -114,7 +114,7 @@ section .login_box{
 <body>
     <jsp:include page="../common.jsp" />
     <section>
-    <form action="login" method="post" id="loginForm">
+    <form action="login.do" method="post" id="loginForm">
         <h3>Beans.로그인</h3>
         <div class="login_box">
             <dl>
@@ -134,8 +134,8 @@ section .login_box{
             <div class="login_btm">
                 <input type="submit" value="로그인">
                 <div class="link">
-                    <a href="findEmail">아이디 등록 확인</a>
-                    <a href="resetPW01" id = "resetPW01">비밀번호 찾기</a> <!-- 비밀번호 찾기 페이지로 이동하면 막힌거 풀림 -->
+                    <a href="findEmail.go">아이디 등록 확인</a>
+                    <a href="resetPW01.go" id = "resetPW01">비밀번호 찾기</a> <!-- 비밀번호 찾기 페이지로 이동하면 막힌거 풀림 -->
                 </div>
             </div>
         </div>

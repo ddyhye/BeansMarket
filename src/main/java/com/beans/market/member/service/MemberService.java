@@ -27,15 +27,11 @@ public class MemberService {
 		return memberDAO.overlay(id);
 	}
 
-	public String login(String email, String password) {
+	public MemberDTO login(String email, String password) {
 		
 		return memberDAO.login(email,password);
 	}
 
-	public String newPW(String pw) {
-		
-		return memberDAO.newPW(pw);
-	}
 
 	public List<MemberDTO> list() {
 		logger.info("memberservice list 요청");
@@ -46,15 +42,31 @@ public class MemberService {
 		return memberDAO.getMyAmount(email);
 	}
 
-	public void lastdate(String email, String password) {
-		memberDAO.lastdate(email,password);
-		
-	}
-
 	public int join(Map<String, String> param) {
 
 		return memberDAO.join(param);
 	}
+
+	public Object joinoverlay(String email) {
+
+		return memberDAO.joinoverlay(email);
+	}
+
+	public void updateLastLoginDate(Map<String, Object> params) {
+	    memberDAO.updateLastLoginDate(params);
+	}
+
+    public void newPW(String email, String pw) {
+	    logger.info("email: " + email);
+	    logger.info("pw: " + pw);
+	    memberDAO.newPW(email, pw);
+	    
+    }
+
+	public void saveProfilePic(Map<String, Object> profileParam) {
+		memberDAO.saveprofile(profileParam);
+		
+	} 
 
 
 }
