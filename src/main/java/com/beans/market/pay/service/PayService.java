@@ -1,6 +1,5 @@
 package com.beans.market.pay.service;
 
-
 import java.util.List;
 
 import org.slf4j.Logger;
@@ -11,6 +10,10 @@ import org.springframework.stereotype.Service;
 import com.beans.market.history.dao.HistoryDAO;
 import com.beans.market.pay.dao.PayDAO;
 import com.beans.market.pay.dto.PayDTO;
+
+
+import org.springframework.stereotype.Service;
+
 
 @Service
 public class PayService {
@@ -23,8 +26,8 @@ public class PayService {
 		return payDAO.getMyAmount(email);
 	}
 
-	public List<PayDTO> list() {
-		return payDAO.list();
+	public List<PayDTO> list(String email) {
+		return payDAO.list(email);
 	}
 
 	public void bidReturn(int bbsIdx) {
@@ -44,5 +47,10 @@ public class PayService {
 		row = historyDAO.BidWithHistory("경매글 입찰", bbsIdx+"번 게시글 입찰", bbsIdx, email, bid_price);
 		logger.info("입출금 내역 히스토리 row : {}", row);
 	}
+	public String getUsernameByEmail(String email) {
+		return payDAO.getUsernameByEmail(email);
+	}
+
+
 
 }

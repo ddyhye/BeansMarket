@@ -41,7 +41,7 @@ public class MemberController {
 
 	
 	//로그인페이지
-	@RequestMapping(value="member/login.go")
+	@RequestMapping(value="/member/login.go")
 	public String logingo() {
 		logger.info("로그인페이지 이동");
 		return "/login/login";
@@ -55,7 +55,7 @@ public class MemberController {
 	    String msg = "로그인에 실패하였습니다.";   
 	    MemberDTO loginInfo = memberService.login(email,password);
 		String logEmail = memberService.logEmail(email,password);
-	    logger.info("info : {}", loginInfo);
+		logger.info("info: {}", loginId);
 
 	    if(loginInfo != null) {
 	        page = "redirect:/";
