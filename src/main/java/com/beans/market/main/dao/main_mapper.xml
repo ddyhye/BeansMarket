@@ -217,4 +217,20 @@
 		WHERE idx = #{param1}
 	</select>
 	
+	
+	
+	
+	<!-- 멤버 프로필 가져오기 -->
+	<select id="profile" resultType="com.beans.market.member.dto.MemberDTO">
+		SELECT email, name, location, birth_date, gender
+		FROM member
+		WHERE email = #{param1}
+	</select>
+	<!-- 멤버 프로필 사진 -->
+	<select id="profilePic" resultType="com.beans.market.photo.dto.ProfilePicDTO">
+		SELECT new_filename
+		FROM member_profilepic
+		WHERE email = #{param1}
+	</select>
+	
 </mapper>
