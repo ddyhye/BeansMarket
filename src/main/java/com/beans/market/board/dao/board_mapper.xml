@@ -33,6 +33,13 @@
 		WHERE b.idx = #{param1} AND a.idx = #{param1}
 	</update>
 	
+	<update id="updateBbsState">
+		UPDATE bbs SET bbs_state = #{param2} WHERE idx = #{param1}
+	</update>
+	
+	<update id="updateCloseDate">
+		UPDATE auction SET close_date = #{param2} WHERE idx = #{param1}
+	</update>
 	
 	
 	<!-- 글작성 ::판매 이미지도 해야함!!!!!!!!!!!!, 가격,사용자 위치, -->

@@ -26,4 +26,13 @@
 			, #{param2})
 	</insert>
 	
+	<select id="myBidCheck" resultType="Integer">
+		SELECT COALESCE(
+	       	(SELECT IF(email = #{param2}, 1, 0) as email 
+	       	FROM deal_aution_hist 
+	        WHERE idx = #{param1} ORDER BY reg_date DESC LIMIT 1),
+	        0
+    	)
+	</select>
+	
 </mapper>

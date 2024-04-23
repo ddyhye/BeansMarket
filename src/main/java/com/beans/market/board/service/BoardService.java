@@ -68,13 +68,13 @@ public class BoardService {
         // logger.info("게시 시간 : {}", dto.getReg_date());
 		// reg_date가 .0이 붙어서 나오는 관계로 포멧 작업
         // SimpleDateFormat을 사용하여 날짜 형식 지정 -> dateFormat으로 날짜 포맷
-        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        String formattedDateTime = dateFormat.format(dto.getReg_date());
-		model.addAttribute("reg_date",formattedDateTime);
+        // SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        // String formattedDateTime = dateFormat.format(dto.getReg_date());
+		model.addAttribute("reg_date", dto.getReg_date().toString());
 		
 		if(dto.getOption().equals("경매")) {
-			formattedDateTime = dateFormat.format(dto.getClose_date());
-			model.addAttribute("close_date", formattedDateTime);
+			// formattedDateTime = dateFormat.format(dto.getClose_date());
+			model.addAttribute("close_date", dto.getClose_date().toString());
 		}
 		
         // 판매자 정보 - 이름, 거래 후기
@@ -94,7 +94,7 @@ public class BoardService {
 	public String interestToggle(String email, String className, int bbsIdx) {
 		String result = "실패";
 		int row = 0;
-		if(className.equals("fa-solid fa-heart")) {
+		if(className.equals("fa-solid fa-heart")) { // 빈 하트면 채운(solid) 하트로 바뀐 다음에 자바로 들어옴
 			row = boardDAO.interestInsert(bbsIdx, email);
 			if(row == 1) {
 				result = "추가";
@@ -115,6 +115,7 @@ public class BoardService {
 		
 		// 게시글 정보 가져오기
 		BoardDTO bbsInfo = boardDAO.auctionDetail(bbsIdx);
+		int successful_bid = bbsInfo.getSuccessful_bid();
 		
 		// 회원의 현재 포인트 가져오기
 		int nowPoint = memberDAO.nowPoint(email);
@@ -127,7 +128,7 @@ public class BoardService {
 	    long remaingTime = ChronoUnit.SECONDS.between(currentTime, closeTime);
 	    logger.info("현재시간 : {}, colseDate : {}", currentTime, closeTime);
 	    logger.info("남은 시간 : {}", remaingTime);
-
+	    
 		// 거래가능인거만 입찰 가능하도록 + 남은 시간이 있는 경우
 		if (bbsInfo.getBbs_state().equals("거래가능") && remaingTime > 0) { // 거래가능 상태이고, 남은 시간이 종료되지 않았는가
 			// bid_price와 비교 + 현재 내 페이 가격 가져오기 비교후 처리
@@ -141,24 +142,27 @@ public class BoardService {
 				logger.info("입찰 가능액보다 적게 입력");
 				result = 4;
 			} else {
-				if(bbsInfo.getSuccessful_bid() == bid_price) { // 즉시 구매시
+				if(successful_bid < bid_price) bid_price = successful_bid;
+				if(successful_bid == bid_price) { // 즉시 구매시
 					// 예약중으로, 종료시간을 현재시간으로
-					// boardDAO.updateBbsState("예약중");
-					// boardDAO.updateCloseDate(currentTime);
+					boardDAO.updateBbsState(bbsIdx,"예약중");
+					Timestamp currentTimeStamp = Timestamp.valueOf(currentTime);
+					logger.info("종료 시간을 현재시간으로 변경 : 현재 -> {}", currentTimeStamp);
+					boardDAO.updateCloseDate(bbsIdx, currentTimeStamp);
 					
+					// 현재 사용자 예약자에 넣기 reserve_email + 쪽지 보내기
 				} else {
 					// 남은 시간이 5분 이하라면 10분이 추가 된다.
 					if(remaingTime <= 300) {
 						LocalDateTime newCloseTime = closeTime.plusMinutes(10);
 						Timestamp newCloseTimestamp = Timestamp.valueOf(newCloseTime);
-						logger.info("새로운 시간 : {}", newCloseTimestamp);
+						logger.info("새로운 시간으로 변경 : {}", newCloseTimestamp);
 						
-						// boardDAO.updateCloseDate(newCloseTimestamp);
+						boardDAO.updateCloseDate(bbsIdx, newCloseTimestamp);
 					} 
 					if(bbsInfo.getBid_count() != 0) {
 						// 이전 입찰자에게 반환과정 필요
 						payService.bidReturn(bbsIdx);
-						
 					}					
 				}
 				// 입찰 히스토리에 추가
@@ -175,9 +179,7 @@ public class BoardService {
 				
 				if(bidHisResult == 1 && bbsResult == 2) result = 1;
 				
-				// 알림은 나중에
-				
-				// 추가 되고 동시에 게시글 정보가 다시 들어가게 -> 귀찮으니까 입찰 성공했을 때 X or 확인을 누르면 새로고침 되도록
+				// 알림은 나중에 - 종료 되면 쪽지도 가야함
 			}
 			
 		} // 거래 가능하고 남은시간 종료된거 END
@@ -195,6 +197,7 @@ public class BoardService {
 		boardDAO.tempdel(idx);
 	}
 
+	// 입찰시 갱신되어 수정되야 하는 detail을 가져오기 위한 Ajax 
 	public Map<String, Object> detailAjax(String idx) {
 		Map<String, Object> map = new HashMap<String, Object>();
 		BoardDTO bbsInfo = boardDAO.auctionDetail(Integer.parseInt(idx));

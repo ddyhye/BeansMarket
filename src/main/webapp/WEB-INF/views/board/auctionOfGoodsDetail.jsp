@@ -49,36 +49,44 @@
                     <div class="subject">
                         <p>${bbs.subject}</p>
                         <div class="icon">
-                        	<!-- 로그인 관련해서 완성되면 회원만 가능하다는 알림 -->
                             <!-- <i class="fa-solid fa-heart"></i> -->
                             <button class="interest"><i class="fa-regular fa-heart"></i></button><!-- 빈 하트 -->
                         </div>
-                    </div>
-                    <hr/>
+                    </div>                  
                     <div class="bid-price">
                         <div class="now-price">
-                            <p>현재 입찰가 </p>
+                            <p class="title">현재 입찰가</p>
                             <p class="price">${bbs.price}</p>
                             <p>원</p>
                             <p> (시작가 : ${bbs.start_price}원)</p> 
+                            <p id="my-bid">내 입찰</p>
                         </div>
-                        <p class="successful-bid">즉시 구매가 ${bbs.successful_bid}원</p>
+                        <div class="successful-bid">
+                            <p class="title">즉시 구매가</p>
+                            <p>${bbs.successful_bid}</p>
+                            <p>원</p>
+                        </div>
                     </div>
-                    <hr/>
                     <div class="bid-info">
                         <div class="bid-count">
-                            <p>입찰수</p>
-                            <p class="count">${bbs.bid_count} 회</p>
+                            <p class="title">입찰 수</p>
+                            <p class="count">${bbs.bid_count}</p>
+                            <p>회</p>
                         </div>
                         <div class="time">
-                            <p>남은시간 </p>
+                            <p class="title">남은 시간</p>
                             <p class="remaing-time">123456</p>
                             <p class="close-date">(종료 : ${close_date})</p>
                         </div>
                     </div>
-                    <hr/>
-                    <p class="place">거래 희망 장소 : ${bbs.place}</p>
-                    <p class="reg-date">등록일 : ${reg_date}</p>
+                    <div class="place">
+                        <p class="title">거래 희망 장소</p>
+                        <p>${bbs.place}</p>
+                    </div>
+                    <div class="reg-date">
+                        <p class="title">등록일</p>
+                        <p>${reg_date}</p>
+                    </div>
                     <div class="btn">
                         <button id="bid">입찰하기</button>
                         <button id="buy">구매하기</button>
@@ -178,12 +186,17 @@
 	var bbsIdx = '${bbs.idx}'; // String으로 들어오는거 주의
 	var bbsEmail = '${bbs.email}';
     var close_date = '${close_date}';
-    
+    var price = '${bbs.price}';
     runEverySecond();
     
     // 관심 표시 되어있으면 하트가 차있도록
     if('${mine}' == 1){
-    	
+    	$('.icon i').removeClass('fa-regular fa-heart').addClass('fa-solid fa-heart');
+    }
+    
+ 	// 내가 최대 입찰자 인지 확인
+    if('${my_bid}' == 1){
+    	$('#my-bid').show();
     }
     
     // 입찰 후 내용 수정용으로 bbs 정보 받아오기
@@ -197,10 +210,14 @@
 			dataType:'JSON',
 			success:function(data){
 				$('.price').text(data.price);
-                $('.count').text(data.bid_count+'회');
+                $('.count').text(data.bid_count);
                 $('.close-date').text('(종료 : '+data.close_date+')');
                 $('#bid-able').text(data.price+1000);
                 $('#bid-price').val(data.price+1000);
+                price = data.price;
+                $('.top .bbs-state').text(data.bbs_state);
+                bbsState(data.bbs_state);
+                close_date = data.close_date;
             },
 			error:function(error){
 				console.log(error);
@@ -214,7 +231,7 @@
         photoArray.push($(this).attr('src'));
     });
 
-    // 사진 밑에 점
+    // 사진 밑에 점 이동 버튼
     for (var photo_idx = 0;  photo_idx < '${photos.size()}'; photo_idx++) {
         $('.select-pic').append(photo_idx == 0 ? '<button class="select" onclick="photoChange('+photo_idx+')"></button>' : '<button class="unselect" onclick="photoChange('+photo_idx+')"></button>');        
     }
@@ -276,14 +293,16 @@
     $(document).ready(function() {
         var bbs_state = '${bbs.bbs_state}';
         bbsState(bbs_state);
+
+        // 마지막 요소 margin 없애기
+        $('.bbs-state').css({'background-color':'gray'});
     });
 
     function bbsState(bbs_state){
-        console.log(bbs_state);
         if (bbs_state == '거래완료') {
             $('.bbs-state').css({'background-color':'gray'});
         } else if (bbs_state == '예약중'){
-            $('.bbs-state').css({'background-color':'lightgreen'});
+            $('.select-pic:last-child').css({'margin-right':'0px'});
         }
     }
 
@@ -292,7 +311,7 @@
         var login = true;
         if('${loginInfo}' == ''){
             alert('로그인이 필요한 서비스 입니다.');
-            location.href="<c:url value="/member/login.go"/>";
+            location.href='<c:url value="/member/login.go"/>';
             login = false;
         }
         return login;
@@ -386,6 +405,7 @@
                 var seconds = remaingTime % 60;
                 if (remaingTime < 0) {
                     $('.remaing-time').text("종료").css({'color':'red'});
+                    $('.btn button, #bid-btn').prop('disabled', true);
                 } else {
                     // console.log(days + "일 " + hours + "시간 " + minutes + "분 " + seconds + "초");
                     $('.remaing-time').text(days + "일 " + hours + "시간 " + minutes + "분 " + seconds + "초");
@@ -422,7 +442,12 @@
             getPoint();
 
             $('#bidForm').show();
-            var bid_able = parseInt('${bbs.price}')+1000;
+            var bid_able;
+            if('${bbs.bid_count}'== '0') {
+                bid_able = parseInt(price);
+            } else {
+                bid_able = parseInt(price)+1000;
+            }
             $('#bid-able').text(bid_able);
             if($(this).attr('id') == 'buy') {
                 $('.bid-input input[type="text"]').val('${bbs.successful_bid}');
@@ -457,7 +482,10 @@
                     $('#bid-msg .content').text(data.content);
                     $('.bidForm-price .price').css({'color':'red'});
                     $('#bid-able').css({'color':'red'});
-                }
+                } else {
+                	$('#my-bid').show();
+                	getDetail();
+				}
                 // 입찰 가능가 + 현재 입찰가등 bbs 정보 새로 받아오기
             },
             error:function(error){

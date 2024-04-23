@@ -54,7 +54,7 @@ public class MemberController {
 	    String msg = "로그인에 실패하였습니다.";   
 	    MemberDTO loginInfo = memberService.login(email,password);
 		String logEmail = memberService.logEmail(email,password);
-		logger.info("info: {}", loginId);
+		logger.info("info: {}", loginInfo);
 
 	    if(loginInfo != null) {
 	        page = "redirect:/";

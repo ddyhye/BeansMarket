@@ -54,10 +54,19 @@
                             <button class="interest"><i class="fa-regular fa-heart"></i></button><!-- 빈 하트 -->
                         </div>
                     </div>
-                    <p class="price">${bbs.price} 원</p>
-                    <hr/>
-                    <p class="place">거래 희망 장소 : ${bbs.place}</p>
-                    <p class="reg-date">등록일 : ${reg_date}</p>
+                    <div class="now-price">
+                        <p class="title">가격</p>
+                        <p class="price">${bbs.price}</p>
+                        <p>원</p>
+                    </div>
+                    <div class="place">
+                        <p class="title">거래 희망 장소</p>
+                        <p>${bbs.place}</p>
+                    </div>
+                    <div class="reg-date">
+                        <p class="title">등록일</p>
+                        <p>${reg_date}</p>
+                    </div>
                     <div class="btn">
                         <button class="messageSend"> <i class="fa-solid fa-paper-plane">&nbsp;</i> 쪽지 보내기</button> 
                     </div>
@@ -102,9 +111,12 @@
     var picCount = 0;     // 현재 사진이 몇번째 사진인지
 	var bbsIdx = '${bbs.idx}'; // String	
 	var bbsEmail = '${bbs.email}';
-	
 
-
+    // 관심 표시 되어있으면 하트가 차있도록
+    if('${mine}' == 1){
+    	$('.icon i').removeClass('fa-regular fa-heart').addClass('fa-solid fa-heart');
+    }
+    
     // 특정 게시물 모든 사진 이름 받아오기
     var photoArray = [];
     $('.goods-content img').each(function() {

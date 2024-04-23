@@ -13,5 +13,11 @@ public class HistoryService {
 	Logger logger = LoggerFactory.getLogger(getClass());
 	@Autowired HistoryDAO historyDAO;
 	
+	public int myBidCheck(Integer idx, String email) {
+		logger.info("{}이 {} 게시글의 최고 입찰자인지 확인", email, idx);
+		int result = historyDAO.myBidCheck(idx, email);
+		return result;
+	}
+	
 	
 }
