@@ -125,7 +125,7 @@
                 <c:when test="${bean.option =='경매글 입찰' || bean.option == '거래금 지불'}">
                     <div class="amount" style="color: red;">-${bean.price}</div>
                 </c:when>
-                <c:when test="${bean.option == '거래금 수령' || bean.option == '입찰금 반환'}">
+                <c:when test="${bean.option == '거래금 수령' || bean.option == '입찰금 반환' || bean.option == '빈즈페이 충전'}">
                     <div class="amount" style="color: blue;">+${bean.price}</div>
                 </c:when>
                 <c:otherwise>
@@ -142,9 +142,11 @@
     <div class="modal_body">
         <h2>빈즈페이 충전</h2>
         <p>얼마를 충전하시겠습니까? </p>
-        <input type="text" id="chargeAmount">원
-        <button class="modal_close">X</button>
-        <button class="btn_confirm">확인</button> <!-- 확인 버튼 추가 -->
+			<form action="/main/pay/charge" method="post">
+    			<input type="number" id="chargeAmount" name="pay" min="0" step="100">원
+    			<button type="button" class="modal_close">X</button>
+    			<input type="submit" value="확인"/>
+			</form>
     </div>
 </div>
 
@@ -158,8 +160,11 @@
     </div>
 </div>
         
-        
 </div>
+
+
+
+
 </body>
 
 <script>

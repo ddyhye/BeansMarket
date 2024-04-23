@@ -13,6 +13,8 @@ public class PayDTO {
 	private int price;
 	private String content;
 	private Date reg_date;
+	//충전
+	private int pay;
 	
 	public int getPoint() {
 		return point;
@@ -56,6 +58,14 @@ public class PayDTO {
 	public void setReg_date(Date reg_date) {
 		this.reg_date = reg_date;
 	}
+	public int getPay() {
+		return pay;
+	}
+	public void setPay(int pay) {
+		this.pay = pay;
+	}
+
+	
 	
 	
 

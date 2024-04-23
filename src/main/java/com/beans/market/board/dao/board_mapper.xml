@@ -41,6 +41,9 @@
 		UPDATE auction SET close_date = #{param2} WHERE idx = #{param1}
 	</update>
 	
+	<select id="getEmail" resultType="String">
+		SELECT email FROM bbs WHERE idx = #{param1};
+	</select>
 	
 	<!-- 글작성 ::판매 이미지도 해야함!!!!!!!!!!!!, 가격,사용자 위치, -->
 	<insert id="writeBoard"
@@ -51,6 +54,7 @@
 		INSERT into bbs(email, option, category_idx, subject, content, place)
 		VALUES (#{email}, #{option}, #{category_idx}, #{subject}, #{content}, #{place});
 	</insert>
+	<!--  -->
 	<!-- 글작성 ::판매 -->
 	<update id="updatePrice">
 		UPDATE bbs 

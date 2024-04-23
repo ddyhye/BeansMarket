@@ -1,11 +1,14 @@
 package com.beans.market.pay.service;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.beans.market.history.dao.HistoryDAO;
 import com.beans.market.pay.dao.PayDAO;
@@ -50,6 +53,34 @@ public class PayService {
 		return payDAO.getUsernameByEmail(email);
 	}
 
+	//포인트 충전
+	public void updateMemberPoint(String email, int pay) {
+		payDAO.updatePoint(email, pay);		
+		
+		// 포인트 변경 내역 기록을 위한 파라미터 준비
+	    Map<String, Object> param = new HashMap<>();
+	    param.put("email", email);
+	    param.put("amount", pay);
+	    param.put("option", "빈즈페이 충전");
+	    param.put("content", "빈즈페이 충전 내역");
+
+	    // 포인트 변경 내역을 pay_hist 테이블에 기록
+	    payDAO.insertPayHistory(param);
+		
+	}
+	
+	
+
+
+
+
+
+
+	
+
+
+	
+	
 
 
 }
