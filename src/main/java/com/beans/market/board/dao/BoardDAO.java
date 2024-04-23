@@ -42,5 +42,6 @@ public interface BoardDAO {
 	void savePhoto(int idx, String orifilename, String newfileName);	// 대표
 	void savePhoto2(int idx, String orifilename, String newfileName);	// ㄴㄴ
 
+	int tempSave(BoardDTO dto);
 
 }

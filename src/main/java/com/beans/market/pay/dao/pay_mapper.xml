@@ -22,13 +22,18 @@
 			SET m.point = m.point + (SELECT price FROM deal_aution_hist WHERE idx = #{param1} ORDER BY reg_date DESC LIMIT 1)
 		WHERE m.email = (SELECT email FROM deal_aution_hist WHERE idx = #{param1} ORDER BY reg_date DESC LIMIT 1)
 	</update>
+	
+	
 	<!--  충전 -->
-   <!--  <update id="updateChargeAmount" parameterType="map">
-        UPDATE user_account
-        SET balance = balance + #{amount}
-        WHERE user_id = #{userId}
-    </update>
-	 -->
+<update id="updatePoint" parameterType="map">
+     update member set point = point + #{pay} where email = #{email}
+   </update>
+
+<!--  빈즈페이 충전 내역 -->
+<insert id="insertPayHistory" parameterType="map">
+    INSERT INTO pay_hist (email, price, option, content, reg_date)
+    VALUES (#{email}, #{amount}, '빈즈페이 충전', '빈즈페이 충전 내역', NOW())
+</insert>
 
 
 	
