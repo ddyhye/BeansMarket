@@ -64,7 +64,7 @@ public class MemberController {
 	        msg = "로그인 되었습니다.";
 	        session.setAttribute("loginInfo", loginInfo);
 			session.setAttribute("logEmail", logEmail);
-	        model.addAttribute("msg", msg);
+	        //model.addAttribute("msg", msg);
 			//memberService.lastdate(email,password);
 	        // 로그인 성공 시 마지막 로그인 날짜 업데이트 메서드 호출
 	        Map<String, Object> params = new HashMap<>();
@@ -72,7 +72,7 @@ public class MemberController {
 	        params.put("lastLoginDate", LocalDateTime.now());
 	        memberService.updateLastLoginDate(params);
 	    }
-	    model.addAttribute("msg", msg);
+	    // model.addAttribute("msg", msg);
 	    return page;
 	}    
 	

@@ -280,7 +280,8 @@ public class BoardService {
 	public String getEmail(int idx) {
 		logger.info("{} 번 게시자 이메일 가져오기", idx);
 		return boardDAO.getEmail(idx);
-
+	}
+		
 	public void tempSave(Map<String, String> params, int priceInt, int start_priceInt, int immediate_priceInt, int auction_period, MultipartFile[] photos) {
 		// TODO Auto-generated method stub
 		
