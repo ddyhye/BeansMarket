@@ -106,8 +106,11 @@ public class BoardController {
 		int immediate_priceInt = 0;
 		int auction_period = Integer.parseInt(params.get("auction-period"));
 		
+		logger.info("params: "+params);
+		
+		
 		// 판매일 경우, start-price가 안들어온다.
-		if (params.get("start_priceInt") == null) {
+		if (params.get("start_priceInt") == null || params.get("immediate-price") == null) {
 			priceInt = Integer.parseInt(params.get("price"));
 		}
 		// 경매일 경우, price가 안들어온다.
@@ -115,8 +118,15 @@ public class BoardController {
 			start_priceInt = Integer.parseInt(params.get("start-price"));
 			immediate_priceInt = Integer.parseInt(params.get("immediate-price"));
 		}
-
-		boardService.writeBoard2(params, priceInt, start_priceInt, immediate_priceInt, auction_period, photos);
+		
+		// 임시저장
+		if (params.get("draft").equals("Y") && params.get("subject") != null) {
+			boardService.tempSave(params, priceInt, start_priceInt, immediate_priceInt, auction_period, photos);
+		} else {
+			boardService.writeBoard2(params, priceInt, start_priceInt, immediate_priceInt, auction_period, photos);	
+		}
+		
+		
 		
 		// 해당 글 상세보기 페이지로 이동
 		return "board/saleOfGoodsWrite";

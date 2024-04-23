@@ -276,5 +276,10 @@ public class BoardService {
         }
       }
 	}
+
+	public void tempSave(Map<String, String> params, int priceInt, int start_priceInt, int immediate_priceInt, int auction_period, MultipartFile[] photos) {
+		// TODO Auto-generated method stub
+		
+	}
 	
 }

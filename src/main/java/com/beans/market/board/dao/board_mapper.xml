@@ -51,6 +51,7 @@
 		INSERT into bbs(email, option, category_idx, subject, content, place)
 		VALUES (#{email}, #{option}, #{category_idx}, #{subject}, #{content}, #{place});
 	</insert>
+	<!--  -->
 	<!-- 글작성 ::판매 -->
 	<update id="updatePrice">
 		UPDATE bbs 
