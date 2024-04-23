@@ -3,6 +3,14 @@
 	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.beans.market.message.dao.MessageDAO">	
 	
-
+	<select id="messageList" resultType="com.beans.market.message.dto.MessageDTO">
+		SELECT message_idx, content, reg_date, receive_email, receive_del, sender_email, sender_del, read_check, idx
+			FROM deal_message
+		WHERE idx=#{param1} AND (receive_email IN(#{param2}, #{param3}) AND sender_email IN(#{param2}, #{param3}))
+	</select>
 	
+	<insert id="sendMessage">
+		INSERT INTO deal_message(content, receive_email, sender_email, idx) 
+			VALUES(#{param1}, #{param2}, #{param3}, #{param4});
+	</insert>
 </mapper>

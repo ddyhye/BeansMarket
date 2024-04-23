@@ -295,14 +295,14 @@
         bbsState(bbs_state);
 
         // 마지막 요소 margin 없애기
-        $('.bbs-state').css({'background-color':'gray'});
+        // $('.select-pic').last().css('margin-right', '0px');
     });
 
     function bbsState(bbs_state){
         if (bbs_state == '거래완료') {
             $('.bbs-state').css({'background-color':'gray'});
         } else if (bbs_state == '예약중'){
-            $('.select-pic:last-child').css({'margin-right':'0px'});
+            $('.bbs-state').css({'background-color':'lightgreen'});
         }
     }
 

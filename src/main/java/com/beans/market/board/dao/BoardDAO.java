@@ -28,6 +28,7 @@ public interface BoardDAO {
 
 	void tempdel(String idx);
 
+	String getEmail(int idx);
 	
 	
 	// 도혜=정언
@@ -40,5 +41,6 @@ public interface BoardDAO {
 	// 사진 저장
 	void savePhoto(int idx, String orifilename, String newfileName);	// 대표
 	void savePhoto2(int idx, String orifilename, String newfileName);	// ㄴㄴ
+
 
 }
