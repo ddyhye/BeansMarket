@@ -8,5 +8,7 @@ public interface HistoryDAO {
 
 	int BidWithHistory(String option, String content, int bbsIdx, String email, int bid_price);
 
+	int myBidCheck(Integer idx, String email);
+
 	
 }

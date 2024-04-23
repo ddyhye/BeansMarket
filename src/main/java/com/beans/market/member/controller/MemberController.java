@@ -176,4 +176,28 @@ public class MemberController {
 	
 	
 	
+	
+	
+	
+	
+	/*             마이페이지              */
+	@RequestMapping(value="/member/profileUpdate.go")
+	public String profileUpdate_go(HttpSession session, Model model) {
+		logger.info("프로필 수정 페이지...");
+		
+		String page = "main";
+		
+		if (session.getAttribute("logEmail") != null) {
+			page = "/member/profileUpdate";
+		} else {
+			model.addAttribute("msg", "로그인이 필요한 서비스 입니다...");
+		}
+		
+		
+		return page;
+	}
+	
+	
+	
+	
 }

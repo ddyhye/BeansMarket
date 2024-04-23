@@ -1,11 +1,9 @@
 package com.beans.market.board.controller;
 
-import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpSession;
@@ -22,7 +20,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.beans.market.board.service.BoardService;
-import com.beans.market.main.service.MainService;
+import com.beans.market.history.service.HistoryService;
 import com.beans.market.member.dto.MemberDTO;
 import com.beans.market.member.service.MemberService;
 import com.beans.market.photo.service.PhotoService;
@@ -35,6 +33,7 @@ public class BoardController {
 	@Autowired BoardService boardService;
 	@Autowired PhotoService photoService;
 	@Autowired MemberService memberService;
+	@Autowired HistoryService historyService;
 
 	// 게시글로 이동
 	@RequestMapping(value="/board/detail.go", method = RequestMethod.GET)
@@ -49,9 +48,15 @@ public class BoardController {
 		
 		if (session.getAttribute("loginInfo") != null) {
 			MemberDTO loginInfo = (MemberDTO) session.getAttribute("loginInfo");
-			int mine = memberService.getInterest(idx, loginInfo.getEmail());
+			String email = loginInfo.getEmail();
+			// 관심 목록에 있는가
+			int mine = memberService.getInterest(idx, email);
 			model.addAttribute("mine", mine);
-		}
+			
+			// 최고 입찰자가 나인가
+			int my_bid = historyService.myBidCheck(idx, email);
+			model.addAttribute("my_bid", my_bid);
+		}	
 		
 		return page;
 	}
@@ -148,7 +153,7 @@ public class BoardController {
 		// 현재 시간 가져오기
 		LocalDateTime currentTime = LocalDateTime.now();
         // 비교할 특정 시간 설정하기
-        LocalDateTime specificTime = LocalDateTime.parse(close_date, DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
+        LocalDateTime specificTime = LocalDateTime.parse(close_date, DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss.0"));
         // logger.info("{}, {} : ", currentTime, specificTime);
 
         // 현재 시간과 특정 시간 사이의 차이 계산하기

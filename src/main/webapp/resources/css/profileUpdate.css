@@ -1,0 +1,123 @@
+@charset "EUC-KR";
+
+
+.profileUpdateDiv {
+	display: flex;
+	align-items: center;
+	justify-content: center;	
+	
+	position: relative;
+	width: 100%;
+	height: 100%;
+}
+
+.profileUpdate-top {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	
+	position: relative;
+	widht: 500px;
+	height: 200px;
+	margin-top:100px;
+}
+.profileUpdate-top img {
+   position: relative;
+   width: 160px;
+   height: 160px;
+   margin-bottom: 10px;
+
+   border-radius: 50%;
+}
+.profileUpdate-top p {
+   display: flex;
+   align-items: center;
+   justify-content: center;
+
+   position: relative;
+   width: 140px;
+   height: 30px;
+
+   font-weight: bold;
+   background-color: lightgray;
+   border-radius: 10px;
+}
+.profileUpdate-top p:hover {
+   color: white;
+   background-color: rgb(68, 68, 68);
+}
+
+
+.profileUpdate-center {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	
+	position: relative;
+	widht: 480px;
+	height: 300px;
+}
+.profileUpdate-center-column {
+	display: flex;
+	flex-direction: row;
+	
+	position: relative;
+	width: 55%;
+	height: 50px;
+}
+.profileUpdate-center-head {
+	display: flex;
+	align-items: center;
+	
+	position: relative;
+	width: 15%;
+}
+.profileUpdate-center-body {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	
+	position: relative;
+	width: 85%;
+}
+input[type="text"] {
+	display: flex;
+   align-items: center;
+   justify-content: center;
+
+   position: relative;
+   width: 400px;
+   height: 40px;
+}
+
+
+.profileUpdate-bottom {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	
+	position: relative;
+	widht: 90%;
+	height: 10%;
+}
+input[type="submit"] {
+	display: flex;
+   align-items: center;
+   justify-content: center;
+
+   position: relative;
+   width: 100px;
+   height: 35px;
+
+   font-weight: bold;
+   background-color: lightgray;
+   border: none;
+   border-radius: 10px;
+}
+input[type="submit"]:hover {
+	color: white;
+   background-color: rgb(68, 68, 68);
+}

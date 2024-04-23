@@ -18,9 +18,9 @@ public interface BoardDAO {
 
 	BoardDTO auctionDetail(int idx);
 
-	void updateBbsState(String string);
+	void updateBbsState(int bbsIdx, String string);
 
-	void updateCloseDate(Timestamp newCloseTimestamp);
+	void updateCloseDate(int bbsIdx, Timestamp newCloseTimestamp);
 
 	int bidResultUpdate(int bbsIdx, int bid_price);
 	
