@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import com.beans.market.main.dao.MainDAO;
 import com.beans.market.member.dao.MemberDAO;
 import com.beans.market.member.dto.MemberDTO;
+import com.beans.market.photo.dto.ProfilePicDTO;
 
 @Service
 public class MemberService {
@@ -71,6 +72,18 @@ public class MemberService {
 	public int getInterest(Integer idx, String email) {
 		logger.info("좋아요 정보 가져오기");
 		return mainDAO.mine(idx, email);
+	}
+
+	
+	
+	// 마이페이지 - 프로필 업데이트
+	public MemberDTO profileGet(String logEmail) {
+		return memberDAO.profileGet(logEmail);
+	}
+
+	public ProfilePicDTO profilePicGet(String logEmail) {
+		// TODO Auto-generated method stub
+		return memberDAO.profilePicGet(logEmail);
 	}
 
 

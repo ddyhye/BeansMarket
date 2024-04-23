@@ -27,6 +27,9 @@ import org.springframework.web.multipart.commons.CommonsMultipartFile;
 
 import com.beans.market.member.dto.MemberDTO;
 import com.beans.market.member.service.MemberService;
+import com.beans.market.pay.dto.PayDTO;
+import com.beans.market.photo.dto.ProfilePicDTO;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -180,19 +183,50 @@ public class MemberController {
 	
 	
 	
+	
+	
+	
+	
+	
 	/*             마이페이지              */
+	
+	// 마이페이지 - 프로필 업데이트
 	@RequestMapping(value="/member/profileUpdate.go")
 	public String profileUpdate_go(HttpSession session, Model model) {
 		logger.info("프로필 수정 페이지...");
 		
-		String page = "main";
+		String page = "redirect:/";
+		
+		if (session.getAttribute("logEmail") != null) {
+			String logEmail = (String) session.getAttribute("logEmail");
+			page = "/member/profileUpdate";
+			MemberDTO dto = memberService.profileGet(logEmail);
+			ProfilePicDTO dtoPic = memberService.profilePicGet(logEmail);
+			
+			model.addAttribute("photo", dtoPic.getNew_filename());
+			model.addAttribute("name", dto.getName());
+			model.addAttribute("email", dto.getEmail());
+			model.addAttribute("location", dto.getLocation());
+			model.addAttribute("birth_date", dto.getBirth_date());
+			model.addAttribute("gender", dto.getGender());
+		} else {
+			model.addAttribute("msg", "로그인이 필요한 서비스 입니다...");
+		}
+		
+		return page;
+	}
+	
+	@RequestMapping(value="/member/profileUpdate.do")
+	public String profileUpdate_do(HttpSession session, Model model) {
+		logger.info("프로필 수정 완료...");
+		
+		String page = "redirect:/";
 		
 		if (session.getAttribute("logEmail") != null) {
 			page = "/member/profileUpdate";
 		} else {
 			model.addAttribute("msg", "로그인이 필요한 서비스 입니다...");
 		}
-		
 		
 		return page;
 	}

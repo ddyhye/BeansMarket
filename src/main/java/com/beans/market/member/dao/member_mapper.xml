@@ -76,4 +76,24 @@
 		SELECT point FROM member WHERE email = #{param1}
 	</select>
 	
+	
+	
+	
+	
+	
+	
+	<!-- 마이페이지 -->
+	<select id="profileGet" resultType="com.beans.market.member.dto.MemberDTO">
+		SELECT email, name, location, birth_Date, gender, point
+		FROM member
+		WHERE email = #{param1}
+	</select>
+	<select id="profilePicGet" resultType="com.beans.market.photo.dto.ProfilePicDTO">
+		SELECT new_filename
+		FROM member_profilepic
+		WHERE email = #{param1}
+	</select>
+	
+
+	
 </mapper>

@@ -164,13 +164,13 @@
 	newAlarm();
 
 	// 게시글 검색
-	$('#top-first-center-icon').on('click', function() {
+	$('.fa-magnifying-glass').on('click', function() {
 		var textVal = $('#top-first-center-search').val();
 
 		// 검색어 세션에 저장
 		sessionStorage.setItem('recentSearch', textVal);
 		// 리스트 출력을 위해 메인 페이지로 이동
-		window.location.href = './';
+		window.location.href = '<c:url value="/"/>';
 	});
 	// 카테고리 검색
 	$('.top-second-left-body-category').on('click', function() {
@@ -179,7 +179,7 @@
 		// 검색어 세션에 저장
 		sessionStorage.setItem('categoryName', textVal);
 		// 리스트 출력을 위해 메인 페이지로 이동
-		window.location.href = './';
+		window.location.href = '<c:url value="/"/>';
 	});
 
 	

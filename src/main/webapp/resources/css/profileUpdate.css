@@ -121,3 +121,112 @@ input[type="submit"]:hover {
 	color: white;
    background-color: rgb(68, 68, 68);
 }
+
+
+
+
+#pHidden {
+	display: none;
+}
+#pHidden.active {
+	display: flex;
+}
+
+
+.picUpdate {
+	display: none;
+}
+.picUpdate.active {
+	display: flex;
+	align-items: center;
+   justify-content: center;
+   	flex-direction: column;
+	
+	position: absolute;
+	width: 400px;
+	height: 200px;
+	left: 50%;
+   top: 50%;
+   transform: translate(-50%, -50%);
+	z-index: 1001;
+	
+	background-color: white;
+	border: 4px solid lightgray;
+}
+.picUpdate-top {
+	display: flex;
+	justify-content: flex-end;
+	
+	position: relative;
+	width: 100%;
+	height: 15%;
+}
+.deleteBtn {	
+   padding: 5px;
+   position: relative;
+   width: 40px;
+   height: 40px;
+
+   border: none;
+   background-color: white;
+   font-size: 25px;
+   color: gray;
+}
+.picUpdate-center {
+	display: flex;
+	align-items: flex-start;
+	justify-content: center;
+	flex-direction: column;
+	
+	position: relative;
+	width: 60%;
+	height: 60%;
+	margin-top: 20px;
+}
+.picUpdate-center p {
+	  display: flex;
+   align-items: center;
+   justify-content: center;
+
+   position: relative;
+   width: 73px;
+   height: 24px;
+   margin-bottom: 5px;
+
+   font-size: 13px;
+   background-color: #f0f0f0;
+   border-radius: 3px;
+   border: 1px solid #626262;
+}
+.picUpdate-center p:hover {
+   background-color: #e0e0e0;
+}
+input[type="file"] {
+	
+}
+.picUpdate-bottom {
+	display: flex;
+	align-items:center;
+	justify-content: center;
+	
+	position: relative;
+	width: 100%;
+	height: 25%;
+}
+.picUpdate-bottom p {
+   display: flex;
+   align-items: center;
+   justify-content: center;
+
+   position: relative;
+   width: 100px;
+   height: 25px;
+
+   font-weight: bold;
+   background-color: lightgray;
+   border-radius: 10px;
+}
+.picUpdate-bottom p:hover {
+   color: white;
+   background-color: rgb(68, 68, 68);
+}

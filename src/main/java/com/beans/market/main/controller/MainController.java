@@ -33,10 +33,15 @@ public class MainController {
 	@Autowired BoardService boardService;
 	
 	@RequestMapping(value="/")
-	public String main(Model model) {
+	public String main(Model model, @RequestParam(value="msg", required=false) String msg) {
 		logger.info("메인 페이지...");
 		
-		mainService.goodsList(model); 	/* css 테스트용 */
+		//mainService.goodsList(model); 	/* css 테스트용 */
+		
+		if (msg != null && !msg.isEmpty()) {
+			model.addAttribute("msg", "로그인이 필요한 서비스 입니다...");
+			logger.info("로그인이 필요한 서비스 입니다...");
+		}
 		
 		return "main";
 	}
@@ -199,7 +204,7 @@ public class MainController {
 	@RequestMapping(value="/member/myPage.go")
 	public String myPage_go(HttpSession session, Model model) {
 		logger.info("마이페이지...");
-		String page = "main";
+		String page = "redirect:/";
 		
 		if (session.getAttribute("logEmail") != null) {
 			page = "/member/profile";
@@ -212,6 +217,7 @@ public class MainController {
 			model.addAttribute("location", dto.getLocation());
 			model.addAttribute("birth_date", dto.getBirth_date());
 			model.addAttribute("gender", dto.getGender());
+			model.addAttribute("point", dto.getPoint());
 		} else {
 			model.addAttribute("msg", "로그인이 필요한 서비스 입니다...");
 		}
@@ -224,7 +230,7 @@ public class MainController {
 	public String minePage_go(HttpSession session, Model model) {
 		logger.info("관심 목록 페이지...");
 		
-		String page = "main";
+		String page = "redirect:/";
 		
 		if (session.getAttribute("logEmail") != null) {
 			page = "/member/mine";
@@ -240,7 +246,7 @@ public class MainController {
 	public String goodsWrite_go(HttpSession session, Model model) {
 		logger.info("게시글 작성 페이지...");
 		
-		String page = "main";
+		String page = "redirect:/";
 		
 		if (session.getAttribute("logEmail") != null) {
 			page = "/board/saleOfGoodsWrite";
@@ -256,7 +262,7 @@ public class MainController {
 		public String mySellList_go(HttpSession session, Model model) {
 			logger.info("판매 내역 페이지...");
 			
-			String page = "main";
+			String page = "redirect:/";
 			
 			if (session.getAttribute("logEmail") != null) {
 				page = "/member/mySellList";

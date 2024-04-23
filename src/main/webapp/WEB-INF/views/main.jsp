@@ -269,8 +269,8 @@
 		var isToggled = !isHearted
 		
 		// 사진 및 토글 상태 업데이트
-		var newImg = isToggled ? 'heart.png':'unHeart.png';
-		$(this).attr('src', '../resources/img/'+newImg);
+		var newImg = isToggled ? '<c:url value="/resources/img/heart.png"/>':'<c:url value="/resources/img/unHeart.png"/>';
+		$(this).attr('src', newImg);
 		$(this).data('toggled', isToggled);
 		
 		$.ajax({
@@ -290,7 +290,7 @@
 		});
 	});
 	
-	// 고객서비스 - 최근 본 물품 추가하기
+	// 고객서비스 - 최근 본 물품 추가하기 && 게시글 디테일 보기
 	$('.main-content').on('click', '.main-content-goods', function() {
 		var idx = $(this).find('.goods-idx').text().trim();
 		
@@ -316,8 +316,9 @@
 	    while (currIdxArr.length < 9) {
 	        currIdxArr.push(0);
 	    }
-		
-	    console.log("Updated IDXs in session:", currIdxArr);
+	    
+	   	// 게시글 디테일로 이동
+	   	window.location.href = '<c:url value="/board/detail.go?idx='+idx+'"/>';
 	});
 	
 

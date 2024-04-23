@@ -72,7 +72,7 @@
 						<h3>Beans Pay</h3>
 					</div>
 					<div class="main-center-third-body">
-						<p>500,200 $(페이이후)&nbsp;&nbsp;</p>
+						<p>${point} $(페이이후)&nbsp;&nbsp;</p>
 						<i class="fa-solid fa-circle-dollar-to-slot"></i>
 					</div>
 				</div>
