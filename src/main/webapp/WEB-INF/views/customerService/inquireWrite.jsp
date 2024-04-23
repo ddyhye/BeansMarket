@@ -13,6 +13,19 @@ com.beans.market<%@ page language="java" contentType="text/html; charset=UTF-8" 
 </head>
 
 <body>
+	<jsp:include page="../common.jsp" />
+		<div class="container">
+		<!--  여기 안에서 작업하기 -->
+
+	
+		
+		
+		
+		
+		
+		</div>
+
+
 </body>
 
 <script>
