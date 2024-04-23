@@ -4,7 +4,9 @@ import java.util.List;
 
 import com.beans.market.board.dto.BoardDTO;
 import com.beans.market.main.dto.MainDTO;
+import com.beans.market.member.dto.MemberDTO;
 import com.beans.market.photo.dto.PhotoDTO;
+import com.beans.market.photo.dto.ProfilePicDTO;
 
 public interface MainDAO {
 
@@ -44,5 +46,10 @@ public interface MainDAO {
 	
 	// 최근 본 게시글
 	MainDTO recentBBS(int idx);
+	
+	
+	// 멤버 프로필
+	MemberDTO profile(String logEmail);
+	ProfilePicDTO profilePic(String logEmail);
 
 }

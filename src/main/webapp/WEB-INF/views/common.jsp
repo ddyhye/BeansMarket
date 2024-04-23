@@ -160,6 +160,8 @@
 	if(msg != ''){
 	    alert(msg);
 	}
+	
+	newAlarm();
 
 	// 게시글 검색
 	$('#top-first-center-icon').on('click', function() {
@@ -233,9 +235,9 @@
 		} else if (serviceName === '관심') {
 			window.location.href = '<c:url value="/member/minePage.go"/>';
 		} else if (serviceName === '물품팔기') {
-			window.location.href = '/board/sellWrite.go';
+			window.location.href = '<c:url value="/board/goodsWrite.go"/>';
 		} else if (serviceName === '판매리스트') {
-			window.location.href = '/member/sellList.go';
+			window.location.href = '<c:url value="/member/mySellList.go"/>';
 		} else if (serviceName === '최근 본 물품') {
 			$('.recentLook').addClass('active');
 			
@@ -249,7 +251,7 @@
 			
 			$.ajax({
 				type: 'get',
-				url: './recentBBS.ajax',
+				url: '<c:url value="/recentBBS.ajax"/>',
 				data: {
 					'currLookArr': currLookArr
 				},
@@ -297,13 +299,12 @@
 	});
 	
 
-	newAlarm();
 	
 	// 알림 표시
 	function newAlarm() {
 		$.ajax({
 			type: 'get',
-			url: './newAlarm.ajax',
+			url: '<c:url value="/newAlarm.ajax"/>',
 			data: {},
 			dataType: 'JSON',
 			success: function(data){

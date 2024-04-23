@@ -14,7 +14,9 @@ import com.beans.market.board.dao.BoardDAO;
 import com.beans.market.board.dto.BoardDTO;
 import com.beans.market.main.dao.MainDAO;
 import com.beans.market.main.dto.MainDTO;
+import com.beans.market.member.dto.MemberDTO;
 import com.beans.market.photo.dto.PhotoDTO;
+import com.beans.market.photo.dto.ProfilePicDTO;
 
 @Service
 public class MainService {
@@ -182,6 +184,18 @@ public class MainService {
 	}
 	public void alarmRead(int idxInt) {
 		mainDao.alarmRead(idxInt);
+	}
+
+
+	
+	
+	
+	
+	public MemberDTO profile(String logEmail) {
+		return mainDao.profile(logEmail);
+	}
+	public ProfilePicDTO profilePic(String logEmail) {
+		return mainDao.profilePic(logEmail);
 	}
 
 

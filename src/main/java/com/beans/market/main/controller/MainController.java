@@ -21,7 +21,9 @@ import com.beans.market.board.service.BoardService;
 import com.beans.market.main.dao.MainDAO;
 import com.beans.market.main.dto.MainDTO;
 import com.beans.market.main.service.MainService;
+import com.beans.market.member.dto.MemberDTO;
 import com.beans.market.photo.dto.PhotoDTO;
+import com.beans.market.photo.dto.ProfilePicDTO;
 
 @Controller
 public class MainController {
@@ -201,6 +203,15 @@ public class MainController {
 		
 		if (session.getAttribute("logEmail") != null) {
 			page = "/member/profile";
+			String logEmail = (String) session.getAttribute("logEmail");;
+			MemberDTO dto = mainService.profile(logEmail);
+			ProfilePicDTO dtoPic = mainService.profilePic(logEmail);
+			model.addAttribute("new_filename", dtoPic.getNew_filename());
+			model.addAttribute("name", dto.getName());
+			model.addAttribute("email", dto.getEmail());
+			model.addAttribute("location", dto.getLocation());
+			model.addAttribute("birth_date", dto.getBirth_date());
+			model.addAttribute("gender", dto.getGender());
 		} else {
 			model.addAttribute("msg", "로그인이 필요한 서비스 입니다...");
 		}
@@ -225,10 +236,35 @@ public class MainController {
 	}
 
 	// 물품 팔기 페이지 이동
-	@RequestMapping(value="/board/sellWrite.go")
-	public String goodsWrite_go() {
+	@RequestMapping(value="/board/goodsWrite.go")
+	public String goodsWrite_go(HttpSession session, Model model) {
 		logger.info("게시글 작성 페이지...");
-		return "board/saleOfGoodsWrite";
+		
+		String page = "main";
+		
+		if (session.getAttribute("logEmail") != null) {
+			page = "/board/saleOfGoodsWrite";
+		} else {
+			model.addAttribute("msg", "로그인이 필요한 서비스 입니다...");
+		}
+		
+		return page;
 	}
+	
+	// 물품 팔기 페이지 이동
+		@RequestMapping(value="/member/mySellList.go")
+		public String mySellList_go(HttpSession session, Model model) {
+			logger.info("판매 내역 페이지...");
+			
+			String page = "main";
+			
+			if (session.getAttribute("logEmail") != null) {
+				page = "/member/mySellList";
+			} else {
+				model.addAttribute("msg", "로그인이 필요한 서비스 입니다...");
+			}
+			
+			return page;
+		}
 
 }
