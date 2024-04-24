@@ -8,4 +8,10 @@
 			VALUES(#{option_idx},#{category_idx},#{content},#{perpet_email},#{idx},#{reporter_email});
 	</insert>
 	
+	<insert id="ban" parameterType="String">
+    	INSERT INTO block (email, block_email)
+    	VALUES (#{loggedInUserId}, #{blockedUserId})        
+	</insert>
+	
+	
 </mapper>

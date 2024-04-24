@@ -321,6 +321,10 @@
 	   	window.location.href = '<c:url value="/board/detail.go?idx='+idx+'"/>';
 	});
 	
+	var msg = '${msg}';
+	if(msg != ''){
+	    alert(msg);
+	}
 
 </script>
 </html>

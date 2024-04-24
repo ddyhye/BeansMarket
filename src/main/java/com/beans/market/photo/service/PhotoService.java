@@ -37,5 +37,6 @@ public class PhotoService {
 		return photoDAO.getMainPhoto(idx, 1);
 	}
 	
+
 	
 }

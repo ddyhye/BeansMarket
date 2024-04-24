@@ -5,7 +5,7 @@ com.beans.market<%@ page language="java" contentType="text/html; charset=UTF-8" 
 <meta charset="UTF-8">
 <title>Insert title here</title>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-<link rel="stylesheet" href="resources/css/??.css" type="text/css"/>
+<link rel="stylesheet" href="../resources/css/myAction.css" type="text/css" />
 <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
 <style>
 </style>
@@ -14,11 +14,50 @@ com.beans.market<%@ page language="java" contentType="text/html; charset=UTF-8" 
 <body>
 	<jsp:include page="profileCommon.jsp" />
 		<div class="main">
+		<div class="myAuction">${name}님의 입찰 목록</div>
+			<div class="myAuctionList">
+			<table>
+			<thead>
+				<tr>
+					<th>Img</th>
+					<th>제목</th>
+					<th>나의 입찰가</th>
+					<th>경매 마감</th>
+					<th>경매 상태</th>
+					<th>현재 입찰자</th>
+				</tr>
+<%--    			<c:forEach>
+				<tr>
+					<th>Img</th>
+					<th>${subject}</th>
+					<th>${price}</th>
+					<th>${close_date}</th>
+					<th>경매 상태</th>
+					<th>현재 입찰자</th>
+				</tr>
+			</c:forEach> --%>
+			</thead>
+<!-- 			<tbody id="list">
+			<tr>
+				<td colspan=6>
+				<div class="container">
+					<nav aria-label="Page navigation" style="text-align:center">
+						<ul class="pagination" id="pagination"></ul>
+					</nav>
+				</div>
+				</td>
+			</tr>
+			</tbody> -->
+			</table>
+			</div>
+		
 		</div>
-	</div>
 
 </body>
 
 <script>
+var showPage = 1;
+
+
 </script>
 </html>

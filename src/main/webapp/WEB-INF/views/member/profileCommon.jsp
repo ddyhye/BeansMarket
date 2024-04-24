@@ -30,7 +30,7 @@
 			</div>
 			<div class="link-Auction">
 				<h3>경매</h3>
-				<a href=""><p>&nbsp;• 입찰 내역</p></a>
+				<a href="<c:url value='/member/myAuctionBidList.go'/>"><p>&nbsp;• 입찰 내역</p></a>
 			</div>
 			<div class="link-pay">
 				<h3>빈즈페이</h3>

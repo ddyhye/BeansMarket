@@ -95,8 +95,8 @@ input[type="submit"]:hover, input[type="button"]:hover {
         <dt>이메일 :</dt>
         <dd>
             <input type="text" name="email" id="email" placeholder="이메일을 입력해주세요."/>
-            <input type="button" id="emailbutton" value="이메일 인증" onclick="sendVerificationEmail()" disabled/>
-            &nbsp;<input type="button" value="중복체크" onclick="emailOverlay()"/>
+            <input type="button" value="중복체크" onclick="emailOverlay()"/>           
+            &nbsp; <input type="button" id="emailbutton" value="이메일 인증" onclick="sendVerificationEmail()" disabled/>
         </dd>
         <dt>인증코드를 입력하세요. :</dt>
 		<dd>
@@ -121,7 +121,7 @@ input[type="submit"]:hover, input[type="button"]:hover {
         <dd>            
             <input type="text" name="name" id="name" placeholder="닉네임을 입력해주세요.">
         </dd>
-        <dt>프로필사진 등록 : <input type="file" id="file" name="file" multiple /> </dt>
+        <dt>>프로필사진 등록 : <input type="file" id="file" name="file" multiple /> </dt>
         <dt>생년월일 :</dt>
         <dd>
             <input type="text" name="birth" id="birth" placeholder="0000-00-00.">
@@ -264,7 +264,9 @@ input[type="submit"]:hover, input[type="button"]:hover {
 	        alert('주소를 입력해주세요.(예: 서울 관악구 신사동)')
 	    } else if($scope.val()== ''){
 	    	alert('거래범위를 입력해주세요.(예: 서울)')
-	   }else {
+	    } else if(!$agree.is(':checked')){
+	        alert('약관에 동의해주세요.');
+	    }else {
 	        // 모든 필수 항목이 입력되었을 때 폼 제출
 	        $('#joinForm').submit();
 	    }
