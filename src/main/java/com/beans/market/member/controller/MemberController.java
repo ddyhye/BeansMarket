@@ -231,7 +231,12 @@ public class MemberController {
 		return page;
 	}
 	
-	
-	
+	// 경매-나의 입찰
+	@RequestMapping(value="/member/myAuctionBidList.go")
+	public String auctionList() {
+		logger.info("나의 입찰 페이지...");
+		
+		return "member/myAuctionBidList";
+	}
 	
 }
