@@ -183,7 +183,13 @@ input[type="submit"]:hover {
 	height: 60%;
 	margin-top: 20px;
 }
-.picUpdate-center p {
+.picUpdate-center-pDiv {
+	display: flex;
+	align-items: flex-start;
+	justify-content: center;
+	flex-direction: row;
+}
+#basicPic {
 	  display: flex;
    align-items: center;
    justify-content: center;
@@ -198,8 +204,11 @@ input[type="submit"]:hover {
    border-radius: 3px;
    border: 1px solid #626262;
 }
-.picUpdate-center p:hover {
+#basicPic:hover {
    background-color: #e0e0e0;
+}
+.picUpdate-center-pDiv p {
+	font-size: 13px;
 }
 input[type="file"] {
 	

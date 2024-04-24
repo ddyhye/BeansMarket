@@ -1,5 +1,9 @@
 package com.beans.market.member.service;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.List;
 import java.util.Map;
 
@@ -7,8 +11,10 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.beans.market.main.dao.MainDAO;
+import com.beans.market.main.dto.MainDTO;
 import com.beans.market.member.dao.MemberDAO;
 import com.beans.market.member.dto.MemberDTO;
 import com.beans.market.photo.dto.ProfilePicDTO;
@@ -18,8 +24,11 @@ public class MemberService {
 
 	Logger logger = LoggerFactory.getLogger(getClass());
 	
+	public String upload_root="C:/upload/";
+	
 	@Autowired MemberDAO memberDAO;
 	@Autowired MainDAO mainDAO;
+	@Autowired MainDAO mainDao;
 
 	public int connectTest() {
 		return memberDAO.connectTest();
@@ -77,14 +86,96 @@ public class MemberService {
 	
 	
 	// 마이페이지 - 프로필 업데이트
+	public ProfilePicDTO profilePicGet(String logEmail) {
+		return memberDAO.profilePicGet(logEmail);
+	}
 	public MemberDTO profileGet(String logEmail) {
 		return memberDAO.profileGet(logEmail);
 	}
-
-	public ProfilePicDTO profilePicGet(String logEmail) {
-		// TODO Auto-generated method stub
-		return memberDAO.profilePicGet(logEmail);
+	// 마이페이지 - 프로필 사진 업데이트 (수정 완료 전)
+	public String newPicPath(String logEmail, MultipartFile photo) {
+		String orifilename = photo.getOriginalFilename();
+		String ext = orifilename.substring(orifilename.lastIndexOf("."));
+		String newFileName = System.currentTimeMillis()+ext;
+		
+		try {
+			Path path = Paths.get(upload_root+newFileName);
+			Files.write(path, photo.getBytes());
+			
+			memberDAO.newPicPath(logEmail, newFileName);
+		} catch (Exception e) {
+			e.printStackTrace();
+			logger.info("실패");
+		}
+		
+		return newFileName;
 	}
 
+	public MemberDTO profileUpdate(Map<String, String> param) {
+		/*
+		 * 새로운 realPicName을 컬럼 N에서 O로 변경
+		 * O를 제외하곤 전부 삭제
+		 * O를 Y로 변경
+		 * */
+		memberDAO.profilePicO(param);
+		memberDAO.profilePicDel(param);
+		memberDAO.profilePicY(param);
+		// 정보 업데이트하자!
+		memberDAO.profileUpdate(param);
+		
+		return memberDAO.profileGet(param.get("logEmail"));
+	}
 
+	
+	
+	// 관심목록 페이지
+	public Map<String, Object> goodsListAjax(Map<String, Object> map, String logEmail) {
+		List<MainDTO> list = null;
+		
+		int[] mineIdxList = memberDAO.mineIdxList(logEmail);
+		
+		//list = memberDAO.mineGoodsList(logEmail);
+		
+		for (int i = 0; i < mineIdxList.length; i++) {
+			MainDTO dto = memberDAO.mineIdxGoodsList(mineIdxList[i]);
+			list.add(dto);
+		}
+
+		map.put("list", bbsListDB(list, logEmail));
+		
+		return map;
+	}
+	
+	// 판매자 닉네임, 대표사진, 관심개수, 로그인사용자의 찜 확인, 즉구가(낙찰), 입찰 횟수(낙찰) 의 경우,
+	// 각 게시글의 idx로 찾아와야 한다.
+	public List<MainDTO> bbsListDB(List<MainDTO> list, String logEmail) {
+		for (MainDTO dto : list) {
+			// dto가 존재할 경우에만 (idx==0이면 매퍼에서 0을 반환했다는 의미)
+			if (dto.getIdx() != 0) {
+				String seller = mainDao.sellerName(dto.getIdx());
+				String photo = mainDao.mainPhoto(dto.getIdx());
+				int successful_bid = 0;
+				int heartCnt = mainDao.heartCnt(dto.getIdx());
+				int bid_count = 0;
+				int mine = 0;
+				
+				if (!logEmail.equals("")) {		//nullPointException 해결하기
+					mine = mainDao.mine(dto.getIdx(), logEmail);
+				}
+				if (dto.getOption().equals("경매")) {
+					successful_bid = mainDao.fullPrice(dto.getIdx());
+					bid_count = mainDao.bidCnt(dto.getIdx());
+					
+				}
+				dto.setSellerName(seller);
+				dto.setNew_picname(photo);
+				dto.setSuccessful_bid(successful_bid);
+				dto.setHeartCnt(heartCnt);
+				dto.setBid_count(bid_count);
+				dto.setMine(mine);
+			}
+		}
+		
+		return list;
+	}
 }

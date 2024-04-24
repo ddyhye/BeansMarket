@@ -6,6 +6,7 @@ import java.util.Map;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Update;
 
+import com.beans.market.main.dto.MainDTO;
 import com.beans.market.member.dto.MemberDTO;
 import com.beans.market.member.dto.SellerDTO;
 import com.beans.market.photo.dto.ProfilePicDTO;
@@ -62,6 +63,23 @@ public interface MemberDAO {
 	MemberDTO profileGet(String logEmail);
 
 	ProfilePicDTO profilePicGet(String logEmail);
+
+	void newPicPath(String logEmail, String newFileName);
+
+	void profilePicO(Map<String, String> param);
+	void profilePicDel(Map<String, String> param);
+	void profilePicY(Map<String, String> param);
+	void profileUpdate(Map<String, String> param);
+
+	
+	
+	// 관심목록
+	int[] mineIdxList(String logEmail);
+	MainDTO mineIdxGoodsList(int i);
+
+
+
+	
 
 
 }

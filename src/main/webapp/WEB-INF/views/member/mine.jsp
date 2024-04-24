@@ -15,7 +15,7 @@
 	<jsp:include page="profileCommon.jsp" />
 		<div class="main">
 			<div class="mine-top">
-				<p id="nic">아루루&nbsp;</p>
+				<p id="nic">${name}&nbsp;</p>
 				<p>님의 관심 목록</p>
 			</div>
 			<div class="mine-center">
@@ -54,5 +54,57 @@
 </body>
 
 <script>
+
+		
+	listCall();	
+		
+	function listCall() {
+		$.ajax({
+			type: 'get',
+			url: '<c:url value="/member/mineList.ajax"/>',
+			data: {},
+			dataType: 'JSON',
+			success: function(data) {
+				drawGoodsList(data);
+			}, error: function(error) {
+				console.log(error);
+			}
+		});
+	}
+
+	function drawGoodsList(data) {
+		$('.mine-center').empty();
+		
+		var content = '';
+		
+		if (!data.list || data.list.length === 0) {
+			content += '<p> 관심 목록에 넣은 물품이 없습니다. </p>';
+		}
+		for (item of data.list) {
+			content += '<div class="mine-content-goods'+(item.bbs_state === '거래완료' ? ' sold-out' : '')+'">';
+			content += '<div class="goods-idx" style="display: none;">'+item.idx+'</div>';
+			content += '<div class="mine-content-goods">';
+			content += '<div class="goods-top">';
+			content += '<div class="goods-top-left">';
+			content += '<p>&nbsp;'+item.sellerName+'</p></div>';
+			content += '<div class="goods-top-right">';
+			var mark = item.bbs_state === '거래완료'? '<div class="goods-top-right-mark1"><span>Sold Out</span></div>': (item.option === '경매'? '<div class="goods-top-right-mark2"><span>경매</span></div>':'');
+			content += mark;
+			content += '</div></div>';
+			content += '<div class="goods-photo">';
+			content += '<img src="/photo/'+item.new_picname+'" alt="'+item.new_picname+'"/>';
+			var heart_img_path = item.mine == 1? '<c:url value="/resources/img/heart.png"/>': '<c:url value="/resources/img/unHeart.png"/>';
+			content += '<img src="'+heart_img_path+'" class="clickHeart" alt="찜"/></div>';
+			content += '<div class="goods-subject">';
+			content += '<span>'+item.subject+'</span>';
+			content += '</div>';
+			content += '<div class="goods-price">';
+			content += '<span class="Price">'+item.price+'</span>';
+			content += '</div>';
+		}
+		
+		$('.main-content').append(content);
+	}
+
 </script>
 </html>

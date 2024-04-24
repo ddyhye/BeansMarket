@@ -31,8 +31,9 @@
 				</div>
 				<form action="<c:url value='/member/profileUpdate.do'/>", method="POST" enctype="multipart/form-data">
 					<div class="profileUpdate-top">
-						<img src="/photo/${photo}"/>
+						<img src="/photo/${photo}" id="profilePicture"/>
 						<p id="picUpdateBtn">프로필 사진 수정</p>
+						<input type="hidden" name="realPicPath" value="${photo}" id="realPicPath"/>
 					</div>
 					<div class="profileUpdate-center">
 						<div class="profileUpdate-center-column">
@@ -107,8 +108,28 @@
 	});
 	// 프로필 사진 - 변경
 	$('#picUpdateSucc').on('click', function() {
-		if ($('#newPic').val()) {
+		var formData = new FormData();
+		var filePath = $('#newPic')[0];
+		
+		if ($(filePath).val()) {
+			formData.append('photo', filePath.files[0]);
+			
+			$.ajax({
+				type: 'POST',
+				url: './newPicPath.ajax',
+				data: formData,
+				processData: false,
+				contentType: false,
+				success: function(data) {
+					console.log(data.newFileName);
+					$('#profilePicture').attr('src', '/photo/'+data.newFileName);
+					$('#realPicPath').val(data.newFileName);
+					console.log($('#realPicPath').val());
+				}, error: function(data){}
+			});
 		} else {
+			$('#profilePicture').attr('src', '/photo/user.png');
+			$('#realPicPath').val('user.png');
 		}
 		
 		$('.picUpdate').removeClass('active');

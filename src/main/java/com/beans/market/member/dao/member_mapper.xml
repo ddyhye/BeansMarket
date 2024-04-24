@@ -91,9 +91,49 @@
 	<select id="profilePicGet" resultType="com.beans.market.photo.dto.ProfilePicDTO">
 		SELECT new_filename
 		FROM member_profilepic
-		WHERE email = #{param1}
+		WHERE email = #{param1} AND confirmed = 'Y'
 	</select>
 	
+	<!-- 마이페이지 - 프로필 사진 수정(인설트) -->
+	<insert id="newPicPath">
+		insert into member_profilepic (email, new_filename, confirmed)
+		values(#{param1}, #{param2}, 'N');
+	</insert>
+	
+	<!-- 마에피이지 - 수정완료 (프로필 확정 전인 사진들 삭제하자) -->
+	<!-- O -->
+	<update id="profilePicO">
+		update member_profilepic set confirmed = 'O'
+		where email = #{logEmail} and new_filename = #{realPicPath}
+	</update>
+	<!-- !O 삭제 -->
+	<delete id="profilePicDel">
+		delete from member_profilepic
+		where email = #{logEmail} and confirmed != 'O'
+	</delete>
+	<!-- O-> Y로 변경(확정) -->
+	<update id="profilePicY">
+		update member_profilepic set confirmed = 'Y'
+		where email = #{logEmail}
+	</update>
+	
+	<!-- 마이페이지 - 수정완료 -->
+	<update id="profileUpdate">
+		update member set name = #{name}, location = #{location}, birth_date = #{birth_date}, gender = #{gender}
+		where email = #{logEmail} 
+	</update>
+	
+	
+	
+	<!-- 관심목록 끌거오깅 -->
+	<select id="mineIdxList" parameterType="String" resultType="java.lang.Integer">
+		SELECT idx FROM interest WHERE email = #{param1}
+	</select>
+	<select id="mineIdxGoodsList" resultType="com.beans.market.main.dto.MainDTO">
+		SELECT idx, option, email, subject, price, reg_date, bbs_state
+		FROM bbs
+		WHERE idx = #{param1}
+	</select>
 
 	
 </mapper>
