@@ -35,6 +35,12 @@ public class ReportService {
 		}
 		return msg;
 	}
+
+	public void ban(String logemail, String blockemail) {
+		reportDAO.ban(logemail,blockemail);
+		
+	}
+
 	
 	
 }

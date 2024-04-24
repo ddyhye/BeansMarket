@@ -25,6 +25,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.commons.CommonsMultipartFile;
 
+import com.beans.market.board.dto.BoardDTO;
+import com.beans.market.board.service.BoardService;
 import com.beans.market.member.dto.MemberDTO;
 import com.beans.market.member.service.MemberService;
 import com.beans.market.pay.dto.PayDTO;
@@ -40,7 +42,7 @@ public class MemberController {
 	Logger logger = LoggerFactory.getLogger(getClass());
 	
 	@Autowired MemberService memberService;
-	
+	@Autowired BoardService boardService;
 
 	
 	//로그인페이지
@@ -52,6 +54,7 @@ public class MemberController {
 	//로그인
 	@RequestMapping(value ="member/login.do", method=RequestMethod.POST)
 	public String login(HttpSession session, Model model, String email, String password) {
+
 	    logger.info("로그인 시도");
 	    String page = "login/login";
 	    String msg = "로그인에 실패하였습니다.";   
@@ -59,20 +62,20 @@ public class MemberController {
 		String logEmail = memberService.logEmail(email,password);
 		logger.info("info: {}", loginInfo);
 
+
 	    if(loginInfo != null) {
 	        page = "redirect:/";
 	        msg = "로그인 되었습니다.";
 	        session.setAttribute("loginInfo", loginInfo);
 			session.setAttribute("logEmail", logEmail);
-	        //model.addAttribute("msg", msg);
-			//memberService.lastdate(email,password);
+	        model.addAttribute("msg", msg);
 	        // 로그인 성공 시 마지막 로그인 날짜 업데이트 메서드 호출
 	        Map<String, Object> params = new HashMap<>();
 	        params.put("email", email);
 	        params.put("lastLoginDate", LocalDateTime.now());
 	        memberService.updateLastLoginDate(params);
 	    }
-	    // model.addAttribute("msg", msg);
+	     model.addAttribute("msg", msg);
 	    return page;
 	}    
 	
@@ -94,7 +97,7 @@ public class MemberController {
 	}
 	
 	//비밀번호재설정페이지
-	@RequestMapping(value = "/member/resetPW01.go")
+	@RequestMapping(value = "member/resetPW01.go")
 	public String resetPW01() {
 		logger.info("비밀번호변경하러 접속");		
 		return"login/resetPW01";
@@ -124,48 +127,51 @@ public class MemberController {
 	public String join(Model model, @RequestParam Map<String,String> param, @RequestParam("file") CommonsMultipartFile file) {
 	    String page = "login/join";
 	    String msg = "회원가입에 실패하였습니다. 다시 시도해주세요.";
-
+	    String confirmed = "N";
 	    // 파일을 저장할 경로 설정
 	    String uploadDir = "c:/img";
 
+	    // 파일 이름 추출
+	    String fileName = "basicprofile.png";
 	    try {
 	        // 업로드된 파일이 있는지 확인하고 파일을 저장
 	        if (!file.isEmpty()) {
-	            String fileName = StringUtils.cleanPath(file.getOriginalFilename());
-	            String filePath = uploadDir + fileName;
+	            fileName = StringUtils.cleanPath(file.getOriginalFilename());
+	            String filePath = uploadDir + "/" + fileName;
 	            File dest = new File(filePath);
+	            confirmed = "Y";
 	            file.transferTo(dest); // 파일을 저장
-
+	            param.put(confirmed, confirmed);
 	            // 파일 경로를 파라미터에 추가
 	            param.put("filePath", filePath);
 	        }
+
 	    } catch (Exception e) {
 	        e.printStackTrace();
 	    }
-
+	    param.put(confirmed, confirmed);
 	    int row = memberService.join(param);
 	    if(row == 1) {
 	        logger.info("회원가입 입력한 값입니다."+param);
 	        msg = "축하합니다! 회원가입에 성공하였습니다.";
 
-	        // 파일 이름 추출
-	        String fileName = file.getOriginalFilename();
-	        String email = param.get("email");
+	        if (fileName != null) { // 파일 이름이 null이 아니면 파일이 업로드된 것임
+	            String email = param.get("email");
 
-	        // 프로필 사진 저장을 위한 맵 생성
-	        Map<String, Object> profileParam = new HashMap<>();
-	        profileParam.put("email", email);
-	        profileParam.put("newFilename", fileName);
+	            // 프로필 사진 저장을 위한 맵 생성
+	            Map<String, Object> profileParam = new HashMap<>();
+	            profileParam.put("email", email);
+	            profileParam.put("newFilename", fileName);
 
-	        // 프로필 사진 저장
-	        memberService.saveProfilePic(profileParam);
+	            // 프로필 사진 저장
+	            memberService.saveProfilePic(profileParam);
+	        }
 
 	        model.addAttribute("msg",msg);
 	        page = "login/login";
 	    }       
 	    return page;
 	}
-	
 	//회원가입 이메일 중복체크
 	@RequestMapping(value="/member/joinoverlay.do", method=RequestMethod.POST) // overlay.do에서 joinoverlay.do로 수정
 	@ResponseBody
@@ -176,17 +182,35 @@ public class MemberController {
 	    return map;
 	}
 	
+	//타회원 프로필보기 페이지 이동
+	@RequestMapping(value="/member/otherprofile.go")
+	public String otherprofile(HttpSession session, String email, Model model) {
+		logger.info("타회원 프로필 보기 :"+email);
+		
+		return"member/otherMemberProfile";
+	}
+	
+	//타회원 리스트 출력
+	@RequestMapping(value="/member/otherlist.ajax")
+	@ResponseBody
+	public Map<String, Object> otherselllist(HttpSession session, String email) {
+		Map<String, Object> map = new HashMap<String,Object>();
+		String logEmail = "";
+		logger.info("아작스 실행");
+		if(session.getAttribute("logEmail")!= null) {
+			logEmail = (String) session.getAttribute("logEmail");
+			
+		}
+//		memberService.goodsListAjax(map, logEmail);
+		List<BoardDTO> list = boardService.Listcall(email);
+		logger.info("list {}",list);
+		map.put("listdata", list);
+		return map;
+		
+	}
 	
 	
-	
-	
-	
-	
-	
-	
-	
-	
-	
+
 	
 	/*             마이페이지              */
 	// 마이페이지 - 프로필 업데이트 페이지
@@ -275,6 +299,12 @@ public class MemberController {
 		return map;
 	}
 
-	
+	// 경매-나의 입찰
+	@RequestMapping(value="/member/myAuctionBidList.go")
+	public String auctionList() {
+		logger.info("나의 입찰 페이지...");
+		
+		return "member/myAuctionBidList";
+	}
 	
 }

@@ -52,8 +52,8 @@
 	
 	<!-- 프로필사진 -->
 	<insert id="saveprofile" parameterType="Map">
-	    INSERT INTO member_profilepic (email, new_filename, reg_date)
-	    VALUES (#{email},#{newFilename},NOW()
+	    INSERT INTO member_profilepic (email, new_filename, reg_date, confirmed)
+	    VALUES (#{email},#{newFilename},NOW(),#{confirmed}
 	    )
 	</insert>
 	
@@ -75,7 +75,6 @@
 	<select id="nowPoint" resultType="Integer">
 		SELECT point FROM member WHERE email = #{param1}
 	</select>
-	
 	
 	
 	

@@ -54,32 +54,49 @@
 		INSERT into bbs(email, option, category_idx, subject, content, place)
 		VALUES (#{email}, #{option}, #{category_idx}, #{subject}, #{content}, #{place});
 	</insert>
-	<!--  -->
+	
 	<!-- 글작성 ::판매 -->
 	<update id="updatePrice">
-		UPDATE bbs 
-		SET price = #{param1} 
-		WHERE idx = #{param2}
+		UPDATE bbs SET price = #{param1} WHERE idx = #{param2}
 	</update>
+	
+	<!-- bbs에 경매 가격 업데이트 -->
 	<update id="updateAuctionPrice">
-		UPDATE bbs 
-		SET price = #{param1} 
-		WHERE idx = #{param3}
+		UPDATE bbs SET price = #{param1} WHERE idx = #{param3}
 	</update>
-	<insert id="updateAuctionPrice2">
-		INSERT INTO auction(start_price, successful_bid, auction_period, idx)
-		VALUES(#{param1}, #{param2}, #{param3},  #{param4});
+	
+	<!-- aution에 기간 업데이트 -->
+	<insert id="updateAuctionPrice2"> //
+		INSERT INTO auction(start_price, successful_bid, auction_period, idx) VALUES(#{param1}, #{param2}, #{param3}, #{param4});
 	</insert>
+	
+	
 	<!-- main, new_picname, idx, option_idx -->
 	<!-- void savePhoto(int idx, String orifilename, String newfileName); -->
 	<insert id="savePhoto">
-		INSERT INTO photo (idx, option_idx, main, new_picname)
-		VALUES(#{param1}, 1, 'Y', #{param3})
+		INSERT INTO photo (idx, option_idx, main, new_picname) VALUES(#{param1}, 1, 'Y', #{param3})
 	</insert>
+	
 	<insert id="savePhoto2">
-		INSERT INTO photo (idx, option_idx, main, new_picname)
-		VALUES(#{param1}, 1, 'N', #{param3})
+		INSERT INTO photo (idx, option_idx, main, new_picname) VALUES(#{param1}, 1, 'N', #{param3})
 	</insert>
+	
+	
+	
+	<!-- 임시 저장 -->
+	<insert id="tempSave"
+			useGeneratedKeys="true"
+			keyColumn="idx"
+			keyProperty="idx"
+			parameterType="com.beans.market.board.dto.BoardDTO">
+		INSERT into bbs(email, option, category_idx, subject, content, place, draft)
+		VALUES (#{email}, #{option}, #{category_idx}, #{subject}, #{content}, #{place}, #{draft});
+	</insert>
+	
+		<!-- 타회원 판매물품 리스트 -->
+	<select id = "list" resultType="com.beans.market.board.dto.BoardDTO">
+		SELECT idx,email, option, category_idx,subject, location,price,place,reg_date,bhit,bbs_state from bbs where email = #{param1}
+	  </select>
 
 	
 </mapper>

@@ -8,7 +8,6 @@
     integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA=="
     crossorigin="anonymous" referrerpolicy="no-referrer" />
 <link rel="stylesheet" href="../resources/css/common.css" type="text/css" />
-<link rel="stylesheet" href="../resources/css/detail.css" type="text/css" />
 <link rel="stylesheet" href="../resources/css/saleofgoods.css" type="text/css" />
 <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
 </head>
@@ -57,9 +56,21 @@
         <div class="salecategory">
             <label for="category">카테고리</label>
             <select name="category">
-                <option value="0">선택</option>
-                <option value="m001">남성 패션/잡화</option>
-                <option value="m002">디지털 기기</option>
+                <option value="m001">선택</option>
+                <option value="m001">디지털 기기</option>
+                <option value="m002">가구/인테리어</option>
+                <option value="m003">유아동</option>
+                <option value="m004">여성 패션</option>
+                <option value="m005">여성 잡화</option>
+                <option value="m006">뷰티 미용</option>
+                <option value="m007">남성 패션/잡화</option>
+                <option value="m008">생활가전</option>
+                <option value="m009">생활/주방</option>
+                <option value="m010">가공식품</option>
+                <option value="m011">스포츠/레저</option>
+                <option value="m012">취미/게임/음반</option>
+                <option value="m013">식물</option>
+                <option value="m014">반려동물 용품</option>
             </select>
         </div>
 
@@ -82,7 +93,7 @@
         </div>
 
         <div class="buttons">
-            <button type="button" onclick="tempwrite()" id="temporary-save-button">임시저장</button>
+            <button type="button" onclick="tempwriteFun()" id="temporary-save-button">임시저장</button>
             <button type="button" onclick="salewrite()" id="save-button">저장</button>
         </div>
     </form>
@@ -194,19 +205,63 @@
         $('form').submit();
     }
     
-    function tempwrite(){
-    	
+    
+    // 임시저장
+    function tempwriteFun() {
         var title = $('input[name="subject"]').val();
-    	
-        if (title == "") {
-        	alert("제목을 입력해주세요");
-        }else {
-            console.log("제목:", title);
-            alert("임시 저장되었습니다.");
+
+        if (title === "") {
+            alert("제목을 입력해주세요.");
+            return;
         }
-        
-        $('form').submit();
+
+        var option = $('#selectedOption').val();
+        var price = $('#price').val();
+        var auctionPeriod = $('#auction-period').val();
+        var startPrice = $('input[name="start-price"]').val();
+        var immediatePrice = $('input[name="immediate-price"]').val();
+        var category = $('select[name="category"]').val();
+        var content = $('textarea[name="content"]').val();
+        var place = $('input[name="place"]').val();
+
+        // FormData 객체 생성
+        var formData = new FormData();
+        formData.append('option', option);
+        formData.append('price', price);
+        formData.append('auction-period', auctionPeriod);
+        formData.append('start-price', startPrice);
+        formData.append('immediate-price', immediatePrice);
+        formData.append('category', category);
+        formData.append('subject', title);
+        formData.append('content', content);
+        formData.append('place', place);
+        formData.append('draft', 'Y');
+
+        var photos = $('input[name="photos"]').prop('files');
+        if (photos.length > 0) {
+            formData.append('photos', photos[0]);
+        }
+
+        // AJAX 요청 전송
+        $.ajax({
+            url: '<c:url value="/board/TempSave.ajax"/>',
+            type: 'POST',
+            data: formData,
+            processData: false, // 데이터 처리 방식 설정
+            contentType: false, // 컨텐츠 타입 설정
+            success: function(response) {
+                // 성공 시 알림 표시
+                alert('임시 저장되었습니다.');
+            },
+            error: function(xhr, status, error) {
+                // 오류 발생 시 알림 표시
+                alert('오류가 발생했습니다. 잠시 후 다시 시도해주세요.');
+                console.error(xhr.responseText);
+            }
+        });
     }
+
+
 
 </script>
 </body>

@@ -12,6 +12,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.ui.Model;
 
 import com.beans.market.main.dao.MainDAO;
 import com.beans.market.main.dto.MainDTO;
@@ -110,6 +111,12 @@ public class MemberService {
 		
 		return newFileName;
 	}
+	
+	//리스트
+
+		
+		
+	
 
 	public MemberDTO profileUpdate(Map<String, String> param) {
 		/*
