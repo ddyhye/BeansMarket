@@ -49,13 +49,13 @@ public class MemberController {
 	//로그인
 	@RequestMapping(value ="member/login.do", method=RequestMethod.POST)
 	public String login(HttpSession session, Model model, String email, String password) {
-<<<<<<< HEAD
+
 	    logger.info("로그인 시도");
 	    String page = "login/login";
 	    String msg = "로그인에 실패하였습니다.";   
 	    MemberDTO loginId = memberService.login(email,password);
 		String logEmail = memberService.logEmail(email,password);
-	    logger.info("info : {}", loginInfo);
+	    logger.info("info : {}", loginId);
 
 	    if(loginId != null) {
 	        page = "redirect:/main";
@@ -92,7 +92,7 @@ public class MemberController {
 	}
 	
 	//비밀번호재설정페이지
-	@RequestMapping(value = "/member/resetPW01.go")
+	@RequestMapping(value = "member/resetPW01.go")
 	public String resetPW01() {
 		logger.info("비밀번호변경하러 접속");		
 		return"login/resetPW01";
@@ -126,11 +126,14 @@ public class MemberController {
 	    // 파일을 저장할 경로 설정
 	    String uploadDir = "c:/img";
 
+	    // 파일 이름 추출
+	    String fileName = null;
+
 	    try {
 	        // 업로드된 파일이 있는지 확인하고 파일을 저장
 	        if (!file.isEmpty()) {
-	            String fileName = StringUtils.cleanPath(file.getOriginalFilename());
-	            String filePath = uploadDir + fileName;
+	            fileName = StringUtils.cleanPath(file.getOriginalFilename());
+	            String filePath = uploadDir + "/" + fileName;
 	            File dest = new File(filePath);
 	            file.transferTo(dest); // 파일을 저장
 
@@ -146,24 +149,23 @@ public class MemberController {
 	        logger.info("회원가입 입력한 값입니다."+param);
 	        msg = "축하합니다! 회원가입에 성공하였습니다.";
 
-	        // 파일 이름 추출
-	        String fileName = file.getOriginalFilename();
-	        String email = param.get("email");
+	        if (fileName != null) { // 파일 이름이 null이 아니면 파일이 업로드된 것임
+	            String email = param.get("email");
 
-	        // 프로필 사진 저장을 위한 맵 생성
-	        Map<String, Object> profileParam = new HashMap<>();
-	        profileParam.put("email", email);
-	        profileParam.put("newFilename", fileName);
+	            // 프로필 사진 저장을 위한 맵 생성
+	            Map<String, Object> profileParam = new HashMap<>();
+	            profileParam.put("email", email);
+	            profileParam.put("newFilename", fileName);
 
-	        // 프로필 사진 저장
-	        memberService.saveProfilePic(profileParam);
+	            // 프로필 사진 저장
+	            memberService.saveProfilePic(profileParam);
+	        }
 
 	        model.addAttribute("msg",msg);
 	        page = "login/login";
 	    }       
 	    return page;
 	}
-	
 	//회원가입 이메일 중복체크
 	@RequestMapping(value="/member/joinoverlay.do", method=RequestMethod.POST) // overlay.do에서 joinoverlay.do로 수정
 	@ResponseBody
@@ -173,6 +175,15 @@ public class MemberController {
 	    map.put("use", memberService.joinoverlay(email));  
 	    return map;
 	}
+	
+	//타회원 프로필보기 페이지 이동
+	@RequestMapping(value="/member/otherprofile.go")
+	public String otherprofile() {
+		
+		return"member/otherMemberProfile";
+	}
+	
+	
 	
 	
 	

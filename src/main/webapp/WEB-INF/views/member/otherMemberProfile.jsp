@@ -1,4 +1,4 @@
-com.beans.market<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <html>
 <head>
@@ -16,10 +16,12 @@ com.beans.market<%@ page language="java" contentType="text/html; charset=UTF-8" 
 <body>
 	
 	
-	
+	<img class="profile" src="/photo/">
 	<span>다른 회원 프로필</span>
-	
-
+	<div>
+		<p><i class="fa-solid fa-thumbs-up"></i> ${sellerInfo.positiveCount}</p>
+		<p><i class="fa-solid fa-thumbs-down"></i> ${sellerInfo.negativeCount}</p>	
+	</div>
 </body>
 
 <script>

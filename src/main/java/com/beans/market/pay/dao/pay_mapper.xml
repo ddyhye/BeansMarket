@@ -4,7 +4,7 @@
 <mapper namespace="com.beans.market.member.dao.PayDAO">	
 	
 	<!--  나의 빈즈 내역 -->
-	<select id="list" resultType="com.beans.market.member.dto.PayDTO">
+	<select id="list" resultType="com.beans.market.pay.dto.PayDTO">
 		SELECT idx, email, option, price, content, reg_date from pay_hist
 	</select>
 	
