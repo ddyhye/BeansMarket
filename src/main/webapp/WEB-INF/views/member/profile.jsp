@@ -16,13 +16,13 @@
 		<div class="main">
 			<div class="main-top">
 				<div class="main-top-profilePic">
-					<img src="/photo/ahruru.png" />
+					<img src="/photo/${new_filename}" />
 				</div>
 				<div class="main-top-profileNic">
-					<h2>아루루</h2>
+					<h2>${name}</h2>
 				</div>
 				<div class="main-top-profileUpdate">
-					<p>프로필 수정</p>
+					<a href="<c:url value='/member/profileUpdate.go'/>"><p>프로필 수정</p></a>
 				</div>
 			</div>
 
@@ -33,9 +33,9 @@
 					</div>
 					<div class="main-center-first-body">
 						<i class="fa-regular fa-face-laugh-squint"></i>
-						<p>&nbsp;23&nbsp;&nbsp;&nbsp;&nbsp;</p>
+						<p>&nbsp;23(이거쪽지이후)&nbsp;&nbsp;&nbsp;&nbsp;</p>
 						<i class="fa-regular fa-face-rolling-eyes"></i>
-						<p>&nbsp;4</p>
+						<p>&nbsp;4(쪽지)</p>
 					</div>
 				</div>
 				<div class="main-center-second">
@@ -46,23 +46,23 @@
 						<table>
 							<tr>
 								<td>&nbsp;&nbsp;EMAIL</td>
-								<td>&nbsp;&nbsp;ahruru@email.com</td>
+								<td>&nbsp;&nbsp;${email}</td>
 							</tr>
 							<tr>
 								<td>&nbsp;&nbsp;NICNAME</td>
-								<td>&nbsp;&nbsp;아루루&nbsp;&nbsp;</td>
+								<td>&nbsp;&nbsp;${name}&nbsp;&nbsp;</td>
 							</tr>
 							<tr>
 								<td>&nbsp;&nbsp;ADRESS</td>
-								<td>&nbsp;&nbsp;경기도 광명시 광명동&nbsp;&nbsp;</td>
+								<td>&nbsp;&nbsp;${location}&nbsp;&nbsp;</td>
 							</tr>
 							<tr>
 								<td>&nbsp;&nbsp;BIRTHDAY&nbsp;&nbsp;</td>
-								<td>&nbsp;&nbsp;1999. 09. 12.</td>
+								<td>&nbsp;&nbsp;${birth_date}</td>
 							</tr>
 							<tr>
 								<td>&nbsp;&nbsp;GENDER</td>
-								<td>&nbsp;&nbsp;남자</td>
+								<td>&nbsp;&nbsp;${gender}</td>
 							</tr>
 						</table>
 					</div>
@@ -72,7 +72,7 @@
 						<h3>Beans Pay</h3>
 					</div>
 					<div class="main-center-third-body">
-						<p>500,200 $&nbsp;&nbsp;</p>
+						<p>${point} $(페이이후)&nbsp;&nbsp;</p>
 						<i class="fa-solid fa-circle-dollar-to-slot"></i>
 					</div>
 				</div>

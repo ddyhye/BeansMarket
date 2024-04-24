@@ -27,6 +27,9 @@ import org.springframework.web.multipart.commons.CommonsMultipartFile;
 
 import com.beans.market.member.dto.MemberDTO;
 import com.beans.market.member.service.MemberService;
+import com.beans.market.pay.dto.PayDTO;
+import com.beans.market.photo.dto.ProfilePicDTO;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -41,7 +44,7 @@ public class MemberController {
 
 	
 	//로그인페이지
-	@RequestMapping(value="member/login.go")
+	@RequestMapping(value="/member/login.go")
 	public String logingo() {
 		logger.info("로그인페이지 이동");
 		return "/login/login";
@@ -53,16 +56,17 @@ public class MemberController {
 	    logger.info("로그인 시도");
 	    String page = "login/login";
 	    String msg = "로그인에 실패하였습니다.";   
-	    MemberDTO loginId = memberService.login(email,password);
+	    MemberDTO loginInfo = memberService.login(email,password);
 		String logEmail = memberService.logEmail(email,password);
-	    logger.info("info : {}", loginId);
+		logger.info("info: {}", loginInfo);
 
-	    if(loginId != null) {
-	        page = "redirect:/main";
+
+	    if(loginInfo != null) {
+	        page = "redirect:/";
 	        msg = "로그인 되었습니다.";
-	        session.setAttribute("loginfo", loginId);
+	        session.setAttribute("loginInfo", loginInfo);
 			session.setAttribute("logEmail", logEmail);
-	        model.addAttribute("msg", msg);
+	        //model.addAttribute("msg", msg);
 			//memberService.lastdate(email,password);
 	        // 로그인 성공 시 마지막 로그인 날짜 업데이트 메서드 호출
 	        Map<String, Object> params = new HashMap<>();
@@ -70,7 +74,7 @@ public class MemberController {
 	        params.put("lastLoginDate", LocalDateTime.now());
 	        memberService.updateLastLoginDate(params);
 	    }
-	    model.addAttribute("msg", msg);
+	    // model.addAttribute("msg", msg);
 	    return page;
 	}    
 	
@@ -184,6 +188,61 @@ public class MemberController {
 	}
 	
 	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	/*             마이페이지              */
+	
+	// 마이페이지 - 프로필 업데이트
+	@RequestMapping(value="/member/profileUpdate.go")
+	public String profileUpdate_go(HttpSession session, Model model) {
+		logger.info("프로필 수정 페이지...");
+		
+		String page = "redirect:/";
+		
+		if (session.getAttribute("logEmail") != null) {
+			String logEmail = (String) session.getAttribute("logEmail");
+			page = "/member/profileUpdate";
+			MemberDTO dto = memberService.profileGet(logEmail);
+			ProfilePicDTO dtoPic = memberService.profilePicGet(logEmail);
+			
+			model.addAttribute("photo", dtoPic.getNew_filename());
+			model.addAttribute("name", dto.getName());
+			model.addAttribute("email", dto.getEmail());
+			model.addAttribute("location", dto.getLocation());
+			model.addAttribute("birth_date", dto.getBirth_date());
+			model.addAttribute("gender", dto.getGender());
+		} else {
+			model.addAttribute("msg", "로그인이 필요한 서비스 입니다...");
+		}
+		
+		return page;
+	}
+	
+	@RequestMapping(value="/member/profileUpdate.do")
+	public String profileUpdate_do(HttpSession session, Model model) {
+		logger.info("프로필 수정 완료...");
+		
+		String page = "redirect:/";
+		
+		if (session.getAttribute("logEmail") != null) {
+			page = "/member/profileUpdate";
+		} else {
+			model.addAttribute("msg", "로그인이 필요한 서비스 입니다...");
+		}
+		
+		return page;
+	}
 	
 	
 	

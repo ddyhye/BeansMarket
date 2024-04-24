@@ -5,7 +5,7 @@ font-family: 'Varela Round', sans-serif;
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&family=Varela+Round&display=swap');
 section{
     font-family: 'Poppins', sans-serif; /*앞: 메인폰트, 뒤: 대체폰트(구현안될시)*/
-    padding: 5rem 0; /*1.상하 2.좌우 ','사용금지*/
+    padding: 10rem 0 5rem 0; /*1.상하 2.좌우 ','사용금지*/
 }
 
 section img{
@@ -24,6 +24,8 @@ section .goods-detail{
 section .goods-detail .left{
     width: 500px;
     position: relative;
+    display: flex;
+    justify-content: center;
 }
 section .goods-detail .left .picture .goodsImg{
     width: 100%;
@@ -59,8 +61,6 @@ section .goods-detail .left .next{
 section .goods-detail .left .select-pic{
     position: absolute;
     bottom: -30px;
-    left: 50%;
-    transform: translateX(-50%);
     display: flex;
 }
 
@@ -85,7 +85,7 @@ section .goods-detail .left .select{
 
 /* 프로필 영역 css*/
 section .goods-detail .right{
-    width: 600px;
+    width: 650px;
     position: relative;
 }
 
@@ -148,20 +148,23 @@ section .goods-detail .right .profile .right .user_name{
 section .goods-detail .right .subject{
     display: flex;
     justify-content: space-between;
+    margin-bottom: 10px;
 }
 
-section .goods-detail .right .subject > * {
-    font-size: 20px;
+section .goods-detail .right .subject p{
+    font-size: 27px;
     text-align: center;
+    padding: 10px;
 }
 
 section .goods-detail .right .subject .icon{
     margin-right: 2rem;
+    padding: 10px;
 }
 
 section .goods-detail .right .subject .icon i{
     color: pink;
-    font-size: 20px;
+    font-size: 27px;
 }
 
 section .goods-detail .right .subject .icon .interest{
@@ -169,15 +172,31 @@ section .goods-detail .right .subject .icon .interest{
     background-color: white;
 }
 
-section .goods-detail .right .subject, .price, .place, .reg-date, .successful-bid{
-    padding: 1rem;
-    font-size: 18px;
+section .goods-detail .right .successful-bid, .now-price, .place, .reg-date, .bid-count, .time{
+    display: flex;
+}
+
+section .goods-detail .right .successful-bid p, .now-price p, .place p, .reg-date p, .bid-count p, .time p{
+    padding: 10px;
+    font-size: 18px
+}
+
+section #my-bid{
+    display: none;
+	background-color: aquamarine;
+    color: grey;
+}
+
+section .goods-detail .right .title{
+    width: 150px;
+    border-right: 1px dotted black;
 }
 
 section .goods-detail .right .btn{
     display: flex;
     justify-content: center;
     bottom: 0;
+    margin-top: 30px;
 }
 
 section .goods-detail .right .btn button{
@@ -248,19 +267,10 @@ section #reportForm .form .btn-controller button{
 }
 
 /* 경매에 관련된 css*/
-section .goods-detail .right .bid-info .bid-count, .time{
-	display: flex;
-}
-
-section .goods-detail .right .bid-info .bid-count p, .time p{
-    padding: 1rem;
-    font-size: 18px;
-}
-
 section #bidForm{
     position: fixed;
     width: 500px;
-    height: 450px;
+    height: 400px;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
@@ -327,7 +337,7 @@ section #bidForm .bidForm-price div .title{
 
 section #bidForm #bid-msg{
     position: fixed;
-    display: flex;
+    display: none;
     width: 300px;
     height: 150px;
     top: 50%;

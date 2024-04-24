@@ -1,23 +1,48 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC	"-//mybatis.org//DTD Mapper 3.0//EN"
 	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.beans.market.member.dao.PayDAO">	
+<mapper namespace="com.beans.market.pay.dao.PayDAO">	
 	
 	<!--  나의 빈즈 내역 -->
 	<select id="list" resultType="com.beans.market.pay.dto.PayDTO">
-		SELECT idx, email, option, price, content, reg_date from pay_hist
+		SELECT idx, email, option, price, content, reg_date from pay_hist WHERE email = #{email} order by reg_date desc;
+
 	</select>
-	
+
 	<!--  나의 빈즈페이 액수 -->
 	<select id="getMyAmount" resultType="int">
 		SELECT point FROM member WHERE email = #{email}
 	</select>
 	<!--  나의 빈즈페이 아이디 -->
 	<select id="getUsernameByEmail" resultType="string">
-		SELECT email FROM users WHERE email = #{email}
+		SELECT name FROM member WHERE email = #{email}
 	</select>
 	
+	<update id="payDeposit">
+		UPDATE member m
+			SET m.point = m.point + (SELECT price FROM deal_aution_hist WHERE idx = #{param1} ORDER BY reg_date DESC LIMIT 1)
+		WHERE m.email = (SELECT email FROM deal_aution_hist WHERE idx = #{param1} ORDER BY reg_date DESC LIMIT 1)
+	</update>
+	
+	
+	<!--  충전 -->
+<update id="updatePoint" parameterType="map">
+     update member set point = point + #{pay} where email = #{email}
+   </update>
+
+<!--  빈즈페이 충전 내역 -->
+<insert id="insertPayHistory" parameterType="map">
+    INSERT INTO pay_hist (email, price, option, content, reg_date)
+    VALUES (#{email}, #{amount}, '빈즈페이 충전', '빈즈페이 충전 내역', NOW())
+</insert>
 
 
 	
+	<update id="payWithdrawal">
+		UPDATE member
+			SET point = point - #{param2}
+		WHERE email = #{param1}
+	</update>
+
+
 </mapper>

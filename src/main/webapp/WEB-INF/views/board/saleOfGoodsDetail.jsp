@@ -54,10 +54,19 @@
                             <button class="interest"><i class="fa-regular fa-heart"></i></button><!-- 빈 하트 -->
                         </div>
                     </div>
-                    <p class="price">${bbs.price} 원</p>
-                    <hr/>
-                    <p class="place">거래 희망 장소 : ${bbs.place}</p>
-                    <p class="reg-date">등록일 : ${reg_date}</p>
+                    <div class="now-price">
+                        <p class="title">가격</p>
+                        <p class="price">${bbs.price}</p>
+                        <p>원</p>
+                    </div>
+                    <div class="place">
+                        <p class="title">거래 희망 장소</p>
+                        <p>${bbs.place}</p>
+                    </div>
+                    <div class="reg-date">
+                        <p class="title">등록일</p>
+                        <p>${reg_date}</p>
+                    </div>
                     <div class="btn">
                         <button class="messageSend"> <i class="fa-solid fa-paper-plane">&nbsp;</i> 쪽지 보내기</button> 
                     </div>
@@ -102,9 +111,12 @@
     var picCount = 0;     // 현재 사진이 몇번째 사진인지
 	var bbsIdx = '${bbs.idx}'; // String	
 	var bbsEmail = '${bbs.email}';
-	
 
-
+    // 관심 표시 되어있으면 하트가 차있도록
+    if('${mine}' == 1){
+    	$('.icon i').removeClass('fa-regular fa-heart').addClass('fa-solid fa-heart');
+    }
+    
     // 특정 게시물 모든 사진 이름 받아오기
     var photoArray = [];
     $('.goods-content img').each(function() {
@@ -133,16 +145,29 @@
         $('.next').hide();
         $('.prev').hide();
     });
+    
+    // 로그인을 안했으면 alert 창 출력 후 로그인으로 이동 - 체크는 서버 측에서도 한번더 하면 좋을거 같음
+    function loginCheck() {
+        var login = true;
+        if('${loginInfo}' == ''){
+            alert('로그인이 필요한 서비스 입니다.');
+            location.href="<c:url value="/member/login.go"/>";
+            login = false;
+        }
+        return login;
+    }
 
     // 관심 목록 추가 및 삭제
     $('.icon').click(function(){
-    	var i = $('.icon i');
-        if(i.attr('class') == 'fa-regular fa-heart'){
-            i.removeClass('fa-regular fa-heart').addClass('fa-solid fa-heart');
-            interest(i.attr('class'));
-        } else if(i.attr('class') == 'fa-solid fa-heart'){
-            i.removeClass('fa-solid fa-heart').addClass('fa-regular fa-heart');
-            interest(i.attr('class'));
+    	if(loginCheck()){
+            var i = $('.icon i');
+            if(i.attr('class') == 'fa-regular fa-heart'){
+                i.removeClass('fa-regular fa-heart').addClass('fa-solid fa-heart');
+                interest(i.attr('class'));
+            } else if(i.attr('class') == 'fa-solid fa-heart'){
+                i.removeClass('fa-solid fa-heart').addClass('fa-regular fa-heart');
+                interest(i.attr('class'));
+            }
         }
     });
 
@@ -199,8 +224,11 @@
         $('.goodsImg').attr('src', photoArray[picCount]);
     });
 
+    // 신고 버튼 클릭 시 - 회원
     $('.reportBtn').click(function(){
-        $('#reportForm').toggle();
+        if(loginCheck()){
+            $('#reportForm').toggle();
+        }
     });
 
     // 신고 ajax
@@ -234,6 +262,7 @@
 
     // 메시지 보내기
     $('.messageSend').click(function(){
+    	// 로그인해야 가능하게
     	location.href='../message/noteMessage.go';
     });
 

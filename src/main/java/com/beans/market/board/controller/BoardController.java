@@ -1,11 +1,9 @@
 package com.beans.market.board.controller;
 
-import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpSession;
@@ -17,11 +15,14 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.beans.market.board.service.BoardService;
+import com.beans.market.history.service.HistoryService;
 import com.beans.market.member.dto.MemberDTO;
+import com.beans.market.member.service.MemberService;
 import com.beans.market.photo.service.PhotoService;
 
 @Controller
@@ -31,10 +32,12 @@ public class BoardController {
 	
 	@Autowired BoardService boardService;
 	@Autowired PhotoService photoService;
+	@Autowired MemberService memberService;
+	@Autowired HistoryService historyService;
 
 	// 게시글로 이동
 	@RequestMapping(value="/board/detail.go", method = RequestMethod.GET)
-	public String boardDetailGo(Model model, Integer idx) {
+	public String boardDetailGo(HttpSession session, Model model, Integer idx) {
 		logger.info("{} 디테일로 이동", idx);
 		int option_idx = 1; // 게시글이라는 의미
 		String page = "redirect:/";
@@ -43,7 +46,27 @@ public class BoardController {
 			photoService.boardPhoto(idx, model, option_idx);						
 		}
 		
+		if (session.getAttribute("loginInfo") != null) {
+			MemberDTO loginInfo = (MemberDTO) session.getAttribute("loginInfo");
+			String email = loginInfo.getEmail();
+			// 관심 목록에 있는가
+			int mine = memberService.getInterest(idx, email);
+			model.addAttribute("mine", mine);
+			
+			// 최고 입찰자가 나인가
+			int my_bid = historyService.myBidCheck(idx, email);
+			model.addAttribute("my_bid", my_bid);
+		}	
+		
 		return page;
+	}
+	
+	// 게시글 정보 새로 받아오기
+	@RequestMapping(value = "/board/detail.ajax", method = RequestMethod.GET)
+	@ResponseBody
+	public Map<String, Object> detailAjax(String idx){
+		logger.info("detail idx ajax : {}", idx);
+		return boardService.detailAjax(idx);
 	}
 	
 	// 관심 목록 추가 및 삭제
@@ -71,37 +94,53 @@ public class BoardController {
 	// 물풀 팔기 글쓰기
 	@RequestMapping(value = "/board/goodsWrite.do", method = RequestMethod.POST)
     public String goodsWrite(HttpSession session, Model model,
-                             String subject, String content, String place,
-                             String category_idx, int price, List<MultipartFile> imageFiles) {
+                             MultipartFile[] photos,
+                             @RequestParam Map<String, String> params) {
 
-		String email = (String) session.getAttribute("email");
-        
-        if (email == null) {
-            return "redirect:/login";
-        }
-        
-		// 등록날짜 설정
-        LocalDateTime currentDateTime = LocalDateTime.now();
-        Timestamp regDate = Timestamp.valueOf(currentDateTime);
-        
-        // 글쓰기 서비스 호출
-        int boardIdx = boardService.writeBoard(email, subject, content, place, category_idx, price, imageFiles, regDate);
-        
-        // 상세보기 페이지로 이동하는 URL 생성
-        String detailPageUrl = "/goodsDetail.go?idx=" + boardIdx;
-
-        // 상세보기 페이지로 리다이렉트
-        return "redirect:" + detailPageUrl;
+		String logEmail = (String) session.getAttribute("logEmail");
+		
+		params.put("logEmail", logEmail);
+		
+		int priceInt = 0;
+		int start_priceInt = 0;
+		int immediate_priceInt = 0;
+		int auction_period = Integer.parseInt(params.get("auction-period"));
+		
+		logger.info("params: "+params);
+		
+		
+		// 판매일 경우, start-price가 안들어온다.
+		if (params.get("start_priceInt") == null || params.get("immediate-price") == null) {
+			priceInt = Integer.parseInt(params.get("price"));
+		}
+		// 경매일 경우, price가 안들어온다.
+		if (params.get("price") == null) {
+			start_priceInt = Integer.parseInt(params.get("start-price"));
+			immediate_priceInt = Integer.parseInt(params.get("immediate-price"));
+		}
+		
+		// 임시저장
+		if (params.get("draft").equals("Y") && params.get("subject") != null) {
+			boardService.tempSave(params, priceInt, start_priceInt, immediate_priceInt, auction_period, photos);
+		} else {
+			boardService.writeBoard2(params, priceInt, start_priceInt, immediate_priceInt, auction_period, photos);	
+		}
+		
+		
+		
+		// 해당 글 상세보기 페이지로 이동
+		return "board/saleOfGoodsWrite";
 
 	}
 	
 	
 	
 	// 임시저장 글로 이동
-	@RequestMapping(value = "/TempSave.go")
+	@RequestMapping(value = "/board/TempSave.go")
 	public String tempSave() {
 		return "board/TempSave";
 	}
+	
 	
 	// 임시저장 글 삭제
 	@RequestMapping(value = "tempdel")
@@ -124,7 +163,7 @@ public class BoardController {
 		// 현재 시간 가져오기
 		LocalDateTime currentTime = LocalDateTime.now();
         // 비교할 특정 시간 설정하기
-        LocalDateTime specificTime = LocalDateTime.parse(close_date, DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
+        LocalDateTime specificTime = LocalDateTime.parse(close_date, DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss.0"));
         // logger.info("{}, {} : ", currentTime, specificTime);
 
         // 현재 시간과 특정 시간 사이의 차이 계산하기

@@ -8,6 +8,7 @@ import org.apache.ibatis.annotations.Update;
 
 import com.beans.market.member.dto.MemberDTO;
 import com.beans.market.member.dto.SellerDTO;
+import com.beans.market.photo.dto.ProfilePicDTO;
 
 public interface MemberDAO {
 
@@ -42,8 +43,25 @@ public interface MemberDAO {
 	SellerDTO sellerInfo(String email);
 
 	int nowPoint(String email);
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	/*         마이페이지          */
 
 	String logEmail(String email, String password);
+
+	MemberDTO profileGet(String logEmail);
+
+	ProfilePicDTO profilePicGet(String logEmail);
 
 
 }

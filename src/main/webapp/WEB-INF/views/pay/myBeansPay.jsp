@@ -1,11 +1,11 @@
-com.beans.market<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <html>
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-<link rel="stylesheet" href="../resources/css/common.css" type="text/css"/>
+<link rel="stylesheet" href="<c:url value='/resources/css/main.css'/>" type="text/css"/>
 <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
 <style>
 
@@ -14,6 +14,7 @@ com.beans.market<%@ page language="java" contentType="text/html; charset=UTF-8" 
     display: flex;
     align-items: center;
     justify-content: start;
+    margin-top : 20px;
 }
 
 .beanspay p {
@@ -46,6 +47,7 @@ com.beans.market<%@ page language="java" contentType="text/html; charset=UTF-8" 
         cursor: pointer;
         border-radius: 5px; 
         transition: all 0.3s;
+        float : right;
 }
 .charge:hover {
         background-color: darkgreen;
@@ -100,12 +102,13 @@ com.beans.market<%@ page language="java" contentType="text/html; charset=UTF-8" 
 <body>
 <jsp:include page="../common.jsp" />
 <div class="container">
-	<div class="username">유저이름 들어갈곳</div>
+	<div class="username">${userName} 님의 빈즈페이</div>
 		 <div class="beanspay">
 		      <p><b>빈즈페이</b></p>
 		      <p class="my_amount">${my_amount}</p>
 		      <p>원</p>
 		      <button class="charge">+ 충전</button>
+		     
     	</div>
 
 <div class="content">
@@ -122,7 +125,7 @@ com.beans.market<%@ page language="java" contentType="text/html; charset=UTF-8" 
                 <c:when test="${bean.option =='경매글 입찰' || bean.option == '거래금 지불'}">
                     <div class="amount" style="color: red;">-${bean.price}</div>
                 </c:when>
-                <c:when test="${bean.option == '거래금 수령' || bean.option == '빈즈페이 충전'}">
+                <c:when test="${bean.option == '거래금 수령' || bean.option == '입찰금 반환' || bean.option == '빈즈페이 충전'}">
                     <div class="amount" style="color: blue;">+${bean.price}</div>
                 </c:when>
                 <c:otherwise>
@@ -139,9 +142,11 @@ com.beans.market<%@ page language="java" contentType="text/html; charset=UTF-8" 
     <div class="modal_body">
         <h2>빈즈페이 충전</h2>
         <p>얼마를 충전하시겠습니까? </p>
-        <input type="text" id="chargeAmount">원
-        <button class="modal_close">X</button>
-        <button class="btn_confirm">확인</button> <!-- 확인 버튼 추가 -->
+			<form action="/main/pay/charge" method="post">
+    			<input type="number" id="chargeAmount" name="pay" min="0" step="100">원
+    			<button type="button" class="modal_close">X</button>
+    			<input type="submit" value="확인"/>
+			</form>
     </div>
 </div>
 
@@ -155,8 +160,11 @@ com.beans.market<%@ page language="java" contentType="text/html; charset=UTF-8" 
     </div>
 </div>
         
-        
 </div>
+
+
+
+
 </body>
 
 <script>
@@ -202,10 +210,11 @@ cancel.addEventListener("click", () => {
         // '충전 금액 확인' 모달의 텍스트를 변경
         document.getElementById('confirmText').textContent = '' + chargeAmount + '원 을 충전하시겠습니까??';
         
-        // 필요한 경우 '충전 금액 확인' 모달창을 여기서 열 수 있습니다.
-        // 예: document.querySelector('.modal_confirm').style.display = 'block';
     });
+    
+   
 
+    
 
 </script>
 </html>
