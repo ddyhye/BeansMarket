@@ -13,5 +13,9 @@
 		FROM photo WHERE idx = #{param1} AND option_idx = #{param2}
 	</select>
 	
+	<select id="getMainPhoto" resultType="String">
+		SELECT new_picname
+		FROM photo WHERE idx = #{param1} AND option_idx = #{param2} AND main = 'Y' limit 1
+	</select>
 	
 </mapper>

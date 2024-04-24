@@ -197,6 +197,7 @@
  	// 내가 최대 입찰자 인지 확인
     if('${my_bid}' == 1){
     	$('#my-bid').show();
+        
     }
     
     // 입찰 후 내용 수정용으로 bbs 정보 받아오기
@@ -212,8 +213,10 @@
 				$('.price').text(data.price);
                 $('.count').text(data.bid_count);
                 $('.close-date').text('(종료 : '+data.close_date+')');
-                $('#bid-able').text(data.price+1000);
-                $('#bid-price').val(data.price+1000);
+                if(data.bid_count != 0){
+                    $('#bid-able').text(data.price+1000);
+                    $('#bid-price').val(data.price+1000);
+                }
                 price = data.price;
                 $('.top .bbs-state').text(data.bbs_state);
                 bbsState(data.bbs_state);

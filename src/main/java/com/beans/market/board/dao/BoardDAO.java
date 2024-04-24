@@ -30,6 +30,7 @@ public interface BoardDAO {
 
 	String getEmail(int idx);
 	
+	BoardDTO getBoardInfo(int idx);
 	
 	// 도혜=정언
 	//int writeBoard(Map<String, String> params);
@@ -43,5 +44,6 @@ public interface BoardDAO {
 	void savePhoto2(int idx, String orifilename, String newfileName);	// ㄴㄴ
 
 	int tempSave(BoardDTO dto);
+
 
 }

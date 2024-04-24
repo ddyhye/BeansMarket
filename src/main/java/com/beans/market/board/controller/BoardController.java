@@ -181,6 +181,13 @@ public class BoardController {
 		MemberDTO loginInfo = (MemberDTO) session.getAttribute("loginInfo");
 		logger.info("{} 님이 {} 번 게시물 입찰 시도", loginInfo.getEmail(), bbsIdx);
 		
+		// 자기 게시물 입찰 불가
+		if(loginInfo.getEmail().equals(boardService.getEmail(Integer.parseInt(bbsIdx)))) {
+			map.put("result", false);
+			map.put("content", "자기 게시물에는 입찰할 수 없습니다.");
+			return map;
+		}
+		
 		int result = boardService.biddingAjax(loginInfo, Integer.parseInt(bid_price), Integer.parseInt(bbsIdx));
 		String content = "";
 		

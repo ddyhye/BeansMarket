@@ -45,6 +45,12 @@
 		SELECT email FROM bbs WHERE idx = #{param1};
 	</select>
 	
+	<select id="getBoardInfo" resultType="com.beans.market.board.dto.BoardDTO">
+		SELECT b.idx, b.bbs_state, b.email, b.price, b.reserve_email, b.subject FROM bbs b
+			WHERE b.idx = #{param1};
+	</select>
+	
+	
 	<!-- 글작성 ::판매 이미지도 해야함!!!!!!!!!!!!, 가격,사용자 위치, -->
 	<insert id="writeBoard"
 			useGeneratedKeys="true"

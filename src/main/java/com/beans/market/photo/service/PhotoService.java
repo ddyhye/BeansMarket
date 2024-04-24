@@ -31,6 +31,11 @@ public class PhotoService {
 		logger.info("파일 이름들 : "+names);
 		model.addAttribute("names", names);
 	}
+
+	public String getMainPhoto(int idx) {
+		logger.info("{}번 메인 사진 가져오기", idx);
+		return photoDAO.getMainPhoto(idx, 1);
+	}
 	
 	
 }

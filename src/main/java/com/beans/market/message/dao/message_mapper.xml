@@ -11,6 +11,30 @@
 	
 	<insert id="sendMessage">
 		INSERT INTO deal_message(content, receive_email, sender_email, idx) 
-			VALUES(#{param1}, #{param2}, #{param3}, #{param4});
+			VALUES(#{param1}, #{param2}, #{param3}, #{param4})
 	</insert>
+	
+	<select id="roomList" resultType="com.beans.market.message.dto.RoomDTO">
+		SELECT m.sender_email AS other_email, m.idx
+		FROM deal_message m 
+		WHERE m.receive_email = #{param1}
+		AND m.idx IN (SELECT idx FROM bbs WHERE email = #{param1}) 
+		GROUP BY m.idx, m.sender_email
+			UNION ALL 
+		SELECT m.receive_email AS other_email, m.idx
+		FROM deal_message m
+		WHERE m.sender_email = #{param1} 
+		AND m.idx NOT IN (SELECT idx FROM bbs WHERE email = #{param1}) 
+		GROUP BY m.idx
+	</select>
+	
+	<select id="lastContent" resultType="com.beans.market.message.dto.RoomDTO">
+		SELECT dm.content, dm.reg_date, p.new_picname
+			FROM deal_message dm 
+			JOIN (SELECT p.idx, p.new_picname FROM photo p WHERE p.main = 'Y' AND p.idx = #{param1}) AS p ON dm.idx = p.idx
+			WHERE dm.idx = #{param1} 
+				AND dm.receive_email IN(#{param2}, #{param3}) 
+				AND dm.sender_email IN(#{param2}, #{param3})
+			ORDER BY dm.reg_date DESC LIMIT 1;
+	</select>
 </mapper>

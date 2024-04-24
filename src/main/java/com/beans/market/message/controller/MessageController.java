@@ -30,11 +30,30 @@ public class MessageController {
 		return messageService.messageCallAjax(idx, email, otherEmail);
 	}
 	
+	@RequestMapping(value = "/message/roomListCall.ajax", method = RequestMethod.POST)
+	@ResponseBody
+	public Map<String, Object> roomListCallAjax(String email){
+		logger.info("{}의 대화방 리스트 출력", email);
+		return messageService.roomListCallAjax(email);
+	}
+	
+	
 	@RequestMapping(value = "/message/messageSend.ajax", method = RequestMethod.POST)
 	@ResponseBody
-	public Map<String, Object> messageSendAjax(int idx, String email, String content){
+	public Map<String, Object> messageSendAjax(int idx, String email, String otherEmail, String content){
 		logger.info("{}번 게시물, {}가 쪽지 전송", idx, email);
-		return messageService.messageSendAjax(idx, email, content);
+		return messageService.messageSendAjax(idx, email, otherEmail, content);
 	}
+	
+	@RequestMapping(value = "/message/subjectCall.ajax", method = RequestMethod.POST)
+	@ResponseBody
+	public Map<String, Object> subjectCallAjax(int idx){
+		logger.info("{}번 게시물, 제목 요청", idx);
+		return messageService.subjectCallAjax(idx);
+	}
+	
+	
+	
+	
 	
 }
