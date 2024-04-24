@@ -1,6 +1,7 @@
 package com.beans.market.board.dao;
 
 import java.sql.Timestamp;
+import java.util.List;
 
 import com.beans.market.board.dto.BoardDTO;
 
@@ -43,5 +44,7 @@ public interface BoardDAO {
 	void savePhoto2(int idx, String orifilename, String newfileName);	// ㄴㄴ
 
 	int tempSave(BoardDTO dto);
+
+	List<BoardDTO> list(String email);
 
 }

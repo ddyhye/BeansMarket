@@ -7,8 +7,10 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.ui.Model;
 
 import com.beans.market.main.dao.MainDAO;
+import com.beans.market.main.dto.MainDTO;
 import com.beans.market.member.dao.MemberDAO;
 import com.beans.market.member.dto.MemberDTO;
 import com.beans.market.photo.dto.ProfilePicDTO;
@@ -85,6 +87,12 @@ public class MemberService {
 		// TODO Auto-generated method stub
 		return memberDAO.profilePicGet(logEmail);
 	}
+	
+	//리스트
+
+		
+		
+	
 
 
 }

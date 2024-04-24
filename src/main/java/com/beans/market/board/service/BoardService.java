@@ -286,5 +286,10 @@ public class BoardService {
 		// TODO Auto-generated method stub
 		
 	}
+
+	public List<BoardDTO> Listcall(String email) {
+		
+		return boardDAO.list(email);
+	}
 	
 }

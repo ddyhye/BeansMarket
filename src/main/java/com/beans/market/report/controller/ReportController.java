@@ -3,6 +3,8 @@ package com.beans.market.report.controller;
 import java.util.HashMap;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.slf4j.Logger;
@@ -36,4 +38,20 @@ public class ReportController {
 		
 		return reportMap;
 	}
+	
+	//차단기능
+	@RequestMapping(value="/report/ban.do", method = RequestMethod.POST)
+	@ResponseBody
+	public void otheruserban(HttpServletRequest request, HttpServletResponse response, HttpSession session) {
+		logger.info("회원차단 시도");
+		
+	    String logemail = (String) session.getAttribute("logEmail");
+	    String blockemail = request.getParameter("blockemail");
+  
+	    reportService.ban(logemail, blockemail);
+		
+		
+	}
+	
+	
 }
