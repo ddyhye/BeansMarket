@@ -219,7 +219,7 @@ public class BoardService {
 	//		return boardDAO.writeBoard(params);
 	//	}
 
-	public void writeBoard2(Map<String, String> params, int priceInt, int start_priceInt, int immediate_priceInt, int auction_period, MultipartFile[] photos) {
+	public void writeBoard(Map<String, String> params, int priceInt, int start_priceInt, int immediate_priceInt, int auction_period, MultipartFile[] photos) {
 		BoardDTO dto = new BoardDTO();
 		dto.setEmail(params.get("logEmail"));
 		dto.setOption(params.get("option"));
@@ -244,6 +244,32 @@ public class BoardService {
 				fileSave(idx, photos);
 			}
 		}
+	}
+
+	// 임시저장
+	public void tempSave(Map<String, String> params, int priceInt, int start_priceInt, int immediate_priceInt, int auction_period, MultipartFile[] photos) {
+	    BoardDTO dto = new BoardDTO();
+	    dto.setEmail(params.get("logEmail"));
+	    dto.setOption(params.get("option"));
+	    dto.setCategory_idx(params.get("category"));
+	    dto.setSubject(params.get("subject"));
+	    dto.setContent(params.get("content"));
+	    dto.setPlace(params.get("place"));
+	    dto.setDraft(params.get("draft")); // 임시 저장 여부 설정
+
+	    if(boardDAO.tempSave(dto) > 0) {
+	        logger.info("임시 저장 완료");
+	        int idx = dto.getIdx();
+	        
+	        if (dto.getOption().equals("판매")) {
+	            boardDAO.updatePrice(priceInt, idx);
+	            fileSave(idx, photos);
+	        } else {
+	            boardDAO.updateAuctionPrice(start_priceInt, immediate_priceInt, idx); // bbs 업데이트
+	            boardDAO.updateAuctionPrice2(start_priceInt, immediate_priceInt, auction_period, idx); // auction 업데이트
+	            fileSave(idx, photos);
+	        }
+	    }
 	}
 
 
@@ -291,5 +317,6 @@ public class BoardService {
 		
 		return boardDAO.list(email);
 	}
+
 	
 }

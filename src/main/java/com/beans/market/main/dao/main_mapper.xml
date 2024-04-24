@@ -133,7 +133,7 @@
 	<select id="fullPrice" resultType="Integer">
 		SELECT successful_bid
 		FROM auction 
-		WHERE idx = #{param1}
+		WHERE idx = #{param1} AND draft == 'N'
 	</select>
 	<select id="bidCnt" resultType="Integer">
 		SELECT bid_count
@@ -230,7 +230,7 @@
 	<select id="profilePic" resultType="com.beans.market.photo.dto.ProfilePicDTO">
 		SELECT new_filename
 		FROM member_profilepic
-		WHERE email = #{param1}
+		WHERE email = #{param1} AND confirmed='Y'
 	</select>
 	
 </mapper>
