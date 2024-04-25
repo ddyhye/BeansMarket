@@ -5,7 +5,7 @@
 <meta charset="UTF-8">
 <title>회원차단</title>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-<link rel="stylesheet" href=../resources/css/common.css" type="text/css"/>
+<link rel="stylesheet" href="../resources/css/common.css" type="text/css"/>
 <link rel="stylesheet" href="resources/css/detail.css" type="text/css"/>
 <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
 <style>
@@ -60,44 +60,26 @@
 		</dl>
 		</div>
 		<div class="main-content">
-			<div class="main-content-goods">
-				<div class="goods-top">
-					<div class="goods-top-left">
-						<p>이</p>
-					</div>
-					<div class="goods-top-right">
-						<div class="saleOption-Auc">
-							<span>경매</span>
-						</div>
-					</div>
-				</div>
-				<div class="goods-photo">
-					<img src="../resources/img/checked.png" alt="경매사진"/>
-					<img src="../resources/img/unHeart.png" class="clickHeart" alt="찜"/>
-				</div>
-				<div class="goods-subject">
-					<span>asd</span>
-				</div>
-				<div class="goods-price-1">
-					<div class="goods-price-1-left">
-						<span>&nbsp;현재가&nbsp;&nbsp;</span><span class="Price">450,000</span>
-					</div>
-					<div class="goods-price-1-right">
-						<span>❤</span><span class="Hit">11&nbsp;</span>
-					</div>
-				</div>
-				<div class="goods-price-2">
-					<span>&nbsp;즉구가&nbsp;&nbsp;</span><span class="highPrice">900,000</span>
-				</div>
-				<div class="goods-bottom">
-					<div class="goods-bottom-left">
-						<span>&nbsp;입찰자&nbsp;&nbsp;</span><span class="Cnt">0</span>
-					</div>
-					<div class="goods-bottom-right">
-						<span>4/18 23:11&nbsp;</span>
-					</div>
-				</div>
-			</div>
+		<div class="main-content-goods">
+    <div class="goods-container">
+        <div class="goods-image">
+            <img src="../resources/img/checked.png" alt="상품 이미지"/>
+            <img src="../resources/img/unHeart.png" class="clickHeart" alt="찜"/>
+        </div>
+        <div class="goods-details">
+            <div class="goods-title">
+                <p>상품 제목</p>
+            </div>
+            <div class="goods-price">
+                <span>현재가</span>
+                <span class="Price">450,000</span>
+            </div>
+            <div class="goods-buttons">
+                <!-- 추가 버튼 등을 여기에 추가할 수 있어요 -->
+            </div>
+        </div>
+    </div>
+</div>
 		</div>
 		<button>차단하기</button>	
 	</section>
@@ -126,9 +108,9 @@
 	            }
 	        });
 	    });
+	    
+	    listCall(); // 페이지 로드 후 리스트 호출
 	});
-	
-	listCall();
 	
 	//회원값리스트 출력하기
 	function listCall() {
@@ -141,62 +123,58 @@
 			dataType: 'JSON',
 			success: function(data) {
 				console.log(data);
- 				drawList(data);
-			}, error: function(error) {
+ 				drawGoodsList(data);
+			}, 
+			error: function(error) {
 				console.log(error);
 			}
 		});
 	}
 	
-	function drawList(data){
-		$('.main-content').empty();
-		
-		var content = '';
-		
-		if (!data.list || data.list.length === 0) {
-			content += '<p> 판매중인 상품이 없습니다. </p>';
-		}
-		for (item of data.list) {
-			content += '<div class="main-content-goods'+(item.bbs_state === '거래완료' ? ' sold-out' : '')+'">';
-			content += '<div class="goods-idx" style="display: none;">'+item.idx+'</div>';
-			content += '<div class="goods-top">';
-			content += '<div class="goods-top-left"><p>&nbsp;&nbsp;'+item.sellerName+'</p></div>';
-			content += '<div class="goods-top-right">';
-			
-			var mark = item.bbs_state === '거래완료'? '<div class="goods-top-right-mark1"><span>Sold Out</span></div>': (item.option === '경매'? '<div class="goods-top-right-mark2"><span>경매</span></div>':'');
-			content += mark;
-			
-			content += '</div></div>';
-			content += '<div class="goods-photo">';
-			content += '<img src="/photo/'+item.new_picname+'" alt="'+item.new_picname+'"/>';
-			var heart_img_path = item.mine == 1? '<c:url value="/resources/img/heart.png"/>': '<c:url value="/resources/img/unHeart.png"/>';
-			content += '<img src="'+heart_img_path+'" class="clickHeart" alt="찜"/></div>';
-			content += '<div class="goods-subject"><span>'+item.subject+'</span></div>';
-			content += '<div class="goods-price-1">';
-			content += '<div class="goods-price-1-left">';
-			content += '<span>&nbsp;&nbsp;현재가&nbsp;&nbsp;</span><span id="Price">'+item.price+'</span></div>';
-			content += '<div class="goods-price-1-right"><span>❤</span><span class="Hit">&nbsp;'+item.heartCnt+'&nbsp;&nbsp;</span></div>';
-			content += '</div>';
-			content += '<div class="goods-price-2">';
-			content += item.option == '경매'? '<span>&nbsp;&nbsp;즉구가&nbsp;&nbsp;</span><span class="highPrice">'+item.successful_bid+'</span>':'';
-			content += '</div>';
-			content += '<div class="goods-bottom">';
-			content += '<div class="goods-bottom-left">';
-			content += item.option == '경매'? '<span>&nbsp;&nbsp;입찰 &nbsp;&nbsp;</span><span class="Cnt">0&nbsp;</span></div>':'</div>';
-			content += '<div class="goods-bottom-right">';
-			content += '<span>'+item.reg_date+'&nbsp;</span>';
-			content += '</div></div></div>';
-		}
-		
-		$('.main-content').append(content);
-	}
-	
-	
-	
-	
-	
-	
-	
-	
+	// 리스트 그리기
+function drawGoodsList(data) {
+    $('.main-content').empty();
+
+    var content = '';
+
+    if (!data.list || data.list.length === 0) {
+        content += '<p> 판매중인 상품이 없습니다. </p>';
+    } else {
+        for (item of data.list) {
+            content += '<div class="main-content-goods-wrapper">'; // 각 게시물을 감싸는 div 추가
+            content += '<div class="main-content-goods'+(item.bbs_state === '거래완료' ? ' sold-out' : '')+'">';
+            content += '<div class="goods-idx" style="display: none;">'+item.idx+'</div>';
+            content += '<div class="goods-top">';
+            content += '<div class="goods-top-left"><p>&nbsp;&nbsp;'+item.sellerName+'</p></div>';
+            content += '<div class="goods-top-right">';
+
+            var mark = item.bbs_state === '거래완료'? '<div class="goods-top-right-mark1"><span>Sold Out</span></div>': (item.option === '경매'? '<div class="goods-top-right-mark2"><span>경매</span></div>':'');
+            content += mark;
+
+            content += '</div></div>';
+            content += '<div class="goods-photo">';
+            content += '<img src="/photo/'+item.new_picname+'" alt="'+item.new_picname+'"/>';
+            var heart_img_path = item.mine == 1? '<c:url value="/resources/img/heart.png"/>': '<c:url value="/resources/img/unHeart.png"/>';
+            content += '<img src="'+heart_img_path+'" class="clickHeart" alt="찜"/></div>';
+            content += '<div class="goods-subject"><span>'+item.subject+'</span></div>';
+            content += '<div class="goods-price-1">';
+            content += '<div class="goods-price-1-left">';
+            content += '<span>&nbsp;&nbsp;현재가&nbsp;&nbsp;</span><span id="Price">'+item.price+'</span></div>';
+            content += '<div class="goods-price-1-right"><span>❤</span><span class="Hit">&nbsp;'+item.heartCnt+'&nbsp;&nbsp;</span></div>';
+            content += '</div>';
+            content += '<div class="goods-price-2">';
+            content += item.option == '경매'? '<span>&nbsp;&nbsp;즉구가&nbsp;&nbsp;</span><span class="highPrice">'+item.successful_bid+'</span>':'';
+            content += '</div>';
+            content += '<div class="goods-bottom">';
+            content += '<div class="goods-bottom-left">';
+            content += item.option == '경매'? '<span>&nbsp;&nbsp;입찰 &nbsp;&nbsp;</span><span class="Cnt">0&nbsp;</span></div>':'</div>';
+            content += '<div class="goods-bottom-right">';
+            content += '<span>'+item.reg_date+'&nbsp;</span>';
+            content += '</div></div></div>'; // 감싸는 div 닫기
+        }
+    }
+
+    $('.main-content').append(content);
+}
 </script>
 </html>

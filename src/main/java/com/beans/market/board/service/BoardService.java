@@ -308,10 +308,7 @@ public class BoardService {
 		return boardDAO.getEmail(idx);
 	}
 		
-	public void tempSave(Map<String, String> params, int priceInt, int start_priceInt, int immediate_priceInt, int auction_period, MultipartFile[] photos) {
-		// TODO Auto-generated method stub
-		
-	}
+
 
 	public List<BoardDTO> Listcall(String email) {
 		

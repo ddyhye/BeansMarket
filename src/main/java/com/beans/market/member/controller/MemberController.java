@@ -61,10 +61,12 @@ public class MemberController {
 	    MemberDTO loginInfo = memberService.login(email,password);
 		String logEmail = memberService.logEmail(email,password);
 		logger.info("info: {}", loginInfo);
+		logger.info("email {}",logEmail);
 
 
-	    if(loginInfo != null) {
-	        page = "redirect:/";
+	    if(logEmail != null) {
+	        logger.info("로그인 성공");
+	    	page = "redirect:/";
 	        msg = "로그인 되었습니다.";
 	        session.setAttribute("loginInfo", loginInfo);
 			session.setAttribute("logEmail", logEmail);
