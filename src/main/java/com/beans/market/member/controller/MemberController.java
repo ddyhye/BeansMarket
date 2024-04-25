@@ -27,6 +27,7 @@ import org.springframework.web.multipart.commons.CommonsMultipartFile;
 
 import com.beans.market.board.dto.BoardDTO;
 import com.beans.market.board.service.BoardService;
+import com.beans.market.main.service.MainService;
 import com.beans.market.member.dto.MemberDTO;
 import com.beans.market.member.service.MemberService;
 import com.beans.market.pay.dto.PayDTO;
@@ -42,6 +43,7 @@ public class MemberController {
 	Logger logger = LoggerFactory.getLogger(getClass());
 	
 	@Autowired MemberService memberService;
+	@Autowired MainService mainService;
 	@Autowired BoardService boardService;
 
 	
@@ -215,8 +217,7 @@ public class MemberController {
 
 	
 	/*             마이페이지              */
-	
-	// 마이페이지 - 프로필 업데이트
+	// 마이페이지 - 프로필 업데이트 페이지
 	@RequestMapping(value="/member/profileUpdate.go")
 	public String profileUpdate_go(HttpSession session, Model model) {
 		logger.info("프로필 수정 페이지...");
@@ -241,15 +242,43 @@ public class MemberController {
 		
 		return page;
 	}
-	
+	// 마이페이지 - 프로필 사진 변경
+	@RequestMapping(value="/member/newPicPath.ajax", method = RequestMethod.POST)
+	@ResponseBody
+	public Map<String, Object> newPicPathAjax(HttpSession session, @RequestParam("photo") MultipartFile photo){
+		Map<String, Object> map = new HashMap<String, Object>();
+		
+		String logEmail = (String) session.getAttribute("logEmail");
+		String newFileName = memberService.newPicPath(logEmail, photo);
+		
+		map.put("newFileName", newFileName);
+		
+		return map;
+	}
+	// 마이페이지 - 프로필 업데이트
 	@RequestMapping(value="/member/profileUpdate.do")
-	public String profileUpdate_do(HttpSession session, Model model) {
+	public String profileUpdate_do(HttpSession session, Model model, @RequestParam Map<String, String> param) {
 		logger.info("프로필 수정 완료...");
 		
 		String page = "redirect:/";
 		
 		if (session.getAttribute("logEmail") != null) {
-			page = "/member/profileUpdate";
+			String logEmail = (String) session.getAttribute("logEmail");
+			param.put("logEmail", logEmail);
+			
+			logger.info("param: "+param);
+			
+			MemberDTO dto = memberService.profileUpdate(param);
+			ProfilePicDTO dtoPic = memberService.profilePicGet(logEmail);
+			
+			model.addAttribute("photo", dtoPic.getNew_filename());
+			model.addAttribute("name", dto.getName());
+			model.addAttribute("email", dto.getEmail());
+			model.addAttribute("location", dto.getLocation());
+			model.addAttribute("birth_date", dto.getBirth_date());
+			model.addAttribute("gender", dto.getGender());
+			
+			page = "/member/profile";
 		} else {
 			model.addAttribute("msg", "로그인이 필요한 서비스 입니다...");
 		}
@@ -257,6 +286,46 @@ public class MemberController {
 		return page;
 	}
 	
+	
+	// 관심 목록 페이지
+	@RequestMapping(value="/member/mineList.ajax")
+	@ResponseBody
+	public Map<String, Object> mineListAjax(HttpSession session){
+		Map<String, Object> map = new HashMap<String, Object>();
+		
+		String logEmail = "";
+		if (session.getAttribute("logEmail") != null) {
+			logEmail = (String) session.getAttribute("logEmail");
+		}
+		
+		memberService.goodsListAjax(map, logEmail);
+		
+		return map;
+	}
+	// 게시글 관심 등록삭제
+	@RequestMapping(value="/member/clickHeart2.ajax")
+	@ResponseBody
+	public Map<String, Object> clickHeart2(HttpSession session, String idx, String isToggled) {
+		Map<String, Object> map = new HashMap<String, Object>();
+		
+		int idxInt = Integer.parseInt(idx);
+		
+		if (session.getAttribute("logEmail") != null) {
+			String logEmail = (String) session.getAttribute("logEmail");
+			if (isToggled.equals("true")) {
+				mainService.goodsHeartAjax(idxInt, logEmail);
+				map.put("msg", "내꺼 ❤에 추가했습니다.");
+			} else {
+				mainService.goodsDeleteHeartAjax(idxInt, logEmail);
+				map.put("msg", "내꺼 ❤에서 삭제했습니다.");
+			}
+		} else {
+			map.put("msg", "로그인이 필요한 서비스 입니다...");
+		}
+		
+		return map;
+	}
+
 	// 경매-나의 입찰
 	@RequestMapping(value="/member/myAuctionBidList.go")
 	public String auctionList() {

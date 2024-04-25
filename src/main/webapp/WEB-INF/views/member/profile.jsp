@@ -16,7 +16,7 @@
 		<div class="main">
 			<div class="main-top">
 				<div class="main-top-profilePic">
-					<img src="/photo/${new_filename}" />
+					<img src="/photo/${photo}" />
 				</div>
 				<div class="main-top-profileNic">
 					<h2>${name}</h2>
@@ -72,9 +72,14 @@
 						<h3>Beans Pay</h3>
 					</div>
 					<div class="main-center-third-body">
-						<p>${point} $(페이이후)&nbsp;&nbsp;</p>
+						<p>${point} $&nbsp;&nbsp;</p>
 						<i class="fa-solid fa-circle-dollar-to-slot"></i>
 					</div>
+				</div>
+			</div>
+			<div class="main-bottom">
+				<div class="main-bottom-profileUpdate">
+					<a href="<c:url value=''/>"><p>탈퇴하기</p></a>
 				</div>
 			</div>
 		</div>

@@ -199,6 +199,11 @@ public class MainService {
 	}
 
 
+	public String nicname(String logEmail) {
+		return mainDao.nicname(logEmail);
+	}
+
+
 
 
 }

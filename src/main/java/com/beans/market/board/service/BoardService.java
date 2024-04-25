@@ -79,13 +79,13 @@ public class BoardService {
 		
         // 판매자 정보 - 이름, 거래 후기
 		SellerDTO sellerInfo = memberDAO.sellerInfo(dto.getEmail());
-		// logger.info("판매자 닉네임 : {}", sellerInfo);
+		logger.info("판매자 닉네임 : {}", sellerInfo);
 		model.addAttribute("sellerInfo", sellerInfo);
 		
         // 판매자 프로필 사진
         ProfilePicDTO sellerPic = photoDAO.profile(dto.getEmail());
         model.addAttribute("sellerPic", sellerPic);
-        
+        logger.info("프로필 사진 : {}", sellerPic);
         logger.info(page);
         
 		return page;  
@@ -307,8 +307,13 @@ public class BoardService {
 		logger.info("{} 번 게시자 이메일 가져오기", idx);
 		return boardDAO.getEmail(idx);
 	}
-		
 
+	
+	public BoardDTO getBoardInfo(int idx) {
+		logger.info("{} 번 제목 정보 가져오기");
+		return boardDAO.getBoardInfo(idx);
+	}
+	
 
 	public List<BoardDTO> Listcall(String email) {
 		

@@ -51,5 +51,6 @@ public interface MainDAO {
 	// 멤버 프로필
 	MemberDTO profile(String logEmail);
 	ProfilePicDTO profilePic(String logEmail);
+	String nicname(String logEmail);
 
 }

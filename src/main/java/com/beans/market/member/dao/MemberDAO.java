@@ -64,6 +64,23 @@ public interface MemberDAO {
 
 	ProfilePicDTO profilePicGet(String logEmail);
 
+	void newPicPath(String logEmail, String newFileName);
+
+	void profilePicO(Map<String, String> param);
+	void profilePicDel(Map<String, String> param);
+	void profilePicY(Map<String, String> param);
+	void profileUpdate(Map<String, String> param);
+
+	
+	
+	// 관심목록
+	int[] mineIdxList(String logEmail);
+	MainDTO mineIdxGoodsList(int i);
+
+
+
+	
+
 
 
 }

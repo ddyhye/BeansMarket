@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.beans.market.member.dto.MemberDTO;
 import com.beans.market.report.service.ReportService;
 
 @Controller
@@ -33,8 +34,14 @@ public class ReportController {
 		logger.info("신고 정보 : {}", map);
 		
 		Map<String, Object> reportMap = new HashMap<String, Object>();
-		map.put("reporter_email", "zxz0608@gmail.com"); // 로그인 완료되면 세션에서 받아올 예정 + 회원만 신고처리가 되도록
-		reportMap.put("msg", reportService.reportDo(map)); 
+		MemberDTO loginInfo = (MemberDTO) session.getAttribute("loginInfo");
+		
+		if (loginInfo != null) {
+			map.put("reporter_email", loginInfo.getEmail()); // 로그인 완료되면 세션에서 받아올 예정 + 회원만 신고처리가 되도록
+			reportMap.put("msg", reportService.reportDo(map)); 			
+		} else {
+			reportMap.put("msg", "신고에 실패했습니다."); 	
+		}
 		
 		return reportMap;
 	}

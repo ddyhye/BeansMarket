@@ -90,7 +90,6 @@ public class MainController {
 			map.put("msg", "로그인이 필요한 서비스 입니다...");
 		}
 		
-		
 		return map;
 	}
 	
@@ -211,7 +210,7 @@ public class MainController {
 			String logEmail = (String) session.getAttribute("logEmail");;
 			MemberDTO dto = mainService.profile(logEmail);
 			ProfilePicDTO dtoPic = mainService.profilePic(logEmail);
-			model.addAttribute("new_filename", dtoPic.getNew_filename());
+			model.addAttribute("photo", dtoPic.getNew_filename());
 			model.addAttribute("name", dto.getName());
 			model.addAttribute("email", dto.getEmail());
 			model.addAttribute("location", dto.getLocation());
@@ -233,6 +232,10 @@ public class MainController {
 		String page = "redirect:/";
 		
 		if (session.getAttribute("logEmail") != null) {
+			String logEmail = (String) session.getAttribute("logEmail");
+			String name = mainService.nicname(logEmail);
+			model.addAttribute("name", name);
+			
 			page = "/member/mine";
 		} else {
 			model.addAttribute("msg", "로그인이 필요한 서비스 입니다...");

@@ -35,7 +35,7 @@
 	width: 90%;
 	margin: 0 auto;
 }
-.mine-content-goods {
+.mine-center-goods {
 	display: flex;
    	flex-direction: column;
    	
@@ -108,7 +108,7 @@
    justify-content: center;
 
    position: relative;
-   height: 62%;
+   height: 200px;
 }
 .goods-photo img {
    position: relative;

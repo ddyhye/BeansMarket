@@ -11,4 +11,6 @@ public interface PhotoDAO {
 
 	List<PhotoDTO> photos(int idx, int option_idx);
 
+	String getMainPhoto(int idx, int opiton_idx);
+
 }
