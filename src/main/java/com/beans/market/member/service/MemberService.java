@@ -19,6 +19,7 @@ import com.beans.market.main.dao.MainDAO;
 import com.beans.market.main.dto.MainDTO;
 import com.beans.market.member.dao.MemberDAO;
 import com.beans.market.member.dto.MemberDTO;
+import com.beans.market.member.dto.BlockDTO;
 import com.beans.market.photo.dto.ProfilePicDTO;
 
 @Service
@@ -180,5 +181,45 @@ public class MemberService {
 		}
 		
 		return list;
+	}
+
+	
+	public Map<String, Object> banList(Map<String, Object> map, String logEmail) {
+		// 로그인 회원의 차단 회원 이메일 리스트 불러오기
+		/*
+		 * List<String> banEmailList = new ArrayList<String>(); for (String string :
+		 * banEmailList) { banEmailList.add(memberDAO.banList(logEmail)); }
+		 * logger.info("banEmailList: {}", banEmailList);
+		 * 
+		 * // 차단 회원 이메일 리스트로 닉네임 불러오기 List<MemberDTO> list = new ArrayList<MemberDTO>();
+		 * for (String string : banEmailList) { MemberDTO dto =
+		 * memberDAO.banProfile(string); list.add(dto); } logger.info("list: {}", list);
+		 */
+		List<BlockDTO> list = memberDAO.banList(logEmail);
+		
+		for (BlockDTO dto : list) {
+			String banName = memberDAO.banProfile(dto.getBlock_email());
+			dto.setBlock_name(banName);
+		}
+		
+		map.put("list", list);
+		
+		return map;
+	}
+
+	public Map<String, Object> banUnravel(Map<String, Object> map, String logEmail, String blockEmail) {
+		// 회원 차단 해제
+		memberDAO.banUnravel(logEmail, blockEmail);
+		
+		List<BlockDTO> list = memberDAO.banList(logEmail);
+		
+		for (BlockDTO dto : list) {
+			String banName = memberDAO.banProfile(dto.getBlock_email());
+			dto.setBlock_name(banName);
+		}
+		
+		map.put("list", list);
+		
+		return map;
 	}
 }

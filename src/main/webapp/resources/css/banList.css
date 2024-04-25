@@ -1,0 +1,167 @@
+@charset "EUC-KR";
+
+
+.ban-top {
+   display: flex;
+
+   position: relative;
+   width: 100%;
+   height: 80px;
+   margin: 20px auto;
+}
+.ban-top p {
+   display: flex;
+   align-items: center;
+   justify-content: center;
+
+	position: relative;
+
+	color: rgb(68, 68, 68);
+   font-size: 25px;
+}
+.ban-top #nic {
+	margin-left: 40px;
+	font-weight: bold;
+}
+
+
+.ban-center  {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	
+	position: relative;
+	width: 90%;
+	margin: 0 auto;
+}
+.unravel {
+	display: flex;
+   align-items: center;
+   justify-content: center;
+
+   position: relative;
+   width: 60px;
+   height: 25px;
+   margin-bottom: 5px;
+
+   font-size: 13px;
+   background-color: #f0f0f0;
+   border-radius: 3px;
+   border: 1px solid #626262;
+}
+.unravel:hover {
+   background-color: #e0e0e0;
+}
+
+table, th, td{
+	border: 1px solid #686868;
+	border-collapse: collapse;
+}
+tr {
+	height: 35px;
+}
+th {
+	background-color: #cacaca;
+}
+table {
+	position: relative;
+   width: 90%;
+}
+.one {
+	position: relative;
+   	width: 5%;
+}
+.two {
+	position: relative;
+   	width: 40%;
+}
+.three {
+	position: relative;
+   	width: 45%;
+}
+.four {   
+	position: relative;
+   	width: 10%;
+}
+.tbodyDiv {
+	display: flex;
+   	align-items: center;
+   	justify-content: center;
+   	
+   	height: 35px;
+}
+
+
+.banDel {
+	display: none;
+}
+.banDel.active {
+	display: flex;
+   	align-items: center;
+   	justify-content: center;
+   	flex-direction: column;
+   	
+   	position: absolute;
+   	width: 300px;
+   	height: 200px;
+   	top: 50%;
+   	left: 50%;
+   	transform: translate(-50%, -50%);
+   	z-index: 1001;
+   	
+   	background-color: white;
+   	border: 4px solid lightgray;
+}
+.banDel-top {
+	display: flex;
+	align-items: flex-end;
+	justify-content: flex-end;
+	
+	position: relative;
+	width: 100%;
+	height: 20%;
+}
+.deleteBtn {	
+   padding: 2px;
+   position: relative;
+   width: 35px;
+   height: 35px;
+
+   border: none;
+   background-color: white;
+   font-size: 15px;
+   color: gray;
+}
+.banDel-center {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	
+	position: relative;
+	width: 100%;
+	height: 80%;
+}
+.banDel-center-pDiv {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	flex-direction: column;
+	
+	position: relative;
+	height: 80%;
+}
+.pDiv {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	flex-direction: row;
+	
+	position: relative;
+	height: 90%;
+}
+#textP {
+	margin: 5px auto;
+}
+#blockName {
+	font-weight: bold;
+}

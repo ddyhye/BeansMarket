@@ -5,7 +5,7 @@ com.beans.market<%@ page language="java" contentType="text/html; charset=UTF-8" 
 <meta charset="UTF-8">
 <title>Insert title here</title>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-<link rel="stylesheet" href="../resources/css/myAction.css" type="text/css" />
+<link rel="stylesheet" href="../resources/css/myAuctionBidList.css" type="text/css" />
 <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
 <style>
 </style>
@@ -14,7 +14,17 @@ com.beans.market<%@ page language="java" contentType="text/html; charset=UTF-8" 
 <body>
 	<jsp:include page="profileCommon.jsp" />
 		<div class="main">
-		<div class="myAuction">${name}님의 입찰 목록</div>
+			<div class="Auction-top">
+				<p id="nic">${name}&nbsp;</p>
+				<p>님의 입찰 내역</p>
+			</div>
+			<div class="Auction-center">
+			
+			
+			
+			
+			<!-- 
+			<div class="myAuction">${name}님의 입찰 목록</div>
 			<div class="myAuctionList">
 			<table>
 			<thead>

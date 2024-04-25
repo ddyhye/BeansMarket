@@ -133,6 +133,21 @@
 		FROM bbs
 		WHERE idx = #{param1}
 	</select>
-
+	
+	
+	
+	<!-- 차단 회원 목록 -->
+	<select id="banList" resultType="com.beans.market.member.dto.BlockDTO">
+		SELECT block_email FROM block WHERE email = #{param1}
+	</select>
+	<select id="banProfile" resultType="String">
+		SELECT name FROM member WHERE email = #{param1}
+	</select>
+	<!-- 차단 해제 -->
+	<delete id="banUnravel">
+		DELETE FROM block 
+		WHERE email = #{param1} AND block_email = #{param2}
+	</delete>
+	
 	
 </mapper>

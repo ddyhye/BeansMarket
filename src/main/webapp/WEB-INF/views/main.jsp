@@ -30,7 +30,7 @@
 			<input type="checkbox" name="saleOption" class="sellOption-checkbox" id="saleOption2" checked/>경매&nbsp;&nbsp;
 		</div>
 		<div class="main-content">
-			<div class="main-content-goods">
+			<!-- <div class="main-content-goods">
 				<div class="goods-top">
 					<div class="goods-top-left">
 						<p>나는야판매왕</p>
@@ -67,7 +67,7 @@
 						<span>4/18 23:11&nbsp;</span>
 					</div>
 				</div>
-			</div>
+			</div> -->
 			
 			<!-- 게시글 리스트 -->
 			<!-- 
@@ -123,6 +123,19 @@
 				</div>
 			</c:forEach>
 			 -->
+		</div>
+		<div class="main-paging">
+			<table>
+				<tr>
+					<td colspan="5">
+						<div class="paging-container">
+							<nav aria-label="Page navigation" style="text-align: center">
+								<ul class="pagination" id="pagination"></ul>
+							</nav>
+						</div>
+					</td>
+				</tr>
+			</table>
 		</div>
 	</div>
 </body>

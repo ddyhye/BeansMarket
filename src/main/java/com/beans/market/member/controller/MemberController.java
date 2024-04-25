@@ -24,6 +24,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.commons.CommonsMultipartFile;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.beans.market.board.dto.BoardDTO;
 import com.beans.market.board.service.BoardService;
@@ -55,11 +56,11 @@ public class MemberController {
 	}
 	//로그인
 	@RequestMapping(value ="member/login.do", method=RequestMethod.POST)
-	public String login(HttpSession session, Model model, String email, String password) {
+	public String login(HttpSession session, Model model, String email, String password, RedirectAttributes redirectAttrs) {
 
 	    logger.info("로그인 시도");
 	    String page = "login/login";
-	    String msg = "로그인에 실패하였습니다.";   
+	    String msg = "로그인에 실패하였습니다...";   
 	    MemberDTO loginInfo = memberService.login(email,password);
 		String logEmail = memberService.logEmail(email,password);
 		logger.info("info: {}", loginInfo);
@@ -67,17 +68,19 @@ public class MemberController {
 
 	    if(loginInfo != null) {
 	        page = "redirect:/";
-	        msg = "로그인 되었습니다.";
+	        msg = logEmail+"님, 환영합니다!!!";
 	        session.setAttribute("loginInfo", loginInfo);
 			session.setAttribute("logEmail", logEmail);
-	        model.addAttribute("msg", msg);
+	        redirectAttrs.addFlashAttribute("msg", msg);
 	        // 로그인 성공 시 마지막 로그인 날짜 업데이트 메서드 호출
 	        Map<String, Object> params = new HashMap<>();
 	        params.put("email", email);
 	        params.put("lastLoginDate", LocalDateTime.now());
 	        memberService.updateLastLoginDate(params);
 	    }
-	     model.addAttribute("msg", msg);
+	     //model.addAttribute("msg", msg);
+	     redirectAttrs.addFlashAttribute("msg", msg);
+	     
 	    return page;
 	}    
 	
@@ -323,6 +326,58 @@ public class MemberController {
 		
 		return map;
 	}
+	
+	
+	// 차단 목록
+	@RequestMapping(value="/member/banListPage.go")
+	public String banListPage_go(HttpSession session, Model model, RedirectAttributes redirectAttrs) {
+		logger.info("차단 목록 페이지...");
+		
+		String page = "redirect:/";
+		
+		if (session.getAttribute("logEmail") != null) {
+			String logEmail = (String) session.getAttribute("logEmail");
+			String name = mainService.nicname(logEmail);
+			model.addAttribute("name", name);
+			
+			page = "/member/banList";
+		} else {
+			redirectAttrs.addFlashAttribute("msg", "로그인이 필요한 서비스 입니다...");
+		}
+		
+		return page;
+	}
+	// 차단 회원 목록 리스트
+	@RequestMapping(value="/member/banList.ajax")
+	@ResponseBody
+	public Map<String, Object> banList(HttpSession session) {
+		Map<String, Object> map = new HashMap<String, Object>();
+		
+		if (session.getAttribute("logEmail") != null) {
+			String logEmail = (String) session.getAttribute("logEmail");
+			memberService.banList(map, logEmail);
+		} 
+		
+		return map;
+	}
+	// 차단 회원 해제
+	@RequestMapping(value="/member/banUnravel.ajax")
+	@ResponseBody
+	public Map<String, Object> banUnravel(HttpSession session, String blockEmail) {
+		Map<String, Object> map = new HashMap<String, Object>();
+		
+		if (session.getAttribute("logEmail") != null) {
+			String logEmail = (String) session.getAttribute("logEmail");
+			memberService.banUnravel(map, logEmail,  blockEmail);
+		} 
+		
+		return map;
+	}
+	
+	
+	
+	
+	
 
 	// 경매-나의 입찰
 	@RequestMapping(value="/member/myAuctionBidList.go")

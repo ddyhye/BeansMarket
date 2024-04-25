@@ -52,6 +52,32 @@
 								<p id="pwReset">비밀번호 재설정</p>
 							</div>
 						</div>
+						<!-- <div class="pwResetDiv">
+							<div class="spwResetDiv-top">
+								<button class="deleteBtn2">X</button>
+							</div>
+							<div class="pwResetnDiv-center">
+								<dl>
+									<dt>비밀번호</dt>
+							        <dd>
+							            <div class="password-input">
+							                <input type="password" name="pw1" id="pw1" oninput="pwCheck()" placeholder="비밀번호를 입력해주세요.">
+							                <div class="eyes">
+							                    <i class="fa fa-eye-slash fa-lg"></i>
+							                </div>
+							            </div>
+							        </dd>
+							        <dt>비밀번호 확인</dt>
+							        <dd>
+							            <input type="password" name="pw" id="pw" oninput="pwCheck()" placeholder="비밀번호를 입력해주세요.">
+							            <span id="pwConfirm">비밀번호를 입력하세요.</span>
+							        </dd>
+						        </dl>
+							</div>
+							<div class="pwResetDiv-bottom">
+								<p id="pwUpdate">확인</p>
+							</div>
+						</div> -->
 						<div class="profileUpdate-center-column">
 							<div class="profileUpdate-center-head">
 								<h3>주소</h3>

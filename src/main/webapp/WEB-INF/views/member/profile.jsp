@@ -78,8 +78,19 @@
 				</div>
 			</div>
 			<div class="main-bottom">
-				<div class="main-bottom-profileUpdate">
-					<a href="<c:url value=''/>"><p>탈퇴하기</p></a>
+					<p id="secession">탈퇴하기</p>
+			</div>
+			<div class="secessionDiv">
+				<div class="secessionDiv-top">
+					<button class="deleteBtn2">X</button>
+				</div>
+				<div class="secessionDiv-center">
+					<div class="secessionDiv-center-pDiv">
+						<div class="pDiv"><p id="textP"><span id="blockName">묭</span>&nbsp;님, 정말 탈퇴하시겠습니까?</p></div>
+						<p>탈퇴 시, 기존의 로그인 정보들이 전부 삭제되며, 같은 이메일로 재가입이 불가능 합니다.</p>
+						<p class="unravel" id="realSecession">탈퇴</p>
+						<p class="unravel" id="back">취소</p>
+					</div>
 				</div>
 			</div>
 		</div>
@@ -88,6 +99,17 @@
 </body>
 
 <script>
+
+	$('#secession').on('click', function() {
+		$('.secessionDiv').addClass('active');
+	});
+	$('#deleteBtn').on('click', function() {
+		$('.secessionDiv').removeClass('active');
+	});
+	$('#back').on('click', function() {
+		$('.secessionDiv').removeClass('active');
+	});
+
 /*
 	$.ajax({
 		type: 'get',

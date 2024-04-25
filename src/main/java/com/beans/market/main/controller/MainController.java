@@ -15,6 +15,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.beans.market.board.dto.BoardDTO;
 import com.beans.market.board.service.BoardService;
@@ -39,15 +40,42 @@ public class MainController {
 		//mainService.goodsList(model); 	/* css 테스트용 */
 		
 		if (msg != null && !msg.isEmpty()) {
-			model.addAttribute("msg", "로그인이 필요한 서비스 입니다...");
-			logger.info("로그인이 필요한 서비스 입니다...");
+			model.addAttribute("msg", msg);
 		}
 		
 		return "main";
 	}
 	
 	
+	// 로그인 중인지 판별
+	@RequestMapping(value="/loggedIn.ajax")
+	@ResponseBody
+	public Map<String, Object> loggedIn(HttpSession session){
+		Map<String, Object> map = new HashMap<String, Object>();
+		
+		if (session.getAttribute("logEmail") != null) {
+			map.put("logged", "on");
+		} else {
+			map.put("logged", "off");
+		}
+	
+		return map;
+	}	
 	// 로그아웃
+	@RequestMapping(value="/logout.ajax")
+	@ResponseBody
+	public Map<String, Object> logout(HttpSession session){
+		Map<String, Object> map = new HashMap<String, Object>();
+		
+		/*
+		 * session.setAttribute("loginInfo", loginInfo);
+		 * session.setAttribute("logEmail", logEmail);
+		 */
+		session.removeAttribute("loginInfo");
+		session.removeAttribute("logEmail");
+	
+		return map;
+	}
 	
 	
 	
@@ -201,7 +229,7 @@ public class MainController {
 	/* 이동 */
 	// 마이페이지 이동
 	@RequestMapping(value="/member/myPage.go")
-	public String myPage_go(HttpSession session, Model model) {
+	public String myPage_go(HttpSession session, Model model, RedirectAttributes redirectAttrs) {
 		logger.info("마이페이지...");
 		String page = "redirect:/";
 		
@@ -218,7 +246,7 @@ public class MainController {
 			model.addAttribute("gender", dto.getGender());
 			model.addAttribute("point", dto.getPoint());
 		} else {
-			model.addAttribute("msg", "로그인이 필요한 서비스 입니다...");
+			redirectAttrs.addFlashAttribute("msg", "로그인이 필요한 서비스 입니다...");
 		}
 		
 		return page;
@@ -226,7 +254,7 @@ public class MainController {
 	
 	// 관심 목록 페이지 이동
 	@RequestMapping(value = "/member/minePage.go")
-	public String minePage_go(HttpSession session, Model model) {
+	public String minePage_go(HttpSession session, Model model, RedirectAttributes redirectAttrs) {
 		logger.info("관심 목록 페이지...");
 		
 		String page = "redirect:/";
@@ -238,7 +266,7 @@ public class MainController {
 			
 			page = "/member/mine";
 		} else {
-			model.addAttribute("msg", "로그인이 필요한 서비스 입니다...");
+			redirectAttrs.addFlashAttribute("msg", "로그인이 필요한 서비스 입니다...");
 		}
 		
 		return page;
@@ -246,7 +274,7 @@ public class MainController {
 
 	// 물품 팔기 페이지 이동
 	@RequestMapping(value="/board/goodsWrite.go")
-	public String goodsWrite_go(HttpSession session, Model model) {
+	public String goodsWrite_go(HttpSession session, Model model, RedirectAttributes redirectAttrs) {
 		logger.info("게시글 작성 페이지...");
 		
 		String page = "redirect:/";
@@ -254,26 +282,26 @@ public class MainController {
 		if (session.getAttribute("logEmail") != null) {
 			page = "/board/saleOfGoodsWrite";
 		} else {
-			model.addAttribute("msg", "로그인이 필요한 서비스 입니다...");
+			redirectAttrs.addFlashAttribute("msg", "로그인이 필요한 서비스 입니다...");
 		}
 		
 		return page;
 	}
 	
 	// 물품 팔기 페이지 이동
-		@RequestMapping(value="/member/mySellList.go")
-		public String mySellList_go(HttpSession session, Model model) {
-			logger.info("판매 내역 페이지...");
-			
-			String page = "redirect:/";
-			
-			if (session.getAttribute("logEmail") != null) {
-				page = "/member/mySellList";
-			} else {
-				model.addAttribute("msg", "로그인이 필요한 서비스 입니다...");
-			}
-			
-			return page;
+	@RequestMapping(value="/member/mySellList.go")
+	public String mySellList_go(HttpSession session, Model model, RedirectAttributes redirectAttrs) {
+		logger.info("판매 내역 페이지...");
+		
+		String page = "redirect:/";
+		
+		if (session.getAttribute("logEmail") != null) {
+			page = "/member/mySellList";
+		} else {
+			redirectAttrs.addFlashAttribute("msg", "로그인이 필요한 서비스 입니다...");
 		}
+		
+		return page;
+	}
 
 }

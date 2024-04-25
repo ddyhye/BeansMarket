@@ -27,6 +27,7 @@ public class MemberDTO {
 	private Date login_banend;
 	
 	
+	
 	public int getIdx() {
 		return idx;
 	}

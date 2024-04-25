@@ -39,7 +39,7 @@
 					<p>최근 알림</p>
 				</div>
 				<div class="alarm-content">
-					<div class="alarm-content-list">
+					<!-- <div class="alarm-content-list">
 						<div class="alarm-content-list-left">
 							<i class="fa-regular fa-envelope"></i>
 						</div>
@@ -52,13 +52,13 @@
 							<span>2024-04-10</span> <span>22:20</span>
 						</div>
 						<div class="alarm-content-list-new"></div>
-					</div>
+					</div> -->
 				</div>
 				<div class="alarm-bottom">
 					<p>알림은 6개월 보관 후 삭제됩니다.</p>
 				</div>
 			</div>
-			<a href=""><i class="fa-solid fa-paper-plane"></i></a> 
+			<a href="<c:url value="/message/noteMessage.go"/>"><i class="fa-solid fa-paper-plane"></i></a> 
 			<a href="/main"><i class="fa-solid fa-house"></i></a>
 			
 		</div>
@@ -93,7 +93,7 @@
 
 		<div class="top-second-center">
 			<div>
-				<a href="<c:url value="/member/login.go"/>" class="top-second-center-link" id="top-second-center-link-log">로그인</a>
+				<a href="<c:url value='/member/login.go'/>" class="top-second-center-link" id="top-second-center-link-log">로그인</a>
 			</div>
 			<div>
 				<a href="join.go" class="top-second-center-link">회원가입</a>
@@ -155,6 +155,36 @@
 		
 		#(this).data('toggle') = !isToggled;
 	}); */
+	loggedIn();
+	
+	function loggedIn() {
+		$.ajax({
+			type: 'get',
+			url: '<c:url value="/loggedIn.ajax"/>',
+			data: {},
+			dataType: 'JSON',
+			success: function(data) {
+				// 로그인 중이라면, 로그아웃 기능이 있어야 함.
+				if (data.logged === 'on') {
+					$('#top-second-center-link-log').attr('href', '#').attr('onclick', 'logout(); return false;').text('로그아웃');
+				} else {
+					$('#top-second-center-link-log').attr('href', '<c:url value="/member/login.go"/>').removeAttr('onclick').text('로그인');
+				}
+			}, error: function(data){}
+		});
+	}
+	
+	function logout(){
+		$.ajax({
+			type: 'get',
+			url: '<c:url value="/logout.ajax"/>',
+			data: {},
+			dataType: 'JSON',
+			success: function() {
+				$('#top-second-center-link-log').attr('href', '<c:url value="/member/login.go"/>').removeAttr('onclick').text('로그인');
+			}, error: function(data){}
+		});
+	}
 	
 	var msg = '${msg}';
 	if(msg != ''){
@@ -321,7 +351,7 @@
 		
 		$.ajax({
 			type: 'get',
-			url: './alarm.ajax',
+			url: '<c:url value="/alarm.ajax"/>',
 			data: {},
 			dataType: 'JSON',
 			success: function(data) {
@@ -339,7 +369,7 @@
 		
 		$.ajax({
 			type: 'get',
-			url: './alarmRead.ajax',
+			url: '<c:url value="/alarmRead.ajax"/>',
 			data: {
 				'idx': idx
 			},

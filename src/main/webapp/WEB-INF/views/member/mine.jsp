@@ -19,7 +19,7 @@
 				<p>님의 관심 목록</p>
 			</div>
 			<div class="mine-center">
-				<div class="mine-content-goods">
+				<!-- <div class="mine-content-goods">
 					<div class="goods-top">
 						<div class="goods-top-left">
 							<p>&nbsp;나는야판매왕</p>
@@ -46,7 +46,7 @@
 				<div class="mine-content-goods"></div>
 				<div class="mine-content-goods"></div>
 				<div class="mine-content-goods"></div>
-				<div class="mine-content-goods"></div>
+				<div class="mine-content-goods"></div> -->
 			</div>
 		</div>
 	</div>

@@ -20,7 +20,7 @@
 				<h3>회원 정보</h3>
 				<a href="<c:url value='/member/myPage.go'/>"><p>&nbsp;• 마이페이지</p></a>
 				<a href="<c:url value='/member/minePage.go'/>"><p>&nbsp;• 관심 물품</p></a>
-				<a href=""><p>&nbsp;• 차단 회원 관리</p></a>
+				<a href="<c:url value='/member/banListPage.go'/>"><p>&nbsp;• 차단 회원 관리</p></a>
 			</div>
 			<div class="link-Transaction">
 				<h3>거래</h3>
