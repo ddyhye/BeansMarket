@@ -36,6 +36,7 @@
 			</div><!-- 쪽지방 선택 (room-select) 끝 -->
 			<div class="view-room" data-value="1">
 				<!-- 아무것도 없을 때는 메시지 이모티콘 하나 띄우기 -->
+				<p class="no-message">메시지를 선택해주세요 <i class="fa-solid fa-message"></i></p>			
 				<div id="view-subject">
 				<!-- 
 					<div class="left">
@@ -97,12 +98,43 @@
 					<button id="sendBtn"><i class="fa-solid fa-paper-plane"></i></button>
 				</div>
 			</div><!-- view-room 종료 -->
+			<div id="reportForm">
+                <div class="form">
+                    <div class="option">
+                        <p>신고 분류</p>
+                        <select id="report_option" name="category_idx">
+                            <option value="r001">도배</option>
+                            <option value="r002">욕설</option>
+                            <option value="r003">성희롱</option>
+                        </select>
+                    </div>
+                    <div class="content">
+                        <p>신고 사유를 입력해주세요</p>
+                        <textarea name="content"></textarea>
+                    </div>
+                    <input type="hidden" name="option_idx" value="RB002">
+                    <div class="btn-controller">
+                        <button class="ok" onclick="report()">확인</button>
+                        <button type="button" class="reportBtn" onclick="reportDo()">취소</button>
+                    </div>
+                </div>
+            </div><!--reportForm 종료-->
 		</div> <!-- container 종료 -->
 	</section>
 </body>
 <script>
-	var chat_user;
-	var chat_idx;
+	var chat_user = '';
+	var chat_idx = 0;
+
+	loginCheck();
+	
+	$('#send-form').hide();
+	
+	var callPage = '${callPage}';
+	if(callPage != ''){
+		subjectCall(parseInt(callPage));
+	}
+	
 	// 로그인을 안했으면 alert 창 출력 후 로그인으로 이동 - 체크는 서버 측에서도 한번더 하면 좋을거 같음
 	function loginCheck() {
 	    var login = true;
@@ -113,7 +145,6 @@
 	    }
 	    return login;
 	}
-	loginCheck();
 	roomListCall('${loginInfo.email}');
 
 	// 방 리스트 불러오기
@@ -126,8 +157,7 @@
 			},
 			dataType: 'JSON',
 			success: function(data) {
-				console.log("성공");
-				console.log(data);
+				//console.log(data);
 				drawRoomList(data);
 			}, error: function(error) {
 				console.log(error);
@@ -145,9 +175,14 @@
 			},
 			dataType: 'JSON',
 			success: function(data) {
-				console.log("성공");
-				console.log(data);
+				$('#send-form').show();
+				$('.no-message').hide();
+				chat_idx = data.bbs_idx;
 				drawSubject(data);
+				if (chat_user === '') {
+					chat_user = data.other_email;
+					messageCall(chat_idx, '${loginInfo.email}',chat_user);
+				}
 			}, error: function(error) {
 				console.log(error);
 			}
@@ -160,14 +195,14 @@
 		var content = '';
 		
 		content += '<div class="left">';
-		content += 		'<button id="back"><i class="fa-solid fa-rotate-left"></i></button>';
+		content += 		'<button id="back" onclick="backDo()"><i class="fa-solid fa-rotate-left"></i></button>';
 		content += 		'<div id="deal">';
 		content += 			'<button id="deal-btn">'+data.roomSubject.bbs_state+'</button>';
 		/*
 		if(data.roomSubject.reserve_email === '{loginInfo.email}' || (data.roomSubject.email === '{loginInfo.email}' && data.roomSubject.reserve_email != null)) { 대화상대가 reserve_email일 경우
 			content +='<p id="reserve-icon"><i class="fa-solid fa-handshake-simple"></i></p>';
 		}
-		*/
+		예약자 넣으면 추가할 예정*/
 		content += 		'</div>';
 		content += '</div>';
 		content += '<div class="center">';
@@ -179,15 +214,17 @@
 		content += '</div>';
 		content += '<div class="right">';
 		content += 		'<div class="btn-controller">';
-		content += 			'<button class="report">신고하기</button>';
+		content += 			'<button class="report" onclick="reportDo()">신고하기</button>';
 		content += 			'<button class="delete"><i class="fa-solid fa-trash-can"></i></button>';
 		content += 		'</div>';
 		content += '</div>';
 
 		$('#view-subject').append(content);
-
+		$('#view-subject').css({
+											'background-color':'white',
+											'border-bottom': '1px solid gray'
+										});
 	}
-	
 	
 	
 	function drawRoomList(data) {
@@ -214,9 +251,8 @@
 	function viewRoomContent(idx, other_email){
 		subjectCall(idx);
 		messageCall(idx, '${loginInfo.email}', other_email);
-		
-		chat_user = other_email;
 		chat_idx = idx;
+		chat_user = other_email;
 	}
 
 
@@ -232,7 +268,6 @@
 			},
 			dataType: 'JSON',
 			success: function(data) {
-				console.log("성공");
 				drawMessage(data);
 			}, error: function(error) {
 				console.log(error);
@@ -259,7 +294,7 @@
 		var content = '';
 
 		if (!data.messageList || data.messageList.length === 0) {
-			content += '<p> 쪽지를 선택해주세요 </p>';
+			content += '<p class="no-message">아무것도 없따... <i class="fa-solid fa-message"></i></p>';	
 		}
 		for (item of data.messageList) {
 			var date = new Date(item.reg_date);
@@ -321,6 +356,7 @@
 	function sendMessage(idx, other_email) {
 		var content = $('#sendText').val();
 		if(content == '') return alert("빈 내용은 전송할 수 없습니다.");
+		if(idx === 0 || other_email === '') return alert("시스템 에러");
 		$.ajax({
 			type: 'POST',
 			url: './messageSend.ajax',
@@ -341,8 +377,74 @@
 
 	$('#sendBtn').click(function() {
 	    sendMessage(chat_idx, chat_user);
-	    messageCall(chat_idx, '${loginInfo.email}', chat_user);
+	    setTimeout(function() {
+			messageCall(chat_idx, '${loginInfo.email}', chat_user);
+			roomListCall('${loginInfo.email}');
+		}, 100);
 	    $('#sendText').val('');
+	});
+
+	// 채팅방 나가기
+	function backDo(){
+		$('#view-subject').empty();
+		$('#view-content').empty();
+		$('#view-subject').css({
+											'background-color':'',
+											'border-bottom': 'none'
+										});
+		$('.no-message').show();
+		$('#sendText').val('');
+		$('#send-form').hide();
+		var chat_user = '';
+		var chat_idx = 0;
+	}
+
+	// 신고 버튼 클릭 시 - 쪽지 - 게시글 번호로 신고
+	function reportDo() {
+		if(loginCheck()){
+            $('#reportForm').toggle();
+        }
+	}
+
+	// 쪽지 번호로 신고
+
+
+    // 신고 ajax - 쪽지
+    function report(){
+		var category_idx = $('select[name="category_idx"]').val();
+        var content = $('textarea[name="content"]').val();
+        var option_idx = $('input[name="option_idx"]').val();
+        
+        console.log(category_idx, content, option_idx, chat_user, chat_idx);
+        
+		$.ajax({
+			type:'POST',
+			url:'../report/report.do',
+			data:{
+                'category_idx':category_idx,
+                'content':content,
+                'option_idx':option_idx,
+                'perpet_email':chat_user,
+                'idx':chat_idx
+            },
+            dataType:'JSON',
+			success:function(data){
+				alert(data.msg);
+				$('#reportForm').toggle();
+				$('textarea[name="content"]').val('');
+			}, 
+			error:function(error){
+				console.log(error);
+			} 
+		});
+    }
+
+	$(document).on('contextmenu', function(event) {
+	    event.preventDefault();
+		console.log("호에엥");
+    // 이 코드는 contextmenu 이벤트가 발생했을 때 실행됩니다.
+    // 여기에 원하는 작업을 추가하세요.
+
 	});
 </script>
 </html>

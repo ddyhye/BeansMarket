@@ -15,17 +15,17 @@
 	</insert>
 	
 	<select id="roomList" resultType="com.beans.market.message.dto.RoomDTO">
-		SELECT m.sender_email AS other_email, m.idx
+		SELECT m.sender_email AS other_email, m.idx, m.reg_date
 		FROM deal_message m 
 		WHERE m.receive_email = #{param1}
 		AND m.idx IN (SELECT idx FROM bbs WHERE email = #{param1}) 
 		GROUP BY m.idx, m.sender_email
 			UNION ALL 
-		SELECT m.receive_email AS other_email, m.idx
+		SELECT m.receive_email AS other_email, m.idx, m.reg_date
 		FROM deal_message m
 		WHERE m.sender_email = #{param1} 
 		AND m.idx NOT IN (SELECT idx FROM bbs WHERE email = #{param1}) 
-		GROUP BY m.idx
+		GROUP BY m.idx ORDER BY reg_date DESC
 	</select>
 	
 	<select id="lastContent" resultType="com.beans.market.message.dto.RoomDTO">

@@ -135,7 +135,7 @@
 	<select id="fullPrice" resultType="Integer">
 		SELECT successful_bid
 		FROM auction 
-		WHERE idx = #{param1} AND draft == 'N'
+		WHERE idx = #{param1}
 	</select>
 	<select id="bidCnt" resultType="Integer">
 		SELECT bid_count

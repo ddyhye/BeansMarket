@@ -263,7 +263,7 @@
     // 메시지 보내기
     $('.messageSend').click(function(){
     	// 로그인해야 가능하게
-    	location.href='../message/noteMessage.go';
+    	location.href='../message/noteMessage.go?idx='+bbsIdx;
     });
 
     // 판매 상태에 따른 CSS 차이

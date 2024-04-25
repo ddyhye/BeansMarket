@@ -28,10 +28,10 @@ public class MessageService {
 	
 	public Map<String, Object> messageCallAjax(int idx, String email, String otherEmail) {
 		Map<String, Object> map = new HashMap<String, Object>();
-		String publisher = boardService.getEmail(idx); // 이메일 가져오기 - 필요없을지도?
-		logger.info("email : {}",publisher);
+		//String publisher = boardService.getEmail(idx); // 이메일 가져오기 - 필요없을지도?
+		//logger.info("email : {}",publisher);
 		List<MessageDTO> messageList = messageDAO.messageList(idx, email, otherEmail); // 특정 게시물의 특정 인원과의 게시물을 가져오기
-		logger.info("mssageList : {}", messageList.toString());
+		//logger.info("mssageList : {}", messageList.toString());
 		map.put("messageList", messageList);
 		map.put("bbs_email", email);
 		
@@ -60,20 +60,22 @@ public class MessageService {
 			Timestamp reg_date = lastContent.getReg_date();
 			String new_picname = lastContent.getNew_picname();
 			
-			//logger.info("content : {} ", content);
-			//logger.info("reg_date : {} ", reg_date);
-			logger.info("new_picname : {}", new_picname);
+			logger.info("content : {} ", content);
+			logger.info("reg_date : {} ", reg_date);
+			//logger.info("new_picname : {}", new_picname);
 			
 			roomDTO.setContent(content);
 			roomDTO.setReg_date(reg_date);
 			roomDTO.setNew_picname(new_picname);
 		}
 		
+		/*
 		for (RoomDTO roomDTO : roomList) {
 			logger.info("other_email : {}, idx : {}", roomDTO.getOther_email(), roomDTO.getIdx());
 			logger.info("content : {}, reg_date : {}", roomDTO.getContent(), roomDTO.getReg_date());	
 			logger.info("new_picname : {}", roomDTO.getNew_picname());
 		}
+		*/
 		
 		map.put("roomList", roomList);
 		
@@ -85,9 +87,10 @@ public class MessageService {
 		BoardDTO roomSubject = boardService.getBoardInfo(idx);
 		String roomPhoto = photoService.getMainPhoto(idx);
 		
-		logger.info("제목 정보 확인 : {}", roomSubject.getSubject());
-		logger.info("사진 이름 : {}", roomPhoto);
-		
+		//logger.info("제목 정보 확인 : {}", roomSubject.getSubject());
+		//logger.info("사진 이름 : {}", roomPhoto);
+		map.put("bbs_idx", idx);
+		map.put("other_email", roomSubject.getEmail());
 		map.put("roomSubject", roomSubject);
 		map.put("roomPhoto", roomPhoto);
 		
