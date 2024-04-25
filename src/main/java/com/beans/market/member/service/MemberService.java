@@ -19,7 +19,11 @@ import com.beans.market.main.dao.MainDAO;
 import com.beans.market.main.dto.MainDTO;
 import com.beans.market.member.dao.MemberDAO;
 import com.beans.market.member.dto.MemberDTO;
+<<<<<<< HEAD
 import com.beans.market.member.dto.BlockDTO;
+=======
+import com.beans.market.member.dto.SellerDTO;
+>>>>>>> origin/master
 import com.beans.market.photo.dto.ProfilePicDTO;
 
 @Service
@@ -183,7 +187,6 @@ public class MemberService {
 		return list;
 	}
 
-	
 	public Map<String, Object> banList(Map<String, Object> map, String logEmail) {
 		// 로그인 회원의 차단 회원 이메일 리스트 불러오기
 		/*
@@ -221,5 +224,17 @@ public class MemberService {
 		map.put("list", list);
 		
 		return map;
+
+
+
+
+
+
+	public void otherprofile(String email, Model model) {
+				SellerDTO sellerInfo = memberDAO.sellerInfo(email);
+				 
+				logger.info("판매자 닉네임 : {}", sellerInfo);
+				model.addAttribute("sellerInfo", sellerInfo);
+				model.addAttribute("name", sellerInfo);
 	}
 }
