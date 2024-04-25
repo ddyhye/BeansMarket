@@ -19,11 +19,8 @@ import com.beans.market.main.dao.MainDAO;
 import com.beans.market.main.dto.MainDTO;
 import com.beans.market.member.dao.MemberDAO;
 import com.beans.market.member.dto.MemberDTO;
-<<<<<<< HEAD
 import com.beans.market.member.dto.BlockDTO;
-=======
 import com.beans.market.member.dto.SellerDTO;
->>>>>>> origin/master
 import com.beans.market.photo.dto.ProfilePicDTO;
 
 @Service
@@ -224,6 +221,7 @@ public class MemberService {
 		map.put("list", list);
 		
 		return map;
+	}
 
 
 
