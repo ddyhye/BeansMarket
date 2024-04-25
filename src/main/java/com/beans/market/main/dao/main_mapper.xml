@@ -249,4 +249,6 @@
 		WHERE email = #{param1}
 	</select>
 	
+	<select id="sellernickname" resultType="com.beans.market.main.dto.MainDTO"></select>
+	
 </mapper>

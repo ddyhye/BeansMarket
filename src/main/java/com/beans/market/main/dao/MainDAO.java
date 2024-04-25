@@ -54,5 +54,7 @@ public interface MainDAO {
 	MemberDTO profile(String logEmail);
 	ProfilePicDTO profilePic(String logEmail);
 	String nicname(String logEmail);
+	
+	List<MainDTO> sellernickname(String email);
 
 }

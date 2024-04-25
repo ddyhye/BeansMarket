@@ -19,6 +19,7 @@ import com.beans.market.main.dao.MainDAO;
 import com.beans.market.main.dto.MainDTO;
 import com.beans.market.member.dao.MemberDAO;
 import com.beans.market.member.dto.MemberDTO;
+import com.beans.market.member.dto.SellerDTO;
 import com.beans.market.photo.dto.ProfilePicDTO;
 
 @Service
@@ -180,5 +181,15 @@ public class MemberService {
 		}
 		
 		return list;
+	}
+
+	public void otherprofile(String email, Model model) {
+				SellerDTO sellerInfo = memberDAO.sellerInfo(email);
+				 
+				logger.info("판매자 닉네임 : {}", sellerInfo);
+				model.addAttribute("sellerInfo", sellerInfo);
+				model.addAttribute("name", sellerInfo);
+				
+		
 	}
 }
