@@ -224,10 +224,7 @@ public class MemberService {
 		map.put("list", list);
 		
 		return map;
-
-
-
-
+	}
 
 
 	public void otherprofile(String email, Model model) {
