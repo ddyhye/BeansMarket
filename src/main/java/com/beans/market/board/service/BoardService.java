@@ -4,15 +4,12 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.sql.Timestamp;
-import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
-import javax.servlet.http.HttpSession;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -28,6 +25,7 @@ import com.beans.market.main.dao.MainDAO;
 import com.beans.market.member.dao.MemberDAO;
 import com.beans.market.member.dto.MemberDTO;
 import com.beans.market.member.dto.SellerDTO;
+import com.beans.market.message.dao.MessageDAO;
 import com.beans.market.pay.service.PayService;
 import com.beans.market.photo.dao.PhotoDAO;
 import com.beans.market.photo.dto.ProfilePicDTO;
@@ -46,6 +44,7 @@ public class BoardService {
 	@Autowired HistoryDAO historyDAO;
 	@Autowired PayService payService;
 	@Autowired MainDAO mainDAO;
+	@Autowired MessageDAO messageDAO;
 
 	public String goodsDetail(int idx, Model model) {
 		String page = "board/saleOfGoodsDetail";
@@ -145,7 +144,10 @@ public class BoardService {
 				if(successful_bid < bid_price) bid_price = successful_bid;
 				if(successful_bid == bid_price) { // 즉시 구매시
 					// 예약중으로, 종료시간을 현재시간으로
-					boardDAO.updateBbsState(bbsIdx,"예약중");
+					boardDAO.updateBbsState(bbsIdx, "예약중");
+					boardDAO.updateReserveEmail(bbsIdx, email);
+					messageDAO.sendMessage("경매 종료 후 입찰자와 매칭되었습니다.", boardDAO.getEmail(bbsIdx), email, bbsIdx);
+					
 					Timestamp currentTimeStamp = Timestamp.valueOf(currentTime);
 					logger.info("종료 시간을 현재시간으로 변경 : 현재 -> {}", currentTimeStamp);
 					boardDAO.updateCloseDate(bbsIdx, currentTimeStamp);
@@ -309,7 +311,7 @@ public class BoardService {
 	}
 	
 	public BoardDTO getBoardInfo(int idx) {
-		logger.info("{} 번 제목 정보 가져오기");
+		logger.info("{} 번 제목 정보 가져오기", idx);
 		return boardDAO.getBoardInfo(idx);
 	}
 	

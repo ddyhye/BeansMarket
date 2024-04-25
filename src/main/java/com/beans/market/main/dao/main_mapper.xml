@@ -209,8 +209,14 @@
 	<update id="alarmRead">
 		UPDATE alarm SET checked = 'Y' WHERE idx = #{param}
 	</update>
-	
-	
+	<!-- 알림 전송 -->
+	<insert id="alarmSend">
+		INSERT INTO alarm (content, email) VALUES (#{param1}, #{param2});
+	</insert>
+	<insert id="alarmSendLink">
+		INSERT INTO alarm (content, email, link) VALUES (#{param1}, #{param2}, #{param3});
+	</insert>
+
 	
 	<!-- 최근 본 게시글 -->
 	<select id="recentBBS" resultType="com.beans.market.main.dto.MainDTO">

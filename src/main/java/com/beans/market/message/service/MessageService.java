@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 
 import com.beans.market.board.dto.BoardDTO;
 import com.beans.market.board.service.BoardService;
+import com.beans.market.main.service.MainService;
 import com.beans.market.message.dao.MessageDAO;
 import com.beans.market.message.dto.MessageDTO;
 import com.beans.market.message.dto.RoomDTO;
@@ -25,6 +26,7 @@ public class MessageService {
 	@Autowired MessageDAO messageDAO;
 	@Autowired BoardService boardService;
 	@Autowired PhotoService photoService;
+	@Autowired MainService mainService;
 	
 	public Map<String, Object> messageCallAjax(int idx, String email, String otherEmail) {
 		Map<String, Object> map = new HashMap<String, Object>();
@@ -43,8 +45,12 @@ public class MessageService {
 		Map<String, Object> map = new HashMap<String, Object>();
 		
 		int row = messageDAO.sendMessage(content, receiveEmail, senderEmail, idx);
-		if(row == 1) result = true;
+		if(row == 1) {
+			result = true;
+			mainService.alarmSend(idx+"번 게시물 : "+content, receiveEmail);
+		}
 		map.put("result", "보낸 결과"+result);
+		
 		
 		return map;
 	}
@@ -60,8 +66,8 @@ public class MessageService {
 			Timestamp reg_date = lastContent.getReg_date();
 			String new_picname = lastContent.getNew_picname();
 			
-			logger.info("content : {} ", content);
-			logger.info("reg_date : {} ", reg_date);
+			//logger.info("content : {} ", content);
+			//logger.info("reg_date : {} ", reg_date);
 			//logger.info("new_picname : {}", new_picname);
 			
 			roomDTO.setContent(content);
