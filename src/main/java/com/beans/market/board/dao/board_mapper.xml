@@ -41,6 +41,10 @@
 		UPDATE auction SET close_date = #{param2} WHERE idx = #{param1}
 	</update>
 	
+	<update id="updateReserveEmail">
+		UPDATE bbs SET reserve_email = #{param2} WHERE idx = #{param1}
+	</update>
+	
 	<select id="getEmail" resultType="String">
 		SELECT email FROM bbs WHERE idx = #{param1};
 	</select>

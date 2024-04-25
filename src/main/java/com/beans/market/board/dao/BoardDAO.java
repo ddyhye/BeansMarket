@@ -33,6 +33,8 @@ public interface BoardDAO {
 	
 	BoardDTO getBoardInfo(int idx);
 	
+	void updateReserveEmail(int bbsIdx, String email);
+
 	// 도혜=정언
 	//int writeBoard(Map<String, String> params);
 	int writeBoard(BoardDTO dto);
@@ -47,6 +49,7 @@ public interface BoardDAO {
 	int tempSave(BoardDTO dto);
 
 	List<BoardDTO> list(String email);
+
 
 
 }

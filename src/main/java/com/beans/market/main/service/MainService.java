@@ -185,8 +185,12 @@ public class MainService {
 	public void alarmRead(int idxInt) {
 		mainDao.alarmRead(idxInt);
 	}
-
-
+	public void alarmSend(String content, String email) {
+		mainDao.alarmSend(content, email);
+	}
+	public void alarmSend(String content, String email, String link) { // 오버로드
+		mainDao.alarmSendLink(content, email, link);
+	}
 	
 	
 	

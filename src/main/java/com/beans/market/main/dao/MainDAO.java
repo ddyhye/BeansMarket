@@ -43,6 +43,8 @@ public interface MainDAO {
 	int newAlarm(String logEmail);
 	List<MainDTO> alarm(String logEmail);
 	int alarmRead(int idxInt);
+	void alarmSend(String content, String email);
+	void alarmSendLink(String content, String email, String link); // link 추가 된 버전
 	
 	// 최근 본 게시글
 	MainDTO recentBBS(int idx);

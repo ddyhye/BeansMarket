@@ -17,23 +17,25 @@
 	</header>
 	<section>
 		<div class="container">
-			<div class="room-select">
+			<div class=leftArea>
 				<div class="left-subject">
 					<p>쪽지함</p>
 				</div>
-				<div id="room-list">
-					<!--
-					<div class="room">
-						<img class="circle-img" src="../resources/img/unRead.png" alt="n번 게시물 대표 사진">
-						<div class="room-info">
-							<p class="room-subject">제목</p>
-							<p class="room-last-content">마지막 내용</p>
+				<div class="room-select">
+					<div id="room-list">
+						<!--
+						<div class="room">
+							<img class="circle-img" src="../resources/img/unRead.png" alt="n번 게시물 대표 사진">
+							<div class="room-info">
+								<p class="room-subject">제목</p>
+								<p class="room-last-content">마지막 내용</p>
+							</div>
+							<p class="last-conversation">2024-04-10 10:03</p>
 						</div>
-						<p class="last-conversation">2024-04-10 10:03</p>
+						-->
 					</div>
-					-->
-				</div>
-			</div><!-- 쪽지방 선택 (room-select) 끝 -->
+				</div><!-- 쪽지방 선택 (room-select) 끝 -->
+			</div>
 			<div class="view-room" data-value="1">
 				<!-- 아무것도 없을 때는 메시지 이모티콘 하나 띄우기 -->
 				<p class="no-message">메시지를 선택해주세요 <i class="fa-solid fa-message"></i></p>			
@@ -115,16 +117,33 @@
                     <input type="hidden" name="option_idx" value="RB002">
                     <div class="btn-controller">
                         <button class="ok" onclick="report()">확인</button>
-                        <button type="button" class="reportBtn" onclick="reportDo()">취소</button>
+                        <button type="button" class="reportCancel">취소</button>
                     </div>
                 </div>
             </div><!--reportForm 종료-->
+        	<div id="dealForm">
+				<div class="top">
+					<button class="escape"><i class="fa-solid fa-x"></i></button>
+				</div>
+				<!-- 경매일 경우 예약 취소 막히게 -> 문의로 해제 가능하다고 적어두자 -->
+				<div class="form">
+					<p>거래 창</p>
+					<button class="reserve-toggle" onclick="reserve()">예약</button>
+					<button class="approve">거래 승인</button>	
+				</div>
+				<p class="msg">*경매의 경우에는 예약 취소가 불가능합니다.</p>			
+			</div><!--dealForm 종료-->
+            <div class="menu"><!-- 신고 메뉴 -->
+            	<button onclick="reportDo('message')">이 쪽지 신고하기</button>
+            </div>
 		</div> <!-- container 종료 -->
 	</section>
 </body>
 <script>
 	var chat_user = '';
 	var chat_idx = 0;
+	var message_idx = 0;
+	var my_email = '${loginInfo.email}';
 
 	loginCheck();
 	
@@ -134,6 +153,14 @@
 	if(callPage != ''){
 		subjectCall(parseInt(callPage));
 	}
+	
+	// 쪽지 단일 신고 메뉴 숨기게 하기
+	$(document).on('click', function(event) {
+		console.log($(event.target).closest('.menu').length);
+	    if (!$(event.target).closest('.menu').length) {
+	        $('.menu').css({'display': 'none'});
+	    }
+	});
 	
 	// 로그인을 안했으면 alert 창 출력 후 로그인으로 이동 - 체크는 서버 측에서도 한번더 하면 좋을거 같음
 	function loginCheck() {
@@ -197,12 +224,12 @@
 		content += '<div class="left">';
 		content += 		'<button id="back" onclick="backDo()"><i class="fa-solid fa-rotate-left"></i></button>';
 		content += 		'<div id="deal">';
-		content += 			'<button id="deal-btn">'+data.roomSubject.bbs_state+'</button>';
-		/*
-		if(data.roomSubject.reserve_email === '{loginInfo.email}' || (data.roomSubject.email === '{loginInfo.email}' && data.roomSubject.reserve_email != null)) { 대화상대가 reserve_email일 경우
+		content += 			'<button id="deal-btn" onclick="dealForm()">'+data.roomSubject.bbs_state+'</button>';
+		
+		if(data.roomSubject.reserve_email === '${loginInfo.email}' || (data.roomSubject.email == '${loginInfo.email}' && data.roomSubject.reserve_email == chat_user)) {
 			content +='<p id="reserve-icon"><i class="fa-solid fa-handshake-simple"></i></p>';
 		}
-		예약자 넣으면 추가할 예정*/
+		
 		content += 		'</div>';
 		content += '</div>';
 		content += '<div class="center">';
@@ -214,7 +241,7 @@
 		content += '</div>';
 		content += '<div class="right">';
 		content += 		'<div class="btn-controller">';
-		content += 			'<button class="report" onclick="reportDo()">신고하기</button>';
+		content +=				'<button class="report" onclick="reportDo(\'room\')">신고하기</button>';
 		content += 			'<button class="delete"><i class="fa-solid fa-trash-can"></i></button>';
 		content += 		'</div>';
 		content += '</div>';
@@ -223,7 +250,34 @@
 		$('#view-subject').css({
 											'background-color':'white',
 											'border-bottom': '1px solid gray'
-										});
+		});
+		
+		$('#deal-btn').prop('disabled', true);
+		$('.reserve-toggle').prop('disabled', true);	
+		$('.approve').prop('disabled', true);
+		
+		// 예약자가 없으면 판매자만 거래버튼 활성화
+		if(data.roomSubject.reserve_email == null){
+			if(data.roomSubject.email === my_email){
+				$('#deal-btn').prop('disabled', false);
+				$('.reserve-toggle').prop('disabled', false);	
+			}
+		} else{ // 예약자가 있으면
+			if(data.roomSubject.reserve_email === my_email || data.roomSubject.email === my_email){
+				$('#deal-btn').prop('disabled', false);
+				$('.reserve-toggle').prop('disabled', false);	
+				$('.approve').prop('disabled', false);
+			}
+		}
+		
+		if (data.roomSubject.bbs_state == '예약중') {
+			$('.reserve-toggle').text('예약 취소');
+		} else if (data.roomSubject.bbs_state == '거래완료') {
+			$('#deal-btn').prop('disabled', true);
+		} else if (data.roomSubject.bbs_state == '거래가능'){
+			$('.reserve-toggle').text('예약');
+		}
+	
 	}
 	
 	
@@ -351,7 +405,28 @@
 		// 스크롤 가장 마지막으로 내리기
 		$('#view-content').scrollTop($('#view-content')[0].scrollHeight);
 
+		$('.receive-msg-info .size-cut').on('contextmenu', function(event) {
+			event.preventDefault();
+			
+			var menu = $('.menu');
+			var posX = event.pageX;
+		    var posY = event.pageY;
+		    
+		    menu.css({
+		        top: posY + 'px',
+		        left: posX + 'px',
+		        display: 'block'
+		    });
+			
+			handleClick($(this).parent());
+		});
+
 	}
+
+	function handleClick(element) {
+        var data = $(element).data("value");
+		message_idx = data; // 특정 쪽지를 신고하게 끔 바꾸기 위해서
+    }
 
 	function sendMessage(idx, other_email) {
 		var content = $('#sendText').val();
@@ -400,23 +475,37 @@
 	}
 
 	// 신고 버튼 클릭 시 - 쪽지 - 게시글 번호로 신고
-	function reportDo() {
+	function reportDo(option) {
 		if(loginCheck()){
-            $('#reportForm').toggle();
+			$('textarea[name="content"]').val('');
+			$('#reportForm').hide();
+			$('.menu').css({'display': 'none'});
+            $('#reportForm').show();
+            
+			if (option == 'message') {
+				$('input[name="option_idx"]').val('RB003');
+			} else {
+				$('input[name="option_idx"]').val('RB002');
+			}
         }
 	}
-
-	// 쪽지 번호로 신고
-
-
+	$('.reportCancel').click(function() {
+		$('#reportForm').hide();
+	});
+	
     // 신고 ajax - 쪽지
     function report(){
 		var category_idx = $('select[name="category_idx"]').val();
         var content = $('textarea[name="content"]').val();
         var option_idx = $('input[name="option_idx"]').val();
         
-        console.log(category_idx, content, option_idx, chat_user, chat_idx);
-        
+		var idx = chat_idx;
+		if (option_idx === 'RB003') {
+			idx = message_idx;
+		}
+		
+        console.log(category_idx, content, option_idx, chat_user, idx);
+        // 쪽지로 신고를 한거면 chat_idx에 들어갈거가 message_idx가 들어가도록
 		$.ajax({
 			type:'POST',
 			url:'../report/report.do',
@@ -425,7 +514,7 @@
                 'content':content,
                 'option_idx':option_idx,
                 'perpet_email':chat_user,
-                'idx':chat_idx
+                'idx':idx
             },
             dataType:'JSON',
 			success:function(data){
@@ -438,13 +527,37 @@
 			} 
 		});
     }
+	
+    function dealForm() {
+		$('#dealForm').show();
+	}
+    
+    $('.escape').click(function() {
+        $(this).closest('.top').parent().hide();
+    });
 
-	$(document).on('contextmenu', function(event) {
-	    event.preventDefault();
-		console.log("호에엥");
-    // 이 코드는 contextmenu 이벤트가 발생했을 때 실행됩니다.
-    // 여기에 원하는 작업을 추가하세요.
-
-	});
+    /*
+	function reserve() {
+		var reserve = $('.reserve-toggle').text();
+		$.ajax({
+			type:'POST',
+			url:'../report/report.do',
+			data:{
+                'reserve':reserve,
+                'email':chat_user,
+                'idx':chat_idx
+            },
+            dataType:'JSON',
+			success:function(data){
+				alert(data.msg);
+				$('#reportForm').toggle();
+				$('textarea[name="content"]').val('');
+			}, 
+			error:function(error){
+				console.log(error);
+			} 
+		});
+	}
+    */
 </script>
 </html>

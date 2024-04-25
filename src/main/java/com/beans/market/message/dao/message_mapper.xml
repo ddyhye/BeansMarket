@@ -35,6 +35,6 @@
 			WHERE dm.idx = #{param1} 
 				AND dm.receive_email IN(#{param2}, #{param3}) 
 				AND dm.sender_email IN(#{param2}, #{param3})
-			ORDER BY dm.reg_date DESC LIMIT 1;
+			ORDER BY dm.reg_date DESC LIMIT 1
 	</select>
 </mapper>

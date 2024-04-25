@@ -34,7 +34,7 @@
                     	<p class="bbs-state">${bbs.bbs_state}</p>
                         <button class="reportBtn">신고하기</button> 
                     </div>
-                    <div class="profile">
+                    <div class="profile" data-value="${sellerInfo.email}">
                         <div class="left">
                             <img src="/photo/${sellerPic.new_filename}" alt="profileImage"/>
                         </div>
