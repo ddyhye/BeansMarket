@@ -260,8 +260,11 @@
 	
 	
 	
-	// 관심물품 등록/삭제
-	$('.main-content').on('click', '.clickHeart', function() {
+	// 고객서비스 - 관심물품 등록/삭제
+	$('.main-content').on('click', '.clickHeart', function(event) {
+		// 이벤트 버블링 방지 (하트 누를 때 게시글 이동 방비)
+		event.stopPropagation();
+		
 		var idx = $(this).closest('.main-content-goods').find('.goods-idx').text();
 		var currImg = $(this).attr('src');
 		
@@ -320,11 +323,6 @@
 	   	// 게시글 디테일로 이동
 	   	window.location.href = '<c:url value="/board/detail.go?idx='+idx+'"/>';
 	});
-	
-	var msg = '${msg}';
-	if(msg != ''){
-	    alert(msg);
-	}
 
 </script>
 </html>

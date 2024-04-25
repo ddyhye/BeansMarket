@@ -90,7 +90,6 @@ public class MainController {
 			map.put("msg", "로그인이 필요한 서비스 입니다...");
 		}
 		
-		
 		return map;
 	}
 	
