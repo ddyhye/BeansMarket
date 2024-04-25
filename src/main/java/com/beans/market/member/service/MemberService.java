@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -112,11 +113,6 @@ public class MemberService {
 		return newFileName;
 	}
 	
-	//리스트
-
-		
-		
-	
 
 	public MemberDTO profileUpdate(Map<String, String> param) {
 		/*
@@ -137,7 +133,7 @@ public class MemberService {
 	
 	// 관심목록 페이지
 	public Map<String, Object> goodsListAjax(Map<String, Object> map, String logEmail) {
-		List<MainDTO> list = null;
+		List<MainDTO> list = new ArrayList<MainDTO>(); 
 		
 		int[] mineIdxList = memberDAO.mineIdxList(logEmail);
 		

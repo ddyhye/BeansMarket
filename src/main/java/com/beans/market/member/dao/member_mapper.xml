@@ -126,7 +126,7 @@
 	
 	<!-- 관심목록 끌거오깅 -->
 	<select id="mineIdxList" parameterType="String" resultType="java.lang.Integer">
-		SELECT idx FROM interest WHERE email = #{param1}
+		SELECT idx FROM interest WHERE email = #{param1} ORDER BY reg_date DESC
 	</select>
 	<select id="mineIdxGoodsList" resultType="com.beans.market.main.dto.MainDTO">
 		SELECT idx, option, email, subject, price, reg_date, bbs_state

@@ -27,6 +27,7 @@ import org.springframework.web.multipart.commons.CommonsMultipartFile;
 
 import com.beans.market.board.dto.BoardDTO;
 import com.beans.market.board.service.BoardService;
+import com.beans.market.main.service.MainService;
 import com.beans.market.member.dto.MemberDTO;
 import com.beans.market.member.service.MemberService;
 import com.beans.market.pay.dto.PayDTO;
@@ -42,6 +43,7 @@ public class MemberController {
 	Logger logger = LoggerFactory.getLogger(getClass());
 	
 	@Autowired MemberService memberService;
+	@Autowired MainService mainService;
 	@Autowired BoardService boardService;
 
 	
@@ -295,6 +297,29 @@ public class MemberController {
 		}
 		
 		memberService.goodsListAjax(map, logEmail);
+		
+		return map;
+	}
+	// 게시글 관심 등록삭제
+	@RequestMapping(value="/member/clickHeart2.ajax")
+	@ResponseBody
+	public Map<String, Object> clickHeart2(HttpSession session, String idx, String isToggled) {
+		Map<String, Object> map = new HashMap<String, Object>();
+		
+		int idxInt = Integer.parseInt(idx);
+		
+		if (session.getAttribute("logEmail") != null) {
+			String logEmail = (String) session.getAttribute("logEmail");
+			if (isToggled.equals("true")) {
+				mainService.goodsHeartAjax(idxInt, logEmail);
+				map.put("msg", "내꺼 ❤에 추가했습니다.");
+			} else {
+				mainService.goodsDeleteHeartAjax(idxInt, logEmail);
+				map.put("msg", "내꺼 ❤에서 삭제했습니다.");
+			}
+		} else {
+			map.put("msg", "로그인이 필요한 서비스 입니다...");
+		}
 		
 		return map;
 	}

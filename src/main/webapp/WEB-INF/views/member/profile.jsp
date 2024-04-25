@@ -77,6 +77,11 @@
 					</div>
 				</div>
 			</div>
+			<div class="main-bottom">
+				<div class="main-bottom-profileUpdate">
+					<a href="<c:url value=''/>"><p>탈퇴하기</p></a>
+				</div>
+			</div>
 		</div>
 	</div>
 
