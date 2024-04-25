@@ -27,11 +27,13 @@ import org.springframework.web.multipart.commons.CommonsMultipartFile;
 
 import com.beans.market.board.dto.BoardDTO;
 import com.beans.market.board.service.BoardService;
+import com.beans.market.main.dto.MainDTO;
 import com.beans.market.main.service.MainService;
 import com.beans.market.member.dto.MemberDTO;
 import com.beans.market.member.service.MemberService;
 import com.beans.market.pay.dto.PayDTO;
 import com.beans.market.photo.dto.ProfilePicDTO;
+import com.beans.market.photo.service.PhotoService;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -45,6 +47,7 @@ public class MemberController {
 	@Autowired MemberService memberService;
 	@Autowired MainService mainService;
 	@Autowired BoardService boardService;
+	@Autowired PhotoService photoService;
 
 	
 	//로그인페이지
@@ -190,29 +193,41 @@ public class MemberController {
 	@RequestMapping(value="/member/otherprofile.go")
 	public String otherprofile(HttpSession session, String email, Model model) {
 		logger.info("타회원 프로필 보기 :"+email);
-		
+		memberService.otherprofile(email,model);
+
 		return"member/otherMemberProfile";
 	}
 	
 	//타회원 리스트 출력
 	@RequestMapping(value="/member/otherlist.ajax")
 	@ResponseBody
-	public Map<String, Object> otherselllist(HttpSession session, String email) {
+	public Map<String, Object> otherselllist(HttpSession session, String email, Model model) {
 		Map<String, Object> map = new HashMap<String,Object>();
 		String logEmail = "";
 		logger.info("아작스 실행");
-		if(session.getAttribute("logEmail")!= null) {
-			logEmail = (String) session.getAttribute("logEmail");
+		
+			logEmail = "zxz0608@naver.com";
 			
-		}
-//		memberService.goodsListAjax(map, logEmail);
+			// 프로필 사진도 같이 불러올려고함
+			ProfilePicDTO dtoPic = memberService.profilePicGet(logEmail);
+			logger.info("dtoPic {}", dtoPic.getNew_filename());
+			logger.info("dtoPic ="+dtoPic);
+			
+	
+		//memberService.goodsListAjax(map, logEmail);
 		List<BoardDTO> list = boardService.Listcall(email);
+		List<MainDTO> mainlist = mainService.mainlistcall(email);
 		logger.info("list {}",list);
+		logger.info("mainList{}",mainlist);
 		map.put("listdata", list);
+		map.put("photo",  dtoPic.getNew_filename());
+		map.put("name", mainlist);
+		
+		
 		return map;
 		
 	}
-	
+
 	
 
 	

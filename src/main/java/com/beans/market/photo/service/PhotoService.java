@@ -36,6 +36,8 @@ public class PhotoService {
 		logger.info("{}번 메인 사진 가져오기", idx);
 		return photoDAO.getMainPhoto(idx, 1);
 	}
+
+
 	
 
 	
