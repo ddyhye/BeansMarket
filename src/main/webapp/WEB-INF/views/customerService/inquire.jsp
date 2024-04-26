@@ -93,13 +93,14 @@ th, td {
     </tr>
 </table>
 
-<select name="state" class="form-state" aria-label="Default select example">
+<form name="search-form" autocomplete="off">
+<select name="type">
 	<option value="title">제목</option>
 	<option value="titleNcontent">제목 + 내용</option>
 </select>
-<input id="searchInput"  type="text" placeholder="검색" >
-<button id="searchButton"  style="height: 20px;">검색</button>
-		
+<input  type="text" name="keyword" value="" >
+<input type="button" onclick="getSearchList()" class="btn" value="검색"></input>
+</form>
 		
 		
 		</div>
@@ -164,32 +165,44 @@ function drawList(list) {
     for (item of list) {
         content += '<tr>';
         content += '<td>' + item.inquiry_idx + '</td>';
-        content += '<td>' + item.inquiry_title + '</td>';
-        content += '<td>' + item.enquirer +'</td>';
+        content += '<td><a href="question/detail?inquiry_idx=' + item.inquiry_idx + '">' + item.inquiry_title + '</a></td>';
+        content += '<td>' + item.enquirer + '</td>';
         var date = new Date(item.reg_date);
-        var dateStr = date.toLocaleDateString("ko-KR"); //en-US
+        var dateStr = date.toLocaleDateString("ko-KR");
         content += '<td>' + dateStr + '</td>';
         content += '</tr>';
+        
     }
     $('#list').html(content);
 }
 
 
-function getSearchList() {
-    $.ajax({
-        type: 'GET',
-        url: "/questionSearch.ajax",
-        data:{
-        	'type': $("select[name='state']").val(),
-        	'keyword': $("#searchInput").val()
-        },
-        dataType: "json",
-        success: function(result) {       
-
-        }
-
-    })
+function getSearchList(){
+	$.ajax({
+		type: 'get',
+		url : "./questionSearch.ajax",
+		data : $("form[name=search-form]").serialize(),
+		success : function(result){
+			console.log(result)
+			$('#list').empty(); 
+			if(result.length >= 1){
+                var content = ''; 
+                for (var item of result) { 
+                    content += '<tr>';
+                    content += '<td>' + item.inquiry_idx + '</td>';
+                    content += '<td>' + item.inquiry_title + '</td>';
+                    content += '<td>' + item.enquirer +'</td>';
+                    var date = new Date(item.reg_date);
+                    var dateStr = date.toLocaleDateString("ko-KR"); //en-US
+                    content += '<td>' + dateStr + '</td>';
+                    content += '</tr>';
+                }
+                $('#list').html(content); 
+			}
+		}
+	});
 }
+
 
 
 

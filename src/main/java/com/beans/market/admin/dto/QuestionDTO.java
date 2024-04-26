@@ -15,6 +15,10 @@ public class QuestionDTO {
 	//검색
 	private String type;
 	private String keyword;
+	//답변
+	private String reply;
+	private String id;
+	
 	
 	public int getInquiry_idx() {
 		return inquiry_idx;
@@ -69,6 +73,18 @@ public class QuestionDTO {
 	}
 	public void setKeyword(String keyword) {
 		this.keyword = keyword;
+	}
+	public String getReply() {
+		return reply;
+	}
+	public void setReply(String reply) {
+		this.reply = reply;
+	}
+	public String getId() {
+		return id;
+	}
+	public void setId(String id) {
+		this.id = id;
 	}
 
 	
