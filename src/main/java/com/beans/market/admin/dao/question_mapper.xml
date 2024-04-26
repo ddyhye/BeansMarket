@@ -20,9 +20,33 @@
 	keyProperty="idx"
 	parameterType="com.beans.market.admin.dto.QuestionDTO">
 		INSERT INTO inquiry(inquiry_pw, inquiry_title, inquiry_account, reg_date, enquirer, category_idx)
-			VALUES(#{inquiry_pw}, #{inquiry_title},#{inquiry_account},  current_timestamp, #{category_idx})
+			VALUES(#{inquiry_pw}, #{inquiry_title},#{inquiry_account},  current_timestamp, #{enquirer} , #{category_idx})
 	</insert>
+
+
+	<!-- 검색기능 미구현 -->
+	<select id="selectSearchList" parameterType="com.beans.market.admin.dto.QuestionDTO" resultType="com.beans.market.admin.dto.QuestionDTO">
+	select inquiry_idx, inquiry_pw, inquiry_title, reg_date, enquirer FROM inquiry
+	<choose>
+		<when test="type != null and type.equals('title')">
+		AND inquiry_title like CONCAT ('%', #{keyword}, '%')
+		</when>
+		<when test="type != null and type.equals('titleNcontent')">
+		AND inquiry_account like CONCAT ('%', #{keyword}, '%') 
+		</when>
+	</choose>
+	</select>
 	
+	<!--  문의 상세보기 -->
+	<select id="detail" resultType="com.beans.market.admin.dto.QuestionDTO">
+SELECT q.inquiry_idx, q.inquiry_pw, q.inquiry_title, q.inquiry_account, q.reg_date, q.enquirer, q.category_idx,
+        r.reply, r.id
+FROM inquiry q
+LEFT JOIN inq_reply r ON q.inquiry_idx = r.inquiry_idx
+WHERE q.inquiry_idx = #{inquiry_idx}  
+
+    </select>
 	
+
 	
 </mapper>

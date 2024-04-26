@@ -52,4 +52,22 @@ public class QuestionService {
 		return row;
 	}
 
+
+	
+	public List<QuestionDTO> getSearchList(QuestionDTO questionDTO) {
+		return questionDAO.selectSearchList(questionDTO);
+	}
+
+	public QuestionDTO detail(String idx) {
+		return questionDAO.detail(idx);
+	}
+
+
+
+
+
+
+
+
+
 }

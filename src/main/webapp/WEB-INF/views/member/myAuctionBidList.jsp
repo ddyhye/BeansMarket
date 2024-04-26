@@ -19,7 +19,24 @@ com.beans.market<%@ page language="java" contentType="text/html; charset=UTF-8" 
 				<p>님의 입찰 내역</p>
 			</div>
 			<div class="Auction-center">
-			
+				<table>
+					<thead>
+						<tr>
+							<th class="one">Img</th><th class="two">제목</th><th class="three">입찰가</th><th class="four">차단</th>
+						</tr>
+					</thead>
+					<tbody id="auctionListT">
+						<%-- <tr>
+							<th>1</th>
+							<td>${item.email}</td>
+							<td>${item.name}</td>
+							<td class="four-div"><p id="unravel">해제</p></td>
+						</tr> --%>
+					</tbody>
+				</table>
+			</div>
+		</div>
+	</div>
 			
 			
 			
@@ -57,11 +74,11 @@ com.beans.market<%@ page language="java" contentType="text/html; charset=UTF-8" 
 				</div>
 				</td>
 			</tr>
-			</tbody> -->
+			</tbody> 
 			</table>
 			</div>
 		
-		</div>
+		</div>-->
 
 </body>
 
