@@ -16,7 +16,6 @@
    justify-content: center;
 
 	position: relative;
-
 	color: rgb(68, 68, 68);
    font-size: 25px;
 }
@@ -104,6 +103,7 @@
    border: 2px solid lightgray;
    border-radius: 2px;
 }
+
 .buy-center-list-center-mark1 span{
    font-weight: bold;
    font-size: 12px;
@@ -133,11 +133,13 @@
    border: 2px solid rgb(68, 68, 68);
    border-radius: 2px;
 }
+
 .buy-center-list-center-mark2 span{
    color: white;
    font-weight: bold;
    font-size: 12px;
 }
+
 
 .buy-center-list-right {
 	display: flex;

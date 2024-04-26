@@ -498,14 +498,49 @@ public class MemberController {
 	
 	
 	
-	
 
-	// 경매-나의 입찰
+
+	
+	
+	
+	
+	
+	
+	/*                   정언                    */
+	
+	// 나의 입찰 목록
 	@RequestMapping(value="/member/myAuctionBidList.go")
-	public String auctionList() {
+	public String acutionList(HttpSession session, Model model, RedirectAttributes redirectAttrs) {
 		logger.info("나의 입찰 페이지...");
 		
-		return "member/myAuctionBidList";
+		String page = "redirect:/";
+		
+		if (session.getAttribute("logEmail") != null) {
+			String logEmail = (String) session.getAttribute("logEmail");
+			String name = mainService.nicname(logEmail);
+			model.addAttribute("name", name);
+			
+			page = "/member/myAuctionBidList";
+		} else {
+			redirectAttrs.addFlashAttribute("msg", "로그인이 필요한 서비스 입니다...");
+		}
+		
+		return page;
 	}
+	
+	// 나의 입찰 목록 리스트
+	@RequestMapping(value="/member/myAuctionList.ajax")
+	@ResponseBody
+	public Map<String, Object> auctionBidList(HttpSession session) {
+		Map<String, Object> map = new HashMap<String, Object>();
+		
+		if (session.getAttribute("logEmail") != null) {
+			String logEmail = (String) session.getAttribute("logEmail");
+			memberService.auctionBid(map, logEmail);
+		} 
+		
+		return map;
+	}
+
 	
 }
