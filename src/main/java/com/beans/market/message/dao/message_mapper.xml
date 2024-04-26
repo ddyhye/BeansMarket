@@ -2,11 +2,28 @@
 <!DOCTYPE mapper PUBLIC	"-//mybatis.org//DTD Mapper 3.0//EN"
 	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.beans.market.message.dao.MessageDAO">	
-	
-	<select id="messageList" resultType="com.beans.market.message.dto.MessageDTO">
+	<!--
 		SELECT message_idx, content, reg_date, receive_email, receive_del, sender_email, sender_del, read_check, idx
-			FROM deal_message
+		FROM deal_message
 		WHERE idx=#{param1} AND (receive_email IN(#{param2}, #{param3}) AND sender_email IN(#{param2}, #{param3}))
+	  -->
+	<select id="messageList" resultType="com.beans.market.message.dto.MessageDTO">
+		SELECT 
+			dm.message_idx, 
+			dm.content, 
+			dm.reg_date, 
+			dm.receive_email, 
+			dm.receive_del, 
+			dm.sender_email, 
+			dm.sender_del, 
+			dm.read_check,
+			dm.idx, 
+			p.new_picname
+		FROM deal_message dm 
+			LEFT JOIN (SELECT p.new_picname, p.idx from photo p where p.option_idx = 2) AS p ON dm.message_idx = p.idx
+			WHERE dm.idx= #{param1} 
+				AND (dm.receive_email IN(#{param2}, #{param3}) 
+				AND dm.sender_email IN(#{param2}, #{param3}))
 	</select>
 	
 	<insert id="sendMessage">
@@ -14,18 +31,55 @@
 			VALUES(#{param1}, #{param2}, #{param3}, #{param4})
 	</insert>
 	
+	<insert id="sendMessagePic" 
+		useGeneratedKeys="true"
+		keyColumn="message_idx"
+		keyProperty="message_idx"
+		parameterType="com.beans.market.message.dto.MessageDTO">
+		INSERT INTO deal_message(content, receive_email, sender_email, idx) 
+			VALUES(#{content}, #{receive_email}, #{sender_email}, #{idx})
+	</insert>
+	
 	<select id="roomList" resultType="com.beans.market.message.dto.RoomDTO">
-		SELECT m.sender_email AS other_email, m.idx, m.reg_date
-		FROM deal_message m 
-		WHERE m.receive_email = #{param1}
-		AND m.idx IN (SELECT idx FROM bbs WHERE email = #{param1}) 
-		GROUP BY m.idx, m.sender_email
-			UNION ALL 
-		SELECT m.receive_email AS other_email, m.idx, m.reg_date
-		FROM deal_message m
-		WHERE m.sender_email = #{param1} 
-		AND m.idx NOT IN (SELECT idx FROM bbs WHERE email = #{param1}) 
-		GROUP BY m.idx ORDER BY reg_date DESC
+		SELECT 
+		    m.other_email, 
+		    m.idx, 
+		    m.reg_date, 
+		    mb.name
+		FROM
+		    (
+		        SELECT 
+		            m.sender_email AS other_email, 
+		            m.idx, 
+		            m.reg_date
+		        FROM 
+		            deal_message m
+		        WHERE 
+		            m.receive_email = #{param1}
+		            AND m.idx IN (
+		                SELECT idx 
+		                FROM bbs 
+		                WHERE email = #{param1}
+		            )
+		        UNION ALL
+		        SELECT 
+		            m.receive_email AS other_email, 
+		            m.idx, 
+		            m.reg_date
+		        FROM 
+		            deal_message m
+		        WHERE 
+		            m.sender_email = #{param1}
+		            AND m.idx NOT IN (
+		                SELECT idx 
+		                FROM bbs 
+		                WHERE email = #{param1}
+		            )
+		    ) AS m
+		    JOIN `member` mb ON m.other_email = mb.email
+		GROUP by m.other_email, m.idx
+		ORDER BY 
+		    m.reg_date DESC
 	</select>
 	
 	<select id="lastContent" resultType="com.beans.market.message.dto.RoomDTO">

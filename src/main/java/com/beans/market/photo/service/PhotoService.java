@@ -37,6 +37,12 @@ public class PhotoService {
 		return photoDAO.getMainPhoto(idx, 1);
 	}
 
+	public void insertPhoto(String newFileName, int message_idx, int option) {
+		// option - 1은 게시글, 2는 사진, ... DB 참고
+		logger.info("쪽지번호 - {}, 사진 전송 시작", message_idx);
+		photoDAO.insertPhoto(newFileName, message_idx, option);
+	}
+
 
 	
 

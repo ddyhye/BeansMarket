@@ -8,6 +8,7 @@ public class RoomDTO {
 	private String content;
 	private Timestamp reg_date;
 	private String new_picname;
+	private String name;
 	
 	public String getOther_email() {
 		return other_email;
@@ -38,6 +39,12 @@ public class RoomDTO {
 	}
 	public void setNew_picname(String new_picname) {
 		this.new_picname = new_picname;
+	}
+	public String getName() {
+		return name;
+	}
+	public void setName(String name) {
+		this.name = name;
 	}
 	
 	

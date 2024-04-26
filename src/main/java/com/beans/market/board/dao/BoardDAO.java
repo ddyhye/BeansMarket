@@ -19,7 +19,7 @@ public interface BoardDAO {
 
 	BoardDTO auctionDetail(int idx);
 
-	void updateBbsState(int bbsIdx, String string);
+	void updateBbsState(int bbsIdx, String state);
 
 	void updateCloseDate(int bbsIdx, Timestamp newCloseTimestamp);
 
@@ -30,8 +30,6 @@ public interface BoardDAO {
 	void tempdel(String idx);
 
 	String getEmail(int idx);
-	
-	BoardDTO getBoardInfo(int idx);
 	
 	void updateReserveEmail(int bbsIdx, String email);
 
@@ -49,6 +47,8 @@ public interface BoardDAO {
 	int tempSave(BoardDTO dto);
 
 	List<BoardDTO> list(String email);
+
+	int reserveUpdate(String email, int idx, String bbs_state);
 
 
 

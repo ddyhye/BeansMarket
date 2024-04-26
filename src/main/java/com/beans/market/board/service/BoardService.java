@@ -312,14 +312,51 @@ public class BoardService {
 
 	
 	public BoardDTO getBoardInfo(int idx) {
-		logger.info("{} 번 제목 정보 가져오기", idx);
-		return boardDAO.getBoardInfo(idx);
+		logger.info("{} 번 정보 가져오기", idx);
+		return boardDAO.goodsDetail(idx);
 	}
 	
 
 	public List<BoardDTO> Listcall(String email) {
 		
 		return boardDAO.list(email);
+	}
+
+	public Map<String, Object> reserveToggleAjax(String reserve, String email, int idx) {
+		Map<String, Object> map = new HashMap<String, Object>();
+		int row = 0;
+		String returnReserve = "";
+		String bbs_state = "";
+		boolean result = false;
+		
+		BoardDTO dto = boardDAO.goodsDetail(idx);
+		if(!dto.getOption().equals("경매")) { // 막아둘거지만 혹시라도 경매 게시물로 버튼 클릭시 서버측에서 한번 더 막도록
+			if(reserve.equals("예약")) {
+				bbs_state = "예약중";
+				row = boardDAO.reserveUpdate(email, idx, bbs_state);
+				if (row == 1) {
+					returnReserve = "예약 취소";
+				}
+			} else if(reserve.equals("예약 취소")) {
+				bbs_state = "거래가능";
+				row = boardDAO.reserveUpdate(null, idx, bbs_state);
+				if (row == 1) {
+					returnReserve = "예약";
+				}
+			}
+			logger.info(returnReserve+"로 변경");
+			result = true;
+			
+			map.put("idx", idx);
+			map.put("reserve", returnReserve);		
+		}
+		map.put("result", result);
+		
+		return map;
+	}
+
+	public void updataBbsState(int idx, String state) {
+		boardDAO.updateBbsState(idx, state);
 	}
 
 	

@@ -19,5 +19,32 @@ public class HistoryService {
 		return result;
 	}
 	
+	public int dealApprove(int idx, String email) {
+		logger.info("{}이 {} 게시글 거래 승인", email, idx);
+		int result = historyDAO.dealApprove(idx, email);
+		return result;
+	}
+
+	public int dealApproveCancel(int idx, String email) {
+		logger.info("{}이 {} 게시글 거래 승인 취소", email, idx);
+		int result = historyDAO.dealApproveCancel(idx, email);
+		return result;
+	}
+
+	public int dealApproveCheck(int idx, String email) {
+		logger.info("{}이 {} 게시글 상대방 승인 여부 확인", email, idx);
+		int result = historyDAO.dealApproveCheck(idx, email);
+		return result;
+	}
+
+	public void insertDealHistory(String seller, String buyer, int idx) {
+		logger.info("판매자 : {}, 구매자 : {}, 인덱스 : "+idx, seller, buyer);
+		historyDAO.insertDealHistory(seller, buyer, idx);
+	}
+
+	public int comentDo(String coment, String email, int idx) {
+		logger.info("내용 : {}, 이메일 : {}, 인덱스 : "+idx, coment, email);
+		return historyDAO.comentDo(coment, email, idx);
+	}
 	
 }

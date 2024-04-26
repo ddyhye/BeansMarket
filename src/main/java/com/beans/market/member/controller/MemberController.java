@@ -393,8 +393,6 @@ public class MemberController {
 	
 	
 	
-	
-
 	// 경매-나의 입찰
 	@RequestMapping(value="/member/myAuctionBidList.go")
 	public String auctionList() {
@@ -402,5 +400,6 @@ public class MemberController {
 		
 		return "member/myAuctionBidList";
 	}
+
 	
 }

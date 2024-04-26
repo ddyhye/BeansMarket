@@ -26,6 +26,8 @@ public interface PayDAO {
 
 	void insertPayHistory(Map<String, Object> param);
 
+	int transactionDeposit(String email, int idx);
+
 
 
 

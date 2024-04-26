@@ -1,6 +1,9 @@
 package com.beans.market.message.controller;
 
+import java.util.HashMap;
 import java.util.Map;
+
+import javax.servlet.http.HttpSession;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -9,8 +12,11 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 
+import com.beans.market.member.dto.MemberDTO;
 import com.beans.market.message.service.MessageService;
 
 @Controller
@@ -56,13 +62,68 @@ public class MessageController {
 	// 제목 요청
 	@RequestMapping(value = "/message/subjectCall.ajax", method = RequestMethod.POST)
 	@ResponseBody
-	public Map<String, Object> subjectCallAjax(int idx){
+	public Map<String, Object> subjectCallAjax(HttpSession session, int idx){
 		logger.info("{}번 게시물, 제목 요청", idx);
-		return messageService.subjectCallAjax(idx);
+		Map<String, Object> map = new HashMap<String, Object>();
+		MemberDTO loginInfo = (MemberDTO) session.getAttribute("loginInfo");
+		if (loginInfo != null) {
+			String myEmail = loginInfo.getEmail();
+			map = messageService.subjectCallAjax(myEmail, idx);			
+		}
+		return map;
 	}
 	
+	// 거래 승인
+	@RequestMapping(value = "/message/approve.ajax", method = RequestMethod.POST)
+	@ResponseBody
+	public Map<String, Object> approveAjax(HttpSession session, String email, int idx){
+		logger.info("approve data Check {}, {} , "+idx, email);
+		Map<String, Object> map = new HashMap<String, Object>();
+		
+		MemberDTO loginInfo = (MemberDTO) session.getAttribute("loginInfo");
+		if (loginInfo != null) {
+			String myEmail = loginInfo.getEmail();
+			map = messageService.approveAjax(myEmail, email, idx);			
+		}
+		return map;
+	}	
 	
+	// 거래 후기
+	@RequestMapping(value = "/message/comentDo.ajax", method = RequestMethod.POST)
+	@ResponseBody
+	public Map<String, Object> comentDoAjax(HttpSession session, String coment, String email, int idx){
+		logger.info("coment data Check {}, {} , "+coment, email);
+		Map<String, Object> map = new HashMap<String, Object>();
+		
+		MemberDTO loginInfo = (MemberDTO) session.getAttribute("loginInfo");
+		if (loginInfo != null) {
+			map = messageService.comentDo(coment, email, idx);			
+		}
+		
+		
+		return map;
+	}	
 	
-	
+	// 사진 전송
+	@RequestMapping(value="/message/photoUpload.ajax", method = RequestMethod.POST)
+	@ResponseBody
+	public Map<String, Object> newPicPathAjax(HttpSession session, 
+			@RequestParam("photo") MultipartFile photo, 
+			@RequestParam("idx") int idx,
+			@RequestParam("email") String email){
+		Map<String, Object> map = new HashMap<String, Object>();
+		
+		logger.info("file : {}", photo);
+		logger.info("idx : {}", idx);
+		logger.info("email : {}", email);
+		
+		MemberDTO loginInfo = (MemberDTO) session.getAttribute("loginInfo");
+		if (loginInfo != null) {
+			String loginEmail = loginInfo.getEmail();
+			map = messageService.photoSend(photo, idx, email, loginEmail);			
+		}
+		
+		return map;
+	}
 	
 }

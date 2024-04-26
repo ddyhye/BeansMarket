@@ -241,5 +241,24 @@ public class BoardController {
 		
 		return map;
 	}
+	
+	// 예약으로 바꾸기
+	// 예약은 판매자 용
+	@RequestMapping(value = "/board/reserveToggle.ajax", method = RequestMethod.POST)
+	@ResponseBody
+	public Map<String, Object> reserveToggleAjax(HttpSession session, String reserve, String email, int idx){
+		logger.info("reserve data Check {}, {} , "+idx, email, reserve);
+		Map<String, Object> map = new HashMap<String, Object>();
+		
+		// session검사 + 현재 세션의 사람이 게시글 작성자 본인이 맞는지
+		MemberDTO loginInfo = (MemberDTO) session.getAttribute("loginInfo");
+		String seller = boardService.getEmail(idx);
+		if (loginInfo != null && seller.equals(loginInfo.getEmail())) {
+			// 버튼을 누른 시점의 텍스트가 reserve 예약 OR 예약 취소
+			map = boardService.reserveToggleAjax(reserve, email, idx);			
+		}
+		
+		return map;
+	}	
 
 }

@@ -56,6 +56,8 @@ public class PayService {
 	public String getUsernameByEmail(String email) {
 		return payDAO.getUsernameByEmail(email);
 	}
+	
+	
 
 	//포인트 충전
 	public void updateMemberPoint(String email, int pay) {
@@ -65,11 +67,28 @@ public class PayService {
 	    Map<String, Object> param = new HashMap<>();
 	    param.put("email", email);
 	    param.put("amount", pay);
-	    param.put("option", "빈즈페이 충전");
+	    param.put("option", "빈즈페이 충전"); // mapper에 직접 값을 넣을거면 이거 왜 넣은건가
 	    param.put("content", "빈즈페이 충전 내역");
 
 	    // 포인트 변경 내역을 pay_hist 테이블에 기록
 	    payDAO.insertPayHistory(param);
+		
+	}
+
+	// 낙찰 후 거래금 처리
+	public void autionPaySend(String email, int idx) {
+		logger.info("{} 게시물 경매 낙찰 이후 거래 성사", idx);
+		// 거래금 판매자에게 전송
+		int row = payDAO.transactionDeposit(email, idx);
+		logger.info("경매 거래금 수령 여부 ", row);
+		
+		// 거래금 수신에 대해서 입출금 내역에 저장
+		if(row == 1) {
+			row = historyDAO.InsertDepositHistoty(idx, email, "경매금 수령", idx+"번 게시글 경매금 수령");
+			logger.info("거래금 수령 내역 작성 완료 여부 ", row);			
+		}
+		
+		// 게시물 입찰 히스토리와 구매자 입출금 내역에 낙찰이라는 내역 추가하기
 		
 	}
 	

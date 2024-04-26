@@ -13,4 +13,6 @@ public interface PhotoDAO {
 
 	String getMainPhoto(int idx, int opiton_idx);
 
+	void insertPhoto(String newFileName, int message_idx, int option);
+
 }

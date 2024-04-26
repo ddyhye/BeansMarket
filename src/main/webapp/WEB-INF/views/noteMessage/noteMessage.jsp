@@ -129,14 +129,63 @@
 				<div class="form">
 					<p>거래 창</p>
 					<button class="reserve-toggle" onclick="reserve()">예약</button>
-					<button class="approve">거래 승인</button>	
+					<button class="pay-send">송금 하기</button>
+					<button class="approve" onclick="apprve()">거래 승인</button>	
 				</div>
-				<p class="msg">*경매의 경우에는 예약 취소가 불가능합니다.</p>			
+				<p class="msg">*경매의 경우에는 예약 취소가 불가능합니다.</p>
+				<p class="msg">*거래승인시 취소 불가능하며, 예약 취소도 불가능합니다.</p>			
 			</div><!--dealForm 종료-->
-            <div class="menu"><!-- 신고 메뉴 -->
-            	<button onclick="reportDo('message')">이 쪽지 신고하기</button>
-            </div>
+            <div id="comentForm">
+				<div class="top">
+					<button class="escape"><i class="fa-solid fa-x"></i></button>
+				</div>
+				<div class="form">
+					<div class="content">
+						<p>거래가 성사되었나요?</p>
+						<p>상대방 거래 후기를 남겨주세요!</p>					
+					</div>
+					<!-- 상대방 프로필 사진 가져올때까지 대타사진 -->
+					<img class="circle-img" src="" alt="~~ 프로필 사진">
+					<div class="btn-controller">
+                        <button class="conment-Btn" onclick="coment('positive')"><i class="fa-solid fa-thumbs-up"></i> 친절해요</button>
+						<button class="conment-Btn" onclick="coment('negative')"><i class="fa-solid fa-thumbs-down"></i> 나빠요...</button>	
+                    </div>
+				</div>		
+			</div><!--comentForm 종료-->
+            <div class="menu"><!-- 우클릭 신고 메뉴 -->
+            	<button class="one-report" onclick="reportDo('message')">이 쪽지 신고하기</button>
+				<button onclick="deleteDo()">쪽지 삭제하기</button>
+			</div>
+			<!-- 사진 전송  -->
+			<div class="picUpload"> 
+				<div class="picUpload-top">
+					<button class="deleteBtn">X</button>
+				</div>
+				<div class="picUpload-center">
+					<input type="file" name="photo" id="newPic"/>
+				</div>
+				<div class="picUpload-bottom">
+					<p id="picUploadSucc">완료</p>
+				</div>
+			</div> <!--picUpload 종료-->
 		</div> <!-- container 종료 -->
+		<div id="deleteForm">
+			<div class="top">
+				<button class="escape"><i class="fa-solid fa-x"></i></button>
+			</div>
+			<div class="form">
+				<div class="content">
+					<p>삭제하시겠습니까?</p>			
+				</div>
+				<div class="btn-controller">
+					<button class="delete-Btn" onclick="">삭제</button>
+					<button class="delete-Btn"  >취소</button>	
+				</div>
+				<div class="content">
+					<p>*삭제해도 상대방에게는 보입니다.</p>			
+				</div>
+			</div>		
+		</div><!--deleteForm 종료-->
 	</section>
 </body>
 <script>
@@ -154,9 +203,9 @@
 		subjectCall(parseInt(callPage));
 	}
 	
-	// 쪽지 단일 신고 메뉴 숨기게 하기
+	// 쪽지 우클릭 메뉴 숨기게 하기
 	$(document).on('click', function(event) {
-		console.log($(event.target).closest('.menu').length);
+		// console.log($(event.target).closest('.menu').length);
 	    if (!$(event.target).closest('.menu').length) {
 	        $('.menu').css({'display': 'none'});
 	    }
@@ -207,7 +256,7 @@
 				chat_idx = data.bbs_idx;
 				drawSubject(data);
 				if (chat_user === '') {
-					chat_user = data.other_email;
+					chat_user = data.roomSubject.email;
 					messageCall(chat_idx, '${loginInfo.email}',chat_user);
 				}
 			}, error: function(error) {
@@ -242,7 +291,7 @@
 		content += '<div class="right">';
 		content += 		'<div class="btn-controller">';
 		content +=				'<button class="report" onclick="reportDo(\'room\')">신고하기</button>';
-		content += 			'<button class="delete"><i class="fa-solid fa-trash-can"></i></button>';
+		content += 			'<button class="delete" onclick="deleteDo()"><i class="fa-solid fa-trash-can"></i></button>';
 		content += 		'</div>';
 		content += '</div>';
 
@@ -255,19 +304,22 @@
 		$('#deal-btn').prop('disabled', true);
 		$('.reserve-toggle').prop('disabled', true);	
 		$('.approve').prop('disabled', true);
+		$('.pay-send').show();
+		$('.reserve-toggle').show();
 		
+		//console.log(my_email + data.roomSubject.option+data.roomSubject.reserve_email);
 		// 예약자가 없으면 판매자만 거래버튼 활성화
 		if(data.roomSubject.reserve_email == null){
-			if(data.roomSubject.email === my_email){
+			if(data.roomSubject.email == my_email){
 				$('#deal-btn').prop('disabled', false);
 				$('.reserve-toggle').prop('disabled', false);	
 			}
 		} else{ // 예약자가 있으면
-			if(data.roomSubject.reserve_email === my_email || data.roomSubject.email === my_email){
+			if(data.roomSubject.reserve_email == my_email || data.roomSubject.email == my_email){
 				$('#deal-btn').prop('disabled', false);
-				$('.reserve-toggle').prop('disabled', false);	
 				$('.approve').prop('disabled', false);
-			}
+				if(data.roomSubject.option != '경매') $('.reserve-toggle').prop('disabled', false);
+			} 
 		}
 		
 		if (data.roomSubject.bbs_state == '예약중') {
@@ -276,6 +328,17 @@
 			$('#deal-btn').prop('disabled', true);
 		} else if (data.roomSubject.bbs_state == '거래가능'){
 			$('.reserve-toggle').text('예약');
+		}
+
+		if (data.roomSubject.email == my_email || data.roomSubject.option === '경매') {
+			$('.pay-send').hide();
+		} else {
+			$('.reserve-toggle').hide();
+		}
+		
+		if(data.approve){
+			$('.approve').prop('disabled', true);
+			$('.reserve-toggle').prop('disabled', true);
 		}
 	
 	}
@@ -289,10 +352,10 @@
 		}
 		
 		for (item of data.roomList) {
-			content +='<div class="room" onclick="viewRoomContent(\'' + item.idx + '\', \'' + item.other_email + '\')">'; 
+			content +=	'<div class="room" onclick="viewRoomContent(\'' + item.idx + '\', \'' + item.other_email + '\')">'; 
 			content +=		'<img class="circle-img" src="/photo/'+item.new_picname+'" alt="'+item.idx+'번 게시물 대표 사진">';
 			content +=		'<div class="room-info">';
-			content +=			'<p class="room-subject">'+item.other_email+'</p>';
+			content +=			'<p class="room-subject">'+item.name+'</p>';
 			content +=			'<p class="room-last-content">'+item.content+'</p>';
 			content +=		'</div>';
 			content +=		'<p class="last-conversation">'+DateToString(item.reg_date)+'</p>';
@@ -355,7 +418,9 @@
 			var dateStr = date.toLocaleDateString("ko-KR");
 			var hours = date.getHours();
 			var minutes = date.getMinutes();
-
+			
+			console.log(item.new_picname);
+			
 			if(dateStr != checkDate || content == ''){
 				content += '<div class="to-day">';
 				content += 		'<p>'+dateStr+'</p>';
@@ -367,9 +432,10 @@
 				content +=	'<div class="receive-msg-info" data-value="'+item.message_idx+'">';
 				content +=		'<div class="size-cut">';
 				if(checkHours != hours || checkMinutes != minutes){
-					content +=			'<img class="circle-img" src="../resources/img/unHeart.png" alt="상대방 프로필 사진">';
+					content +=			'<img class="circle-img" src="/photo/'+item.sender_email+'" alt="상대방 프로필 사진">';
 					content +=			'<div class="message-info">';
 					content +=				'<p class="name">'+item.sender_email+'</p>';
+					if (item.new_picname != null) content +=	'<img class="photo" src="/photo/'+item.new_picname+'" alt="'+item.message_idx+'번 쪽지 사진">';
 					content +=				'<p class="content">'+item.content+'</p>';
 					content +=			'</div>';
 					checkHours = hours;
@@ -377,6 +443,7 @@
 				} else {
 					content +=			'<div class="term"><p></p></div>';
 					content +=			'<div class="message-info">';
+					if (item.new_picname != null) content +=	'<img class="photo" src="/photo/'+item.new_picname+'" alt="'+item.message_idx+'번 쪽지 사진">';
 					content +=				'<p class="content">'+item.content+'</p>';
 					content +=			'</div>';
 				}
@@ -386,12 +453,13 @@
 				content +=		'</div>';
 				content +=	'</div>';
 			} else if (email === item.sender_email) {
-				content +=	'<div class="send-msg-info">';
+				content +=	'<div class="send-msg-info" data-value="'+item.message_idx+'">';
 				content +=		'<div class="size-cut">';
 				content +=			'<div class="sendTime">';
 				content +=				'<p>'+hours + ':' + (minutes < 10 ? '0' : '') + minutes+'</p>';
 				content +=			'</div>';
 				content +=			'<div class="message-info">';
+				if (item.new_picname != null) content +=	'<img class="photo" src="/photo/'+item.new_picname+'" alt="'+item.message_idx+'번 쪽지 사진">';
 				content +=				'<p class="content">'+item.content+'</p>';
 				content +=			'</div>';
 				content +=		'</div>';
@@ -405,7 +473,8 @@
 		// 스크롤 가장 마지막으로 내리기
 		$('#view-content').scrollTop($('#view-content')[0].scrollHeight);
 
-		$('.receive-msg-info .size-cut').on('contextmenu', function(event) {
+		// 우측 메뉴 띄우기
+		$('.size-cut').on('contextmenu', function(event) {
 			event.preventDefault();
 			
 			var menu = $('.menu');
@@ -418,6 +487,14 @@
 		        display: 'block'
 		    });
 			
+		 	// .size-cut의 부모 요소가 .send-msg-info인지 확인
+		    if ($(this).parent().hasClass('send-msg-info')) {
+		        // 내가 보낸거면 신고 버튼 숨기기
+		        $('.menu .one-report').hide();
+		    } else {
+		    	$('.menu .one-report').show();
+			}
+		    
 			handleClick($(this).parent());
 		});
 
@@ -426,6 +503,7 @@
 	function handleClick(element) {
         var data = $(element).data("value");
 		message_idx = data; // 특정 쪽지를 신고하게 끔 바꾸기 위해서
+		//console.log(data);
     }
 
 	function sendMessage(idx, other_email) {
@@ -493,6 +571,15 @@
 		$('#reportForm').hide();
 	});
 	
+	
+	function deleteDo() {
+		if(loginCheck()){
+			$('.menu').css({'display': 'none'});
+			$('#deleteForm').show();
+        }
+	}
+	
+	
     // 신고 ajax - 쪽지
     function report(){
 		var category_idx = $('select[name="category_idx"]').val();
@@ -534,14 +621,15 @@
     
     $('.escape').click(function() {
         $(this).closest('.top').parent().hide();
+        viewRoomContent(chat_idx, chat_user);
     });
 
-    /*
+    // 예약은 판매자 용 
 	function reserve() {
 		var reserve = $('.reserve-toggle').text();
 		$.ajax({
 			type:'POST',
-			url:'../report/report.do',
+			url:'../board/reserveToggle.ajax',
 			data:{
                 'reserve':reserve,
                 'email':chat_user,
@@ -549,15 +637,94 @@
             },
             dataType:'JSON',
 			success:function(data){
-				alert(data.msg);
-				$('#reportForm').toggle();
-				$('textarea[name="content"]').val('');
+				if(data.result){
+					$('#dealForm').hide();
+					subjectCall(data.idx);				
+				}
 			}, 
 			error:function(error){
 				console.log(error);
-			} 
+			}
 		});
 	}
-    */
+    
+    function apprve() {
+		$.ajax({
+			type:'POST',
+			url:'../message/approve.ajax',
+			data:{
+                'email':chat_user,
+                'idx':chat_idx
+            },
+            dataType:'JSON',
+			success:function(data){
+				if(data.result){
+					$('#dealForm').hide();
+					$('#comentForm').show();				
+				}
+			}, 
+			error:function(error){
+				console.log(error);
+			}
+		});
+	}
+
+	function coment(data){
+		$.ajax({
+			type:'POST',
+			url:'../message/comentDo.ajax',
+			data:{
+                'coment':data,
+                'email':chat_user,
+                'idx':chat_idx
+            },
+            dataType:'JSON',
+			success:function(data){
+				if(data.result){
+					location.reload(true);
+				} else{
+					alert('거래는 완료 했지만 후기는 못했단다, 아쉬운거지');
+				}
+			}, 
+			error:function(error){
+				console.log(error);
+			}
+		});
+	}
+	
+	$('#photoBtn').on('click', function() {
+		$('.picUpload').addClass('active');
+	});
+	
+	$('.deleteBtn').on('click', function() {
+		$('.picUpload').removeClass('active');
+	});
+	
+	// 사진 업로드
+	$('#picUploadSucc').on('click', function() {
+		var formData = new FormData();
+		var filePath = $('#newPic')[0];
+		
+		if ($(filePath).val()) {
+			formData.append('photo', filePath.files[0]);
+			formData.append('idx', chat_idx);
+			formData.append('email', chat_user);
+			$.ajax({
+				type: 'POST',
+				url: './photoUpload.ajax',
+				data: formData,
+				processData: false,
+				contentType: false,
+				success: function(data) {
+					if(data.result){
+						viewRoomContent(chat_idx, chat_user);				
+					}
+				}, error: function(data){}
+			});
+		} 
+		
+		$('.picUpload').removeClass('active');
+	});
+    
 </script>
 </html>

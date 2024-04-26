@@ -18,4 +18,8 @@
 		FROM photo WHERE idx = #{param1} AND option_idx = #{param2} AND main = 'Y' limit 1
 	</select>
 	
+	<insert id="insertPhoto">
+		INSERT INTO photo(main, new_picname, idx, option_idx) 
+			VALUES('N', #{param1}, #{param2}, #{param3});
+	</insert>
 </mapper>

@@ -82,6 +82,7 @@ public interface MemberDAO {
 	String banProfile(String string);
 	// 차단 해제
 	void banUnravel(String logEmail, String blockEmail);
+
 	
 	
 

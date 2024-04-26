@@ -15,4 +15,6 @@ public interface MessageDAO {
 
 	RoomDTO lastContent(int idx, String other_email, String email);
 
+	int sendMessagePic(MessageDTO dto);
+
 }

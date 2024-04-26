@@ -12,6 +12,7 @@ public class MessageDTO {
 	private String sender_del;
 	private String read_check;
 	private int idx;
+	private String new_picname;
 	
 	public int getMessage_idx() {
 		return message_idx;
@@ -66,6 +67,12 @@ public class MessageDTO {
 	}
 	public void setIdx(int idx) {
 		this.idx = idx;
+	}
+	public String getNew_picname() {
+		return new_picname;
+	}
+	public void setNew_picname(String new_picname) {
+		this.new_picname = new_picname;
 	}
 	
 }

@@ -222,10 +222,6 @@ public class MemberService {
 		return map;
 	}	
 
-
-
-
-
 	public void otherprofile(String email, Model model) {
 				SellerDTO sellerInfo = memberDAO.sellerInfo(email);
 				 
@@ -233,4 +229,5 @@ public class MemberService {
 				model.addAttribute("sellerInfo", sellerInfo);
 				model.addAttribute("name", sellerInfo);
 	}
+
 }

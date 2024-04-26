@@ -14,7 +14,7 @@ section .container{
 section .menu{
 	display: none;
 	width: 200px;
-	height: 50px;
+	height: auto;
 	background-color: white;
 	position: fixed;
 }
@@ -50,11 +50,11 @@ section .room-select{
 }
 
 section .photo{
-	width: 200px;
-	height: 200px;
+	width: 300px;
+	height: 300px;
 }
 
-section .term{
+section .size-cut .term{
     width: 70px;
     height: 21px;
 }
@@ -209,6 +209,7 @@ section .receive-msg-info .size-cut{
     justify-content: left;
 	width: 500px;
 	padding-bottom: 10px;
+	position: relative;
 }
 
 section #view-content .receive-msg-info .circle-img{
@@ -218,11 +219,15 @@ section #view-content .receive-msg-info .circle-img{
 
 section #view-content .receive-msg-info .message-info{
 	display: flex;
+	width: auto;
 	justify-content: center;
     flex-direction: column;
+    /*overflow: hidden; 넘어가면 숨김*/
+    word-wrap: break-word;
 }
 
-section #view-content .receive-msg-info .sendTime {
+section #view-content .receive-msg-info .size-cut .sendTime {
+    width: 30px;
     align-self: flex-end; /* 수직으로 하단 정렬 */
     margin-left: 10px;
 }
@@ -319,7 +324,7 @@ section #dealForm {
     left: 50%;
     transform: translate(-50%, -50%);
     width: 500px;
-    height: 250px;
+    height: 300px;
     background-color: white;
     border: 1px solid black;
     padding: 10px;
@@ -332,7 +337,7 @@ section #dealForm .top{
 
 section #dealForm .top button{
     border: none;
-    background-color: none;
+    background-color: white;
     font-size: 25px;
 }
 
@@ -368,23 +373,175 @@ section #dealForm .msg{
 }
 
 /*========================================*/
-
-/* 모달 스타일 */
-.modal {
-    position: fixed; 
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.5); /* 반투명한 검은 배경 */
-    z-index: 9999; /* 모달을 가장 위에 표시 */
-    display: none; /* 기본적으로 숨겨진 상태 */
-}
-/* 모달이 보여질 때만 화면에 나타나도록 설정 */
-.modal.show {
-    display: block;
+section #comentForm, #deleteForm{
+    position: fixed;
+    display: none;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 400px;
+    height: 250px;
+    background-color: white;
+    border: 1px solid black;
+    padding: 10px;
 }
 
+section #comentForm .form{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+section #comentForm .top{
+    display: flex;
+    justify-content: right;
+}
+
+section #comentForm .top button{
+    border: none;
+    background-color: white;
+    font-size: 25px;
+}
+
+section #comentForm .form button{
+	width: 150px;
+    font-size: 20px;
+    padding: 5px 10px;
+    margin-left: 10px;
+}
+
+section #comentForm .form img{
+    margin: 10px 0;
+}
+
+section #comentForm .form .btn-controller{
+    display: flex;
+    justify-content: center;
+}
+/*=========================*/
+section #deleteForm {
+    height: 150px;
+}
+
+section #deleteForm .form{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+section #deleteForm .top{
+    display: flex;
+    justify-content: right;
+}
+
+section #deleteForm .top button{
+    border: none;
+    background-color: white;
+    font-size: 25px;
+}
+
+section #deleteForm .form button{
+	width: 150px;
+    font-size: 15px;
+    padding: 5px 10px;
+    margin: 10px;
+}
+
+section #deleteForm .form .btn-controller{
+    display: flex;
+    justify-content: center;
+}
 
 
+
+
+
+
+
+
+
+
+
+/*사진 업로드*/
+.picUpload {
+	display: none;
+}
+.picUpload.active {
+	display: flex;
+	align-items: center;
+    justify-content: center;
+   	flex-direction: column;
+	
+	position: absolute;
+	width: 400px;
+	height: 200px;
+	left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+	z-index: 1001;
+	
+	background-color: white;
+	border: 4px solid lightgray;
+}
+.picUpload-top {
+	display: flex;
+	justify-content: flex-end;
+	
+	position: relative;
+	width: 100%;
+	height: 15%;
+}
+.deleteBtn {	
+   padding: 5px;
+   position: relative;
+   width: 40px;
+   height: 40px;
+
+   border: none;
+   background-color: white;
+   font-size: 25px;
+   color: gray;
+}
+.picUpload-center {
+	display: flex;
+	align-items: flex-start;
+	justify-content: center;
+	flex-direction: column;
+	
+	position: relative;
+	width: 60%;
+	height: 60%;
+	margin-top: 20px;
+}
+.picUpload-center-pDiv p {
+	font-size: 13px;
+}
+.picUpload-bottom {
+	display: flex;
+	align-items:center;
+	justify-content: center;
+	
+	position: relative;
+	width: 100%;
+	height: 25%;
+}
+.picUpload-bottom p {
+   display: flex;
+   align-items: center;
+   justify-content: center;
+
+   position: relative;
+   width: 100px;
+   height: 25px;
+
+   font-weight: bold;
+   background-color: lightgray;
+   border-radius: 10px;
+}
+.picUpload-bottom p:hover {
+   color: white;
+   background-color: rgb(68, 68, 68);
+}
 

@@ -24,25 +24,27 @@
 		WHERE m.email = (SELECT email FROM deal_aution_hist WHERE idx = #{param1} ORDER BY reg_date DESC LIMIT 1)
 	</update>
 	
-	
-	<!--  충전 -->
-<update id="updatePoint" parameterType="map">
-     update member set point = point + #{pay} where email = #{email}
-   </update>
-
-<!--  빈즈페이 충전 내역 -->
-<insert id="insertPayHistory" parameterType="map">
-    INSERT INTO pay_hist (email, price, option, content, reg_date)
-    VALUES (#{email}, #{amount}, '빈즈페이 충전', '빈즈페이 충전 내역', NOW())
-</insert>
-
-
-	
 	<update id="payWithdrawal">
 		UPDATE member
 			SET point = point - #{param2}
 		WHERE email = #{param1}
 	</update>
+	
+	<update id="transactionDeposit">
+		UPDATE member
+			SET point = point + (SELECT price FROM deal_aution_hist WHERE idx = #{param2} ORDER BY reg_date DESC LIMIT 1)
+		WHERE email = #{param1}
+	</update>
+	
+	<!--  충전 -->
+	<update id="updatePoint" parameterType="map">
+     	pdate member set point = point + #{pay} where email = #{email}
+   	</update>
 
-
+	<!--  빈즈페이 충전 내역 -->
+	<insert id="insertPayHistory" parameterType="map">
+	    INSERT INTO pay_hist (email, price, option, content, reg_date)
+	    VALUES (#{email}, #{amount}, '빈즈페이 충전', '빈즈페이 충전 내역', NOW())
+	</insert>
+	
 </mapper>
