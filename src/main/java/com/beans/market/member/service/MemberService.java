@@ -345,15 +345,15 @@ public class MemberService {
 		
 		return map;
 	}
-
+	/*
 	public void otherprofile(String email, Model model) {
 				SellerDTO sellerInfo = memberDAO.sellerInfo(email);
 				 
 				logger.info("판매자 닉네임 : {}", sellerInfo);
 				model.addAttribute("sellerInfo", sellerInfo);
 				model.addAttribute("name", sellerInfo);
-
-
+	}
+	*/
 	
 	
 	
