@@ -213,5 +213,7 @@ public class MainDTO {
 	public void setBid_count(int bid_count) {
 		this.bid_count = bid_count;
 	}
+	
+	
 
 }

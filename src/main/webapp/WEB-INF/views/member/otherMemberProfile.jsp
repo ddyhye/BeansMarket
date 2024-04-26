@@ -15,6 +15,18 @@
             padding: 0;
             box-sizing: border-box;
         }
+       	
+       	.main-content {
+		    display: flex;
+		    flex-wrap: wrap;
+		    justify-content: space-between;
+		}
+		
+		.main-content-goods {
+		    width: calc(25% - 12.5px); /* 4개의 요소를 한 줄에 배치하므로, 너비를 25%로 설정하고 간격을 조절합니다. */
+		    margin-bottom: 25px; /* 게시글 아래 간격 조절 */
+		}
+       	
         li{
             list-style: none;
         }
@@ -27,56 +39,198 @@
         /* 수정된 스타일 */
         section {
             text-align: left; /* 텍스트 중앙 정렬 */
-            max-width: 800px; /* 최대 너비 설정 */
+            max-width: 70%; /* 최대 너비 설정 */
             width: 100%; /* 너비 100%로 설정 */
             padding: 20px; /* 내부 여백 추가 */
             margin: 125px auto 0; /* 가운데 정렬 */
         }
         .profile-info {
-            display: flex;
-            align-items: center; /* 세로 중앙 정렬 */
-            justify-content: space-between; /* 요소 사이 간격을 최대로 벌리기 */
-            margin-bottom: 20px; /* 하단 여백 추가 */
-            padding: 20px 20px 100px; /* 내부 여백 추가 */
-            border: 1px solid #ddd; /* 테두리 추가 */
-            border-radius: 5px; /* 테두리 반경 설정 */
-        }
+			max-width: 80%;
+		    width: 70%;
+		    display: flex;
+		    align-items: center;
+		    justify-content: space-between;
+		    margin: 20px auto;
+		    padding: 0px 20px 40px;
+		    border: 1px solid #ddd;
+		    border-radius: 5px;
+		}
         .profile-info img.profile {
-            width: 130px; /* 프로필 이미지 크기 설정 */
-            height: 130px;
+            margin-bottom: -40px;
+            width: 160px; /* 프로필 이미지 크기 설정 */
+            height: 160px;
             border-radius: 50%; /* 프로필 이미지를 원형으로 */
         }
         .profile-info dl {
             margin-right: 20px; /* 오른쪽 여백 조정 */
         }
+          .profile-info dt {
+            argin-right: 20px;
+		    margin-left: -270;
+		    margin-top: 40px;
+		    padding-bottom: 60px;
+		    text-align: center;
+		    font-size: 25px;
+        }
         .profile-info p {
-            display: flex; /* flex를 사용하여 아이콘과 숫자가 한 줄에 배열 */
-            align-items: center; /* 아이콘과 숫자를 세로 중앙 정렬 */
-           inline-block;
+            margin-left: -220px;
+     
         }
-        .main-content {
-            display: flex;
-            flex-wrap: wrap; /* 아이템을 여러 줄에 걸쳐 표시 */
-            gap: 20px; /* 아이템 간의 간격 설정 */
-        }
-        .main-content-goods {
-            width: calc(33.33% - 20px); /* 아이템 너비 설정 */
-            border: 1px solid #ddd; /* 테두리 추가 */
-            padding: 20px; /* 내부 여백 추가 */
-            border-radius: 5px; /* 테두리 반경 설정 */
-            transition: box-shadow 0.3s; /* 그림자 변경 애니메이션 설정 */
-        }
-        .main-content-goods:hover {
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* 호버 시 그림자 추가 */
-        }
-        .main-content-goods img {
-            max-width: 100%; /* 이미지 최대 너비 설정 */
-            height: auto; /* 이미지 높이 자동 조정 */
-        }
+		 .mine-top {
+		   display: flex;
+		
+		   position: relative;
+		   width: 100%;
+		   height: 80px;
+		   margin: 20px auto;
+		}
+		.mine-top p {
+		   display: flex;
+		   align-items: center;
+		   justify-content: center;
+		
+			position: relative;
+		
+			color: rgb(68, 68, 68);
+		   font-size: 25px;
+		}
+		.mine-top #nic {
+			margin-left: 40px;
+			font-weight: bold;
+		}
+		
+		
+		.mine-center  {
+			display: flex;
+			align-items: flex-start;
+			justify-content: flex-start;
+			flex-wrap: wrap;
+			
+			position: relative;
+			width: 90%;
+			margin: 0 auto;
+		}
+		.mine-center-goods {
+			display: flex;
+		   	flex-direction: column;
+		   	
+		   	position: relative;
+			width: 217px;
+			height: 280px;
+			border: 2px solid lightgray;
+			margin: 12.5px;
+		}
+		.sold-out {
+			opacity: 0.4;
+		}
+		.goods-top {
+		   display: flex;
+		   flex-direction: row;
+		
+		   position: relative;
+		   height: 10%;
+		}
+		.goods-top-left {
+		   display: flex;
+		   align-items: center;
+		   justify-content: flex-start; 
+		
+		   position: relative;
+		   width: 65%;
+		}
+		.goods-top-right {
+		   display: flex;
+		   align-items: center; 
+		   justify-content: flex-end;
+		
+		   position: relative;
+		   width: 35%;
+		}
+		.goods-top-right-mark1 {
+		   position: relative;
+		   width: 80px;
+		   height: 25px;
+		   text-align: center;
+		
+		   background-color: #97001b;
+		   border-left: 2px solid #97001b;
+		   border-top: 2px solid #97001b;
+		   border-bottom: 2px solid #97001b;
+		   
+		   opacity: 1;
+		}
+		.goods-top-right-mark1 span{
+		   color: white;
+		   font-weight: bold;
+		}
+		.goods-top-right-mark2 {
+		   position: relative;
+		   width: 60px;
+		   height: 25px;
+		   text-align: center;
+		
+		   background-color: pink;
+		   border-left: 2px solid lightgray;
+		   border-top: 2px solid lightgray;
+		   border-bottom: 2px solid lightgray;
+		}
+		.goods-top-right-mark2 span{
+		   font-weight: bold;
+		}
+		.goods-photo {
+		   display: flex;
+		   align-items:center;
+		   justify-content: center;
+		
+		   position: relative;
+		   height: 200px;
+		}
+		.goods-photo img {
+		   position: relative;
+		   width: 90%;
+		   height: 95%;
+		}
+		.goods-photo img:last-child {
+		   position: absolute;
+		   width: 22%;
+		   height: auto; 
+		   right: 5%;
+		   bottom: 5%; 
+		   z-index: 1;
+		}
+		.goods-subject {
+		   display: flex;
+		   align-items: center;
+		   justify-content: center;
+		   text-align: center;
+		   vertical-align: center;
+		
+		   position: relative;
+		   height: 15%;
+		}
+		.goods-subject span {
+		   position: relative;
+		   width: 90%;
+		   font-size: 15px;
+		   font-weight: bold;
+		}
+		.goods-price {
+		   display: flex;
+		   align-items: center;
+		   justify-content: center;
+		   flex-direction: row;
+		
+		   position: relative;
+		   height: 13%;
+		}
+		.Price {
+		   font-weight: bold;
+		}
         button {
-            margin-top: 20px; /* 버튼과의 간격 조정 */
+            margin-bottom: -170px; /* 버튼과의 간격 조정 */
+            margin-right: 10px;
             padding: 10px 20px; /* 버튼 내부 여백 설정 */
-            background-color: #007bff; /* 배경색 설정 */
+            background-color: gray; /* 배경색 설정 */
             color: #fff; /* 텍스트 색상 설정 */
             border: none; /* 테두리 없애기 */	
             border-radius: 5px; /* 테두리 반경 설정 */
@@ -86,6 +240,7 @@
         button:hover {
             background-color: #0056b3; /* 호버 시 배경색 변경 */
         }
+        
     </style>
 </head>
 <body>
@@ -95,12 +250,13 @@
             <img class="profile" src="/photo/${photo}">
             <div class= "class">
             <div class="goods-top-left">
-						<p>${sellerInfo.name}</p> 
 					</div>
             	<dl>
-            	<dt>긍정&nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;&nbsp; 부정</dt>
+				<dt>닉네임: ${sellerInfo.name}</dt> 
             	</dl>
-         <p><i class="fa-solid fa-thumbs-up"></i>&nbsp;( ${sellerInfo.positiveCount} ) &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i class="fa-solid fa-thumbs-down"></i> &nbsp;( ${sellerInfo.negativeCount} )</p>
+         <p>긍정적인 평가 :<i class="fa-solid fa-thumbs-up"></i>&nbsp;( ${sellerInfo.positiveCount} )</p>
+         <p>부정적인평가 :<i class="fa-solid fa-thumbs-down"></i> &nbsp;( ${sellerInfo.negativeCount} )</p>
+         	
             </div>
             <button>차단하기</button>
         </div>
@@ -119,23 +275,31 @@
     $(document).ready(function() {
     	
     
-        // 차단하기 버튼 클릭 시의 동작
-        $('button').click(function() {
-            var email = '${email}'; // 현재 로그인한 사용자의 이메일
-            var userId = '${userId}'; // 차단할 사용자의 아이디
-            
-            $.ajax({
-                url: '/report/ban.do', 
-                type: 'POST',
-                data: { loggedInUserEmail: email, blockedUserId: userId },
-                success: function(response) {
-                    alert('사용자가 차단되었습니다.');
-                },
-                error: function() {
-                    alert('차단 과정에 문제가 발생했습니다.');
-                }
-            });
-        });
+    // 차단하기 버튼 클릭 시의 동작
+	 $('button').click(function() {
+	    // 현재 페이지의 URL을 가져옵니다.
+	    var currentUrl = window.location.href;
+	    // URL에서 쿼리 문자열을 가져옵니다.
+	    var queryString = window.location.search;
+	    // 쿼리 문자열에서 파라미터를 추출합니다.
+	    var urlParams = new URLSearchParams(queryString);
+	    // email 파라미터 값을 가져옵니다.
+	    var email = urlParams.get('email');
+	    console.log(email); // 출력: "zxz0608@naver.com"
+	
+	    $.ajax({
+	        url: '/report/ban.do', 
+	        type: 'post',
+	        data: { email: email }, // 파라미터 이름을 email로 변경
+	        success: function(response) {
+	            console.log(email);
+	            alert('사용자가 차단되었습니다.');
+	        },
+	        error: function() {
+	            alert('차단 과정에 문제가 발생했습니다.');
+	        }
+	    });
+	});
         
         listCall(); // 페이지 로드 후 리스트 호출
     });
@@ -180,24 +344,24 @@
             content += '<p> 판매중인 상품이 없습니다. </p>';
         } else {
             for (item of data.listdata) {
-    			content += '<div class="main-content-goods'+(item.bbs_state === '거래완료' ? ' sold-out' : '')+'">';
+    			content += '<div class="mine-center-goods'+(item.bbs_state === '거래완료' ? ' sold-out' : '')+'">';
     			content += '<div class="goods-idx" style="display: none;">'+item.idx+'</div>';
     			content += '<div class="goods-top">';
-    			content += '<div class="goods-top-left"><p>&nbsp;&nbsp;'+item.sellerName+'</p></div>';
+    			content += '<div class="goods-top-left">';
+    			content += '<p>&nbsp;'+item.sellerName+'</p></div>';
     			content += '<div class="goods-top-right">';
-    			
     			var mark = item.bbs_state === '거래완료'? '<div class="goods-top-right-mark1"><span>Sold Out</span></div>': (item.option === '경매'? '<div class="goods-top-right-mark2"><span>경매</span></div>':'');
     			content += mark;
-    			
     			content += '</div></div>';
     			content += '<div class="goods-photo">';
     			content += '<img src="/photo/'+item.new_picname+'" alt="'+item.new_picname+'"/>';
     			var heart_img_path = item.mine == 1? '<c:url value="/resources/img/heart.png"/>': '<c:url value="/resources/img/unHeart.png"/>';
     			content += '<img src="'+heart_img_path+'" class="clickHeart" alt="찜"/></div>';
-    			content += '<div class="goods-subject"><span>'+item.subject+'</span></div>';
-    			content += '<div class="goods-price-1">';
-    			content += '<div class="goods-price-1-left">';
-    			content += '<span>&nbsp;&nbsp;현재가&nbsp;&nbsp;</span><span id="Price">'+item.price+'</span></div>';
+    			content += '<div class="goods-subject">';
+    			content += '<span>'+item.subject+'</span>';
+    			content += '</div>';
+    			content += '<div class="goods-price">';
+    			content += '<span class="Price">'+item.price+'</span>';
     			content += '<div class="goods-price-1-right"><span>❤</span><span class="Hit">&nbsp;'+item.heartCnt+'&nbsp;&nbsp;</span></div>';
     			content += '</div>';
     			content += '<div class="goods-price-2">';
