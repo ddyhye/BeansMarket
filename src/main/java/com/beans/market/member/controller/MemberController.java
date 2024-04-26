@@ -233,6 +233,15 @@ public class MemberController {
 	
 
 	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	/*             마이페이지              */
 	// 마이페이지 - 프로필 업데이트 페이지
 	@RequestMapping(value="/member/profileUpdate.go")
@@ -390,6 +399,95 @@ public class MemberController {
 		return map;
 	}
 	
+	
+	
+	// 마이페이지 - 판매 내역
+	@RequestMapping(value="/member/mySellList.go")
+	public String mySellList_go(HttpSession session, Model model, RedirectAttributes redirectAttrs) {
+		logger.info("판매 내역 페이지...");
+		
+		String page = "redirect:/";
+		
+		if (session.getAttribute("logEmail") != null) {
+			String logEmail = (String) session.getAttribute("logEmail");
+			String name = mainService.nicname(logEmail);
+			model.addAttribute("name", name);
+			
+			page = "/member/mySellList";
+		} else {
+			redirectAttrs.addFlashAttribute("msg", "로그인이 필요한 서비스 입니다...");
+		}
+		
+		return page;
+	}
+	// 판매내역 리스트
+	@RequestMapping(value="/member/mySellList.ajax")
+	@ResponseBody
+	public Map<String, Object> mySellList(HttpSession session, String selectedSort) {
+		Map<String, Object> map = new HashMap<String, Object>();
+		
+		String logEmail = (String) session.getAttribute("logEmail");
+		memberService.mySellList(map, logEmail, selectedSort);
+		
+		return map;
+	}
+	// 판매내역 리스트 관리
+	@RequestMapping(value="/member/mySellManage.ajax")
+	@ResponseBody
+	public Map<String, Object> mySellManage(HttpSession session, String idx, String pText) {
+		Map<String, Object> map = new HashMap<String, Object>();
+		
+		String logEmail = (String) session.getAttribute("logEmail");
+		int intIdx = Integer.parseInt(idx);
+		
+		memberService.mySellManage(map, logEmail, intIdx, pText);
+		
+		return map;
+	}
+	
+	// 마이페이지 - 구매 내역
+	@RequestMapping(value="/member/myBuyList.go")
+	public String myBuyList_go(HttpSession session, Model model, RedirectAttributes redirectAttrs) {
+		logger.info("구매 내역 페이지...");
+		
+		String page = "redirect:/";
+		
+		if (session.getAttribute("logEmail") != null) {
+			String logEmail = (String) session.getAttribute("logEmail");
+			String name = mainService.nicname(logEmail);
+			model.addAttribute("name", name);
+			
+			page = "/member/myBuyList";
+		} else {
+			redirectAttrs.addFlashAttribute("msg", "로그인이 필요한 서비스 입니다...");
+		}
+		
+		return page;
+	}
+	// 구매 내역 리스트
+	@RequestMapping(value="/member/myBuyList.ajax")
+	@ResponseBody
+	public Map<String, Object> myBuyList(HttpSession session) {
+		Map<String, Object> map = new HashMap<String, Object>();
+		
+		String logEmail = (String) session.getAttribute("logEmail");
+		memberService.myBuyList(map, logEmail);
+		
+		return map;
+	}
+	// 구매 내역 리스트 관리
+	@RequestMapping(value="/member/myBuyManage.ajax")
+	@ResponseBody
+	public Map<String, Object> myBuyManage(HttpSession session, String idx, String pText) {
+		Map<String, Object> map = new HashMap<String, Object>();
+		
+		String logEmail = (String) session.getAttribute("logEmail");
+		int intIdx = Integer.parseInt(idx);
+		
+		memberService.myBuyManage(map, logEmail, intIdx, pText);
+		
+		return map;
+	}
 	
 	
 	

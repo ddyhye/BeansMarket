@@ -82,6 +82,22 @@ public interface MemberDAO {
 	String banProfile(String string);
 	// 차단 해제
 	void banUnravel(String logEmail, String blockEmail);
+
+	// 판매 내역
+	int[] mySellIdxList(String logEmail);
+	int[] mySellIdxList2(String logEmail);
+	int[] mySellIdxList3(String logEmail);
+	int[] mySellIdxList4(String logEmail);
+	MainDTO mySellIdxGoodsList(int i);
+	// 판매 내역 관리
+	void mySellManage(int intIdx);
+	void mySellManage2(int intIdx);
+	void mySellManage3(int intIdx);
+
+	// 구매 내역
+	int[] myBuyIdxList(String logEmail);
+	// 구매 내역 관리
+	void myBuyManage(int intIdx);
 	
 	
 

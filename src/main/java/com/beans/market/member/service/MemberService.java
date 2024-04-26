@@ -1,5 +1,6 @@
 package com.beans.market.member.service;
 
+
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -74,8 +75,33 @@ public class MemberService {
 		memberDAO.saveprofile(profileParam);
 		
 	} 
+	
+	public void otherprofile(String email, Model model) {
+		SellerDTO sellerInfo = memberDAO.sellerInfo(email);
+		 
+		logger.info("판매자 닉네임 : {}", sellerInfo);
+		model.addAttribute("sellerInfo", sellerInfo);
+		model.addAttribute("name", sellerInfo);
+	}
 
-		// 메인 임시 로그인
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	/*                   도혜                     */
+	// 메인 임시 로그인
 	public String logEmail(String email, String password) {
 		return memberDAO.logEmail(email, password);
 	}
@@ -85,8 +111,6 @@ public class MemberService {
 		logger.info("좋아요 정보 가져오기");
 		return mainDAO.mine(idx, email);
 	}
-
-	
 	
 	// 마이페이지 - 프로필 업데이트
 	public ProfilePicDTO profilePicGet(String logEmail) {
@@ -113,8 +137,7 @@ public class MemberService {
 		
 		return newFileName;
 	}
-	
-
+	// 마이페이지 - 프로필 업데이트 완료
 	public MemberDTO profileUpdate(Map<String, String> param) {
 		/*
 		 * 새로운 realPicName을 컬럼 N에서 O로 변경
@@ -130,8 +153,7 @@ public class MemberService {
 		return memberDAO.profileGet(param.get("logEmail"));
 	}
 
-	
-	
+
 	// 관심목록 페이지
 	public Map<String, Object> goodsListAjax(Map<String, Object> map, String logEmail) {
 		List<MainDTO> list = new ArrayList<MainDTO>(); 
@@ -149,7 +171,6 @@ public class MemberService {
 		
 		return map;
 	}
-	
 	// 판매자 닉네임, 대표사진, 관심개수, 로그인사용자의 찜 확인, 즉구가(낙찰), 입찰 횟수(낙찰) 의 경우,
 	// 각 게시글의 idx로 찾아와야 한다.
 	public List<MainDTO> bbsListDB(List<MainDTO> list, String logEmail) {
@@ -169,7 +190,6 @@ public class MemberService {
 				if (dto.getOption().equals("경매")) {
 					successful_bid = mainDao.fullPrice(dto.getIdx());
 					bid_count = mainDao.bidCnt(dto.getIdx());
-					
 				}
 				dto.setSellerName(seller);
 				dto.setNew_picname(photo);
@@ -183,6 +203,7 @@ public class MemberService {
 		return list;
 	}
 
+	// 마이페이지 - 차단 목록 리스트
 	public Map<String, Object> banList(Map<String, Object> map, String logEmail) {
 		// 로그인 회원의 차단 회원 이메일 리스트 불러오기
 		/*
@@ -205,9 +226,8 @@ public class MemberService {
 		
 		return map;
 	}
-
+	// 회원 차단 해제
 	public Map<String, Object> banUnravel(Map<String, Object> map, String logEmail, String blockEmail) {
-		// 회원 차단 해제
 		memberDAO.banUnravel(logEmail, blockEmail);
 		
 		List<BlockDTO> list = memberDAO.banList(logEmail);
@@ -221,16 +241,105 @@ public class MemberService {
 		
 		return map;
 	}	
+	
+	public Map<String, Object> mySellList(Map<String, Object> map, String logEmail, String selectedSort) {
+		/* 사진, 제목, 가격, 옵션(판매,경매), 게시글 거래 상태, 숨김, */
+		List<MainDTO> list = new ArrayList<MainDTO>();
+		int[] mineIdxList = null;
+		
+		if (selectedSort.equals("전체보기")) {
+			mineIdxList = memberDAO.mySellIdxList(logEmail);
+		} else if(selectedSort.equals("판매 중")) {
+			mineIdxList = memberDAO.mySellIdxList2(logEmail);
+		} else if(selectedSort.equals("거래 완료")) {
+			mineIdxList = memberDAO.mySellIdxList3(logEmail);
+		} else if(selectedSort.equals("숨김")) {
+			mineIdxList = memberDAO.mySellIdxList4(logEmail);
+		}
+		
+		for (int i = 0; i < mineIdxList.length; i++) {
+			MainDTO dto = memberDAO.mySellIdxGoodsList(mineIdxList[i]);
+			if (dto == null) {
+		        logger.info("DTO is null for index: " + mineIdxList[i]);
+		    } else {
+		        list.add(dto);
+		    }
+		}
 
+		map.put("list", bbsListDB(list, logEmail));
+		
+		return map;
+	}
 
+	public Map<String, Object> mySellManage(Map<String, Object> map, String logEmail, int intIdx, String pText) {		
+		// 숨김 또는 삭제(블라인드) 처리
+		if (pText.equals("숨김")) {
+			memberDAO.mySellManage(intIdx);
+		} else if(pText.equals("숨김 해제")) {
+			memberDAO.mySellManage2(intIdx);
+		} else if(pText.equals("삭제")) {
+			memberDAO.mySellManage3(intIdx);
+		}
+		
+		List<MainDTO> list = new ArrayList<MainDTO>();
+		int[] mineIdxList = null;
+		
+		mineIdxList = memberDAO.mySellIdxList(logEmail);
+		
+		for (int i = 0; i < mineIdxList.length; i++) {
+			MainDTO dto = memberDAO.mySellIdxGoodsList(mineIdxList[i]);
+			if (dto == null) {
+		        logger.info("DTO is null for index: " + mineIdxList[i]);
+		    } else {
+		        list.add(dto);
+		    }
+		};
+		
+		map.put("list", bbsListDB(list, logEmail));
+		
+		return map;
+	}
+	
+	// 마이페이지 - 구매 내역
+	public Map<String, Object> myBuyList(Map<String, Object> map, String logEmail) {
+		List<MainDTO> list = new ArrayList<MainDTO>();
+		int[] mineIdxList = memberDAO.myBuyIdxList(logEmail);
+		
+		for (int i = 0; i < mineIdxList.length; i++) {
+			MainDTO dto = memberDAO.mySellIdxGoodsList(mineIdxList[i]);
+			if (dto == null) {
+		        logger.info("DTO is null for index: " + mineIdxList[i]);
+		    } else {
+		        list.add(dto);
+		    }
+		}
 
-
-
-	public void otherprofile(String email, Model model) {
-				SellerDTO sellerInfo = memberDAO.sellerInfo(email);
-				 
-				logger.info("판매자 닉네임 : {}", sellerInfo);
-				model.addAttribute("sellerInfo", sellerInfo);
-				model.addAttribute("name", sellerInfo);
+		map.put("list", bbsListDB(list, logEmail));
+		
+		return map;
+	}
+	public Map<String, Object> myBuyManage(Map<String, Object> map, String logEmail, int intIdx, String pText) {
+		// 숨김 또는 삭제(블라인드) 처리
+		if (pText.equals("삭제")) {
+			memberDAO.myBuyManage(intIdx);
+		} 
+		
+		List<MainDTO> list = new ArrayList<MainDTO>();
+		int[] mineIdxList = null;
+		
+		mineIdxList = memberDAO.myBuyIdxList(logEmail);
+		
+		for (int i = 0; i < mineIdxList.length; i++) {
+			MainDTO dto = memberDAO.mySellIdxGoodsList(mineIdxList[i]);
+			if (dto == null) {
+		        logger.info("DTO is null for index: " + mineIdxList[i]);
+		    } else {
+		        list.add(dto);
+		    }
+		};
+		
+		map.put("list", bbsListDB(list, logEmail));
+		
+		return map;
 	}
 }

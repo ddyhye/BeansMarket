@@ -182,6 +182,7 @@
 			dataType: 'JSON',
 			success: function() {
 				$('#top-second-center-link-log').attr('href', '<c:url value="/member/login.go"/>').removeAttr('onclick').text('로그인');
+				window.location.href = '<c:url value="/"/>';
 			}, error: function(data){}
 		});
 	}

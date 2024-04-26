@@ -25,7 +25,7 @@
 			<div class="link-Transaction">
 				<h3>거래</h3>
 				<a href="<c:url value='/member/mySellList.go'/>"><p>&nbsp;• 판매 내역</p></a>
-				<a href=""><p>&nbsp;• 구매 내역</p></a>
+				<a href="<c:url value='/member/myBuyList.go'/>"><p>&nbsp;• 구매 내역</p></a>
 				<a href=""><p>&nbsp;• 거래 미승인 목록</p></a>
 			</div>
 			<div class="link-Auction">
