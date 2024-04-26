@@ -3,6 +3,7 @@ package com.beans.market.member.service;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -17,6 +18,7 @@ import org.springframework.web.multipart.MultipartFile;
 import com.beans.market.main.dao.MainDAO;
 import com.beans.market.main.dto.MainDTO;
 import com.beans.market.member.dao.MemberDAO;
+import com.beans.market.member.dto.AuctionDTO;
 import com.beans.market.member.dto.BlockDTO;
 import com.beans.market.member.dto.MemberDTO;
 import com.beans.market.member.dto.SellerDTO;
@@ -232,5 +234,56 @@ public class MemberService {
 				logger.info("판매자 닉네임 : {}", sellerInfo);
 				model.addAttribute("sellerInfo", sellerInfo);
 				model.addAttribute("name", sellerInfo);
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+
+	// 나의 입찰내역
+	public Map<String, Object> auctionBid(Map<String, Object> map, String logEmail) {
+		List<AuctionDTO> list = memberDAO.auctionBid(logEmail);
+		
+		for (AuctionDTO dto : list) {
+			// 사진 경로명, 게시글 제목, 경매 종료날짜, 게시글 거래 상태 (거래완료면 낙찰, 그 외엔 입찰 중), 현재입찰자는 추후..
+			String new_picname = memberDAO.getBidPic(dto.getIdx());
+			String subject = memberDAO.getBidSubject(dto.getIdx());
+			Timestamp close_date = memberDAO.getBidClose(dto.getIdx());
+			String state = memberDAO.getBidState(dto.getIdx());
+			
+			dto.setNew_picname(new_picname);
+			dto.setSubject(subject);
+			dto.setClose_date(close_date);
+			if (state.equals("거래완료")) {
+				dto.setBbs_state("낙찰");
+			} else {
+				dto.setBbs_state("입찰 중");
+			}
+		}
+		
+		map.put("list", list);
+		
+		return map;
+		
 	}
 }

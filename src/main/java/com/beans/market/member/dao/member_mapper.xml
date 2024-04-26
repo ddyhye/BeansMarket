@@ -150,4 +150,43 @@
 	</delete>
 	
 	
+	
+	
+	
+	
+	
+	
+	
+	<!-- 나의 입찰 목록 -->
+	<select id="auctionBid" resultType="com.beans.market.member.dto.AuctionDTO">
+		SELECT d.idx, 
+		       (SELECT MAX(price) 
+		        FROM deal_aution_hist 
+		        WHERE idx = d.idx) AS price,
+		       d.reg_date
+		FROM deal_aution_hist d
+		WHERE d.email= #{param1}
+		GROUP BY d.idx
+		ORDER BY d.reg_date DESC
+	</select>
+	<!-- 대표 사진 -->
+	<select id="getBidPic" resultType="String">
+		SELECT new_picname 
+		FROM photo 
+		WHERE idx = #{param1} AND option_idx=1 AND main='Y'
+	</select>
+	<!-- 제목 -->
+	<select id="getBidSubject" resultType="string">
+	    SELECT subject FROM bbs WHERE idx = #{param1}
+	</select>
+	<!-- 경매 마감일 -->
+	<select id="getBidClose" resultType="java.sql.Timestamp">
+	    SELECT close_date FROM auction WHERE idx = #{param1}
+	</select>
+	<!-- 경매상태 -->
+	<select id="getBidState" resultType="string">
+	    SELECT bbs_state FROM bbs WHERE idx = #{param1}
+	</select>
+	<!-- 현재 입찰자 -->
+	
 </mapper>

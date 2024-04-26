@@ -1,5 +1,6 @@
 package com.beans.market.member.dao;
 
+import java.sql.Timestamp;
 import java.util.List;
 import java.util.Map;
 
@@ -9,6 +10,7 @@ import org.apache.ibatis.annotations.Update;
 import com.beans.market.main.dto.MainDTO;
 import com.beans.market.member.dto.MemberDTO;
 import com.beans.market.member.dto.SellerDTO;
+import com.beans.market.member.dto.AuctionDTO;
 import com.beans.market.member.dto.BlockDTO;
 import com.beans.market.photo.dto.ProfilePicDTO;
 
@@ -82,6 +84,13 @@ public interface MemberDAO {
 	String banProfile(String string);
 	// 차단 해제
 	void banUnravel(String logEmail, String blockEmail);
+
+	// 나의 입찰 목록
+	List<AuctionDTO> auctionBid(String logEmail);
+	String getBidPic(int idx);
+	String getBidSubject(int idx);
+	Timestamp getBidClose(int idx);
+	String getBidState(int idx);
 	
 	
 
