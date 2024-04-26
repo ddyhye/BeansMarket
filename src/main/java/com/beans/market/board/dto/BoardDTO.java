@@ -19,7 +19,6 @@ public class BoardDTO {
 	private String reserve_email;
 	private String draft;
 	private String hidden;
-	
 	/* 경매 컬럼 */
 	private int start_price;
 	private int successful_bid;

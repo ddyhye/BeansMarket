@@ -81,6 +81,9 @@
 	
 	
 	
+	
+	
+	
 	<!-- 마이페이지 -->
 	<select id="profileGet" resultType="com.beans.market.member.dto.MemberDTO">
 		SELECT email, name, location, birth_Date, gender, point
@@ -129,9 +132,9 @@
 		SELECT idx FROM interest WHERE email = #{param1} ORDER BY reg_date DESC
 	</select>
 	<select id="mineIdxGoodsList" resultType="com.beans.market.main.dto.MainDTO">
-		SELECT idx, option, email, subject, price, reg_date, bbs_state
+		SELECT idx, option, email, subject, price, reg_date, bbs_state, hidden
 		FROM bbs
-		WHERE idx = #{param1}
+		WHERE idx = #{param1} AND draft = 'N'
 	</select>
 	
 	
@@ -149,5 +152,80 @@
 		WHERE email = #{param1} AND block_email = #{param2}
 	</delete>
 	
+	
+	<!-- 나의 판매 내역 -->
+	<select id="mySellIdxList" parameterType="String" resultType="java.lang.Integer">
+		SELECT idx FROM bbs WHERE email = #{param1} AND blind='N' ORDER BY reg_date DESC
+	</select>
+	<select id="mySellIdxList2" parameterType="String" resultType="java.lang.Integer">
+		SELECT idx FROM bbs WHERE email = #{param1} AND bbs_state != '거래완료' AND blind='N' ORDER BY reg_date DESC
+	</select>
+	<select id="mySellIdxList3" parameterType="String" resultType="java.lang.Integer">
+		SELECT idx FROM bbs WHERE email = #{param1} AND bbs_state = '거래완료' AND blind='N' ORDER BY reg_date DESC
+	</select>
+	<select id="mySellIdxList4" parameterType="String" resultType="java.lang.Integer">
+		SELECT idx FROM bbs WHERE email = #{param1} AND hidden = 'Y' AND blind='N' ORDER BY reg_date DESC
+	</select>
+	<select id="mySellIdxGoodsList" resultType="com.beans.market.main.dto.MainDTO">
+		SELECT idx, option, email, subject, price, reg_date, bbs_state, hidden
+		FROM bbs
+		WHERE idx = #{param1} AND draft = 'N'
+	</select>
+	<!-- 판매 내역 관리 -->
+	<update id="mySellManage">
+		UPDATE bbs SET hidden = 'Y' WHERE idx = #{param1}
+	</update>
+	<update id="mySellManage2">
+		UPDATE bbs SET hidden = 'N' WHERE idx = #{param1}
+	</update>
+	<update id="mySellManage3">
+		UPDATE bbs SET blind = 'Y' WHERE idx = #{param1}
+	</update>
+	
+	<!-- 구매 내역 -->
+	<select id="myBuyIdxList" parameterType="String" resultType="java.lang.Integer">
+		SELECT idx FROM deal_detail WHERE buyer_email = #{param1} AND blind='N' ORDER BY reg_date DESC
+	</select>
+	<!-- 구매 내역 관리 -->
+	<update id="myBuyManage">
+		UPDATE deal_detail SET blind='Y' WHERE idx = #{param1}
+	</update>
+	
+	
+	
+	
+	
+	
+	<!-- 나의 입찰 목록 -->
+	<select id="auctionBid" resultType="com.beans.market.member.dto.AuctionDTO">
+		SELECT d.idx, 
+		       (SELECT MAX(price) 
+		        FROM deal_aution_hist 
+		        WHERE idx = d.idx) AS price,
+		       d.reg_date
+		FROM deal_aution_hist d
+		WHERE d.email= #{param1}
+		GROUP BY d.idx
+		ORDER BY d.reg_date DESC
+	</select>
+	<!-- 대표 사진 -->
+	<select id="getBidPic" resultType="String">
+		SELECT new_picname 
+		FROM photo 
+		WHERE idx = #{param1} AND option_idx=1 AND main='Y'
+	</select>
+	<!-- 제목 -->
+	<select id="getBidSubject" resultType="string">
+	    SELECT subject FROM bbs WHERE idx = #{param1}
+	</select>
+	<!-- 경매 마감일 -->
+	<select id="getBidClose" resultType="java.sql.Timestamp">
+	    SELECT close_date FROM auction WHERE idx = #{param1}
+	</select>
+	<!-- 경매상태 -->
+	<select id="getBidState" resultType="string">
+	    SELECT bbs_state FROM bbs WHERE idx = #{param1}
+	</select>
+	<!-- 현재 입찰자 -->
 	
 </mapper>

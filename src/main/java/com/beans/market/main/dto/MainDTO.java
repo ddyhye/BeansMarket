@@ -18,6 +18,7 @@ public class MainDTO {
 	private String bbs_state;
 	private String reserve_email;
 	private String draft;
+	private String hidden;
 	
 	/* 판매자 닉네임 */
 	private String sellerName;
@@ -57,6 +58,14 @@ public class MainDTO {
 	}
 	
 	
+	
+	
+	public String getHidden() {
+		return hidden;
+	}
+	public void setHidden(String hidden) {
+		this.hidden = hidden;
+	}
 	public int getMine() {
 		return mine;
 	}
@@ -213,5 +222,7 @@ public class MainDTO {
 	public void setBid_count(int bid_count) {
 		this.bid_count = bid_count;
 	}
+	
+	
 
 }

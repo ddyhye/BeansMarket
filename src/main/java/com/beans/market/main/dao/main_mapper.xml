@@ -10,10 +10,10 @@
 	<select id="goodsList" resultType="com.beans.market.main.dto.MainDTO">
 		SELECT idx, option, email, subject, price, reg_date, bbs_state
 		FROM bbs
-		WHERE draft = 'N'
+		WHERE draft = 'N' AND blind='N' AND hidden='N'
 		ORDER BY 
 			CASE 
-				WHEN bbs_state ='거래가능' OR bbs_state ='예약' THEN 1 
+				WHEN bbs_state ='거래가능' OR bbs_state ='예약중' THEN 1 
 				ELSE 2 
 			END, 
 			reg_date DESC
@@ -21,7 +21,7 @@
 	<select id="goodsList2" resultType="com.beans.market.main.dto.MainDTO">
 		SELECT idx, option, email, subject, price, reg_date, bbs_state
 		FROM bbs
-		WHERE option = '판매' AND draft = 'N'
+		WHERE option = '판매' AND draft = 'N' AND blind='N' AND hidden='N'
 		ORDER BY 
 			CASE 
 				WHEN bbs_state ='거래가능' OR bbs_state ='예약' THEN 1 
@@ -32,7 +32,7 @@
 	<select id="goodsList3" resultType="com.beans.market.main.dto.MainDTO">
 		SELECT idx, option, email, subject, price, reg_date, bbs_state
 		FROM bbs
-		WHERE option = '경매' AND draft = 'N'
+		WHERE option = '경매' AND draft = 'N' AND blind='N' AND hidden='N'
 		ORDER BY 
 			CASE 
 				WHEN bbs_state ='거래가능' OR bbs_state ='예약' THEN 1 
@@ -43,7 +43,7 @@
 	<select id="goodsList4" resultType="com.beans.market.main.dto.MainDTO">
 		SELECT idx, option, email, subject, price, reg_date, bbs_state
 		FROM bbs
-		WHERE option != '판매' AND option != '경매' AND draft = 'N'
+		WHERE option != '판매' AND option != '경매' AND draft = 'N' AND blind='N' AND hidden='N'
 		ORDER BY 
 			CASE 
 				WHEN bbs_state ='거래가능' OR bbs_state ='예약' THEN 1 
@@ -57,7 +57,7 @@
 		FROM bbs b 
 			LEFT OUTER JOIN interest i 
 			ON b.idx = i.idx
-		WHERE draft = 'N'
+		WHERE draft = 'N' AND blind='N' AND hidden='N'
 		GROUP BY b.idx
 		ORDER BY 
 			CASE 
@@ -72,7 +72,7 @@
 		FROM bbs b 
 			LEFT OUTER JOIN interest i 
 			ON b.idx = i.idx
-		WHERE option = '판매' AND draft = 'N'
+		WHERE option = '판매' AND draft = 'N' AND blind='N' AND hidden='N'
 		GROUP BY b.idx
 		ORDER BY 
 			CASE 
@@ -87,7 +87,7 @@
 		FROM bbs b 
 			LEFT OUTER JOIN interest i 
 			ON b.idx = i.idx
-		WHERE option = '경매' AND draft = 'N'
+		WHERE option = '경매' AND draft = 'N' AND blind='N' AND hidden='N'
 		GROUP BY b.idx
 		ORDER BY 
 			CASE 
@@ -102,7 +102,7 @@
 		FROM bbs b 
 			LEFT OUTER JOIN interest i 
 			ON b.idx = i.idx
-		WHERE option != '판매' AND option != '경매' AND draft = 'N'
+		WHERE option != '판매' AND option != '경매' AND draft = 'N' AND blind='N' AND hidden='N'
 		GROUP BY b.idx
 		ORDER BY 
 			CASE 
@@ -249,6 +249,5 @@
 		WHERE email = #{param1}
 	</select>
 	
-	<select id="sellernickname" resultType="com.beans.market.main.dto.MainDTO"></select>
-	
+
 </mapper>

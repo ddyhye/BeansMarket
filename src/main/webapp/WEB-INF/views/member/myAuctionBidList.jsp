@@ -19,54 +19,64 @@ com.beans.market<%@ page language="java" contentType="text/html; charset=UTF-8" 
 				<p>님의 입찰 내역</p>
 			</div>
 			<div class="Auction-center">
-			
-			
-			
-			
-			<!-- 
-			<div class="myAuction">${name}님의 입찰 목록</div>
-			<div class="myAuctionList">
-			<table>
-			<thead>
-				<tr>
-					<th>Img</th>
-					<th>제목</th>
-					<th>나의 입찰가</th>
-					<th>경매 마감</th>
-					<th>경매 상태</th>
-					<th>현재 입찰자</th>
-				</tr>
-<%--    			<c:forEach>
-				<tr>
-					<th>Img</th>
-					<th>${subject}</th>
-					<th>${price}</th>
-					<th>${close_date}</th>
-					<th>경매 상태</th>
-					<th>현재 입찰자</th>
-				</tr>
-			</c:forEach> --%>
-			</thead>
-<!-- 			<tbody id="list">
-			<tr>
-				<td colspan=6>
-				<div class="container">
-					<nav aria-label="Page navigation" style="text-align:center">
-						<ul class="pagination" id="pagination"></ul>
-					</nav>
-				</div>
-				</td>
-			</tr>
-			</tbody> -->
-			</table>
+				<table>
+					<thead>
+						<tr>
+							<th class="one">Img</th><th class="two">제목</th><th class="three">나의 입찰가</th><th class="four">경매 마감</th><th class="five">경매 상태</th><th class="six">현재 입찰자</th>
+						</tr>
+					</thead>
+					<tbody id="auctionList">
+						<!-- <tr>
+							<td>사진</td>
+							<td>제목</td>
+							<td>나의 입찰가</td>
+							<td>경매 마감</td>
+							<td>경매 상태</td>
+							<td>현재 입찰자</td>
+						</tr> -->
+					</tbody>
+				</table>
 			</div>
-		
 		</div>
-
 </body>
 
 <script>
-var showPage = 1;
+	AuctionBidListCall();
+	
+	function AuctionBidListCall() {
+		$.ajax({
+			type: 'get',
+			url: '<c:url value="/member/myAuctionList.ajax"/>',
+			data: {},
+			dataType: 'JSON',
+			success: function(data) {
+				drawBidList(data);
+			}, error: function(data){}	
+		});
+	}
+	
+	function drawBidList(data){
+		$('#auctionList').empty();
+		
+		var content = '';
+		
+		if (!data.list || data.list.length === 0) {
+			content += '<tr><td colspan = 6>입찰 목록이 없습니다.</td></tr>';
+		}
+		for (item of data.list) {
+			content += '<tr>';
+			content += '<td>'+item.new_picname+'</td>';
+			content += '<td>'+item.subject+'</td>';
+			content += '<td>'+item.price+'</td>';
+			content += '<td>'+item.close_date+'</td>';
+			content += '<td>'+item.bbs_state+'</td>';
+			content += '<td>'+item.auctionClose+'</td>';
+			content += '</tr>';
+		}
+		
+		$('#auctionList').append(content);
+	}
+	
 
 
 </script>

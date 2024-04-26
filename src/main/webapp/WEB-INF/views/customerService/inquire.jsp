@@ -43,17 +43,23 @@ th, td {
   color: #007bff;
   text-decoration: none;
 }
-.button-style {
-	display: inline-block;
-	vertical-align: middle;
-	text-decoration: none;
-	background-color: #007bff;
-	color: white;
-	padding: 10px 20px;
-	border: none;
-	border-radius: 4px;
-	cursor: pointer;
+
+/* 버튼 스타일 */
+.button {
+    background-color: #4CAF50; /* 배경색 */
+    color: white; /* 글꼴 색상 */
+    padding: 12px 20px; /* 패딩 */
+    border: none; /* 테두리 없음 */
+    border-radius: 4px; /* 모서리 둥글게 */
+    cursor: pointer; /* 마우스 오버 시 커서 변경 */
+    margin-top: 10px; /* 상단 여백 */
 }
+
+/* 마우스 오버 시 버튼 스타일 */
+.button:hover {
+    background-color: #45a049;
+}
+
 </style>
 
 </head>
@@ -63,7 +69,7 @@ th, td {
 		<div class="container">
 		<!--  여기 안에서 작업하기 -->
 <h3 style="display: inline-block;">1:1 문의하기</h3>
-<button onclick="location.href='questionForm'">문의하기</button>
+<button class="button" onclick="location.href='questionForm'">문의하기</button>
 
 <table>
     <thead>
@@ -87,13 +93,14 @@ th, td {
     </tr>
 </table>
 
-<select name="state" class="form-state" aria-label="Default select example">
+<form name="search-form" autocomplete="off">
+<select name="type">
 	<option value="title">제목</option>
-	<option value="title&content">제목 + 내용</option>
+	<option value="titleNcontent">제목 + 내용</option>
 </select>
-<input id="searchInput"  type="text" placeholder="검색" >
-<button id=""  style="height: 20px;">검색</button>
-		
+<input  type="text" name="keyword" value="" >
+<input type="button" onclick="getSearchList()" class="btn" value="검색"></input>
+</form>
 		
 		
 		</div>
@@ -109,6 +116,9 @@ var showPage = 1;
 $(document).ready(function() { 
     // html 문서가 모두 읽히면 되면(준비되면) 다음 내용을 실행 해라
     questionList(showPage);
+    $("#searchButton").click(function() {
+        getSearchList(); // 검색 함수 호출
+    });
 });
 
 $('#pagePerNum').on('change', function() {
@@ -153,18 +163,46 @@ function questionList(page) {
 function drawList(list) {
     var content = '';
     for (item of list) {
-        console.log(item);
         content += '<tr>';
         content += '<td>' + item.inquiry_idx + '</td>';
-        content += '<td>' + item.inquiry_title + '</td>';
-        content += '<td>' + item.enquirer +'</td>';
+        content += '<td><a href="question/detail?inquiry_idx=' + item.inquiry_idx + '">' + item.inquiry_title + '</a></td>';
+        content += '<td>' + item.enquirer + '</td>';
         var date = new Date(item.reg_date);
-        var dateStr = date.toLocaleDateString("ko-KR"); //en-US
+        var dateStr = date.toLocaleDateString("ko-KR");
         content += '<td>' + dateStr + '</td>';
         content += '</tr>';
+        
     }
     $('#list').html(content);
 }
+
+
+function getSearchList(){
+	$.ajax({
+		type: 'get',
+		url : "./questionSearch.ajax",
+		data : $("form[name=search-form]").serialize(),
+		success : function(result){
+			console.log(result)
+			$('#list').empty(); 
+			if(result.length >= 1){
+                var content = ''; 
+                for (var item of result) { 
+                    content += '<tr>';
+                    content += '<td>' + item.inquiry_idx + '</td>';
+                    content += '<td>' + item.inquiry_title + '</td>';
+                    content += '<td>' + item.enquirer +'</td>';
+                    var date = new Date(item.reg_date);
+                    var dateStr = date.toLocaleDateString("ko-KR"); //en-US
+                    content += '<td>' + dateStr + '</td>';
+                    content += '</tr>';
+                }
+                $('#list').html(content); 
+			}
+		}
+	});
+}
+
 
 
 

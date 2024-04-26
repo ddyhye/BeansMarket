@@ -287,21 +287,5 @@ public class MainController {
 		
 		return page;
 	}
-	
-	// 물품 팔기 페이지 이동
-	@RequestMapping(value="/member/mySellList.go")
-	public String mySellList_go(HttpSession session, Model model, RedirectAttributes redirectAttrs) {
-		logger.info("판매 내역 페이지...");
-		
-		String page = "redirect:/";
-		
-		if (session.getAttribute("logEmail") != null) {
-			page = "/member/mySellList";
-		} else {
-			redirectAttrs.addFlashAttribute("msg", "로그인이 필요한 서비스 입니다...");
-		}
-		
-		return page;
-	}
 
 }

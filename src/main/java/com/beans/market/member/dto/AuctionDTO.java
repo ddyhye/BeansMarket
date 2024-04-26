@@ -1,6 +1,7 @@
 package com.beans.market.member.dto;
 
 import java.sql.Date;
+import java.sql.Timestamp;
 
 public class AuctionDTO {
 
@@ -12,6 +13,42 @@ public class AuctionDTO {
 	private int idx;
 	
 	
+	/* 입찰 내역을 출력하기 위한 가상 컬럼 */
+	private String new_picname;
+	private String subject;
+	private Timestamp close_date;
+	private String bbs_state;
+	
+	
+	
+	
+	
+	
+	
+	public String getNew_picname() {
+		return new_picname;
+	}
+	public void setNew_picname(String new_picname) {
+		this.new_picname = new_picname;
+	}
+	public String getSubject() {
+		return subject;
+	}
+	public void setSubject(String subject) {
+		this.subject = subject;
+	}
+	public Timestamp getClose_date() {
+		return close_date;
+	}
+	public void setClose_date(Timestamp close_date) {
+		this.close_date = close_date;
+	}
+	public String getBbs_state() {
+		return bbs_state;
+	}
+	public void setBbs_state(String bbs_state) {
+		this.bbs_state = bbs_state;
+	}
 	public int getBid_idx() {
 		return bid_idx;
 	}

@@ -12,4 +12,10 @@ public interface QuestionDAO {
 
 	int write(QuestionDTO dto);
 
+	
+	List<QuestionDTO> selectSearchList(QuestionDTO questionDTO);
+
+	QuestionDTO detail(String idx);
+
+
 }

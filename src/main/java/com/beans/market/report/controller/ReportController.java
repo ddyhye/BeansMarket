@@ -49,16 +49,14 @@ public class ReportController {
 	//차단기능
 	@RequestMapping(value="/report/ban.do", method = RequestMethod.POST)
 	@ResponseBody
-	public void otheruserban(HttpServletRequest request, HttpServletResponse response, HttpSession session) {
-		logger.info("회원차단 시도");
-		
-	    String logemail = (String) session.getAttribute("logEmail");
-	    String blockemail = request.getParameter("blockemail");
-  
-	    reportService.ban(logemail, blockemail);
-		
-		
+	public Map<String,Object> ban(@RequestParam("email") String email){
+	    logger.info("email {}"+ email);
+	    
+	    Map<String, Object> ban= new HashMap<String, Object>();
+	    
+	    
+	    return ban;
+	    
 	}
-	
 	
 }
