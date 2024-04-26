@@ -208,10 +208,8 @@ public class MainService {
 	}
 
 
-	public List<MainDTO> mainlistcall(String email) {
-		
-		return  mainDao.sellernickname(email);
-	}
+
+
 
 
 

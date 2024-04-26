@@ -218,17 +218,24 @@ public class MemberController {
 	
 		//memberService.goodsListAjax(map, logEmail);
 		List<BoardDTO> list = boardService.Listcall(email);
-		List<MainDTO> mainlist = mainService.mainlistcall(email);
 		logger.info("list {}",list);
-		logger.info("mainList{}",mainlist);
+
 		map.put("listdata", list);
 		map.put("photo",  dtoPic.getNew_filename());
-		map.put("name", mainlist);
 		
 		
 		return map;
 		
 	}
+
+	
+	
+	
+	
+	
+	
+	
+	
 
 	
 

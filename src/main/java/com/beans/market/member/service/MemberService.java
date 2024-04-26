@@ -26,49 +26,49 @@ import com.beans.market.photo.dto.ProfilePicDTO;
 @Service
 public class MemberService {
 
-	Logger logger = LoggerFactory.getLogger(getClass());
-	
-	public String upload_root="C:/upload/";
-	
-	@Autowired MemberDAO memberDAO;
-	@Autowired MainDAO mainDAO;
-	@Autowired MainDAO mainDao;
+   Logger logger = LoggerFactory.getLogger(getClass());
+   
+   public String upload_root="C:/upload/";
+   
+   @Autowired MemberDAO memberDAO;
+   @Autowired MainDAO mainDAO;
+   @Autowired MainDAO mainDao;
 
-	public int connectTest() {
-		return memberDAO.connectTest();
-	}
+   public int connectTest() {
+      return memberDAO.connectTest();
+   }
 
-	public int overlay(String id) {
-		
-		return memberDAO.overlay(id);
-	}
+   public int overlay(String id) {
+      
+      return memberDAO.overlay(id);
+   }
 
-	public MemberDTO login(String email, String password) {
-		
-		return memberDAO.login(email,password);
-	}
+   public MemberDTO login(String email, String password) {
+      
+      return memberDAO.login(email,password);
+   }
 
 
 
-	public int join(Map<String, String> param) {
+   public int join(Map<String, String> param) {
 
-		return memberDAO.join(param);
-	}
+      return memberDAO.join(param);
+   }
 
-	public Object joinoverlay(String email) {
+   public Object joinoverlay(String email) {
 
-		return memberDAO.joinoverlay(email);
-	}
+      return memberDAO.joinoverlay(email);
+   }
 
-	public void updateLastLoginDate(Map<String, Object> params) {
-	    memberDAO.updateLastLoginDate(params);
-	}
+   public void updateLastLoginDate(Map<String, Object> params) {
+       memberDAO.updateLastLoginDate(params);
+   }
 
     public void newPW(String email, String pw) {
-	    logger.info("email: " + email);
-	    logger.info("pw: " + pw);
-	    memberDAO.newPW(email, pw);
-	    
+       logger.info("email: " + email);
+       logger.info("pw: " + pw);
+       memberDAO.newPW(email, pw);
+       
     }
 
 	public void saveProfilePic(Map<String, Object> profileParam) {
