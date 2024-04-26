@@ -17,7 +17,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.beans.market.admin.dao.QuestionDAO;
 import com.beans.market.admin.dto.QuestionDTO;
 import com.beans.market.admin.service.QuestionService;
 
@@ -45,24 +44,36 @@ public class QuestionController {
 		Map<String, Object> map = questionService.list(currPage, pagePerCnt);
 		return map;
 	}
-	//검색기능 //내일 다시 
+	//검색기능  //미구현
 	@RequestMapping(value="/questionSearch.ajax")
 	@ResponseBody
-	private String getSearchList(@RequestParam("type") String type, @RequestParam("keyword") String keyword) {
+	private List<QuestionDTO> getSearchList(@RequestParam("type") String type, @RequestParam("keyword") String keyword) {
 	    QuestionDTO questionDTO = new QuestionDTO();
 	    questionDTO.setType(type);
 	    questionDTO.setKeyword(keyword);
 
-	    return "question";
+	    return questionService.getSearchList(questionDTO);
 	}
 	
 	
+
 	//상세보기
-	@RequestMapping(value="/question.detail")
-	public String questionDetail() {
-		logger.info("questionDetail 페이지 요청");
-		return "customerService/inquireDetail";
+	@RequestMapping(value="/question/detail")
+	public String questionDetail( String inquiry_idx, HttpSession session , Model model) {
+	    //String page = "redirect:/list";
+	    logger.info("detail id=" + inquiry_idx);
+	    logger.info("questionDetail 페이지 요청");
+
+	    //if(session.getAttribute("loginId") != null) { //로그인기능 생기면 주석 제거
+	    
+	        QuestionDTO question = questionService.detail(inquiry_idx);
+	        model.addAttribute("questionDetail", question);
+	    //page = "detail";
+	    //}
+
+	    return "customerService/inquireDetail";
 	}
+
 	
 	//문의 작성 폼
 	@RequestMapping(value="/questionForm")
