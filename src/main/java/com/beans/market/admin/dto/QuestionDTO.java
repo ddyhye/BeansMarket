@@ -12,6 +12,10 @@ public class QuestionDTO {
 	private String enquirer;
 	private String category_idx;
 	
+	//검색
+	private String type;
+	private String keyword;
+	
 	public int getInquiry_idx() {
 		return inquiry_idx;
 	}
@@ -53,6 +57,18 @@ public class QuestionDTO {
 	}
 	public void setCategory_idx(String category_idx) {
 		this.category_idx = category_idx;
+	}
+	public String getType() {
+		return type;
+	}
+	public void setType(String type) {
+		this.type = type;
+	}
+	public String getKeyword() {
+		return keyword;
+	}
+	public void setKeyword(String keyword) {
+		this.keyword = keyword;
 	}
 
 	

@@ -20,9 +20,21 @@
 	keyProperty="idx"
 	parameterType="com.beans.market.admin.dto.QuestionDTO">
 		INSERT INTO inquiry(inquiry_pw, inquiry_title, inquiry_account, reg_date, enquirer, category_idx)
-			VALUES(#{inquiry_pw}, #{inquiry_title},#{inquiry_account},  current_timestamp, #{category_idx})
+			VALUES(#{inquiry_pw}, #{inquiry_title},#{inquiry_account},  current_timestamp, #{enquirer} , #{category_idx})
 	</insert>
 	
-	
+	<!--  검색 -->
+	<select id="selectSearchList" parameterType="com.beans.market.admin.dto.QuestionDTO" resultType="com.beans.market.admin.dto.QuestionDTO">
+		SELECT inquiry_idx, inquiry_pw, inquiry_title, reg_date, enquirer FROM inquiry
+	<choose>
+		<when test="type != null and type.equals('title')">
+		AND inquiry_title LIKE CONCAT('%', #{keyword}, '%')
+		</when>
+		<when test="type != null and type.equals('titleNContent')">
+		AND (inquiry_title LIKE CONCAT('%', #{keyword}, '%') OR inquiry_account LIKE CONCAT('%', #{keyword}, '%'))
+		</when>
+
+	</choose> 
+	</select>
 	
 </mapper>
