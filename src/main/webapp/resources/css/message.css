@@ -373,7 +373,7 @@ section #dealForm .msg{
 }
 
 /*========================================*/
-section #comentForm, #deleteForm{
+section #comentForm, #deleteForm, #payForm{
     position: fixed;
     display: none;
     top: 50%;
@@ -454,7 +454,41 @@ section #deleteForm .form .btn-controller{
     justify-content: center;
 }
 
+/*=========================*/
+section #payForm {
+	width: 500px;
+    height: 150px;
+}
 
+section #payForm .form{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+section #payForm .top{
+    display: flex;
+    justify-content: right;
+}
+
+section #payForm .top button{
+    border: none;
+    background-color: white;
+    font-size: 25px;
+}
+
+section #payForm .form button{
+	width: 150px;
+    font-size: 15px;
+    padding: 5px 10px;
+    margin: 10px;
+}
+
+section #payForm .form .btn-controller{
+    display: flex;
+    justify-content: center;
+}
 
 
 

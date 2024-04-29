@@ -4,6 +4,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -45,7 +46,22 @@ public class MessageService {
 	public Map<String, Object> messageCallAjax(int idx, String email, String otherEmail) {
 		Map<String, Object> map = new HashMap<String, Object>();
 		
-		List<MessageDTO> messageList = messageDAO.messageList(idx, email, otherEmail); // 특정 게시물의 특정 인원과의 게시물을 가져오기
+		List<Integer> messageIdxs = new ArrayList<Integer>();
+		List<MessageDTO> messageList = messageDAO.messageList(idx, email, otherEmail); // 특정 게시물의 특정 인원과의 쪽지 가져오기
+		for (int i = 0; i < messageList.size(); i++) {
+		  	MessageDTO dto = messageList.get(i);
+		  	// 삭제된 값 안가져오기
+		  	if(dto.getReceive_email().equals(email) && dto.getReceive_del().equals("Y")) {
+		  		messageList.remove(i);
+		  	} else if (dto.getSender_email().equals(email) && dto.getSender_del().equals("Y")) {
+		  		messageList.remove(i);
+			}
+		}
+		
+		for (MessageDTO messageDTO : messageList) {
+			messageIdxs.add(messageDTO.getMessage_idx());
+		}
+		// logger.info(messageIdxs.toString());
 		/*
 		for (MessageDTO messageDTO : messageList) {
 			logger.info("{}번, {}",  messageDTO.getMessage_idx() ,messageDTO.getNew_picname());
@@ -57,12 +73,14 @@ public class MessageService {
 		MemberDTO Info = memberService.profileGet(otherEmail);
 		ProfilePicDTO profileImg = memberService.profilePicGet(otherEmail);
 		// ajax로 하거나 서브쿼리
-		
+		//logger.info("프로필 이미지 이름 : {}", profileImg.getNew_filename());
+		//logger.info("이름 : {}", Info.getName());
 		map.put("messageList", messageList);
 		map.put("bbs_email", email);
 		
 		map.put("name", Info.getName());
 		map.put("profileImg", profileImg.getNew_filename());
+		map.put("msgIdxs", messageIdxs);
 		
 		return map;
 	}
@@ -138,9 +156,14 @@ public class MessageService {
 		Map<String, Object> map = new HashMap<String, Object>();
 		boolean result = false;
 		boolean dealSuccess = false;
+		int row = 0;
 		
-		historyService.dealApprove(idx, myEmail);
+		row = historyService.dealApprove(idx, myEmail);
 		logger.info("{} 게시물 {}가 거래승인", idx, myEmail);
+		if (row == 1) {
+			mainService.alarmSend(idx+"번 게시물 거래 승인", myEmail);
+			mainService.alarmSend(idx+"번 게시물 상대방이 거래 승인", email);
+		}
 		
 		// 상대방이 승인했는지 체크 - 1이 나오면 상대방이 승인했다는거 = email이 상대방 아이디
 		int approveCnt = historyService.dealApproveCheck(idx, email);
@@ -159,6 +182,9 @@ public class MessageService {
 				}
 				dealSuccess = true;
 				logger.info("거래 완료");
+
+				mainService.alarmSend(idx+"번 게시물 거래 완료", myEmail);
+				mainService.alarmSend(idx+"번 게시물 거래 완료", email);
 		}
 		result = true;
 		
@@ -208,6 +234,28 @@ public class MessageService {
 			}			
 		}
 		map.put("result", result);
+		
+		return map;
+	}
+
+	public Map<String, Object> msgDeleteAjax(String message_idx, String email) {
+		Map<String, Object> map = new HashMap<String, Object>();
+		
+		MessageDTO msgDTO = messageDAO.getMessageInfo(message_idx);
+		int row = 0;
+		
+		// 내가 수신자인지 보낸쪽인지
+		if(msgDTO.getSender_email().equals(email)) {
+			row = messageDAO.updateSenderDel(message_idx);
+		} else if (msgDTO.getReceive_email().equals(email)) {
+			row = messageDAO.updateReceiveDel(message_idx);
+		}
+		
+		if(row == 1) {
+			map.put("result", true);
+		} else {
+			map.put("result", false);
+		}
 		
 		return map;
 	}

@@ -1,5 +1,7 @@
 package com.beans.market.history.dao;
 
+import java.util.Map;
+
 public interface HistoryDAO {
 
 	int bidHistoryInsert(String email, int bid_price, int bbsIdx);
@@ -22,5 +24,6 @@ public interface HistoryDAO {
 
 	int comentDo(String coment, String email, int idx);
 
-	
+	int insertPayHistory(int idx, String email, String option, int price, String content);
+
 }

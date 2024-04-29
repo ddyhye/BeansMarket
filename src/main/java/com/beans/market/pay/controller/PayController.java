@@ -66,6 +66,15 @@ public class PayController {
 		return map;
 	}
 	
+	@RequestMapping(value = "/pay/Remittance.ajax", method = RequestMethod.POST)
+	@ResponseBody
+	public Map<String, Object> RemittanceAjax(String email, int idx){
+		logger.info("{} 이 {} 게시글 판매자에게 송금", email, idx);
+		Map<String, Object> map = new HashMap<String, Object>();
+		map = payService.RemittanceAjax(email, idx);
+		return map;
+	}
+	
 	//충전
 	@RequestMapping(value="/pay/charge", method=RequestMethod.POST)
     public String charge( PayDTO payDTO, HttpSession session) {

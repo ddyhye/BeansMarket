@@ -1,0 +1,7 @@
+@charset "UTF-8";
+/* css 기본 초기화 */
+
+section p {
+	width: 100%;
+	background-color: red;
+}

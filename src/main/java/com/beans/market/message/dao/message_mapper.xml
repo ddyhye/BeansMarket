@@ -91,4 +91,18 @@
 				AND dm.sender_email IN(#{param2}, #{param3})
 			ORDER BY dm.reg_date DESC LIMIT 1
 	</select>
+	
+	<select id="getMessageInfo" resultType="com.beans.market.message.dto.MessageDTO">
+		SELECT message_idx, content, reg_date, receive_email, receive_del, sender_email, sender_del, read_check, idx
+			FROM deal_message WHERE message_idx = #{param1}
+	</select>
+	<update id="updateSenderDel">
+		UPDATE deal_message SET sender_del = 'Y' WHERE message_idx = #{param1}
+	</update>
+	
+	<update id="updateReceiveDel">
+		UPDATE deal_message SET receive_del = 'Y' WHERE message_idx = #{param1}
+	</update>
+	
+	
 </mapper>
