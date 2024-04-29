@@ -1,8 +1,38 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC	"-//mybatis.org//DTD Mapper 3.0//EN"
 	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="~~~DAO">	
+<mapper namespace="com.beans.market.admin.dao.AdminDAO">	
 	
+	<select id="login" resultType="com.beans.market.admin.dto.AdminDTO">
+		SELECT id, admin_name FROM admin WHERE id = #{param1} AND pw = #{param2}
+	</select>
 
+	<select id="alarm" resultType="com.beans.market.admin.dto.AlarmDTO">
+		SELECT idx, content, checked, reg_date, link
+			FROM admin_alarm
+			ORDER BY reg_date DESC
+	</select>
 	
+	<select id="noCompleteInquiry" resultType="Integer">
+		SELECT COUNT(*) AS no_complete_cnt 
+			FROM inquiry i LEFT JOIN inq_reply ir 
+				ON i.inquiry_idx = ir.inquiry_idx 
+			WHERE ir.inquiry_idx IS NULL
+	</select>
+	
+	<select id="noCompleteReport" resultType="Integer">
+		SELECT COUNT(report_complete) AS no_complete_cnt 
+			FROM report 
+			WHERE report_complete = 'N'
+	</select>
+	
+	<update id="alarmRead">
+		UPDATE admin_alarm SET checked = 'Y' WHERE idx = #{param1}
+	</update>
+	
+	<select id="newAlarm" resultType="Integer">
+		SELECT COUNT(checked) AS cnt 
+			FROM admin_alarm
+			WHERE checked = 'N'
+	</select>
 </mapper>

@@ -19,7 +19,7 @@ section {
 
  section h3{
         font-size: 25px;
-    }
+ }
 
 section .login_box{
         border: 2px solid #aaa;

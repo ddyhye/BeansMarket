@@ -1,7 +1,118 @@
 @charset "UTF-8";
 /* css 기본 초기화 */
-
-section p {
-	width: 100%;
-	background-color: red;
+section{
+	padding: 20px;
 }
+
+table, th, td{
+	border: 1px solid black;
+	border-collapse: collapse;
+}
+
+table {
+	border-width: 3px;
+}
+
+th, td{
+	padding: 5px 10px;
+}
+section #room-search, #message-search{
+	width: 100%;
+	height: 500px;
+	margin-bottom: 20px;
+}
+
+section p{
+	font-size: 20px;
+}
+
+.search-box{
+	border: 3px solid black;
+	padding: 15px;
+	margin: 20px 0;
+	display: flex;
+	align-items: center;
+}
+
+.search-box input[type="text"] {
+	width:500px;
+	height: 50px;
+}
+
+.search-box button{
+	width: 50px;
+	height: 50px;
+	font-size: 30px;
+	margin: 0 20px;
+}
+
+.search-box input[type="checkbox"] {
+	width: 20px; /*Desired width*/
+	height: 20px; /*Desired height*/
+	cursor: pointer;
+	margin-right: 10px;
+}
+
+section .room-result-box, .message-result-box{
+	width: 100%;
+}
+
+.room-result-box tr{
+	height: 50px;
+}
+
+.room-result-box th{
+	background-color: lightgray;
+}
+
+.room-result-box th:nth-child(1) {
+    width: 150px;
+}
+.room-result-box th:nth-child(3) {
+    width: 300px;
+}
+.room-result-box th:nth-child(4) {
+    width: 300px;
+}
+.room-result-box th:nth-child(5) {
+    width: 250px;
+}
+.room-result-box th:nth-child(6) {
+    width: 100px;
+}
+
+
+/*==================================*/
+
+.message-result-box tr{
+	height: 50px;
+}
+
+.message-result-box th{
+	background-color: lightgray;
+}
+
+.message-result-box th:nth-child(1) {
+    width: 150px;
+}
+.message-result-box th:nth-child(2) {
+    width: 150px;
+}
+.message-result-box th:nth-child(5) {
+    width: 300px;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
