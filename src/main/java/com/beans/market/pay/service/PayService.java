@@ -5,17 +5,16 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
+import com.beans.market.board.dto.BoardDTO;
+import com.beans.market.board.service.BoardService;
 import com.beans.market.history.dao.HistoryDAO;
+import com.beans.market.history.service.HistoryService;
 import com.beans.market.pay.dao.PayDAO;
-
 import com.beans.market.pay.dto.PayDTO;
 
 
@@ -27,6 +26,9 @@ public class PayService {
 	Logger logger = LoggerFactory.getLogger(getClass());
 	@Autowired PayDAO payDAO;
 	@Autowired HistoryDAO historyDAO;
+	@Autowired BoardService boardService;
+	@Autowired HistoryService historyService;
+	
 	
 	public int getMyAmount(String email) {
 		return payDAO.getMyAmount(email);
@@ -90,6 +92,48 @@ public class PayService {
 		
 		// 게시물 입찰 히스토리와 구매자 입출금 내역에 낙찰이라는 내역 추가하기
 		
+	}
+
+	// 금액 송금하기
+	public Map<String, Object> RemittanceAjax(String email, int idx) {
+		Map<String, Object> map = new HashMap<String, Object>();
+		
+		BoardDTO bbs = boardService.getBoardInfo(idx);
+		int price = bbs.getPrice();
+		boolean result = false;
+		
+		// 구매자 금액 차감
+		if (payDAO.getMyAmount(email) >= price) {
+			logger.info("구매 금액 차감 " + price);
+			int row = payDAO.payWithdrawal(email, price);
+			
+			// 히스토리 작성
+			if(row == 1) {
+				row = 0;
+				logger.info("출금 히스토리 작성");
+				row = historyService.insertPayHistory(idx, email, "거래금 지불", price, idx+"번 거래금 "+price+"원 지불");
+			}
+			
+			// 판매자에게 금액 만큼 증가
+			if(row == 1) {
+				row = 0;
+				logger.info("판매 금액 증가");
+				row = payDAO.updatePoint(email, price);			
+			}
+			
+			// 거래금 수령
+			// 히스토리 작성
+			if(row == 1) {
+				logger.info("입금 히스토리 작성");
+				row = historyService.insertPayHistory(idx, email, "거래금 수령", price, idx+"번 거래금 "+price+"원 수령");
+			}
+			
+			if(row == 1) {
+				result = true;
+			} 
+		} 
+		map.put("result", result);
+		return map;
 	}
 	
 	

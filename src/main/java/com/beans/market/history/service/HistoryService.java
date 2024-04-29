@@ -46,5 +46,11 @@ public class HistoryService {
 		logger.info("내용 : {}, 이메일 : {}, 인덱스 : "+idx, coment, email);
 		return historyDAO.comentDo(coment, email, idx);
 	}
+
+	public int insertPayHistory(int idx, String email, String option, int price, String content) {
+		logger.info("내용 : {}, 이메일 : {}, 인덱스 : "+idx, content, email);
+		logger.info("구분 : {}, 가격 : {}", option, price);
+		return historyDAO.insertPayHistory(idx, email, option, price, content);
+	}
 	
 }

@@ -25,68 +25,81 @@ public class MainService {
 	@Autowired MainDAO mainDao;
 
 
-	/* 리스트로 뽑아오기 */
-	public void goodsList(Model model) {
-		List<MainDTO> list = mainDao.goodsList();
-		
-		
-		for (MainDTO dto : list) {
-			String seller = mainDao.sellerName(dto.getIdx());
-			String photo = mainDao.mainPhoto(dto.getIdx());
-			int successful_bid = 0;
-			int bid_count = 0;
-			
-			if (dto.getOption().equals("경매")) {	// 시작가와 종료날짜는 디테일에서,,,?
-				successful_bid = mainDao.fullPrice(dto.getIdx());
-				bid_count = mainDao.bidCnt(dto.getIdx());
-			} 
-			
-			dto.setSellerName(seller);
-			dto.setNew_picname(photo);
-			dto.setSuccessful_bid(successful_bid);
-			dto.setBid_count(bid_count);
-		}
-		
-		model.addAttribute("list", list);
-	}
+	/* 리스트로 뽑아오기 (테스트) */
+//	public void goodsList(Model model) {
+//		List<MainDTO> list = mainDao.goodsList();
+//		
+//		
+//		for (MainDTO dto : list) {
+//			String seller = mainDao.sellerName(dto.getIdx());
+//			String photo = mainDao.mainPhoto(dto.getIdx());
+//			int successful_bid = 0;
+//			int bid_count = 0;
+//			
+//			if (dto.getOption().equals("경매")) {	// 시작가와 종료날짜는 디테일에서,,,?
+//				successful_bid = mainDao.fullPrice(dto.getIdx());
+//				bid_count = mainDao.bidCnt(dto.getIdx());
+//			} 
+//			
+//			dto.setSellerName(seller);
+//			dto.setNew_picname(photo);
+//			dto.setSuccessful_bid(successful_bid);
+//			dto.setBid_count(bid_count);
+//		}
+//		
+//		model.addAttribute("list", list);
+//	}
 
 
-	public Map<String, Object> goodsListAjax(Map<String, Object> map, String logEmail, String selectedSort, boolean isSell, boolean isAuction) {
+	public Map<String, Object> goodsListAjax(Map<String, Object> map, String logEmail, String selectedSort, boolean isSell, boolean isAuction, int currentPage) {
 		
 		List<MainDTO> list;
+		
+		int startNo = (currentPage-1) * 24;
+		int totalPages = 1;
 		
 		// 최신순은 그냥, 인기순은,, 관심목록 쪼인,,필요,,,,,,,,,,,,
 		if (selectedSort.equals("최신순")) {
 			if (isSell) {
 				if (isAuction) {
-					list = mainDao.goodsList();
+					list = mainDao.goodsList(logEmail, startNo);
+					totalPages = mainDao.allCount(logEmail, startNo);
 				} else {
-					list = mainDao.goodsList2();
+					list = mainDao.goodsList2(logEmail, startNo);
+					totalPages = mainDao.allCount2(logEmail, startNo);
 				}
 			} else {
 				if (isAuction) {
-					list = mainDao.goodsList3();
+					list = mainDao.goodsList3(logEmail, startNo);
+					totalPages = mainDao.allCount3(logEmail, startNo);
 				} else {
-					list = mainDao.goodsList4();
+					list = mainDao.goodsList4(logEmail, startNo);
+					totalPages = mainDao.allCount4(logEmail, startNo);
 				}
 			}
 		} else {
 			if (isSell) {
 				if (isAuction) {
-					list = mainDao.goodsHitList();
+					list = mainDao.goodsHitList(logEmail, startNo);
+					totalPages = mainDao.allCount(logEmail, startNo);
 				} else {
-					list = mainDao.goodsHitList2();
+					list = mainDao.goodsHitList2(logEmail, startNo);
+					totalPages = mainDao.allCount2(logEmail, startNo);
 				}
 			} else {
 				if (isAuction) {
-					list = mainDao.goodsHitList3();
+					list = mainDao.goodsHitList3(logEmail, startNo);
+					totalPages = mainDao.allCount3(logEmail, startNo);
 				} else {
-					list = mainDao.goodsHitList4();
+					list = mainDao.goodsHitList4(logEmail, startNo);
+					totalPages = mainDao.allCount4(logEmail, startNo);
 				}
 			}
 		}
 
 		map.put("list", bbsListDB(list, logEmail));
+		map.put("currentPage", currentPage);
+		map.put("totalPages", totalPages);
 		
 		return map;
 	}
@@ -185,6 +198,9 @@ public class MainService {
 	public void alarmRead(int idxInt) {
 		mainDao.alarmRead(idxInt);
 	}
+	public String alarmReadUrl(int idxInt) {
+		return mainDao.alarmReadUrl(idxInt);
+	}
 	public void alarmSend(String content, String email) {
 		mainDao.alarmSend(content, email);
 	}
@@ -206,6 +222,8 @@ public class MainService {
 	public String nicname(String logEmail) {
 		return mainDao.nicname(logEmail);
 	}
+
+
 
 
 

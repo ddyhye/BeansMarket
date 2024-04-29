@@ -17,4 +17,10 @@ public interface MessageDAO {
 
 	int sendMessagePic(MessageDTO dto);
 
+	MessageDTO getMessageInfo(String message_idx);
+
+	int updateSenderDel(String message_idx);
+
+	int updateReceiveDel(String message_idx);
+
 }

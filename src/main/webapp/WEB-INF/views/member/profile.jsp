@@ -33,9 +33,9 @@
 					</div>
 					<div class="main-center-first-body">
 						<i class="fa-regular fa-face-laugh-squint"></i>
-						<p>&nbsp;23(이거쪽지이후)&nbsp;&nbsp;&nbsp;&nbsp;</p>
+						<p>&nbsp;${posiCnt}&nbsp;&nbsp;&nbsp;&nbsp;</p>
 						<i class="fa-regular fa-face-rolling-eyes"></i>
-						<p>&nbsp;4(쪽지)</p>
+						<p>&nbsp;${negaCnt}</p>
 					</div>
 				</div>
 				<div class="main-center-second">
@@ -86,9 +86,9 @@
 				</div>
 				<div class="secessionDiv-center">
 					<div class="secessionDiv-center-pDiv">
-						<div class="pDiv"><p id="textP"><span id="blockName">묭</span>&nbsp;님, 정말 탈퇴하시겠습니까?</p></div>
+						<div class="pDiv"><p id="textP"><span id="blockName">${name}</span>&nbsp;님, 정말 탈퇴하시겠습니까?</p></div>
 						<p>탈퇴 시, 기존의 로그인 정보들이 전부 삭제되며, 같은 이메일로 재가입이 불가능 합니다.</p>
-						<p class="unravel" id="realSecession">탈퇴</p>
+						<p class="unravel" id="secessionBtn">탈퇴</p>
 						<p class="unravel" id="back">취소</p>
 					</div>
 				</div>
@@ -99,11 +99,28 @@
 </body>
 
 <script>
+	var msg = '${msg}';
+	if(msg != ''){
+	    alert(msg);
+	}
 
 	$('#secession').on('click', function() {
 		$('.secessionDiv').addClass('active');
 	});
-	$('#deleteBtn').on('click', function() {
+	$('#secessionBtn').on('click', function() {
+		$.ajax({
+			type: 'get',
+			url: '<c:url value="/member/secession.ajax"/>',
+			data: {},
+			dataType: 'JSON',
+			success: function(data) {
+				alert('탈퇴되었습니다. 메인 페이지로 돌아갑니다...');
+			}, error: function(data){}
+		});
+		
+		window.location.href='<c:url value="/"/>';
+	});
+	$('.deleteBtn2').on('click', function() {
 		$('.secessionDiv').removeClass('active');
 	});
 	$('#back').on('click', function() {

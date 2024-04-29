@@ -96,7 +96,7 @@
 				<a href="<c:url value='/member/login.go'/>" class="top-second-center-link" id="top-second-center-link-log">로그인</a>
 			</div>
 			<div>
-				<a href="join.go" class="top-second-center-link">회원가입</a>
+				<a href="<c:url value='/member/join.go'/>" class="top-second-center-link">회원가입</a>
 			</div>
 			<div class="top-second-center-parent">
 				<div class="top-second-center-head">
@@ -377,6 +377,7 @@
 			dataType: 'JSON',
 			success: function(data) {
 				drawAlarmList(data);
+				// data.link가 있다면 링크 이동,,
 			},
 			error : function(error) {
 			}
@@ -404,8 +405,9 @@
 			content += item.checked === 'Y'? '<div class="unRead" style="display: none;"></div>':'<div class="unRead"></div>';
 			content += '<div class="unRead-div"></div>';
 			/* 알람테이블 날짜 */
-			content += '<span>2024-04-10</span>';
-			content += '<span>22:20</span>';
+			dateStr = DateToString(item.reg_date);
+			content += '<span>'+dateStr+'</span>';
+			/* content += '<span>22:20</span>'; */
 			content += '</div>';
 			content += '<div class="alarm-content-list-new">';
 			content += '</div>';
@@ -413,6 +415,12 @@
 		}
 		
 		$('.alarm-content').append(content);
+	}
+	// timestamp 형식인 거 문자열로 변환하는 함수
+	function DateToString(timesteamp){
+		var date = new Date(timesteamp);
+		var dateStr = date.toLocaleDateString("ko-KR");
+		return dateStr;
 	}
 	$('.alarm-delete').find('.deleteBtn').on('click', function() {
 		$('.alarm').removeClass('active');

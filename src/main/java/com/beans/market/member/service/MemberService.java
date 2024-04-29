@@ -23,6 +23,7 @@ import com.beans.market.member.dto.AuctionDTO;
 import com.beans.market.member.dto.BlockDTO;
 import com.beans.market.member.dto.MemberDTO;
 import com.beans.market.member.dto.SellerDTO;
+import com.beans.market.message.dto.ApproveDTO;
 import com.beans.market.photo.dto.ProfilePicDTO;
 
 @Service
@@ -78,14 +79,6 @@ public class MemberService {
 		
 	} 
 	
-	public void otherprofile(String email, Model model) {
-		SellerDTO sellerInfo = memberDAO.sellerInfo(email);
-		 
-		logger.info("판매자 닉네임 : {}", sellerInfo);
-		model.addAttribute("sellerInfo", sellerInfo);
-		model.addAttribute("name", sellerInfo);
-	}
-
 	
 	
 	
@@ -113,7 +106,10 @@ public class MemberService {
 		logger.info("좋아요 정보 가져오기");
 		return mainDAO.mine(idx, email);
 	}
-	
+	// 마이페이지 - 탈퇴하기
+	public void secession(String logEmail) {
+		memberDAO.secession(logEmail);
+	}
 	// 마이페이지 - 프로필 업데이트
 	public ProfilePicDTO profilePicGet(String logEmail) {
 		return memberDAO.profilePicGet(logEmail);
@@ -345,15 +341,57 @@ public class MemberService {
 		
 		return map;
 	}
-	/*
-	public void otherprofile(String email, Model model) {
-				SellerDTO sellerInfo = memberDAO.sellerInfo(email);
-				 
-				logger.info("판매자 닉네임 : {}", sellerInfo);
-				model.addAttribute("sellerInfo", sellerInfo);
-				model.addAttribute("name", sellerInfo);
+	
+	// 미승인 목록
+	public Map<String, Object> myApproveList(Map<String, Object> map, String logEmail) {
+		// 1. BBS에서 내가 판매자이거나, 예약자인 게시글의 idx 뽑아오기
+		int[] mybbsArr = memberDAO.mybbsArr(logEmail);
+		logger.info("mybbsArr: {}", mybbsArr);
+		
+		List<ApproveDTO> list = new ArrayList<ApproveDTO>(); 	// 여러개일 경우, 담기
+		
+		// 2. 각각의 idx를 돌며 미승인했는지 검사하기
+		for (int i = 0; i < mybbsArr.length; i++) {
+			// 2-1. 내가 승인을 눌렀으면 (카운트 1) 건너뛰고
+			if (memberDAO.myApproved(mybbsArr[i], logEmail) > 0) {
+				logger.info(mybbsArr[i]+"은 승인함");
+				continue;
+			} 
+			// 2-2. 내가 승인을 안 눌렀는데, 상대가 눌렀으면
+			// bbs(subject, option)
+			// photo(new_picname)
+			// approve (상대방의 승인 reg_date)
+			else {
+				ApproveDTO dto = memberDAO.opponentApproved(mybbsArr[i], logEmail);
+				if (dto != null) {
+					logger.info("dto: {}",dto);
+					list.add(dto);
+				}
+			}
+		}
+		
+		map.put("list", list);
+		
+		return map;
 	}
-	*/
+	
+	public void myApproveClick(String logEmail, int idxInt) {
+		memberDAO.myApproveClick(logEmail, idxInt);
+	}
+	
+	// 타 회원 판매 품목 리스트
+	public Map<String, Object> otherGoodsList(Map<String, Object> map, String otherEmail) {				
+		List<MainDTO> list = memberDAO.otherGoodsList(otherEmail);
+		
+		map.put("list", bbsListDB(list, otherEmail));
+		
+		return map;
+	}
+	
+	// 차단하기
+	public void otherBan(String logEmail, String otherEmail) {
+		memberDAO.otherBan(logEmail, otherEmail);
+	}
 	
 	
 	
@@ -389,6 +427,7 @@ public class MemberService {
 			String subject = memberDAO.getBidSubject(dto.getIdx());
 			Timestamp close_date = memberDAO.getBidClose(dto.getIdx());
 			String state = memberDAO.getBidState(dto.getIdx());
+			int bidderY = memberDAO.getBidderY(dto.getIdx(), logEmail);
 			
 			dto.setNew_picname(new_picname);
 			dto.setSubject(subject);
@@ -398,6 +437,11 @@ public class MemberService {
 			} else {
 				dto.setBbs_state("입찰 중");
 			}
+			if (bidderY > 0) {
+				dto.setBidder("Y");
+			} else {
+				dto.setBidder("N");
+			}
 		}
 		
 		map.put("list", list);
@@ -405,5 +449,4 @@ public class MemberService {
 		return map;
 		
 	}
-
 }

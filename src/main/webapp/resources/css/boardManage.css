@@ -1,0 +1,98 @@
+@charset "UTF-8";
+
+section{
+    font-family: 'Poppins', sans-serif;
+    padding: 10rem 0 5rem 0;
+}
+
+p {
+	margin-left: 10%;
+}
+
+.buttons {
+	display: inline-block; 
+	margin-left: 80%;
+	
+}
+
+.manager-search {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	
+	position: relative;
+	width: 90%;
+	margin: 0 auto;
+}
+
+.search-list {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	
+	position: relative;
+	width: 90%;
+	margin: 0 auto;
+}
+
+table, th, td{
+	border: 1px solid #686868;
+	border-collapse: collapse;
+}
+tr {
+	height: 10px;
+}
+th {
+	background-color: #cacaca;
+}
+td {
+	height: 30px;
+}
+table {
+   position: relative;
+   width: 90%;
+}
+.one {
+	position: relative;
+   	width: 5%;
+}
+.two {
+	position: relative;
+   	width: 10%;
+}
+.three {
+	position: relative;
+   	width: 5%;
+}
+.four {   
+	position: relative;
+   	width: 10%;
+}
+.five {   
+	position: relative;
+   	width: 20%;
+}
+.six {   
+	position: relative;
+   	width: 10%;
+}
+.seven {   
+	position: relative;
+   	width: 15%;
+}
+.eight {   
+	position: relative;
+   	width: 10%;
+}
+.nine {   
+	position: relative;
+   	width: 5%;
+}
+
+.tbodyDiv {
+	display: flex;
+   	align-items: center;
+   	justify-content: center;
+   	
+   	height: 35px;
+}

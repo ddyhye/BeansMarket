@@ -9,13 +9,15 @@
 	</select>
 	<!--로그인-->
 	<select id="login" resultType="com.beans.market.member.dto.MemberDTO">
-		SELECT email,location,scope,name,birth_date,gender,point FROM member WHERE email= #{param1} AND pw= #{param2}
+		SELECT email,location,scope,name,birth_date,gender,point 
+		FROM member 
+		WHERE email= #{param1} AND pw= #{param2} AND secession = 'N'
 	</select>
 	<!-- 로그인 이메일만 -->
 	<select id="logEmail" resultType="String">
 		SELECT email, location, scope, name, birth_date, gender, point, dormant, login_count, warn_count
 			FROM member 
-		WHERE email= #{param1} AND pw= #{param2}
+		WHERE email= #{param1} AND pw= #{param2} AND secession = 'N'
 	</select>
 	
 	<!-- 로그인 마지막날짜 업데이트 -->
@@ -84,6 +86,10 @@
 	
 	
 	
+	
+	
+	
+	
 	<!-- 마이페이지 -->
 	<select id="profileGet" resultType="com.beans.market.member.dto.MemberDTO">
 		SELECT email, name, location, birth_Date, gender, point
@@ -95,6 +101,14 @@
 		FROM member_profilepic
 		WHERE email = #{param1} AND confirmed = 'Y'
 	</select>
+	<!-- 마이페이지 - 탈퇴하기 -->
+	<update id="secession">
+		UPDATE member
+		SET pw = '.', location = '.', scope = '.', name = '.',
+			birth_date = '1000-01-01', gender = '.', point = 0,
+			secession = 'Y'
+		WHERE email = #{param1}
+	</update>
 	
 	<!-- 마이페이지 - 프로필 사진 수정(인설트) -->
 	<insert id="newPicPath">
@@ -121,7 +135,7 @@
 	
 	<!-- 마이페이지 - 수정완료 -->
 	<update id="profileUpdate">
-		update member set name = #{name}, location = #{location}, birth_date = #{birth_date}, gender = #{gender}
+		update member set name = #{name}, pw=#{pwReset}, location = #{location}, birth_date = #{birth_date}, gender = #{gender}
 		where email = #{logEmail} 
 	</update>
 	
@@ -192,6 +206,46 @@
 	</update>
 	
 	
+	<!-- 거래 미승인 목록 - 내가 관여한 bbs idx 뽑아오기 -->
+	<select id="mybbsArr" parameterType="String" resultType="java.lang.Integer">
+		SELECT idx 
+		FROM bbs 
+		WHERE bbs_state='예약중' AND (email = #{param1} OR reserve_email = #{param1})
+		ORDER BY idx
+	</select>
+	<select id="myApproved" resultType="Integer">
+		SELECT COUNT(*) 
+		FROM deal_approv_hist 
+		WHERE idx=#{param1} AND email = #{param2}
+	</select>
+	<select id="opponentApproved" resultType="com.beans.market.message.dto.ApproveDTO">
+		SELECT b.idx, b.subject, b.option, p.new_picname, a.reg_date
+		FROM bbs b 
+			JOIN photo p ON b.idx = p.idx AND p.option_idx = 1 AND p.main = 'Y'
+			JOIN deal_approv_hist a ON b.idx = a.idx AND a.email != #{param2}
+		WHERE b.idx = #{param1} AND b.bbs_state ='예약중'
+	</select>
+	<insert id="myApproveClick">
+		INSERT INTO deal_approv_hist (email, idx)
+		VALUES (#{param1}, #{param2})
+	</insert>
+	
+	<!-- 타 회원 판매 품목 리스트 -->
+	<select id="otherGoodsList" resultType="com.beans.market.main.dto.MainDTO">
+		SELECT idx, option, email, subject, price, reg_date, bbs_state, hidden
+		FROM bbs
+		WHERE email = #{param1} AND draft = 'N'
+	</select>
+	<!-- 타 회원 차단 -->
+	<insert id="otherBan">
+		INSERT INTO block 
+		VALUES (#{param1}, #{param2})
+	</insert>
+	
+	
+	
+	
+	
 	
 	
 	
@@ -227,5 +281,10 @@
 	    SELECT bbs_state FROM bbs WHERE idx = #{param1}
 	</select>
 	<!-- 현재 입찰자 -->
+	<select id="getBidderY" resultType="Integer">
+		SELECT COUNT(reserve_email) 
+		FROM bbs 
+		WHERE idx=#{param1} AND option='경매' AND bbs_state='거래완료' AND reserve_email = #{param2}
+	</select>
 	
 </mapper>

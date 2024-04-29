@@ -1,0 +1,145 @@
+@charset "UTF-8";
+/* css 기본 초기화 */
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+li{
+    list-style: none;
+}
+
+a{
+	text-decoration: none;
+	color: black;
+}
+
+.container{
+	width: 100%;
+	height: 200px;
+    margin: 0 auto;
+    display: flex;
+}
+body{
+	overflow-y: auto;
+}
+/* css 기본 초기화 */
+
+header{
+	width: 100%;
+    height: 70px;
+    background-color: RGB(34, 56, 46);
+    display: flex;
+    justify-content: space-between;
+    color: white;
+}
+.left-header{
+	display: flex;
+}
+
+.left-header .mark, .pageName{
+	width: 230px;
+	font-size: 40px;
+	font-weight: bold;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	border-right: 1px solid white;
+}
+
+.left-header .pageName{
+	justify-content: left;
+	border: none;
+}
+
+.right-header{
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+.right-header > *{
+	padding-right: 30px;
+}
+
+.head-p{
+	padding-left: 20px;
+	font-size: 25px;
+}
+
+header i{
+	font-size: 30px;
+	cursor: pointer;
+}
+
+header button{
+	font-size: 20px;
+	border: none;
+	padding: 10px;
+	background-color: #d6ffbf;
+	border-radius: 5%;
+}
+
+header button:hover{
+	background-color: #008080;
+}
+/* header CSS 끝 */
+/*===========================*/
+
+main{
+	width: 100%;
+	height: 100%;
+	background-color: #d6ffbf;
+	display: flex;
+}
+
+main .nav_items{
+	width: 230px;
+	height: 100%;
+    background-color: white;
+    border-right: 1px solid RGB(34, 56, 46);
+    overflow-y: auto;
+}
+
+.nav_items li{
+	font-weight: bold;
+	font-size: 20px;
+	padding: 15px;
+	border-bottom: 1px solid black;
+	cursor: pointer;
+}
+
+.sub-menu {
+	display: none;
+	opacity: 0;
+	transform: translateY(-10px);
+	transition: all 0.3s ease-in-out;
+}
+
+.sub-menu li{
+  	height: 30px;
+  	font-size: 15px;
+  	border: none;
+}
+
+/* 서브 메뉴가 보여질 때 페이드 인 애니메이션을 적용 --적용 안됨*/
+.sub-menu.open {
+	display: block;
+	opacity: 1;
+	transform: translateY(0);
+	transform-origin: top center;
+	transition: all 0.3s ease-in-out;
+}
+
+.history-item:hover .sub-menu {
+  	display: block; /* 히스토리 항목에 마우스를 올리면 서브 메뉴가 표시됩니다. */
+}
+
+/* 마우스 오버 시 서브 메뉴가 페이드 인됨 */
+.history-item:hover .sub-menu {
+	opacity: 1;
+}
+
+section{
+    flex-grow: 1; /* 남은 공간을 모두 차지하도록 설정 */
+}

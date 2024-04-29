@@ -35,6 +35,13 @@ public class MemberDTO {
 	}
 	
 	
+	/* 거래후기 - positive */
+	private int posiCnt;
+	/* 거래후기 - negative */
+	private int negaCnt;
+	
+	
+	
 	public int getIdx() {
 		return idx;
 	}
@@ -149,6 +156,19 @@ public class MemberDTO {
 	public void setLogin_banend(Date login_banend) {
 		this.login_banend = login_banend;
 	}
+	public int getPosiCnt() {
+		return posiCnt;
+	}
+	public int getNegaCnt() {
+		return negaCnt;
+	}
+	public void setPosiCnt(int posiCnt) {
+		this.posiCnt = posiCnt;
+	}
+	public void setNegaCnt(int negaCnt) {
+		this.negaCnt = negaCnt;
+	}
+	
 	
 	
 }

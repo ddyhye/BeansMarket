@@ -9,7 +9,7 @@
 li{
     list-style: none;
 }
-.container {
+.containerR {
 	position: relative;
 	top: 13%;
 	width: 1300px;
@@ -235,4 +235,19 @@ li{
 
    position: relative;
    width: 65%;
+}
+#dateStr {
+	color: rgb(115, 115, 115);
+}
+
+
+
+/* 페이징 */
+.main-paging {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	
+	position: relative;
+	width: 100%;
 }

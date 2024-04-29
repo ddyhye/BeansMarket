@@ -1,0 +1,80 @@
+@charset "UTF-8";
+
+/* css 기본 초기화 */
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+li{
+    list-style: none;
+}
+.container {
+	position: relative;
+	top: 13%;
+	width: 1300px;
+	margin: 0 auto;	
+}
+/* css 기본 초기화 */
+
+
+.memberM-top {
+	display: flex;
+	align-items: center;
+	flex-direction: column;
+	
+	position: relative;
+	width: 85%;
+	/* height: 150px; */
+	margin-bottom: 30px;
+	
+	border: 4px solid lightgray;
+	border-radius: 5px;
+}
+.memberM-top-search {
+	display: flex;
+	align-items: center;
+	flex-direction: row;
+	
+	position: relative;
+	width: 90%;
+	height: 50px;
+}
+.memberM-top-option {
+	display: flex;
+	align-items: center;
+	flex-direction: column;
+	
+	position: relative;
+	width: 90%;
+	height: 50px;
+}
+.memberM-top-option-skip {
+	display: flex;
+	align-items: center;
+	flex-direction: row;
+}
+.memberM-top-option-detail {
+	display: flex;
+	align-items: center;
+	flex-direction: row;
+}
+.memberM-top-optionReset {
+	display: flex;
+	align-items: flex-start;
+	flex-direction: row;
+	
+	position: relative;
+	width: 90%;
+	height: 50px;
+}
+
+
+.memberM-center {
+	display: flex;
+	align-items: center;
+	flex-direction: row;
+	
+	position: relative;
+	width: 85%;
+}

@@ -129,7 +129,7 @@
 				<div class="form">
 					<p>거래 창</p>
 					<button class="reserve-toggle" onclick="reserve()">예약</button>
-					<button class="pay-send">송금 하기</button>
+					<button class="pay-send" onclick="payForm()">송금 하기</button>
 					<button class="approve" onclick="apprve()">거래 승인</button>	
 				</div>
 				<p class="msg">*경매의 경우에는 예약 취소가 불가능합니다.</p>
@@ -178,14 +178,33 @@
 					<p>삭제하시겠습니까?</p>			
 				</div>
 				<div class="btn-controller">
-					<button class="delete-Btn" onclick="">삭제</button>
-					<button class="delete-Btn"  >취소</button>	
+					<button class="delete-Btn" onclick="msgDelete()">삭제</button>
+					<button class="delete-Btn" onclick="deleteDo()">취소</button>	
 				</div>
 				<div class="content">
 					<p>*삭제해도 상대방에게는 보입니다.</p>			
 				</div>
 			</div>		
 		</div><!--deleteForm 종료-->
+		<div id="payForm">
+			<div class="top">
+				<button class="escape"><i class="fa-solid fa-x"></i></button>
+			</div>
+			<div class="form">
+				<div class="content">
+					<p>빈즈페이로 결제하기</p>			
+					<div>
+						<p>나의 빈즈 페이 잔액 : <span class="point"></span></p>
+					</div>
+					<p>거래 금액 : <span class="price"></span></p>			
+				</div>
+				<div class="btn-controller">
+					<button class="remittance-Btn" onclick="Remittance()">송금하기</button>
+					<button class="charging-Btn" onclick="charging()">충전하기</button>
+					<button class="cancel-Btn" onclick="payForm()">취소</button>	
+				</div>
+			</div>		
+		</div><!--payForm 종료-->
 	</section>
 </body>
 <script>
@@ -307,6 +326,8 @@
 		$('.pay-send').show();
 		$('.reserve-toggle').show();
 		
+		$('.price').text(data.roomSubject.price);
+		
 		//console.log(my_email + data.roomSubject.option+data.roomSubject.reserve_email);
 		// 예약자가 없으면 판매자만 거래버튼 활성화
 		if(data.roomSubject.reserve_email == null){
@@ -419,7 +440,7 @@
 			var hours = date.getHours();
 			var minutes = date.getMinutes();
 			
-			console.log(item.new_picname);
+			//console.log(item.new_picname);
 			
 			if(dateStr != checkDate || content == ''){
 				content += '<div class="to-day">';
@@ -432,9 +453,9 @@
 				content +=	'<div class="receive-msg-info" data-value="'+item.message_idx+'">';
 				content +=		'<div class="size-cut">';
 				if(checkHours != hours || checkMinutes != minutes){
-					content +=			'<img class="circle-img" src="/photo/'+item.sender_email+'" alt="상대방 프로필 사진">';
+					content +=			'<img class="circle-img" src="/photo/'+data.profileImg+'" alt="상대방 프로필 사진">';
 					content +=			'<div class="message-info">';
-					content +=				'<p class="name">'+item.sender_email+'</p>';
+					content +=				'<p class="name">'+data.name+'</p>';
 					if (item.new_picname != null) content +=	'<img class="photo" src="/photo/'+item.new_picname+'" alt="'+item.message_idx+'번 쪽지 사진">';
 					content +=				'<p class="content">'+item.content+'</p>';
 					content +=			'</div>';
@@ -575,10 +596,30 @@
 	function deleteDo() {
 		if(loginCheck()){
 			$('.menu').css({'display': 'none'});
-			$('#deleteForm').show();
+			$('#deleteForm').toggle();
         }
 	}
 	
+	// 쪽지 삭제
+	function msgDelete(){
+		$.ajax({
+			type:'POST',
+			url:'./msgDelete.ajax',
+			data:{
+                'message_idx':message_idx,
+            },
+            dataType:'JSON',
+			success:function(data){
+				alert(data.result);
+				// $('#deleteForm').toggle();
+				location.reload(true);
+			}, 
+			error:function(error){
+				console.log(error);
+			} 
+		});
+		
+	}
 	
     // 신고 ajax - 쪽지
     function report(){
@@ -725,6 +766,51 @@
 		
 		$('.picUpload').removeClass('active');
 	});
+
+	function payForm() {
+		if(loginCheck()){
+			$('#payForm').toggle();
+			getPoint();
+        }
+	}
+	
+	function getPoint(){
+        $.ajax({
+			type:'POST',
+			url:'../pay/getPoint.ajax',
+			data:{
+			    'email' : my_email
+			},
+			dataType:'JSON',
+			success:function(data){
+				$('.point').text(data.point);
+        	},
+			error:function(error){
+			    console.log(error);
+			}
+		});
+    }
+	
+	function Remittance(){
+        $.ajax({
+			type:'POST',
+			url:'../pay/Remittance.ajax',
+			data:{
+			    'email' : my_email,
+			    'idx' : chat_idx
+			},
+			dataType:'JSON',
+			success:function(data){
+				if (data.result) {
+					alert("송금 완료");
+					location.reload(true);				
+				}
+        	},
+			error:function(error){
+			    console.log(error);
+			}
+		});
+    }
     
 </script>
 </html>

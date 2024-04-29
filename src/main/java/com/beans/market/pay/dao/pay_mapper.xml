@@ -38,10 +38,10 @@
 	
 	<!--  충전 -->
 	<update id="updatePoint" parameterType="map">
-     	pdate member set point = point + #{pay} where email = #{email}
+     	UPDATE member SET point = point + #{pay} WHERE email = #{email}
    	</update>
 
-	<!--  빈즈페이 충전 내역 -->
+	<!--  빈즈페이 충전 내역 - 자동으로 들어가는데 now는 왜 넣은걸까-->
 	<insert id="insertPayHistory" parameterType="map">
 	    INSERT INTO pay_hist (email, price, option, content, reg_date)
 	    VALUES (#{email}, #{amount}, '빈즈페이 충전', '빈즈페이 충전 내역', NOW())
