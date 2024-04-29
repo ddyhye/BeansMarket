@@ -51,14 +51,12 @@ com.beans.market<%@ page language="java" contentType="text/html; charset=UTF-8" 
 	listCall();	
 	
 	function listCall() {
-		console.log('출력왜인담');
 		$.ajax({
 			type: 'get',
 			url: '<c:url value="/member/myBuyList.ajax"/>',
 			data: {},
 			dataType: 'JSON',
 			success: function(data) {
-				console.log('출력왜인담2');
 				drawBuyList(data);
 			}, error: function(error) {
 				console.log(error);
@@ -72,7 +70,7 @@ com.beans.market<%@ page language="java" contentType="text/html; charset=UTF-8" 
 		var content = '';
 		
 		if (!data.list || data.list.length === 0) {
-			content += '<p> 판매 내역이 없습니다. </p>';
+			content += '<p> 구매 내역이 없습니다. </p>';
 		}
 		for (item of data.list) {
 			content += '<div class="buy-center-list">';

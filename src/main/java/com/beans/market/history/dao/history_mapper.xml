@@ -67,4 +67,12 @@
 	<insert id="insertDealHistory">
 		INSERT INTO deal_detail (seller_email, buyer_email, idx) VALUES (#{param1}, #{param2}, #{param3});
 	</insert>
+	
+	<!-- insertPayHistory가 있길래 다르게 만듬 -->
+	<insert id="insertPayHistory">
+	    INSERT INTO pay_hist (idx, email, option, price, content)
+	    	VALUES (#{param1}, #{param2}, #{param3}, #{param4}, #{param5})
+	</insert>
+	
+	
 </mapper>

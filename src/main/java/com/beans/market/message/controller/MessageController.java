@@ -99,8 +99,6 @@ public class MessageController {
 		if (loginInfo != null) {
 			map = messageService.comentDo(coment, email, idx);			
 		}
-		
-		
 		return map;
 	}	
 	
@@ -123,6 +121,20 @@ public class MessageController {
 			map = messageService.photoSend(photo, idx, email, loginEmail);			
 		}
 		
+		return map;
+	}
+	
+	// 메시지 삭제
+	@RequestMapping(value = "/message/msgDelete.ajax", method = RequestMethod.POST)
+	@ResponseBody
+	public Map<String, Object> msgDeleteAjax(HttpSession session, String message_idx){
+		logger.info("delete data Check {}, {}", message_idx);
+		Map<String, Object> map = new HashMap<String, Object>();
+		MemberDTO loginInfo = (MemberDTO) session.getAttribute("loginInfo");
+		
+		if (loginInfo != null) {
+			map = messageService.msgDeleteAjax(message_idx, loginInfo.getEmail());			
+		}
 		return map;
 	}
 	

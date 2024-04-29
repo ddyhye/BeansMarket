@@ -65,12 +65,12 @@ com.beans.market<%@ page language="java" contentType="text/html; charset=UTF-8" 
 		}
 		for (item of data.list) {
 			content += '<tr>';
-			content += '<td>'+item.new_picname+'</td>';
+			content += '<td><img src="/photo/'+item.new_picname+'" alt="'+item.new_picname+'"/></td>';
 			content += '<td>'+item.subject+'</td>';
 			content += '<td>'+item.price+'</td>';
 			content += '<td>'+item.close_date+'</td>';
 			content += '<td>'+item.bbs_state+'</td>';
-			content += '<td>'+item.auctionClose+'</td>';
+			content += '<td>'+item.bidder+'</td>';
 			content += '</tr>';
 		}
 		

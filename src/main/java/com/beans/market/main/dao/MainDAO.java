@@ -13,14 +13,19 @@ public interface MainDAO {
 
 	
 	// 게시글 리스트
-	List<MainDTO> goodsList();
-	List<MainDTO> goodsList2();
-	List<MainDTO> goodsList3();
-	List<MainDTO> goodsList4();
-	List<MainDTO> goodsHitList();
-	List<MainDTO> goodsHitList2();
-	List<MainDTO> goodsHitList3();
-	List<MainDTO> goodsHitList4();
+	List<MainDTO> goodsList(String logEmail, int startNo);
+	List<MainDTO> goodsList2(String logEmail, int startNo);
+	List<MainDTO> goodsList3(String logEmail, int startNo);
+	List<MainDTO> goodsList4(String logEmail, int startNo);
+	List<MainDTO> goodsHitList(String logEmail, int startNo);
+	List<MainDTO> goodsHitList2(String logEmail, int startNo);
+	List<MainDTO> goodsHitList3(String logEmail, int startNo);
+	List<MainDTO> goodsHitList4(String logEmail, int startNo);
+	// 게시글 리스트 총 페이지 수
+	int allCount(String logEmail, int startNo);
+	int allCount2(String logEmail, int startNo);
+	int allCount3(String logEmail, int startNo);
+	int allCount4(String logEmail, int startNo);
 	String mainPhoto(int i);
 	int fullPrice(int idx);
 	int bidCnt(int idx);
@@ -43,6 +48,7 @@ public interface MainDAO {
 	int newAlarm(String logEmail);
 	List<MainDTO> alarm(String logEmail);
 	int alarmRead(int idxInt);
+	String alarmReadUrl(int idxInt);
 	void alarmSend(String content, String email);
 	void alarmSendLink(String content, String email, String link); // link 추가 된 버전
 	
@@ -54,6 +60,7 @@ public interface MainDAO {
 	MemberDTO profile(String logEmail);
 	ProfilePicDTO profilePic(String logEmail);
 	String nicname(String logEmail);
+	
 	
 
 }

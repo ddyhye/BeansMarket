@@ -10,6 +10,7 @@ import org.apache.ibatis.annotations.Update;
 import com.beans.market.main.dto.MainDTO;
 import com.beans.market.member.dto.MemberDTO;
 import com.beans.market.member.dto.SellerDTO;
+import com.beans.market.message.dto.ApproveDTO;
 import com.beans.market.member.dto.AuctionDTO;
 import com.beans.market.member.dto.BlockDTO;
 import com.beans.market.photo.dto.ProfilePicDTO;
@@ -59,7 +60,7 @@ public interface MemberDAO {
 	
 	
 	
-	/*         마이페이지          */
+	/*         마이페이지-도혜          */
 
 	String logEmail(String email, String password);
 
@@ -102,7 +103,24 @@ public interface MemberDAO {
 	// 구매 내역 관리
 	void myBuyManage(int intIdx);
 	
+	// 탈퇴하기
+	void secession(String logEmail);
+	
+	// 거래 미승인 목록
+	int[] mybbsArr(String logEmail);
+	int myApproved(int i, String logEmail);
+	ApproveDTO opponentApproved(int i, String logEmail);
+	void myApproveClick(String logEmail, int idxInt);
+	
+	
+	// 타 회원 판매 품목 리스트
+	List<MainDTO> otherGoodsList(String otherEmail);
+	// 타 회원 차단
+	void otherBan(String logEmail, String otherEmail);
 
+	
+	
+	
 
 
 
@@ -113,12 +131,6 @@ public interface MemberDAO {
 	Timestamp getBidClose(int idx);
 	String getBidState(int idx);
 	
-	
-
-
-
-	
-
-
+	int getBidderY(int idx, String logEmail);
 
 }
