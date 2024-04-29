@@ -3,7 +3,7 @@ com.beans.market<%@ page language="java" contentType="text/html; charset=UTF-8" 
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>공지사항</title>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 <link rel="stylesheet" href="resources/css/common.css" type="text/css"/>
 <link rel="stylesheet" href="resources/css/detail.css" type="text/css"/>
@@ -13,6 +13,12 @@ com.beans.market<%@ page language="java" contentType="text/html; charset=UTF-8" 
 </head>
 
 <body>
+<jsp:include page="../common.jsp"/>
+
+
+
+
+
 </body>
 
 <script>

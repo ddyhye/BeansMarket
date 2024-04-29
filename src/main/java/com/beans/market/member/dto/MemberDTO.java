@@ -11,6 +11,7 @@ public class MemberDTO {
 	private int price;
 	private String content;
 	private Date reg_date;
+	private String confirmed;
 	
 	private String pw;
 	private String location;
@@ -26,6 +27,12 @@ public class MemberDTO {
 	private Date login_banstr;
 	private Date login_banend;
 	
+	public String getConfirmed() {
+		return confirmed;
+	}
+	public void setConfirmed(String confirmed) {
+		this.confirmed = confirmed;
+	}
 	
 	
 	/* 거래후기 - positive */
