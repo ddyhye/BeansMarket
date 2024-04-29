@@ -1,0 +1,148 @@
+@charset "UTF-8";
+
+.title {
+	margin-left: 10%;
+	margin-top: 30px;
+}
+
+section {
+	background-color: white;
+}
+
+section .container {
+    width: 100%;
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 20px;
+    flex-direction: column;
+}
+
+
+section .manager-boarddetail1 {
+	display: flex;
+	align-items: center;
+	position: relative;
+	width: 1100px;
+	margin: 0 auto;
+	padding-bottom: 20px;
+}
+
+.one {
+	position: relative;
+   	width: 10%;
+}
+.two {
+	position: relative;
+   	width: 15%;
+}
+.three {
+	position: relative;
+   	width: 10%;
+}
+.four {   
+	position: relative;
+   	width: 10%;
+}
+.five {   
+	position: relative;
+   	width: 5%;
+}
+.six {   
+	position: relative;
+   	width: 15%;
+}
+.seven {   
+	position: relative;
+   	width: 15%;
+}
+
+
+section .manager-boarddetail2 {
+	display: flex;
+	align-items: center;
+	position: relative;
+	width: 1100px;
+	margin: 0 auto;
+	padding-bottom: 200px;
+}
+
+.eight {
+	position: relative;
+   	width: 15%;
+}
+.nine {
+	position: relative;
+   	width: 10%;
+}
+.ten {
+	position: relative;
+   	width: 20%;
+}
+.eleven {   
+	position: relative;
+   	width: 15%;
+}
+.twelve {   
+	position: relative;
+   	width: 15%;
+}
+.thirteen {   
+	position: relative;
+   	width: 25%;
+}
+
+section .manager-auction-boarddetail1 {
+	display: flex;
+	align-items: center;
+	position: relative;
+	width: 800px;
+}
+
+a {
+	padding-left: 945px;
+}
+section .manager-auction-boarddetail2 {
+	display: flex;
+	align-items: center;
+	position: relative;
+	width: 1100px;
+	margin: 0 auto;
+}
+
+
+
+
+
+
+
+
+
+table, th, td{
+	border: 1px solid #686868;
+	border-collapse: collapse;
+}
+tr {
+	height: 10px;
+}
+th {
+	background-color: #cacaca;
+	height: 40px;
+}
+td {
+	height: 40px;
+}
+
+
+table {
+   position: relative;
+   width: 90%;
+}
+
+
+.tbodyDiv {
+	display: flex;
+   	align-items: center;
+   	justify-content: center;
+   	
+   	height: 35px;
+}

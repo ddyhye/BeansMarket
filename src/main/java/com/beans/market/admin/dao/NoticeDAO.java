@@ -10,4 +10,10 @@ public interface NoticeDAO {
 
 	Object allCount(int pagePerCnt);
 
+	NoticeDTO detail(String notice_idx);
+
+	void increaseHitCount(String notice_idx);
+
+	List<NoticeDTO> noticesearch(String textval);
+
 }

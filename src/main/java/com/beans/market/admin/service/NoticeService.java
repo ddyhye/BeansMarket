@@ -8,9 +8,11 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.ui.Model;
 
 import com.beans.market.admin.dao.NoticeDAO;
 import com.beans.market.admin.dto.NoticeDTO;
+import com.beans.market.board.dao.BoardDAO;
 
 @Service
 public class NoticeService {
@@ -30,6 +32,25 @@ public class NoticeService {
 		
 		return result;
 	}
+
+	public NoticeDTO detail(String notice_idx) {
+		
+		return noticeDAO.detail(notice_idx);
+	}
+
+	public void increaseHitCount(String notice_idx) {
+		noticeDAO.increaseHitCount(notice_idx);
+		
+	}
+
+	public Map<String, Object> noticesearch(Map<String, Object> map, String textval) {
+		List<NoticeDTO>list = noticeDAO.noticesearch(textval);
+		map.put("list", list);
+		
+		return map;
+	}
+
+
 	
 
 }

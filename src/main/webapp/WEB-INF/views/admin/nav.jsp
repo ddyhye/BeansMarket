@@ -39,7 +39,7 @@
 </body>
 <script>
 	$(document).ready(function(){
-	    $("li").click(function(){
+	    $(".nav_items li").click(function(){
 	        window.location.href = $(this).find("a").attr("href");
 	    });
 	});
