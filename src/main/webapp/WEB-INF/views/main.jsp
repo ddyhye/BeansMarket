@@ -6,13 +6,15 @@
 <title>Insert title here</title>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 <link rel="stylesheet" href="resources/css/main.css" type="text/css"/>
-<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+<link href="https://netdna.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+<script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+<script src="https://netdna.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 </head>
 
 <body>
 	<jsp:include page="common.jsp" />
 
-	<div class="container">
+	<div class="containerR">
 		<div class="main-subject">
 			<div class="main-subject-left">
 				<p id="main-subject-text">&nbsp;&nbsp;Beans Market
@@ -128,7 +130,7 @@
 			<table>
 				<tr>
 					<td colspan="5">
-						<div class="paging-container">
+						<div class="container">
 							<nav aria-label="Page navigation" style="text-align: center">
 								<ul class="pagination" id="pagination"></ul>
 							</nav>
@@ -140,15 +142,17 @@
 	</div>
 </body>
 
+<script src="resources/js/jquery.twbsPagination.js" type="text/javascript"></script>
 <script>
-	
+	var firstPage = 1;
+	var showPage = 0;
 
 	// 최신순, 인기순 select-option
 	var selectedSort = $('#main-subject-sort').val();
 	$('#main-subject-sort').change(function() {
 		selectedSort = $(this).val();
 		
-		listCall(selectedSort, sellOptionChk, AuctionOptionChk);
+		listCall(selectedSort, sellOptionChk, AuctionOptionChk, firstPage);
 	});
 	
 	
@@ -159,7 +163,7 @@
 		sellOptionChk = $('#saleOption1').is(':checked');
 		AuctionOptionChk = $('#saleOption2').is(':checked');
 		
-	    listCall(selectedSort, sellOptionChk, AuctionOptionChk);
+	    listCall(selectedSort, sellOptionChk, AuctionOptionChk, firstPage);
 	});
 	
 	
@@ -202,23 +206,38 @@
 	 	sessionStorage.removeItem('categoryName');
 	} else {
 		// 검색어로 인해 넘어온 이동이 아니라면, 그냥 게시글 리스트 출력
-		listCall(selectedSort, sellOptionChk, AuctionOptionChk);
+		listCall(selectedSort, sellOptionChk, AuctionOptionChk, firstPage);
 	}
 	
-	
 	// 물품 리스트 출력
-	function listCall(selectedSort, sellOptionChk, AuctionOptionChk) {
+	function listCall(selectedSort, sellOptionChk, AuctionOptionChk, page) {
+		console.log(selectedSort+" "+sellOptionChk+" "+AuctionOptionChk+" "+page);
+		
 		$.ajax({
 			type: 'get',
 			url: './list.ajax',
 			data: {
 				'selectedSort': selectedSort,
 				'sellOptionChk': sellOptionChk,
-				'AuctionOptionChk': AuctionOptionChk
+				'AuctionOptionChk': AuctionOptionChk,
+				'currPage': page
 			},
 			dataType: 'JSON',
 			success: function(data) {
 				drawGoodsList(data);
+				
+				showPage = data.currPage > data.totalPages ? data.totalPages : data.currPage;
+				console.log(data.totalPages+" "+data.currPage+" "+showPage);
+
+				$('#pagination').twbsPagination({
+		        	  startPage: showPage,		// 시작페이지
+		        	  totalPages: data.totalPages, 	// 총 페이지 갯수
+		        	  visiblePages: 5,	// 보여줄 페이지 수 [1][2][3][4][5]
+		        	  onPageClick:function(evt, pg){ // 페이지 클릭시 실행 함수
+		        		  showPage = pg;
+		        		  listCall(selectedSort, sellOptionChk, AuctionOptionChk, pg);
+		        	  }
+		          }); 
 			}, error: function(error) {
 				console.log(error);
 			}
@@ -259,14 +278,21 @@
 			content += '</div>';
 			content += '<div class="goods-bottom">';
 			content += '<div class="goods-bottom-left">';
-			content += item.option == '경매'? '<span>&nbsp;&nbsp;입찰 &nbsp;&nbsp;</span><span class="Cnt">0&nbsp;</span></div>':'</div>';
+			content += item.option == '경매'? '<span>&nbsp;&nbsp;입찰 &nbsp;&nbsp;</span><span class="Cnt">'+item.bid_count+'&nbsp;</span></div>':'</div>';
 			content += '<div class="goods-bottom-right">';
-			content += '<span>'+item.reg_date+'&nbsp;</span>';
+			dateStr = DateToString(item.reg_date);
+			content += '<span id="dateStr">'+dateStr+'&nbsp;</span>';
 			content += '</div></div></div>';
 		}
 		
 		$('.main-content').append(content);
 	}
+   	// timestamp 형식인 거 문자열로 변환하는 함수
+   	function DateToString(timesteamp){
+      	var date = new Date(timesteamp);
+      	var dateStr = date.toLocaleDateString("ko-KR");
+      	return dateStr;
+   	}
 	
 	
 	

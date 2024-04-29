@@ -497,5 +497,17 @@
         });
     });
     
+    
+    
+    
+ 	// 타 회원 프로필로 이동
+    $('.profile').on('click', function(){
+    	var otherName = $(this).data('value');
+    	
+    	console.log('click!!!');
+    	
+    	window.location.href = '<c:url value="/member/otherProfile.go?email='+encodeURIComponent(otherName)+'"/>';
+    });
+    
 </script>
 </html>
