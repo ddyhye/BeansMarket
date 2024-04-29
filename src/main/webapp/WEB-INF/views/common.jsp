@@ -104,7 +104,7 @@
 						id="top-second-center-down">고객센터</a>
 				</div>
 				<div class="top-second-center-body">
-					<a href="">공지사항</a> <a href="">자주 묻는 질문</a> <a href="">1:1 문의하기</a>
+					<a href="/main/notify.go">공지사항</a> <a href="">자주 묻는 질문</a> <a href="">1:1 문의하기</a>
 				</div>
 			</div>
 		</div>

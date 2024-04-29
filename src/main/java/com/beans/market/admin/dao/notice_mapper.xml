@@ -7,7 +7,7 @@
     SELECT n.notice_idx, n.notice_option, n.notice_title, n.notice_content, n.id, n.notice_date, n.nHit, a.admin_name
     FROM notice n
     LEFT JOIN admin a ON n.id = a.id
-    ORDER BY n.notice_idx DESC
+    ORDER BY n.notice_date DESC, n.notice_idx DESC -- 날짜를 내림차순으로 정렬
     LIMIT #{param1} OFFSET #{param2}
 </select>
 
@@ -15,4 +15,24 @@
     SELECT CEIL(COUNT(notice_idx)/#{param1}) AS pages FROM notice
 </select>
 	
+	
+<select id="detail" resultType="com.beans.market.admin.dto.NoticeDTO">
+    SELECT n.notice_idx, n.notice_option, n.notice_title, n.notice_content, n.id, n.notice_date, n.nHit, a.admin_name
+    FROM notice n
+    LEFT JOIN admin a ON n.id = a.id
+    WHERE n.notice_idx = #{notice_idx}
+</select>
+	
+	
+<update id="increaseHitCount">
+    UPDATE notice
+    SET nHit = nHit + 1
+    WHERE notice_idx = #{notice_idx}
+</update>
+<select id="noticesearch" resultType="com.beans.market.admin.dto.NoticeDTO">
+    SELECT n.notice_idx, n.notice_option, n.id, n.notice_title, n.notice_content, n.nHit, n.notice_date, a.admin_name
+    FROM notice n
+    LEFT JOIN admin a ON n.id = a.id
+    WHERE n.notice_title LIKE CONCAT('%', #{param1}, '%')
+</select>
 </mapper>
