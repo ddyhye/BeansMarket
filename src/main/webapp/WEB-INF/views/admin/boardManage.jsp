@@ -14,19 +14,23 @@
 
 <body>
 <header>
-	<jsp:include page="../common.jsp" />
+	<jsp:include page="./common.jsp" />
 </header>
-
+<main>
+<jsp:include page="./nav.jsp"/>
 <section>
+<p class="title">게시글 검색</p>
 	<div class="container">
-		<p>게시글 검색</p>
 		<div class="manager-search">
 		<table>
 		<tr>
-	        <td colspan="2" class="search">검색</td>
+	        <td colspan="2" class="search">
+	        <input type="text" name="search" id="text-search" placeholder="검색할 제목 또는 게시글 번호를 입력해주세요"/>
+	        <button class="button-search">검색</button>
+	        </td>
 	        <td colspan="2" class="category">
 	            <label for="category">카테고리</label>
-	            <select name="category">
+	            <select name="category" id="category-search">
 	                <option value="m001">선택</option>
 	                <option value="m001">디지털 기기</option>
 	                <option value="m002">가구/인테리어</option>
@@ -48,7 +52,7 @@
 		<tr>
 	        <td class="state">
 	            <label for="state">거래 상태</label>
-	            <select id="state" name="state">
+	            <select id="state" id="state-search">
 	                <option value="0">전체</option>
 	                <option value="1">거래 가능</option>
 	                <option value="2">예약 중</option>
@@ -58,7 +62,7 @@
 	        <td class="date">등록일</td>
 	        <td class="blind">
 	            <label for="blind">블라인드 여부</label>
-	            <select id="blind" name="blind">
+	            <select id="blind" id="blind-search">
 	                <option value="ALL">전체</option>
 	                <option value="Y">Y</option>
 	                <option value="N">N</option>
@@ -66,7 +70,7 @@
 			</td>
         	<td class="tempsave">
 	            <label for="tempsave">임시저장 여부</label>
-	            <select id="tempsave" name="tempsave">
+	            <select id="tempsave" id="temp-save">
 	                <option value="ALL">전체</option>
 	                <option value="Y">Y</option>
 	                <option value="N">N</option>
@@ -75,17 +79,39 @@
 		</tr>
 		</table>
 		</div>
+		
 		<div class="buttons">
-		<button>경매 취소</button>
-		<button>블라인드</button>
+		<button class="Auction-cancel">경매 취소</button>
+		<button class="Blind-button">블라인드</button>
 		</div>
+		
+		<!-- 버튼 모달창 -->
+		<div id="auctionCancelModal" class="modal" style="display: none;">
+			<p>선택하신 내용을 블라인드 처리하시겠습니까?</p>
+			<button>확인</button>
+			<button>취소</button>
+		</div>
+		<div id="BlindModal" class="modal">
+			<p>해당 게시물 경매를 취소시키겠습니까?</p>
+			<p style="font-size: 12px; color: red;">*입찰금은 마지막 입찰자에게 반환됩니다.</p>
+			<button>확인</button>
+			<button>취소</button>
+		</div>
+			
+			
 		<div class="search-list">
 		<table>
 			<thead>
 			  <tr>
 				<th class="one">선택</th>
 				<th class="two">게시글 번호</th>
-				<th class="three">전체</th>
+				<th class="three">
+			            <select id="deal" id="deal-state">
+			                <option value="ALL">전체</option>
+			                <option value="Y">판매</option>
+			                <option value="N">경매</option>
+		            </select>
+				</th>
 				<th class="four">거래 상태</th>
 				<th class="five">제목</th>
 				<th class="six">가격(입찰가)</th>
@@ -96,7 +122,7 @@
 			</thead>
 			<tbody id="list">
 			  <tr>
-				<td class="one">선택</td>
+				<td class="one"><input type="checkbox"/></td>
 				<td class="two">게시글 번호</td>
 				<td class="three">전체</td>
 				<td class="four">거래 상태</td>
@@ -112,8 +138,88 @@
 		</div>
 	</div>
 </section>
+</main>
 </body>
 
 <script>
+	
+	// 입력 검색
+	var textVal = $('text-search').val();
+	$('.button-search').on('click'), function() {
+		textVal = $(this).val();
+		
+		listCall(textVal,selectedCategory,selectedState,selectedBlind,selectedTempsave);
+	}
+	
+	// 카테고리 검색
+	var selectedCategory = $('#category-search').val();
+	$('#category-search').change(function() {
+		selectedCategory = $(this).val();
+		
+		listCall(textVal,selectedCategory,selectedState,selectedBlind,selectedTempsave);
+	});
+	
+	// 거래 상태 검색
+	var selectedState = $('#state-search').val();
+	$('#state-search').change(function() {	
+		selectedState = $(this).val();
+		
+		listCall(textVal,selectedCategory,selectedState,selectedBlind,selectedTempsave);
+	});
+	
+	// 등록일 검색
+	var selectedDate = $('#date-search').val();
+	$('#date-search').change(function() {
+		selectedDate = $(this).val();
+		
+		listCall(textVal,selectedCategory,selectedState,selectedBlind,selectedTempsave);
+	});
+	
+	// 블라인드 검색
+	var selectedBlind = $('#blind-search').val();
+	$('#blind-search').change(function() {	
+		selectedBlind = $(this).val();
+		
+		listCall(textVal,selectedCategory,selectedState,selectedBlind,selectedTempsave);
+	});
+	
+	// 임시저장 검색
+	var selectedTempsave = $('#temp-search').val();
+	$('#temp-search').change(function() {
+		selectedTempsave = $(this).val();
+		
+		listCall(textVal,selectedCategory,selectedState,selectedBlind,selectedTempsave);
+	});
+	
+	// 게시글 리스트 출력
+	function listCall(textVal,selectedCategory,selectedState,selectedBlind,selectedTempsave) {
+		
+		$.ajax({
+			type: 'get',
+			url: './list.ajax',
+			data: {
+				'textVal': textVal,
+				'selectedCategory': selectedCategory,
+				'selectedState': selectedState,
+				'selectedBlind': selectedBlind,
+				'selectedTempsave': selectedTempsave
+			},
+			dataType: 'JSON',
+			success: function(data) {
+				drawBoardlist(data);
+			}, error: function(error) {
+				console.log(error);
+			}
+		});
+	
+	// drawBoardlist 함수 : 게시글 그리기
+	
+	
+	
+	
+	
+	
+	
+
 </script>
 </html>

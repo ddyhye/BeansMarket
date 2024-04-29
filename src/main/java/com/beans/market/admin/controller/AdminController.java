@@ -22,6 +22,11 @@ public class AdminController {
 		return "admin/boardManage";
 	}
 	
+	@RequestMapping(value = "/admin/boardManageDetail.go", method = RequestMethod.GET)
+	public String boardManageDetailGO() {
+		return "admin/boardManageDetail";
+	}
+	
 	@RequestMapping(value = "/admin/messageManage.go", method = RequestMethod.GET)
 	public String messageManageGO(Model model) {
 		model.addAttribute("pageName", "쪽지 관리");
