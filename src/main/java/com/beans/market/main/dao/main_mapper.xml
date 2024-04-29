@@ -11,45 +11,53 @@
 		SELECT idx, option, email, subject, price, reg_date, bbs_state
 		FROM bbs
 		WHERE draft = 'N' AND blind='N' AND hidden='N'
+			AND email NOT IN (SELECT block_email FROM block WHERE email=#{param1})
 		ORDER BY 
 			CASE 
 				WHEN bbs_state ='거래가능' OR bbs_state ='예약중' THEN 1 
 				ELSE 2 
 			END, 
 			reg_date DESC
+		LiMIT 24 OFFSET #{param2}
 	</select>
 	<select id="goodsList2" resultType="com.beans.market.main.dto.MainDTO">
 		SELECT idx, option, email, subject, price, reg_date, bbs_state
 		FROM bbs
 		WHERE option = '판매' AND draft = 'N' AND blind='N' AND hidden='N'
+			AND email NOT IN (SELECT block_email FROM block WHERE email=#{param1})
 		ORDER BY 
 			CASE 
 				WHEN bbs_state ='거래가능' OR bbs_state ='예약' THEN 1 
 				ELSE 2 
 			END, 
 			reg_date DESC
+		LiMIT 24 OFFSET #{param2}
 	</select>
 	<select id="goodsList3" resultType="com.beans.market.main.dto.MainDTO">
 		SELECT idx, option, email, subject, price, reg_date, bbs_state
 		FROM bbs
 		WHERE option = '경매' AND draft = 'N' AND blind='N' AND hidden='N'
+			AND email NOT IN (SELECT block_email FROM block WHERE email=#{param1})
 		ORDER BY 
 			CASE 
 				WHEN bbs_state ='거래가능' OR bbs_state ='예약' THEN 1 
 				ELSE 2 
 			END, 
 			reg_date DESC
+		LiMIT 24 OFFSET #{param2}
 	</select>
 	<select id="goodsList4" resultType="com.beans.market.main.dto.MainDTO">
 		SELECT idx, option, email, subject, price, reg_date, bbs_state
 		FROM bbs
 		WHERE option != '판매' AND option != '경매' AND draft = 'N' AND blind='N' AND hidden='N'
+			AND email NOT IN (SELECT block_email FROM block WHERE email=#{param1})
 		ORDER BY 
 			CASE 
 				WHEN bbs_state ='거래가능' OR bbs_state ='예약' THEN 1 
 				ELSE 2 
 			END, 
 			reg_date DESC
+		LiMIT 24 OFFSET #{param2}
 	</select>
 	<!-- 인기순 -->
 	<select id="goodsHitList" resultType="com.beans.market.main.dto.MainDTO">
@@ -58,6 +66,7 @@
 			LEFT OUTER JOIN interest i 
 			ON b.idx = i.idx
 		WHERE draft = 'N' AND blind='N' AND hidden='N'
+			AND email NOT IN (SELECT block_email FROM block WHERE email=#{param1})
 		GROUP BY b.idx
 		ORDER BY 
 			CASE 
@@ -65,7 +74,8 @@
 				ELSE 2
 			END, 
 			COUNT(i.email) DESC , 
-			b.reg_date DESC;
+			b.reg_date DESC
+		LiMIT 24 OFFSET #{param2}
 	</select>
 	<select id="goodsHitList2" resultType="com.beans.market.main.dto.MainDTO">
 		SELECT b.idx, b.option, b.email, b.subject, b.price, b.bbs_state, b.reg_date
@@ -73,6 +83,7 @@
 			LEFT OUTER JOIN interest i 
 			ON b.idx = i.idx
 		WHERE option = '판매' AND draft = 'N' AND blind='N' AND hidden='N'
+			AND email NOT IN (SELECT block_email FROM block WHERE email=#{param1})
 		GROUP BY b.idx
 		ORDER BY 
 			CASE 
@@ -80,7 +91,8 @@
 				ELSE 2
 			END, 
 			COUNT(i.email) DESC , 
-			b.reg_date DESC;
+			b.reg_date DESC
+		LiMIT 24 OFFSET #{param2}
 	</select>
 	<select id="goodsHitList3" resultType="com.beans.market.main.dto.MainDTO">
 		SELECT b.idx, b.option, b.email, b.subject, b.price, b.bbs_state, b.reg_date
@@ -88,6 +100,7 @@
 			LEFT OUTER JOIN interest i 
 			ON b.idx = i.idx
 		WHERE option = '경매' AND draft = 'N' AND blind='N' AND hidden='N'
+			AND email NOT IN (SELECT block_email FROM block WHERE email=#{param1})
 		GROUP BY b.idx
 		ORDER BY 
 			CASE 
@@ -95,7 +108,8 @@
 				ELSE 2
 			END, 
 			COUNT(i.email) DESC , 
-			b.reg_date DESC;
+			b.reg_date DESC
+		LiMIT 24 OFFSET #{param2}
 	</select>
 	<select id="goodsHitList4" resultType="com.beans.market.main.dto.MainDTO">
 		SELECT b.idx, b.option, b.email, b.subject, b.price, b.bbs_state, b.reg_date
@@ -103,6 +117,7 @@
 			LEFT OUTER JOIN interest i 
 			ON b.idx = i.idx
 		WHERE option != '판매' AND option != '경매' AND draft = 'N' AND blind='N' AND hidden='N'
+			AND email NOT IN (SELECT block_email FROM block WHERE email=#{param1})
 		GROUP BY b.idx
 		ORDER BY 
 			CASE 
@@ -110,8 +125,35 @@
 				ELSE 2
 			END, 
 			COUNT(i.email) DESC , 
-			b.reg_date DESC;
+			b.reg_date DESC
+		LiMIT 24 OFFSET #{param2}
 	</select>
+	<!-- 총 페이지 개수 -->
+	<select id="allCount" resultType="int">
+		SELECT CEIL(COUNT(idx)/24) 
+		FROM bbs
+		WHERE draft = 'N' AND blind='N' AND hidden='N' 
+			AND email NOT IN (SELECT block_email FROM block WHERE email=#{param1});
+	</select>
+	<select id="allCount2" resultType="int">
+		SELECT CEIL(COUNT(idx)/24) 
+		FROM bbs
+		WHERE option = '판매' AND draft = 'N' AND blind='N' AND hidden='N' 
+			AND email NOT IN (SELECT block_email FROM block WHERE email=#{param1});
+	</select>
+	<select id="allCount3" resultType="int">
+		SELECT CEIL(COUNT(idx)/24) 
+		FROM bbs
+		WHERE option = '경매' AND draft = 'N' AND blind='N' AND hidden='N' 
+			AND email NOT IN (SELECT block_email FROM block WHERE email=#{param1});
+	</select>
+	<select id="allCount4" resultType="int">
+		SELECT CEIL(COUNT(idx)/24) 
+		FROM bbs
+		WHERE option != '판매' AND option != '경매' AND draft = 'N' AND blind='N' AND hidden='N' 
+			AND email NOT IN (SELECT block_email FROM block WHERE email=#{param1});
+	</select>
+	
 	
 	<!-- 판매자 닉네임 -->
 	<select id="sellerName" resultType="String">
@@ -207,8 +249,14 @@
 	</select>
 	<!-- 알림 읽음 -->
 	<update id="alarmRead">
-		UPDATE alarm SET checked = 'Y' WHERE idx = #{param}
+		UPDATE alarm SET checked = 'Y' WHERE idx = #{param1}
 	</update>
+	<!-- 알림에 링크가 있다면 -->
+	<select id="alarmReadUrl" resultType="String">
+		SELECT link
+		FROM alarm
+		WHERE idx = #{param1}
+	</select>
 	<!-- 알림 전송 -->
 	<insert id="alarmSend">
 		INSERT INTO alarm (content, email) VALUES (#{param1}, #{param2});
@@ -230,7 +278,9 @@
 	
 	<!-- 멤버 프로필 가져오기 -->
 	<select id="profile" resultType="com.beans.market.member.dto.MemberDTO">
-		SELECT email, name, location, birth_date, gender, point
+		SELECT email, name, location, birth_date, gender, point, 
+			(select count(coment) from deal_coment where email=#{param1} and coment='positive') as posiCnt,
+			(select count(coment) from deal_coment where email=#{param1} and coment='negative') as negaCnt
 		FROM member
 		WHERE email = #{param1}
 	</select>

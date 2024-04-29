@@ -322,7 +322,8 @@ img {
 }
 .alarm-content-list {
    display: flex;
-   margin: 10px;
+   margin: 2px;
+   padding: 10px 0px;
 
    position: relative;
    width: 95%;

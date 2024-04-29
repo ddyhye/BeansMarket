@@ -191,42 +191,7 @@ public class MemberController {
 	    return map;
 	}
 	
-	//타회원 프로필보기 페이지 이동
-	@RequestMapping(value="/member/otherprofile.go")
-	public String otherprofile(HttpSession session, String email, Model model) {
-		logger.info("타회원 프로필 보기 :"+email);
-		memberService.otherprofile(email,model);
-
-		return"member/otherMemberProfile";
-	}
 	
-	//타회원 리스트 출력
-	@RequestMapping(value="/member/otherlist.ajax")
-	@ResponseBody
-	public Map<String, Object> otherselllist(HttpSession session, String email, Model model) {
-		Map<String, Object> map = new HashMap<String,Object>();
-		String logEmail = "";
-		logger.info("아작스 실행");
-		
-			logEmail = "zxz0608@naver.com";
-			
-			// 프로필 사진도 같이 불러올려고함
-			ProfilePicDTO dtoPic = memberService.profilePicGet(logEmail);
-			logger.info("dtoPic {}", dtoPic.getNew_filename());
-			logger.info("dtoPic ="+dtoPic);
-			
-	
-		//memberService.goodsListAjax(map, logEmail);
-		List<BoardDTO> list = boardService.Listcall(email);
-		logger.info("list {}",list);
-
-		map.put("listdata", list);
-		map.put("photo",  dtoPic.getNew_filename());
-		
-		
-		return map;
-		
-	}
 
 	
 	
@@ -274,6 +239,21 @@ public class MemberController {
 		}
 		
 		return page;
+	}
+	// 마이페이지 - 탈퇴하기
+	@RequestMapping(value="/member/secession.ajax")
+	@ResponseBody
+	public Map<String, Object> secessionAjax(HttpSession session) {
+		Map<String, Object> map = new HashMap<String, Object>();
+		
+		String logEmail = (String) session.getAttribute("logEmail");
+		memberService.secession(logEmail);
+		
+		// 로그인 정보 삭제하기
+		session.removeAttribute("loginInfo");
+		session.removeAttribute("logEmail");
+		
+		return map;
 	}
 	// 마이페이지 - 프로필 사진 변경
 	@RequestMapping(value="/member/newPicPath.ajax", method = RequestMethod.POST)
@@ -497,7 +477,99 @@ public class MemberController {
 	}
 	
 	
-	// 경매-나의 입찰
+	
+	// 마이페이지 - 미승인 목록
+	@RequestMapping(value="/member/myApproveList.go")
+	public String myApproveList_go(HttpSession session, Model model, RedirectAttributes redirectAttrs) {
+		logger.info("거래 미승인 목록 페이지...");
+		
+		String page = "redirect:/";
+		
+		if (session.getAttribute("logEmail") != null) {
+			String logEmail = (String) session.getAttribute("logEmail");
+			String name = mainService.nicname(logEmail);
+			model.addAttribute("name", name);
+			
+			page = "/member/myApproveList";
+		} else {
+			redirectAttrs.addFlashAttribute("msg", "로그인이 필요한 서비스 입니다...");
+		}
+		
+		return page;
+	}
+	// 미승인 리스트 출력
+	@RequestMapping(value="/member/myApproveList.ajax")
+	@ResponseBody
+	public Map<String, Object> myApproveList(HttpSession session) {
+		Map<String, Object> map = new HashMap<String, Object>();
+		
+		String logEmail = (String) session.getAttribute("logEmail");
+		memberService.myApproveList(map, logEmail);
+		
+		return map;
+	}
+	// 미승인 -> 승인 버튼
+	@RequestMapping(value="/member/myApproveClick.ajax")
+	@ResponseBody
+	public Map<String, Object> myApproveClick(HttpSession session, String idx) {
+		Map<String, Object> map = new HashMap<String, Object>();
+		
+		String logEmail = (String) session.getAttribute("logEmail");
+		int idxInt = Integer.parseInt(idx);
+		memberService.myApproveClick(logEmail,  idxInt);
+		
+		return map;
+	}
+	
+	
+	// 타 회원 프로필
+	@RequestMapping(value="/member/otherProfile.go")
+	public String otherProfile(Model model, String email) {
+		logger.info(email+" 프로필 페이지...");
+
+		MemberDTO dto = mainService.profile(email);
+		ProfilePicDTO dtoPic = mainService.profilePic(email);
+		model.addAttribute("photo", dtoPic.getNew_filename());
+		model.addAttribute("email", email);
+		model.addAttribute("name", dto.getName());
+		model.addAttribute("posiCnt", dto.getPosiCnt());
+		model.addAttribute("negaCnt", dto.getNegaCnt());
+		
+		return "member/otherMemberProfile";
+	}
+	// 타 회원의 판매 품목 리스트 출력
+	@RequestMapping(value="/member/otherGoodsList.ajax")
+	@ResponseBody
+	public Map<String, Object> otherselllist(String otherEmail) {
+		Map<String, Object> map = new HashMap<String,Object>();
+		
+		memberService.otherGoodsList(map, otherEmail);
+		
+		return map;
+	}
+	// 게시글 관심 등록삭제
+	@RequestMapping(value="/member/otherBan.ajax")
+	@ResponseBody
+	public Map<String, Object> otherBan(HttpSession session, String otherEmail) {
+		Map<String, Object> map = new HashMap<String, Object>();
+		
+		if (session.getAttribute("logEmail") != null) {
+			String logEmail = (String) session.getAttribute("logEmail");
+			memberService.otherBan(logEmail, otherEmail);
+		} else {
+			map.put("msg", "로그인이 필요한 서비스 입니다...");
+		}
+		
+		return map;
+	}
+	
+	
+	
+	
+	
+	
+	
+	
 	
 
 
@@ -507,7 +579,7 @@ public class MemberController {
 	
 	
 	
-	/*                   정언                    */
+	/*                  나의 입찰 내역                    */
 	
 	// 나의 입찰 목록
 	@RequestMapping(value="/member/myAuctionBidList.go")
@@ -528,8 +600,6 @@ public class MemberController {
 		
 		return page;
 	}
-
-	
 	// 나의 입찰 목록 리스트
 	@RequestMapping(value="/member/myAuctionList.ajax")
 	@ResponseBody

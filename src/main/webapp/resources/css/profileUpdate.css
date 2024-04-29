@@ -242,23 +242,161 @@ input[type="file"] {
 
 
 
-.pwResetDiv {
+
+/* 비밀번호 모달창 */
+.pw {
+	display: flex;
+	align-items: center;
+	justify-content: flex-start;
+	
+	position: relative;
+	width: 85%;
+	padding-left: 52px;
+}
+.profileUpdate-center-body p {
+   display: flex;
+   align-items: center;
+   justify-content: center;
+
+   position: relative;
+   width: 140px;
+   height: 30px;
+
+   font-weight: bold;
+   background-color: lightgray;
+   border-radius: 10px;
+}
+.profileUpdate-center-body p:hover {
+   color: white;
+   background-color: rgb(68, 68, 68);
+}
+.pwUpdate {
 	display: none;
 }
-.pwResetDiv.active {
+.pwUpdate.active {
 	display: flex;
-   	align-items: flex-start;
-   	justify-content: flex-start;
+	align-items: center;
+   justify-content: center;
    	flex-direction: column;
-   	
-   	position: absolute;
-   	width: 300px;
-   	height: 250px;
-   	top: 50%;
-   	left: 50%;
-   	transform: translate(-50%, -50%);
-   	z-index: 1001;
-   	
-   	background-color: white;
-   	border: 4px solid lightgray;
+	
+	position: absolute;
+	width: 450px;
+	height: 250px;
+	left: 50%;
+   top: 50%;
+   transform: translate(-50%, -50%);
+	z-index: 1001;
+	
+	background-color: white;
+	border: 4px solid lightgray;
+}
+.pwUpdate-top {
+	display: flex;
+	justify-content: flex-end;
+	
+	position: relative;
+	width: 100%;
+	height: 15%;
+}
+.pwUpdate-center {
+	display: flex;
+	align-items: flex-start;
+	justify-content: center;
+	flex-direction: column;
+	
+	position: relative;
+	width: 90%;
+	height: 67%;
+	/* margin-top: 20px; */
+}
+.pwUpdate-center-1Div {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	flex-direction: row;
+	
+	position: relative;
+	width: 100%;
+	margin-bottom: 10px;
+}
+.pwHead {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	
+	position: relative;
+	width: 30%;
+	font-weight: bold;
+}
+.pwBody {
+	display: flex;
+	align-items: flex-start;
+	justify-content: flex-start;
+	
+	position: relative;
+	width: 70%;
+}
+#pw1 {
+	width: 270px;
+	height: 35px;
+	padding-right: 30px; /* 아이콘 공간 확보 */
+}
+.pwBody .eyes {
+    position: absolute;
+    top: 50%;
+    right: 10px;
+    transform: translateY(-50%);
+    cursor: pointer;
+}
+.pwUpdate-center-2Div {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	flex-direction: row;
+	
+	position: relative;
+	width: 100%;
+}
+.pwBody2 {
+	display: flex;
+	align-items: flex-start;
+	justify-content: center;
+	flex-direction: column;
+	
+	position: relative;
+	width: 70%;
+}
+#pw2 {
+	width: 270px;
+	height: 35px;
+}
+#pwConfirm {
+	color: darkgray;
+	font-size: 12px;
+}
+.pwUpdate-bottom {
+	display: flex;
+	align-items:center;
+	justify-content: center;
+	
+	position: relative;
+	width: 100%;
+	height: 18%;
+}
+.pwUpdate-bottom p {
+   display: flex;
+   align-items: center;
+   justify-content: center;
+
+   position: relative;
+   width: 100px;
+   height: 25px;
+
+   font-weight: bold;
+   background-color: lightgray;
+   border-radius: 10px;
+}
+.pwUpdate-bottom p:hover {
+   color: white;
+   background-color: rgb(68, 68, 68);
 }

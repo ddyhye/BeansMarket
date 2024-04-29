@@ -1,0 +1,253 @@
+@charset "EUC-KR";
+
+
+/* css 기본 초기화 */
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+li{
+    list-style: none;
+}
+.container {
+	display: flex;
+	align-items: center;
+	flex-direction: column;
+	
+	position: relative;
+	top: 20%;
+	width: 1200px;
+	margin: 0 auto;	
+}
+/* css 기본 초기화 */
+
+
+.other-top {
+	display: flex;
+	align-items: center;
+	flex-direction: row;
+	
+	position: relative;
+	width: 85%;
+	height: 260px;
+	margin-bottom: 35px;
+	
+	border: 4px solid lightgray;
+	border-radius: 5px;
+}
+#nic {
+	margin-left: 40px;
+	font-weight: bold;
+}
+.other-top-left {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	
+	position: relative;
+	width: 30%;
+	height: 100%;
+}
+.other-top-left img {
+	position: relative;
+	width: auto;
+	height: 80%;
+	
+	border-radius: 50%;
+}
+.other-top-center {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	flex-direction: column;
+	
+	position: relative;
+	width: 40%;
+	height: 100%;
+}
+.other-top-center-nic {
+	display: flex;
+	align-items: center;
+	justify-content: flex-start;
+	
+	position: relative;
+	width: 100%;
+	height: 35%;
+}
+.other-top-center-comment {
+	display: flex;
+	align-items: center;
+	justify-content: flex-start;
+	flex-direction: row;
+	
+	position: relative;
+	width: 100%;
+	height: 35%;
+	
+	font-size: 30px;
+	color: rgb(68, 68, 68);
+}
+.other-top-right {
+	display: flex;
+	align-items: flex-start;
+	justify-content: center;
+	
+	position: relative;
+	width: 30%;
+	height: 46%;
+}
+#banBtn {
+	display: flex;
+   align-items: center;
+   justify-content: center;
+
+   position: relative;
+   width: 100px;
+   height: 30px;
+
+   font-weight: bold;
+   background-color: lightgray;
+   border-radius: 5px;
+}
+#banBtn:hover {
+   color: white;
+   background-color: #d0375e;
+}
+
+.other-center-title {
+	display: flex;
+	align-items: flex-start;
+	justify-content: flex-start;
+	
+	position: relative;
+	width: 83%;
+	margin-bottom: 10px;
+}
+
+.other-center {
+	display: flex;
+	align-items: flex-start;
+	justify-content: flex-start;
+	flex-wrap: wrap;
+	
+	position: relative;
+	width: 83%;
+	margin: 0 auto;
+}
+.other-content-goods {
+	display: flex;
+   	flex-direction: column;
+   	
+   	position: relative;
+	width: 217px;
+	height: 280px;
+	border: 2px solid lightgray;
+	margin: 12.5px;
+}
+.sold-out {
+	opacity: 0.4;
+}
+.goods-top {
+   display: flex;
+   flex-direction: row;
+
+   position: relative;
+   height: 10%;
+}
+.goods-top-left {
+   display: flex;
+   align-items: center;
+   justify-content: flex-start; 
+
+   position: relative;
+   width: 65%;
+}
+.goods-top-right {
+   display: flex;
+   align-items: center; 
+   justify-content: flex-end;
+
+   position: relative;
+   width: 35%;
+}
+.goods-top-right-mark1 {
+   position: relative;
+   width: 80px;
+   height: 25px;
+   text-align: center;
+
+   background-color: #97001b;
+   border-left: 2px solid #97001b;
+   border-top: 2px solid #97001b;
+   border-bottom: 2px solid #97001b;
+   
+   opacity: 1;
+}
+.goods-top-right-mark1 span{
+   color: white;
+   font-weight: bold;
+}
+.goods-top-right-mark2 {
+   position: relative;
+   width: 60px;
+   height: 25px;
+   text-align: center;
+
+   background-color: pink;
+   border-left: 2px solid lightgray;
+   border-top: 2px solid lightgray;
+   border-bottom: 2px solid lightgray;
+}
+.goods-top-right-mark2 span{
+   font-weight: bold;
+}
+.goods-photo {
+   display: flex;
+   align-items:center;
+   justify-content: center;
+
+   position: relative;
+   height: 200px;
+}
+.goods-photo img {
+   position: relative;
+   width: 90%;
+   height: 95%;
+}
+.goods-photo img:last-child {
+   position: absolute;
+   width: 22%;
+   height: auto; 
+   right: 5%;
+   bottom: 5%; 
+   z-index: 1;
+}
+.goods-subject {
+   display: flex;
+   align-items: center;
+   justify-content: center;
+   text-align: center;
+   vertical-align: center;
+
+   position: relative;
+   height: 15%;
+}
+.goods-subject span {
+   position: relative;
+   width: 90%;
+   font-size: 15px;
+   font-weight: bold;
+}
+.goods-price {
+   display: flex;
+   align-items: center;
+   justify-content: center;
+   flex-direction: row;
+
+   position: relative;
+   height: 13%;
+}
+.Price {
+   font-weight: bold;
+}

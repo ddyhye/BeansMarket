@@ -20,11 +20,21 @@ public class AuctionDTO {
 	private String bbs_state;
 	
 	
+	/* 내가 입찰자인가? */
+	private String bidder;
 	
 	
 	
 	
 	
+	
+	
+	public String getBidder() {
+		return bidder;
+	}
+	public void setBidder(String bidder) {
+		this.bidder = bidder;
+	}
 	public String getNew_picname() {
 		return new_picname;
 	}

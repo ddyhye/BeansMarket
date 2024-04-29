@@ -29,6 +29,42 @@
 						<p id="picUpdateSucc">완료</p>
 					</div>
 				</div>
+				<div class="pwUpdate">
+					<div class="pwUpdate-top">
+						<button class="deleteBtn">X</button>
+					</div>
+					<div class="pwUpdate-center">
+						<div class="pwUpdate-center-1Div">
+							<div class="pwHead">
+								<p>비밀번호</p>
+							</div>
+							<div class="pwBody">
+								<input type="password" name="pw1" id="pw1" oninput="pwCheck()" placeholder="">
+								<div class="eyes">
+				                    <i class="fa fa-eye-slash fa-lg"></i>
+				                </div>
+			                </div>
+						</div>
+						<div class="pwUpdate-center-2Div">
+							<div class="pwHead">
+								<p>비밀번호 확인</p>
+							</div>
+							<div class="pwBody2">
+								<input type="password" name="pw2" id="pw2" oninput="pwCheck()" placeholder="">
+					        </div>
+						</div>
+						<div class="pwUpdate-center-2Div">
+							<div class="pwHead">
+							</div>
+							<div class="pwBody2">
+								<span id="pwConfirm">* 비밀번호를 입력하세요.</span>
+					        </div>
+						</div>
+					</div>
+					<div class="pwUpdate-bottom">
+						<p id="pwUpdateSucc">완료</p>
+					</div>
+				</div>
 				<form action="<c:url value='/member/profileUpdate.do'/>", method="POST" enctype="multipart/form-data">
 					<div class="profileUpdate-top">
 						<img src="/photo/${photo}" id="profilePicture"/>
@@ -48,36 +84,11 @@
 							<div class="profileUpdate-center-head">
 								<h3>비밀번호</h3>
 							</div>
-							<div class="profileUpdate-center-body">
-								<p id="pwReset">비밀번호 재설정</p>
+							<div class="profileUpdate-center-body pw">
+								<p id="pwUpdateBtn">비밀번호 재설정</p>
 							</div>
+							<input type="hidden" name="pwReset" id="pwReset" value=""/>
 						</div>
-						<!-- <div class="pwResetDiv">
-							<div class="spwResetDiv-top">
-								<button class="deleteBtn2">X</button>
-							</div>
-							<div class="pwResetnDiv-center">
-								<dl>
-									<dt>비밀번호</dt>
-							        <dd>
-							            <div class="password-input">
-							                <input type="password" name="pw1" id="pw1" oninput="pwCheck()" placeholder="비밀번호를 입력해주세요.">
-							                <div class="eyes">
-							                    <i class="fa fa-eye-slash fa-lg"></i>
-							                </div>
-							            </div>
-							        </dd>
-							        <dt>비밀번호 확인</dt>
-							        <dd>
-							            <input type="password" name="pw" id="pw" oninput="pwCheck()" placeholder="비밀번호를 입력해주세요.">
-							            <span id="pwConfirm">비밀번호를 입력하세요.</span>
-							        </dd>
-						        </dl>
-							</div>
-							<div class="pwResetDiv-bottom">
-								<p id="pwUpdate">확인</p>
-							</div>
-						</div> -->
 						<div class="profileUpdate-center-column">
 							<div class="profileUpdate-center-head">
 								<h3>주소</h3>
@@ -114,12 +125,13 @@
 </body>
 
 <script>
-	// 프로필 사진 업데이트 모달차
+	// 프로필 사진 업데이트 모달창
 	$('#picUpdateBtn').on('click', function() {
 		$('.picUpdate').addClass('active');
 	});
 	$('.deleteBtn').on('click', function() {
 		$('.picUpdate').removeClass('active');
+		$('.pwUpdate').removeClass('active');
 	});
 	// 프로필 사진 - 기본 이미지로 변경
 	$('#basicPic').on('click', function() {
@@ -160,5 +172,37 @@
 		
 		$('.picUpdate').removeClass('active');
 	});
+	
+	
+	// 비밀번호 재설정 모달창
+	$('#pwUpdateBtn').on('click', function() {
+		$('.pwUpdate').addClass('active');
+	});
+	// 비밀번호 보이기
+	$('.eyes').click(function() {
+        var $password = $('#pw1');
+        var $icon = $(this).find('i');
+        if ($password.attr('type') === 'password') {
+            $password.attr('type', 'text');
+            $icon.removeClass('fa-eye-slash').addClass('fa-eye');
+        } else {
+            $password.attr('type', 'password');
+            $icon.removeClass('fa-eye').addClass('fa-eye-slash');
+        }
+    });
+	// 비밀번호 체크
+	function pwCheck() {
+	    if ($('#pw1').val() == $('#pw2').val()) {
+	        $('#pwConfirm').text('* 비밀번호 일치').css('color', '#377520');
+	    } else {
+	        $('#pwConfirm').text('* 비밀번호 불일치').css('color', '#cf4e51');
+	    }
+	}
+	// 비밀번호 완료
+	$('#pwUpdateSucc').click(function() {
+        var password = $('#pw1').val(); // pw1 필드에서 값을 가져옵니다.
+        $('#pwReset').val(password); // pwReset 히든 필드에 값을 설정합니다.
+        $('.pwUpdate').removeClass('active');
+    });
 </script>
 </html>

@@ -82,17 +82,21 @@ public class MainController {
 	// 리스트 출력
 	@RequestMapping(value="/list.ajax")
 	@ResponseBody
-	public Map<String, Object> listAjax(HttpSession session, String selectedSort, String sellOptionChk, String AuctionOptionChk){
+	public Map<String, Object> listAjax(HttpSession session, String selectedSort, String sellOptionChk, String AuctionOptionChk, String currPage){
 		Map<String, Object> map = new HashMap<String, Object>();
 		
 		String logEmail = "";
 		if (session.getAttribute("logEmail") != null) {
 			logEmail = (String) session.getAttribute("logEmail");
 		}
+		
+		logger.info(selectedSort+" "+sellOptionChk+" "+AuctionOptionChk+" "+currPage);
+		
+		int currentPage = Integer.parseInt(currPage);
 		boolean isSell = sellOptionChk.equals("true")? true : false;
 		boolean isAuction = AuctionOptionChk.equals("true")? true : false;
 		
-		mainService.goodsListAjax(map, logEmail, selectedSort, isSell, isAuction);
+		mainService.goodsListAjax(map, logEmail, selectedSort, isSell, isAuction, currentPage);
 		
 		return map;
 	}
@@ -199,12 +203,21 @@ public class MainController {
 		}
 		
 		mainService.alarmRead(idxInt);
+		// 링크가 있다면 링크 이동
+		String urlStr = mainService.alarmReadUrl(idxInt);
+		
+		if (mainService.alarmReadUrl(idxInt) != null) {
+			map.put("link", urlStr);
+			// 알림 전송 시, 링크도 넣어야 함!
+		}
+		
 		List<MainDTO> list = mainService.alarm(logEmail);
 		
 		map.put("list", list);
 		
 		return map;
 	}
+	
 	
 	// 최근 본 물품
 	@RequestMapping(value="/recentBBS.ajax")
@@ -235,11 +248,15 @@ public class MainController {
 		
 		if (session.getAttribute("logEmail") != null) {
 			page = "/member/profile";
-			String logEmail = (String) session.getAttribute("logEmail");;
+			String logEmail = (String) session.getAttribute("logEmail");
+			logger.info(logEmail);
 			MemberDTO dto = mainService.profile(logEmail);
 			ProfilePicDTO dtoPic = mainService.profilePic(logEmail);
+			logger.info(dtoPic.getNew_filename());
 			model.addAttribute("photo", dtoPic.getNew_filename());
 			model.addAttribute("name", dto.getName());
+			model.addAttribute("posiCnt", dto.getPosiCnt());
+			model.addAttribute("negaCnt", dto.getNegaCnt());
 			model.addAttribute("email", dto.getEmail());
 			model.addAttribute("location", dto.getLocation());
 			model.addAttribute("birth_date", dto.getBirth_date());
