@@ -38,6 +38,7 @@ section {
 }
 
 .joinbox {
+	margin-top : 300px;
     border: 2px solid #aaa;
     border-radius: 20px;
     padding: 20px;
@@ -249,6 +250,7 @@ input[type="submit"]:hover, input[type="button"]:hover {
 	    var $scope = $('input[name="scope"]');
 	    var $gender = $('input[name="gender"]:checked');
 	    var $agree = $('input[name="agree"]:checked');
+	    var birthRegex = /^\d{4}-\d{2}-\d{2}$/;
 	    
 	    if ($email.val() == '') {
 	        alert('이메일을 입력해주세요.');
@@ -258,6 +260,8 @@ input[type="submit"]:hover, input[type="button"]:hover {
 	        alert('닉네임을 입력해주세요.');
 	    } else if ($birth.val() == '') {
 	        alert('생년월일을 입력해주세요.');
+	    } else if (!birthRegex.test($birth.val()) || isNaN(Date.parse($birth.val()))) {
+	            alert('올바른 날짜 형식으로 입력해주세요. 예: 2000-01-01');
 	    } else if ($gender.length === 0) {
 	        alert('성별을 선택해주세요.');
 	    } else if(!$location.val()){

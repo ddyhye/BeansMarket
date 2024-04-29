@@ -136,21 +136,19 @@ public class MemberController {
 	public String join(Model model, @RequestParam Map<String,String> param, @RequestParam("file") CommonsMultipartFile file) {
 	    String page = "login/join";
 	    String msg = "회원가입에 실패하였습니다. 다시 시도해주세요.";
-	    String confirmed = "N";
+	    String confirmed = "Y";
 	    // 파일을 저장할 경로 설정
 	    String uploadDir = "c:/img";
 
 	    // 파일 이름 추출
-	    String fileName = "basicprofile.png";
+	    String fileName = "user.png";
 	    try {
 	        // 업로드된 파일이 있는지 확인하고 파일을 저장
 	        if (!file.isEmpty()) {
 	            fileName = StringUtils.cleanPath(file.getOriginalFilename());
 	            String filePath = uploadDir + "/" + fileName;
 	            File dest = new File(filePath);
-	            confirmed = "Y";
-	            file.transferTo(dest); // 파일을 저장
-	            param.put(confirmed, confirmed);
+	            file.transferTo(dest); // 파일을 저
 	            // 파일 경로를 파라미터에 추가
 	            param.put("filePath", filePath);
 	        }
@@ -171,6 +169,7 @@ public class MemberController {
 	            Map<String, Object> profileParam = new HashMap<>();
 	            profileParam.put("email", email);
 	            profileParam.put("newFilename", fileName);
+	            profileParam.put("confirmed", confirmed);
 
 	            // 프로필 사진 저장
 	            memberService.saveProfilePic(profileParam);

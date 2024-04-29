@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC	"-//mybatis.org//DTD Mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.beans.market.admin.dao.NoticeDAO">	
+	
+<select id="list" resultType="com.beans.market.admin.dto.NoticeDTO" parameterType="map">
+    SELECT n.notice_idx, n.notice_option, n.notice_title, n.notice_content, n.id, n.notice_date, n.nHit, a.admin_name
+    FROM notice n
+    LEFT JOIN admin a ON n.id = a.id
+    ORDER BY n.notice_idx DESC
+    LIMIT #{param1} OFFSET #{param2}
+</select>
+
+<select id="allCount" resultType="Integer">
+    SELECT CEIL(COUNT(notice_idx)/#{param1}) AS pages FROM notice
+</select>
+	
+</mapper>
