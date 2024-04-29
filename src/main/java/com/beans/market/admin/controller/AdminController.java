@@ -1,16 +1,27 @@
 package com.beans.market.admin.controller;
 
+import java.util.HashMap;
+import java.util.Map;
+
+import javax.servlet.http.HttpSession;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
+
+import com.beans.market.admin.service.AdminService;
 
 @Controller
 public class AdminController {
 	
 	Logger logger = LoggerFactory.getLogger(getClass());
+	
+	@Autowired AdminService adminService;
 	
 	@RequestMapping(value = "/admin/userManage.go", method = RequestMethod.GET)
 	public String userManageGo(Model model) {
@@ -92,4 +103,31 @@ public class AdminController {
 	public String alarmHistoryGO() {
 		return "admin/alarmHistory";
 	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	/*                     도혜                       */
+	@RequestMapping(value="/admin/memberList.ajax")
+	@ResponseBody
+	public Map<String, Object> memberListAjax(String memberSearch, String warningOption, String memberStateOption) {
+		Map<String, Object> map = new HashMap<String, Object>();
+		
+		adminService.memberList(map, memberSearch, warningOption, memberStateOption);
+		
+		return map;
+	}
+	
+	
 }

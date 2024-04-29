@@ -1,19 +1,15 @@
 @charset "UTF-8";
 
 /* css 기본 초기화 */
-*{
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
-li{
-    list-style: none;
+section {
+	background-color: white;
 }
 .container {
+	flex-direction: column;
+	align-items: center;
+	
 	position: relative;
-	top: 13%;
-	width: 1300px;
-	margin: 0 auto;	
+	top: 5%;
 }
 /* css 기본 초기화 */
 
@@ -25,7 +21,6 @@ li{
 	
 	position: relative;
 	width: 85%;
-	/* height: 150px; */
 	margin-bottom: 30px;
 	
 	border: 4px solid lightgray;
@@ -37,44 +32,197 @@ li{
 	flex-direction: row;
 	
 	position: relative;
-	width: 90%;
-	height: 50px;
+	width: 95%;
+	height: 80px;
+	margin: 5px auto;
+}
+#memberSearch {
+	width: 450px;
+	height: 30px;
+	margin-right: 5px;
+}
+#memberSearchBtn {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	
+	position: relative;
+	width: 50px;
+	height: 30px;
+	
+	color: white;
+	font-weight: bold;
+	background-color: #22382e;
+	border-radius: 2px;
+}
+#memberSearchBtn:hover {
+	background-color: #16251f;
 }
 .memberM-top-option {
 	display: flex;
-	align-items: center;
+	align-items: flex-start;
+	justify-content: center;
 	flex-direction: column;
 	
 	position: relative;
-	width: 90%;
-	height: 50px;
+	width: 95%;
 }
 .memberM-top-option-skip {
 	display: flex;
 	align-items: center;
 	flex-direction: row;
 }
+.fa-caret-down, .fa-caret-up {
+  --fa-display: flex; /* 이제 이 변수를 flex로 재정의합니다 */
+}
+.fa-caret-down {
+  display: flex !important; /* 기본 상태 */
+}
+.fa-caret-down.active {
+  display: none !important; /* active 클래스가 추가되면 숨김 */
+}
+.fa-caret-up {
+  display: none !important; /* 기본 상태 */
+}
+.fa-caret-up.active {
+  display: flex !important; /* active 클래스가 추가되면 표시 */
+}
 .memberM-top-option-detail {
+	display: none;
+}
+.memberM-top-option-detail.active {
 	display: flex;
 	align-items: center;
-	flex-direction: row;
+	justify-content: center;
+	flex-direction: column;
+	
+	position: relative;
+	width: 100%;
+	margin-top: 5px;
 }
-.memberM-top-optionReset {
+.memberM-top-option-detail-head {
+	position: relative;
+	width: 15%;
+}
+.memberM-top-option-detail-warning {
 	display: flex;
-	align-items: flex-start;
+	align-items: center;
+	justify-content: flex-start;
 	flex-direction: row;
 	
 	position: relative;
-	width: 90%;
+	width: 100%;
+	height: 40px;
+	
+	border-top: 1px solid lightgray;
+	border-left: 2px solid lightgray;
+	border-right: 2px solid lightgray;
+	border-bottom: 1px solid lightgray;
+}
+.memberM-top-option-detail-memberState {
+	display: flex;
+	align-items: center;
+	justify-content: flex-start;
+	flex-direction: row;
+	
+	position: relative;
+	width: 100%;
+	height: 40px;
+	
+	border-left: 2px solid lightgray;
+	border-right: 2px solid lightgray;
+	border-bottom: 2px solid lightgray;
+}
+.memberStateOption {
+  display: none;
+}
+.memberStateOption + label {
+  position: relative;
+  padding-left: 25px;
+  cursor: pointer;
+}
+.memberStateOption + label:before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 15px;
+  height: 15px;
+  border: 2px solid #ddd;
+  border-radius: 50%;
+  background-color: white;
+}
+.memberStateOption:checked + label:before {
+  background-color: white;
+}
+.memberStateOption:checked + label:after {
+  content: '';
+  position: absolute;
+  left: 4.8px; 
+  top: 4.8px;
+  width: 10px;  
+  height: 10px; 
+  border-radius: 50%;
+  background-color: #22382e;
+  box-sizing: border-box;
+}
+.memberM-top-optionReset {
+	display: flex;
+	align-items: center;
+	justify-content: flex-start;
+	flex-direction: row;
+	
+	position: relative;
+	width: 95%;
 	height: 50px;
+	margin-top: 10px;
 }
 
 
 .memberM-center {
 	display: flex;
 	align-items: center;
+	justify-content: center;
 	flex-direction: row;
 	
 	position: relative;
 	width: 85%;
+}
+.memberM-center-t {
+	position: relative;
+	width: 95%;
+	max-height: 400px;
+}
+table, th, td{
+	border: 1px solid #686868;
+	border-collapse: collapse;
+}
+tr {
+	height: 35px;
+}
+th {
+	background-color: #cacaca;
+}
+td {
+	text-align: center;
+}
+table {
+	position: relative;
+   width: 100%;
+}
+.one {
+	position: relative;
+}
+.two {
+	position: relative;
+}
+.three {
+	position: relative;
+}
+.four {   
+	position: relative;
+}
+.eight {
+	position: relative;
+	width: 4%;
 }

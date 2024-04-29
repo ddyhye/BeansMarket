@@ -12,28 +12,219 @@
 </head>
 
 <body>
-	<div class="container">
-   		<div class="memberM-top">
-   			<div class="memberM-top-search">
-   				<h4>회원명</h4>
-   				<input type="text" name="memberName" id="memberName" placeholder="회원 이메일 또는 닉네임 입력">
-   			</div>
-   			<div class="memberM-top-option">
-   				<div class="memberM-top-option-skip">
-   					<p>옵션&nbsp;</p><i class="fa-solid fa-caret-down"></i>
-   				</div>
-   				<div class="memberM-top-option-detail">
-   				</div>
-   			</div>
-   			<div class="memberM-top-optionReset">
-   				<i class="fa-solid fa-rotate-left"></i><p>&nbsp;옵션 초기화</p>
-   			</div>
-   		</div>
-   		<div class="memberM-center">
-   		</div>
-   	</div>
+	<header>
+		<jsp:include page="./common.jsp"/>
+	</header>
+	<main>
+		<jsp:include page="./nav.jsp"/>
+		<section>
+			<div class="container">
+		   		<div class="memberM-top">
+		   			<div class="memberM-top-search">
+		   				<h4>회원명&nbsp;&nbsp;</h4>
+		   				<input type="text" name="memberSearch" id="memberSearch" placeholder="회원 이메일 또는 닉네임 입력...">
+		   				<div id="memberSearchBtn">검색</div>
+		   			</div>
+		   			<div class="memberM-top-option">
+		   				<div class="memberM-top-option-skip">
+		   					<p>옵션&nbsp;</p>
+		   					<i class="fa-solid fa-caret-down"></i>
+		   					<i class="fa-solid fa-caret-up"></i>
+		   				</div>
+		   				<div class="memberM-top-option-detail">
+		   					<!-- <div class="memberM-top-option-detail-gender">
+		   						<div class="memberM-top-option-detail-head">
+			   						<p>&nbsp;성별&nbsp;</p>
+		   						</div>
+		   						<input type="checkbox" name="genderOption" class="genderOption" id="genderOption1" checked/>전체&nbsp;&nbsp; 
+								<input type="checkbox" name="genderOption" class="genderOption" id="genderOption2"/>남자&nbsp;&nbsp;
+		   						<input type="checkbox" name="genderOption" class="genderOption" id="genderOption3"/>여자&nbsp;&nbsp;
+		   					</div> -->
+		   					<div class="memberM-top-option-detail-warning">
+		   						<div class="memberM-top-option-detail-head">
+			   						<p>&nbsp;경고 횟수&nbsp;</p>
+		   						</div>
+		   						<select name="warningOption" id="warningOption">
+									<option value="all">전체</option>
+									<option value="0">0</option>
+									<option value="1">1</option>
+									<option value="2">2</option>
+									<option value="3">3</option>
+									<option value="4">4</option>
+									<option value="5">5</option>
+									<option value="6">6</option>
+									<option value="7">7</option>
+									<option value="8">8</option>
+									<option value="9">9</option>
+								</select>
+		   					</div>
+		   					<div class="memberM-top-option-detail-memberState">
+		   						<div class="memberM-top-option-detail-head">
+			   						<p>&nbsp;계정 상태&nbsp;</p>
+		   						</div>
+		   						<input type="radio" name="memberStateOption" value="all" class="memberStateOption" id="memberStateOption1" checked/><label for="memberStateOption1">전체</label>&nbsp;&nbsp;
+								<input type="radio" name="memberStateOption" value="periodStop" class="memberStateOption" id="memberStateOption2"/><label for="memberStateOption2">기간 정지</label>&nbsp;&nbsp;
+		   						<input type="radio" name="memberStateOption" value="stop" class="memberStateOption" id="memberStateOption3"/><label for="memberStateOption3">영구 정지</label>&nbsp;&nbsp;
+		   						<input type="radio" name="memberStateOption" value="dormant" class="memberStateOption" id="memberStateOption4"/><label for="memberStateOption4">휴먼 계정</label>&nbsp;&nbsp;
+		   						<input type="radio" name="memberStateOption" value="secession" class="memberStateOption" id="memberStateOption5"/><label for="memberStateOption5">탈퇴 계정</label>&nbsp;&nbsp;
+		   					</div>
+		   				</div>
+		   			</div>
+		   			<div class="memberM-top-optionReset">
+		   				<i class="fa-solid fa-rotate-left"></i><p>&nbsp;옵션 초기화</p>
+		   			</div>
+		   		</div>
+		   		<div class="memberM-center">
+		   			<div class="memberM-center-t">
+		   				<table>
+							<thead>
+								<tr>
+									<!-- email, name, warn_count, login_banstr, login_banend, dormant(휴먼), secession(탈퇴) -->
+									<th class="one">EMAIL</th><th class="two">NICNAME</th><th class="three">경고 횟수</th><th class="four">기간 정지</th><th class="five">영구 정지</th><th class="six">휴먼</th><th class="seven">탈퇴</th><th class="eight">관리</th>
+								</tr>
+							</thead>
+							<tbody id="memberListT">
+								<tr>
+									<td>item.email</td>
+									<td>item.name</td>
+									<td>item.warn_count</td>
+									<td>item.login_banend</td>
+									<td>warnCnt>9</td>
+									<td>item.dormant</td>
+									<td>item.secession</td>
+									<td><i class="fa-solid fa-gear"></i></td>
+								</tr>
+							</tbody>
+						</table>
+		   			</div>
+		   		</div>
+		   	</div>
+ 		</section>
+	</main>
 </body>
 
 <script>
+
+	// option 펼침/닫힘
+	$('.memberM-top-option-skip').on('click', function(){
+		var isToggled = $(this).data('toggled');
+		
+		// $() 특정 요소 명시
+	    var $caretDown = $(this).find('.fa-caret-down');
+	    var $caretUp = $(this).find('.fa-caret-up');
+	    var $details = $('.memberM-top-option-detail');
+
+	    if (isToggled) {
+	        $caretDown.addClass('active');
+	        $caretUp.addClass('active');
+	        $details.addClass('active');
+	    } else {
+	        $caretDown.removeClass('active');
+	        $caretUp.removeClass('active');
+	        $details.removeClass('active');
+	    }
+	    
+	    $(this).data('toggled', !isToggled);
+		
+	});
+	
+	
+	// option 초기값
+	var memberSearch = $('#memberSearch').val();
+	var warningOption = $('#warningOption').val();
+	var memberStateOption = $('input[name="memberStateOption"]:checked').val();
+	
+	//listCall(memberSearch, genderOption1, genderOption2, genderOption3, warningOption, memberStateOption1, memberStateOption2, memberStateOption3, memberStateOption4, memberStateOption5);
+	listCall(memberSearch, warningOption, memberStateOption);
+	
+	$('#memberSearch').on('click', function() {
+		memberSearch = $(this).val();
+		listCall(memberSearch, warningOption, memberStateOption);
+	});
+	$('#warningOption').change(function() {
+		warningOption = $(this).val();
+		listCall(memberSearch, warningOption, memberStateOption);
+	});
+	$('.memberStateOption').change(function() {
+	    memberStateOption = $('input[name="memberStateOption"]:checked').val();
+	    listCall(memberSearch, warningOption, memberStateOption);
+	});
+	
+	
+	// 회원 리스트 요청 AJAX
+	function listCall(memberSearch, warningOption, memberStateOption){
+		$.ajax({
+			type: 'get',
+			url: '<c:url value="/admin/memberList.ajax"/>',
+			data: {
+				'memberSearch': memberSearch,
+				'warningOption': warningOption,
+				'memberStateOption': memberStateOption
+			},
+			dataType: 'JSON',
+			success: function(data) {
+				drawMemberList(data);
+			}, error: function(error) {}
+		});
+	}
+	// 회원 리스트 그리기
+	function drawMemberList(data) {
+		$('#memberListT').empty();
+		
+		var content = '';
+		
+		if (!data.list || data.list.length === 0) {
+			content += '<tr><td colspan = 8>검색한 회원이 없습니다.</td></tr>';
+		}
+		for (item of data.list) {
+			content += '<tr>';
+			content += '<td>'+item.email+'</td>';
+			content += '<td>'+item.name+'</td>';
+			content += '<td>'+item.warn_count+'</td>';
+			var banend = item.login_banend = '1970-01-01'? '0000-00-00':item.login_banend;
+			content += '<td>'+banend+'</td>';
+			content += '<td>'+item.permanent_ban+'</td>';
+			content += '<td>'+item.dormant+'</td>';
+			content += '<td>'+item.secession+'</td>';
+			content += '<td><i class="fa-solid fa-gear"></i></td>';
+			content += '</tr>';
+		}
+		
+		$('#memberListT').append(content);
+	}
+	// 관리 버튼
+	$('#memberListT').on('click', '.fa-gear', function(event) {
+		event.stopPropagation();
+		
+		var $tr = $(this).closest('tr');
+		var blockEmail = $tr.find('td').eq(0).text();
+		var blockName = $tr.find('td').eq(1).text();
+		
+		$('#blockName').text(blockName);
+		
+		$('.banDel').addClass('active');
+		
+		$('#unravelAjax').on('click', function() {
+			$.ajax({
+				type: 'get', 
+				url: '<c:url value="/member/banUnravel.ajax"/>',
+				data: {
+					'blockEmail': blockEmail
+				},
+				dataType: 'JSON',
+				success: function(data) {
+					drawBanList(data);
+				}, error: function(data){}
+			});
+			
+			$('.banDel').removeClass('active');
+		})
+		
+	});
+	
+	
+
+
+
 </script>
 </html>

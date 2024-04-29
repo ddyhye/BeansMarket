@@ -1,8 +1,288 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC	"-//mybatis.org//DTD Mapper 3.0//EN"
 	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="~~~DAO">	
+<mapper namespace="com.beans.market.admin.dao.AdminDAO">	
 	
-
+	
+	<!-- 회원 관리 -->
+	<select id="memberSelect1" resultType="com.beans.market.member.dto.MemberDTO">
+		SELECT email, 
+			name, 
+			warn_count, 
+			login_banend,
+			CASE 
+				WHEN (SELECT COUNT(email) FROM member WHERE warn_count > 9) > 0 THEN 'Y'
+				ELSE 'N'
+			END AS permanent_ban, 
+			dormant, 
+			secession
+		FROM member
+	</select>
+	<select id="memberSelect2" resultType="com.beans.market.member.dto.MemberDTO">
+		SELECT email, 
+			name, 
+			warn_count, 
+			login_banend,
+			CASE 
+				WHEN (SELECT COUNT(email) FROM member WHERE warn_count > 9) > 0 THEN 'Y'
+				ELSE 'N'
+			END AS permanent_ban, 
+			dormant, 
+			secession
+		FROM member
+		WHERE login_banend != '1970-01-01'
+	</select>
+	<select id="memberSelect3" resultType="com.beans.market.member.dto.MemberDTO">
+		SELECT email, 
+			name, 
+			warn_count, 
+			login_banend,
+			CASE 
+				WHEN (SELECT COUNT(email) FROM member WHERE warn_count > 9) > 0 THEN 'Y'
+				ELSE 'N'
+			END AS permanent_ban, 
+			dormant, 
+			secession
+		FROM member
+		WHERE login_banend = '9999-12-31'
+	</select>
+	<select id="memberSelect4" resultType="com.beans.market.member.dto.MemberDTO">
+		SELECT email, 
+			name, 
+			warn_count, 
+			login_banend,
+			CASE 
+				WHEN (SELECT COUNT(email) FROM member WHERE warn_count > 9) > 0 THEN 'Y'
+				ELSE 'N'
+			END AS permanent_ban, 
+			dormant, 
+			secession
+		FROM member
+		WHERE dormant = 'Y'
+	</select>
+	<select id="memberSelect5" resultType="com.beans.market.member.dto.MemberDTO">
+		SELECT email, 
+			name, 
+			warn_count, 
+			login_banend,
+			CASE 
+				WHEN (SELECT COUNT(email) FROM member WHERE warn_count > 9) > 0 THEN 'Y'
+				ELSE 'N'
+			END AS permanent_ban, 
+			dormant, 
+			secession
+		FROM member
+		WHERE secession = 'Y'
+	</select>
+	<select id="memberSelect6" resultType="com.beans.market.member.dto.MemberDTO">
+		SELECT email, 
+			name, 
+			warn_count, 
+			login_banend,
+			CASE 
+				WHEN (SELECT COUNT(email) FROM member WHERE warn_count > 9) > 0 THEN 'Y'
+				ELSE 'N'
+			END AS permanent_ban, 
+			dormant, 
+			secession
+		FROM member
+		WHERE warn_count = #{param1}
+	</select>
+	<select id="memberSelect7" resultType="com.beans.market.member.dto.MemberDTO">
+		SELECT email, 
+			name, 
+			warn_count, 
+			login_banend,
+			CASE 
+				WHEN (SELECT COUNT(email) FROM member WHERE warn_count > 9) > 0 THEN 'Y'
+				ELSE 'N'
+			END AS permanent_ban, 
+			dormant, 
+			secession
+		FROM member
+		WHERE login_banend = '1970-01-01' AND warn_count = #{param1}
+	</select>
+	<select id="memberSelect8" resultType="com.beans.market.member.dto.MemberDTO">
+		SELECT email, 
+			name, 
+			warn_count, 
+			login_banend,
+			CASE 
+				WHEN (SELECT COUNT(email) FROM member WHERE warn_count > 9) > 0 THEN 'Y'
+				ELSE 'N'
+			END AS permanent_ban, 
+			dormant, 
+			secession
+		FROM member
+		WHERE login_banend != '9999-12-31' AND warn_count = #{param1}
+	</select>
+	<select id="memberSelect9" resultType="com.beans.market.member.dto.MemberDTO">
+		SELECT email, 
+			name, 
+			warn_count, 
+			login_banend,
+			CASE 
+				WHEN (SELECT COUNT(email) FROM member WHERE warn_count > 9) > 0 THEN 'Y'
+				ELSE 'N'
+			END AS permanent_ban, 
+			dormant, 
+			secession
+		FROM member
+		WHERE dormant = 'Y' AND warn_count = #{param1}
+	</select>
+	<select id="memberSelect10" resultType="com.beans.market.member.dto.MemberDTO">
+		SELECT email, 
+			name, 
+			warn_count, 
+			login_banend,
+			CASE 
+				WHEN (SELECT COUNT(email) FROM member WHERE warn_count > 9) > 0 THEN 'Y'
+				ELSE 'N'
+			END AS permanent_ban, 
+			dormant, 
+			secession
+		FROM member
+		WHERE secession = 'Y' AND warn_count = #{param1}
+	</select>
+	<select id="memberSelect11" resultType="com.beans.market.member.dto.MemberDTO">
+		SELECT email, 
+			name, 
+			warn_count, 
+			login_banend,
+			CASE 
+				WHEN (SELECT COUNT(email) FROM member WHERE warn_count > 9) > 0 THEN 'Y'
+				ELSE 'N'
+			END AS permanent_ban, 
+			dormant, 
+			secession
+		FROM member
+		WHERE email like #{param1} or name like #{param1}
+	</select>
+	<select id="memberSelect12" resultType="com.beans.market.member.dto.MemberDTO">
+		SELECT email, 
+			name, 
+			warn_count, 
+			login_banend,
+			CASE 
+				WHEN (SELECT COUNT(email) FROM member WHERE warn_count > 9) > 0 THEN 'Y'
+				ELSE 'N'
+			END AS permanent_ban, 
+			dormant, 
+			secession
+		FROM member
+		WHERE login_banend != '1970-01-01' AND (email like #{param1} or name like #{param1})
+	</select>
+	<select id="memberSelect13" resultType="com.beans.market.member.dto.MemberDTO">
+		SELECT email, 
+			name, 
+			warn_count, 
+			login_banend,
+			CASE 
+				WHEN (SELECT COUNT(email) FROM member WHERE warn_count > 9) > 0 THEN 'Y'
+				ELSE 'N'
+			END AS permanent_ban, 
+			dormant, 
+			secession
+		FROM member
+		WHERE login_banend = '9999-12-31' AND (email like #{param1} or name like #{param1})
+	</select>
+	<select id="memberSelect14" resultType="com.beans.market.member.dto.MemberDTO">
+		SELECT email, 
+			name, 
+			warn_count, 
+			login_banend,
+			CASE 
+				WHEN (SELECT COUNT(email) FROM member WHERE warn_count > 9) > 0 THEN 'Y'
+				ELSE 'N'
+			END AS permanent_ban, 
+			dormant, 
+			secession
+		FROM member
+		WHERE dormant = 'Y' AND (email like #{param1} or name like #{param1})
+	</select>
+	<select id="memberSelect15" resultType="com.beans.market.member.dto.MemberDTO">
+		SELECT email, 
+			name, 
+			warn_count, 
+			login_banend,
+			CASE 
+				WHEN (SELECT COUNT(email) FROM member WHERE warn_count > 9) > 0 THEN 'Y'
+				ELSE 'N'
+			END AS permanent_ban, 
+			dormant, 
+			secession
+		FROM member
+		WHERE secession = 'Y' AND (email like #{param1} or name like #{param1})
+	</select>
+	<select id="memberSelect16" resultType="com.beans.market.member.dto.MemberDTO">
+		SELECT email, 
+			name, 
+			warn_count, 
+			login_banend,
+			CASE 
+				WHEN (SELECT COUNT(email) FROM member WHERE warn_count > 9) > 0 THEN 'Y'
+				ELSE 'N'
+			END AS permanent_ban, 
+			dormant, 
+			secession
+		FROM member
+		WHERE warn_count = #{param1} AND (email like #{param2} or name like #{param2})
+	</select>
+	<select id="memberSelect17" resultType="com.beans.market.member.dto.MemberDTO">
+		SELECT email, 
+			name, 
+			warn_count, 
+			login_banend,
+			CASE 
+				WHEN (SELECT COUNT(email) FROM member WHERE warn_count > 9) > 0 THEN 'Y'
+				ELSE 'N'
+			END AS permanent_ban, 
+			dormant, 
+			secession
+		FROM member
+		WHERE login_banend != '1970-01-01' AND warn_count = #{param1} AND (email like #{param2} or name like #{param2})
+	</select>
+	<select id="memberSelect18" resultType="com.beans.market.member.dto.MemberDTO">
+		SELECT email, 
+			name, 
+			warn_count, 
+			login_banend,
+			CASE 
+				WHEN (SELECT COUNT(email) FROM member WHERE warn_count > 9) > 0 THEN 'Y'
+				ELSE 'N'
+			END AS permanent_ban, 
+			dormant, 
+			secession
+		FROM member
+		WHERE login_banend = '9999-12-31' AND warn_count = #{param1} AND (email like #{param2} or name like #{param2})
+	</select>
+	<select id="memberSelect19" resultType="com.beans.market.member.dto.MemberDTO">
+		SELECT email, 
+			name, 
+			warn_count, 
+			login_banend,
+			CASE 
+				WHEN (SELECT COUNT(email) FROM member WHERE warn_count > 9) > 0 THEN 'Y'
+				ELSE 'N'
+			END AS permanent_ban, 
+			dormant, 
+			secession
+		FROM member
+		WHERE dormant = 'Y' AND warn_count = #{param1} AND (email like #{param2} or name like #{param2})
+	</select>
+	<select id="memberSelect20" resultType="com.beans.market.member.dto.MemberDTO">
+		SELECT email, 
+			name, 
+			warn_count, 
+			login_banend,
+			CASE 
+				WHEN (SELECT COUNT(email) FROM member WHERE warn_count > 9) > 0 THEN 'Y'
+				ELSE 'N'
+			END AS permanent_ban, 
+			dormant, 
+			secession
+		FROM member
+		WHERE secession = 'Y' AND warn_count = #{param1} AND (email like #{param2} or name like #{param2})
+	</select>
 	
 </mapper>

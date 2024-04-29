@@ -2,6 +2,8 @@ package com.beans.market.member.dto;
 
 import java.sql.Date;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 public class MemberDTO {
 
 	
@@ -10,6 +12,7 @@ public class MemberDTO {
 	private String option;
 	private int price;
 	private String content;
+	@JsonIgnore
 	private Date reg_date;
 	private String confirmed;
 	
@@ -17,15 +20,20 @@ public class MemberDTO {
 	private String location;
 	private String scope;
 	private String name;
+	@JsonIgnore
 	private Date birth_date;
 	private String gender;
 	private int point;
+	@JsonIgnore
 	private Date last_login;
 	private String dormant;
 	private int login_count;
 	private int warn_count;
+	@JsonIgnore
 	private Date login_banstr;
+	@JsonIgnore
 	private Date login_banend;
+	private String secession;
 	
 	public String getConfirmed() {
 		return confirmed;
@@ -35,10 +43,18 @@ public class MemberDTO {
 	}
 	
 	
+	
+	
 	/* 거래후기 - positive */
 	private int posiCnt;
 	/* 거래후기 - negative */
 	private int negaCnt;
+	
+	
+	
+	/* 관리자 페이지 */
+	private String permanent_ban;
+	private String login_banedd;
 	
 	
 	
@@ -167,6 +183,24 @@ public class MemberDTO {
 	}
 	public void setNegaCnt(int negaCnt) {
 		this.negaCnt = negaCnt;
+	}
+	public String getPermanent_ban() {
+		return permanent_ban;
+	}
+	public void setPermanent_ban(String permanent_ban) {
+		this.permanent_ban = permanent_ban;
+	}
+	public String getLogin_banedd() {
+		return login_banedd;
+	}
+	public void setLogin_banedd(String login_banedd) {
+		this.login_banedd = login_banedd;
+	}
+	public String getSecession() {
+		return secession;
+	}
+	public void setSecession(String secession) {
+		this.secession = secession;
 	}
 	
 	
