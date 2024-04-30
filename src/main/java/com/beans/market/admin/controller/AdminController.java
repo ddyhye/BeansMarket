@@ -239,4 +239,51 @@ public class AdminController {
 
 		return map;
 	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	/*                     정언                       */
+	@RequestMapping(value="/admin/bbsList.ajax")
+	@ResponseBody
+	public Map<String,Object> bbsListAjax(String textVal, String selectedCategory,String selectedState, String selectedRadio) {
+		Map<String, Object> map = new HashMap<String, Object>();
+		
+		adminService.bbsList(map, textVal, selectedCategory, selectedState, selectedRadio);
+		
+		return map;
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 }

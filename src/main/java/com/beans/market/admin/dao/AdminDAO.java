@@ -5,6 +5,7 @@ import java.util.List;
 import com.beans.market.member.dto.MemberDTO;
 import com.beans.market.admin.dto.AdminDTO;
 import com.beans.market.admin.dto.AlarmDTO;
+import com.beans.market.board.dto.BoardDTO;
 
 public interface AdminDAO {
 
@@ -51,4 +52,47 @@ public interface AdminDAO {
 	List<MemberDTO> memberSelect18(int warningCnt, String memberSearch);
 	List<MemberDTO> memberSelect19(int warningCnt, String memberSearch);
 	List<MemberDTO> memberSelect20(int warningCnt, String memberSearch);
+
+	
+	
+	
+	List<BoardDTO> bbsSelect1();
+	List<BoardDTO> bbsSelect2();
+	List<BoardDTO> bbsSelect3();
+	List<BoardDTO> bbsSelect4(String selectedState);
+	List<BoardDTO> bbsSelect5(String selectedState);
+	List<BoardDTO> bbsSelect6(String selectedState);
+	List<BoardDTO> bbsSelect7(String selectedCategory);
+	List<BoardDTO> bbsSelect8(String selectedCategory);
+	List<BoardDTO> bbsSelect9(String selectedCategory);
+	List<BoardDTO> bbsSelect10(String selectedCategory, String selectedState);
+	List<BoardDTO> bbsSelect11(String selectedCategory, String selectedState);
+	List<BoardDTO> bbsSelect12(String selectedCategory, String selectedState);
+	List<BoardDTO> bbsSelect13(String textVal, int textValInt);
+	List<BoardDTO> bbsSelect14(String textVal, int textValInt);
+	List<BoardDTO> bbsSelect15(String textVal, int textValInt);
+	List<BoardDTO> bbsSelect16(String textVal, int textValInt, String selectedState);
+	List<BoardDTO> bbsSelect17(String textVal, int textValInt, String selectedState);
+	List<BoardDTO> bbsSelect18(String textVal, int textValInt, String selectedState);
+	List<BoardDTO> bbsSelect19(String textVal, int textValInt, String selectedCategory);
+	List<BoardDTO> bbsSelect20(String textVal, int textValInt, String selectedCategory);
+	List<BoardDTO> bbsSelect21(String textVal, int textValInt, String selectedCategory);
+	List<BoardDTO> bbsSelect22(String textVal, int textValInt, String selectedState, String selectedCategory);
+	List<BoardDTO> bbsSelect23(String textVal, int textValInt, String selectedState, String selectedCategory);
+	List<BoardDTO> bbsSelect24(String textVal, int textValInt, String selectedState, String selectedCategory);
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 }

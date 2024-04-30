@@ -330,4 +330,259 @@
 		FROM member
 		WHERE secession = 'Y' AND warn_count = #{param1} AND (email like #{param2} or name like #{param2})
 	</select>
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	<!-- 정언 -->
+	<!-- 게시글 관리 -->
+	<select id="bbsSelect1" resultType="com.beans.market.board.dto.BoardDTO">
+		SELECT idx,
+			option,
+			bbs_state,
+			subject,
+			price,
+			email,
+			reg_date,
+			blind
+		FROM bbs
+	</select>
+	<select id="bbsSelect2" resultType="com.beans.market.board.dto.BoardDTO">
+		SELECT
+			idx,
+			option,
+			bbs_state,
+			subject,
+			price,
+			email,
+			reg_date,
+			blind
+		FROM bbs WHERE blind='Y'
+	</select>
+	<select id="bbsSelect3" resultType="com.beans.market.board.dto.BoardDTO">
+		SELECT
+			idx,
+			option,
+			bbs_state,
+			subject,
+			price,
+			email,
+			reg_date,
+			blind
+		FROM bbs WHERE draft='Y'
+	</select>
+	<select id="bbsSelect4" resultType="com.beans.market.board.dto.BoardDTO">
+		SELECT
+			idx,
+			option,
+			bbs_state,
+			subject,
+			price,
+			email,
+			reg_date,
+			blind
+		FROM bbs WHERE bbs_state=#{param1}
+	</select>
+	<select id="bbsSelect5" resultType="com.beans.market.board.dto.BoardDTO">
+		SELECT
+			idx,
+			option,
+			bbs_state,
+			subject,
+			price,
+			email,
+			reg_date,
+			blind
+		FROM bbs WHERE bbs_state=#{param1} AND blind='Y'
+	</select>
+	<select id="bbsSelect6" resultType="com.beans.market.board.dto.BoardDTO">
+		SELECT
+			idx,
+			option,
+			bbs_state,
+			subject,
+			price,
+			email,
+			reg_date,
+			blind
+		FROM bbs WHERE bbs_state=#{param1} AND draft='Y'
+	</select>
+	<select id="bbsSelect7" resultType="com.beans.market.board.dto.BoardDTO">
+		SELECT
+			idx,
+			option,
+			bbs_state,
+			subject,
+			price,
+			email,
+			reg_date,
+			blind
+		FROM bbs WHERE category_idx=#{param1}
+	</select>
+	<select id="bbsSelect8" resultType="com.beans.market.board.dto.BoardDTO">
+		SELECT
+			idx,
+			option,
+			bbs_state,
+			subject,
+			price,
+			email,
+			reg_date,
+			blind
+		FROM bbs WHERE category_idx=#{param1} AND blind='Y'
+	</select>
+	<select id="bbsSelect9" resultType="com.beans.market.board.dto.BoardDTO">
+		SELECT
+			idx,
+			option,
+			bbs_state,
+			subject,
+			price,
+			email,
+			reg_date,
+			blind
+		FROM bbs WHERE category_idx=#{param1} AND draft='Y'
+	</select>
+	<select id="bbsSelect10" resultType="com.beans.market.board.dto.BoardDTO">
+		SELECT
+			idx,
+			option,
+			bbs_state,
+			subject,
+			price,
+			email,
+			reg_date,
+			blind
+		FROM bbs WHERE category_idx=#{param1} AND bbs_state=#{param2}
+	</select>
+	<select id="bbsSelect11" resultType="com.beans.market.board.dto.BoardDTO">
+		SELECT
+			idx,
+			option,
+			bbs_state,
+			subject,
+			price,
+			email,
+			reg_date,
+			blind
+		FROM bbs WHERE category_idx=#{param1} AND bbs_state=#{param2} AND blind='Y'
+	</select>
+	<select id="bbsSelect12" resultType="com.beans.market.board.dto.BoardDTO">
+		SELECT
+			idx,
+			option,
+			bbs_state,
+			subject,
+			price,
+			email,
+			reg_date,
+			blind
+		FROM bbs WHERE category_idx=#{param1} AND bbs_state=#{param2} AND draft='Y'
+	</select>
+	<select id="bbsSelect13" resultType="com.beans.market.board.dto.BoardDTO">
+		SELECT
+			idx,
+			option,
+			bbs_state,
+			subject,
+			price,
+			email,
+			reg_date,
+			blind
+		FROM bbs 
+		WHERE subject LIKE  CONCAT('%', #{param1}, '%') OR idx=#{param2}
+	</select>
+	<select id="bbsSelect14" resultType="com.beans.market.board.dto.BoardDTO">
+		SELECT
+			idx,
+			option,
+			bbs_state,
+			subject,
+			price,
+			email,
+			reg_date,
+			blind
+		FROM bbs 
+		WHERE (subject LIKE  CONCAT('%', #{param1}, '%') OR idx=#{param2}) AND blind='Y'; 
+	</select>
+	<select id="bbsSelect15" resultType="com.beans.market.board.dto.BoardDTO">
+		SELECT
+			idx,
+			option,
+			bbs_state,
+			subject,
+			price,
+			email,
+			reg_date,
+			blind
+		FROM bbs 
+		WHERE (subject LIKE  CONCAT('%', #{param1}, '%') OR idx=#{param2}) AND draft='Y'; 
+	</select>
+	<select id="bbsSelect16" resultType="com.beans.market.board.dto.BoardDTO">
+		SELECT
+			idx,
+			option,
+			bbs_state,
+			subject,
+			price,
+			email,
+			reg_date,
+			blind
+		FROM bbs 
+		WHERE (subject LIKE  CONCAT('%', #{param1}, '%') OR idx=#{param2}) AND bbs_state=#{param3}
+	</select>
+	<select id="bbsSelect17" resultType="com.beans.market.board.dto.BoardDTO">
+		SELECT
+			idx,
+			option,
+			bbs_state,
+			subject,
+			price,
+			email,
+			reg_date,
+			blind
+		FROM bbs 
+		WHERE (subject LIKE  CONCAT('%', #{param1}, '%') OR idx=#{param2}) AND bbs_state=#{param3} AND blind='Y' 
+	</select>
+	<select id="bbsSelect18" resultType="com.beans.market.board.dto.BoardDTO">
+		SELECT
+			idx,
+			option,
+			bbs_state,
+			subject,
+			price,
+			email,
+			reg_date,
+			blind
+		FROM bbs 
+		WHERE (subject LIKE  CONCAT('%', #{param1}, '%') OR idx=#{param2}) AND bbs_state=#{param3} AND draft='Y' 
+	</select>
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 </mapper>
