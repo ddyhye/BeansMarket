@@ -1,4 +1,4 @@
-com.beans.market<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <html>
 <head>
@@ -13,6 +13,57 @@ com.beans.market<%@ page language="java" contentType="text/html; charset=UTF-8" 
 </head>
 
 <body>
+<header>
+		<jsp:include page="./common.jsp"/>
+	</header>
+	<main>
+		<jsp:include page="./nav.jsp"/>
+		<section>
+			<div class="container">
+		   		<div class="memberP-top">
+		   			<div class="memberP-top-1">
+		   				<div class="memberP-top-head">
+		   					<p>EMAIL</p>
+		   				</div>
+		   				<p>ahruru@email.com</p>
+	   				</div>
+	   				<div class="memberP-top-2">
+		   				<div class="memberP-top-head">
+		   					<p>NICNAME</p>
+		   				</div>
+		   				<p>아루루</p>
+	   				</div>
+	   				<div class="memberP-top-3">
+		   				<div class="memberP-top-head">
+		   					<p>주소 / 거래 범위</p>
+		   				</div>
+		   				<p>경기도 광명시 광명동 / 광명시</p>
+	   				</div>
+	   				<div class="memberP-top-4">
+		   				<div class="memberP-top-head">
+		   					<p>성별</p>
+		   				</div>
+		   				<p>남자</p>
+	   				</div>
+	   				<div class="memberP-top-5">
+		   				<div class="memberP-top-head">
+		   					<p>EMAIL</p>
+		   				</div>
+		   				<p>1999.06.18</p>
+	   				</div>
+	   				<div class="memberP-top-6">
+		   				<div class="memberP-top-head">
+		   					<p>Beans pay</p>
+		   				</div>
+		   				<p>1999.06.18</p>
+		   				<p id="payUpdateBtn">잔액 변경</p>
+	   				</div>
+		   		</div>
+		   		<div class="memberP-center"></div>
+		   	</div>
+ 		</section>
+	</main>
+
 </body>
 
 <script>

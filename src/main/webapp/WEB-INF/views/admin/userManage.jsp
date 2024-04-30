@@ -22,7 +22,7 @@
 		   		<div class="memberM-top">
 		   			<div class="memberM-top-search">
 		   				<h4>회원명&nbsp;&nbsp;</h4>
-		   				<input type="text" name="memberSearch" id="memberSearch" placeholder="회원 이메일 또는 닉네임 입력...">
+		   				<input type="text" name="memberSearch" id="memberSearch" placeholder="회원 이메일 또는 닉네임 입력..."/>
 		   				<div id="memberSearchBtn">검색</div>
 		   			</div>
 		   			<div class="memberM-top-option">
@@ -92,10 +92,51 @@
 									<td>warnCnt>9</td>
 									<td>item.dormant</td>
 									<td>item.secession</td>
-									<td><i class="fa-solid fa-gear"></i></td>
+									<td>
+										<i class="fa-solid fa-gear"></i>
+									</td>
 								</tr>
 							</tbody>
 						</table>
+						<!-- <div class="memberM-center-t-manageList">
+							<p>경고 1회 추가</p>
+							<p>경고 1회 차감</p>
+							<p>3일 기간 정지</p>
+							<p>기간 정지 해제</p>
+							<p id="banban">영구 정지</p>
+						</div> -->
+		   			</div>
+		   			<div class="memberM-center-manage">
+		   				<!-- form 데이터 만들기 -->
+		   				<div class="memberM-center-manage-subject">
+		   					<h3>회원 관리</h3>
+		   				</div>
+		   				<div class="memberM-center-manage-memberEmail">
+			   				<div class="memberM-center-manage-head">
+			   					<p>대상 회원</p>
+			   				</div>
+			   				<p id="manageMemberEmail">ahruru@email.com</p>
+		   				</div>
+		   				<div class="memberM-center-manage-option">
+		   					<div class="memberM-center-manage-head">
+		   						<p>제제 옵션</p>
+			   				</div>
+			   				<select name="manageOption" id="manageOption">
+								<option value="add">경고 1회 추가</option>
+								<option value="subtract">경고 1회 차감</option>
+								<option value="stop3">기간 정지 3일</option>
+								<option value="unStop">기간 정지 해제</option>
+								<option value="ban">영구 정지</option>
+							</select>
+		   				</div>
+		   				<div class="memberM-center-manage-content">
+		   					<p>제제 사유</p>
+		   					<input type="text" name="manageContent" id="manageContent" placeholder="최대 300자 입력 가능..."/>
+		   				</div>
+		   				<div class="memberM-center-manage-bottom">
+		   					<p>확인</p>
+		   					<p id="back">취소</p>
+		   				</div>
 		   			</div>
 		   		</div>
 		   	</div>
@@ -134,7 +175,6 @@
 	var warningOption = $('#warningOption').val();
 	var memberStateOption = $('input[name="memberStateOption"]:checked').val();
 	
-	//listCall(memberSearch, genderOption1, genderOption2, genderOption3, warningOption, memberStateOption1, memberStateOption2, memberStateOption3, memberStateOption4, memberStateOption5);
 	listCall(memberSearch, warningOption, memberStateOption);
 	
 	$('#memberSearch').on('click', function() {
@@ -186,7 +226,7 @@
 			content += '<td>'+item.permanent_ban+'</td>';
 			content += '<td>'+item.dormant+'</td>';
 			content += '<td>'+item.secession+'</td>';
-			content += '<td><i class="fa-solid fa-gear"></i></td>';
+			content += '<td><i class="fa-solid fa-gear" data-email="'+item.email+'"></i></td>';
 			content += '</tr>';
 		}
 		
@@ -196,30 +236,13 @@
 	$('#memberListT').on('click', '.fa-gear', function(event) {
 		event.stopPropagation();
 		
-		var $tr = $(this).closest('tr');
-		var blockEmail = $tr.find('td').eq(0).text();
-		var blockName = $tr.find('td').eq(1).text();
+		var memberEmail = $(this).data('email');
 		
-		$('#blockName').text(blockName);
-		
-		$('.banDel').addClass('active');
-		
-		$('#unravelAjax').on('click', function() {
-			$.ajax({
-				type: 'get', 
-				url: '<c:url value="/member/banUnravel.ajax"/>',
-				data: {
-					'blockEmail': blockEmail
-				},
-				dataType: 'JSON',
-				success: function(data) {
-					drawBanList(data);
-				}, error: function(data){}
-			});
-			
-			$('.banDel').removeClass('active');
-		})
-		
+		$('.memberM-center-manage').addClass('active');
+		$('#manageMemberEmail').text(memberEmail);
+	});
+	$('#back').on('click', function(){
+		$('.memberM-center-manage').removeClass('active');
 	});
 	
 	
