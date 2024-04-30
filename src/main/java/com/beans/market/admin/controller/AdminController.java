@@ -251,6 +251,7 @@ public class AdminController {
 
 		return map;
 	}
+	
 	// 회원 관리 (제제)
 	@RequestMapping(value="/admin/userManage.do", method=RequestMethod.POST)
 	public String userManage_do(Model model, HttpSession session, @RequestParam Map<String, String> param) {
@@ -351,4 +352,54 @@ public class AdminController {
 	}
 	
 	
+
+
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	/*                     정언                       */
+	@RequestMapping(value="/admin/bbsList.ajax")
+	@ResponseBody
+	public Map<String,Object> bbsListAjax(String textVal, String selectedCategory,String selectedState, String selectedRadio) {
+		Map<String, Object> map = new HashMap<String, Object>();
+		
+		adminService.bbsList(map, textVal, selectedCategory, selectedState, selectedRadio);
+		
+		return map;
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 }
+

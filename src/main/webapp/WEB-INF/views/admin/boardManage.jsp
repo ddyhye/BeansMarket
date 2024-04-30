@@ -24,14 +24,16 @@
 		<div class="manager-search">
 		<table>
 		<tr>
-	        <td colspan="2" class="search">
+	        <td colspan="3" class="search">
 	        <input type="text" name="search" id="text-search" placeholder="검색할 제목 또는 게시글 번호를 입력해주세요"/>
 	        <button class="button-search">검색</button>
 	        </td>
-	        <td colspan="2" class="category">
+        </tr>
+		<tr>
+			<td class="category">
 	            <label for="category">카테고리</label>
 	            <select name="category" id="category-search">
-	                <option value="m001">선택</option>
+	                <option value="all">전체</option>
 	                <option value="m001">디지털 기기</option>
 	                <option value="m002">가구/인테리어</option>
 	                <option value="m003">유아동</option>
@@ -48,33 +50,18 @@
 	                <option value="m014">반려동물 용품</option>
            		</select>
            	</td>
-        </tr>
-		<tr>
 	        <td class="state">
 	            <label for="state">거래 상태</label>
-	            <select id="state" id="state-search">
-	                <option value="0">전체</option>
-	                <option value="1">거래 가능</option>
-	                <option value="2">예약 중</option>
-	                <option value="3">거래 완료</option>
+	            <select id="state-search">
+	                <option value="all">전체</option>
+	                <option value="거래가능">거래 가능</option>
+	                <option value="예약중">예약 중</option>
+	                <option value="거래완료">거래 완료</option>
 	            </select>
 	        </td>
-	        <td class="date">등록일</td>
-	        <td class="blind">
-	            <label for="blind">블라인드 여부</label>
-	            <select id="blind" id="blind-search">
-	                <option value="ALL">전체</option>
-	                <option value="Y">Y</option>
-	                <option value="N">N</option>
-           		</select>
-			</td>
-        	<td class="tempsave">
-	            <label for="tempsave">임시저장 여부</label>
-	            <select id="tempsave" id="temp-save">
-	                <option value="ALL">전체</option>
-	                <option value="Y">Y</option>
-	                <option value="N">N</option>
-	            </select>
+	        <td class="blind-tempsave">
+				    <input type="radio" name="blind-tempsave" value="blind" class="radioOption"/>블라인드
+      				<input type="radio" name="blind-tempsave" value="tempsave" class="radioOption"/>임시저장
 			</td>
 		</tr>
 		</table>
@@ -91,7 +78,7 @@
 			<button>확인</button>
 			<button>취소</button>
 		</div>
-		<div id="BlindModal" class="modal">
+		<div id="BlindModal" class="modal" style="display: none;">
 			<p>해당 게시물 경매를 취소시키겠습니까?</p>
 			<p style="font-size: 12px; color: red;">*입찰금은 마지막 입찰자에게 반환됩니다.</p>
 			<button>확인</button>
@@ -144,11 +131,11 @@
 <script>
 	
 	// 입력 검색
-	var textVal = $('text-search').val();
+	var textVal = $('#text-search').val();
 	$('.button-search').on('click'), function() {
 		textVal = $(this).val();
 		
-		listCall(textVal,selectedCategory,selectedState,selectedBlind,selectedTempsave);
+		listCall(textVal,selectedCategory,selectedState,selectedRadio);
 	}
 	
 	// 카테고리 검색
@@ -156,7 +143,7 @@
 	$('#category-search').change(function() {
 		selectedCategory = $(this).val();
 		
-		listCall(textVal,selectedCategory,selectedState,selectedBlind,selectedTempsave);
+		listCall(textVal,selectedCategory,selectedState,selectedRadio);
 	});
 	
 	// 거래 상태 검색
@@ -164,55 +151,62 @@
 	$('#state-search').change(function() {	
 		selectedState = $(this).val();
 		
-		listCall(textVal,selectedCategory,selectedState,selectedBlind,selectedTempsave);
+		listCall(textVal,selectedCategory,selectedState,selectedRadio);
 	});
 	
-	// 등록일 검색
-	var selectedDate = $('#date-search').val();
-	$('#date-search').change(function() {
-		selectedDate = $(this).val();
+	// 블라인드, 임시저장 선택
+	var selectedRadio = $('input[name="blind-tempsave"]:checked').val();
+	$('input[name="blind-tempsave"]').change(function() {
+		selectedRadio = $(this).val();
 		
-		listCall(textVal,selectedCategory,selectedState,selectedBlind,selectedTempsave);
+		listCall(textVal,selectedCategory,selectedState,selectedRadio);
 	});
-	
-	// 블라인드 검색
-	var selectedBlind = $('#blind-search').val();
-	$('#blind-search').change(function() {	
-		selectedBlind = $(this).val();
-		
-		listCall(textVal,selectedCategory,selectedState,selectedBlind,selectedTempsave);
-	});
-	
-	// 임시저장 검색
-	var selectedTempsave = $('#temp-search').val();
-	$('#temp-search').change(function() {
-		selectedTempsave = $(this).val();
-		
-		listCall(textVal,selectedCategory,selectedState,selectedBlind,selectedTempsave);
-	});
+
+	listCall(textVal,selectedCategory,selectedState,selectedRadio);
 	
 	// 게시글 리스트 출력
-	function listCall(textVal,selectedCategory,selectedState,selectedBlind,selectedTempsave) {
-		
+	function listCall(textVal,selectedCategory,selectedState,selectedRadio) {
 		$.ajax({
 			type: 'get',
-			url: './list.ajax',
+			url: '<c:url value="/admin/bbsList.ajax"/>',
 			data: {
 				'textVal': textVal,
 				'selectedCategory': selectedCategory,
 				'selectedState': selectedState,
-				'selectedBlind': selectedBlind,
-				'selectedTempsave': selectedTempsave
+				'selectedRadio': selectedRadio,
 			},
 			dataType: 'JSON',
 			success: function(data) {
-				drawBoardlist(data);
-			}, error: function(error) {
-				console.log(error);
-			}
+				drawBbsList(data);
+			}, error: function(error) {}
 		});
+	}
 	
-	// drawBoardlist 함수 : 게시글 그리기
+	// drawBbsList 함수 : 게시글 그리기
+	function drawBbsList(data) {
+		$('#list').empty();
+		
+		var content = '';
+		
+		if (!data.list || data.list.length === 0) {
+			content += '<tr><td colspan = 8>검색한 회원이 없습니다.</td></tr>';
+		}
+		for (item of data.list) {
+			content += '<tr>';
+			content += '<td class="one"><input type="checkbox"/></td>';
+			content += '<td class="two">'+item.idx+'</td>';
+			content += '<td class="three">'+item.option+'</td>';
+			content += '<td class="four">'+item.bbs_state+'</td>';
+			content += '<td class="five">'+item.subject+'</td>';
+			content += '<td class="six">'+item.price+'</td>';
+			content += '<td class="seven">'+item.email+'</td>';
+			content += '<td class="eight">'+item.reg_date+'</td>';
+			content += '<td class="nine">'+item.blind+'</td>';
+			content += '</tr>';
+		}
+		
+		$('#list').append(content);
+	}
 	
 	
 	
