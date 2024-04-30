@@ -21,8 +21,9 @@
 			<div id="room-search">
 				<p>쪽지 방 검색</p>
 				<div class="search-box">
-					<input type="text" name="search-val" id="subject-search" placeholder="검색할 제목 또는 게시글 번호를 입력해주세요" />
-					<button class="search-btn"><i class="fa-solid fa-magnifying-glass"></i></button>
+					<input type="text" name="search-val" id="subject-search" placeholder="게시글 번호를 입력해주세요" />
+					<button class="room-search-btn"><i class="fa-solid fa-magnifying-glass"></i></button>
+					<input type="checkbox" id="reportFilter" /> <p>신고 받은 방만 보기</p>
 				</div>
 	
 				<table class="room-result-box">
@@ -36,16 +37,7 @@
 							<th>내용 확인</th>
 						</tr>
 					</thead>
-					<tbody id="roomList">
-						<tr>
-							<td>게시글 번호</td>
-							<td>제목</td>
-							<td>판매자</td>
-							<td>구매자</td>
-							<td>등록일</td>
-							<td>내용 확인</td>
-						</tr>
-					</tbody>
+					<tbody id="roomList"></tbody>
 				</table>
 			</div>
 			
@@ -53,41 +45,106 @@
 				<p>쪽지 번호 검색</p>
 				<div class="search-box">
 					<input type="text" id="msg-search" placeholder="쪽지 번호를 입력해주세요" />
-					<button class="search-btn"><i class="fa-solid fa-magnifying-glass"></i></button>
+					<button class="message-search-btn"><i class="fa-solid fa-magnifying-glass"></i></button>
 					<input type="checkbox" id="reportFilter" /> <p>신고 받은 쪽지만 보기</p>
 				</div>
 	
 				<table class="message-result-box">
 					<thead>
 						<tr>
-							<th>게시글 번호</th>
 							<th>쪽지 번호</th>
+							<th>게시글 번호</th>
 							<th>발신자</th>
 							<th>수신자</th>
 							<th>등록일시</th>
 						</tr>
 					</thead>
-					<tbody id="messgeList">
-						<tr>
-							<td>게시글 번호</td>
-							<td>쪽지 번호</td>
-							<td>발신자</td>
-							<td>수신자</td>
-							<td>등록일시</td>
-						</tr>
-					</tbody>
+					<tbody id="messageList"></tbody>
 				</table>
 			</div>
 
+			<div id="msg-detail">
+				<div class="top">
+					<button class="escape"><i class="fa-solid fa-x"></i></button>
+				</div>
+				<table>
+					<thead>
+						<tr>
+							<th>쪽지번호</th>
+							<th>내용</th>
+							<th>등록일시</th>
+							<th>수신자</th>
+							<th>수신자삭제</th>
+							<th>발신자</th>
+							<th>발신자삭제</th>
+							<th>읽음여부</th>
+							<th>게시물번호</th>
+						</tr>
+					</thead>
+					<tbody id="msg-detail-Info"></tbody>
+				</table>		
+			</div>
 		</section>
 	</main>
 </body>
 
 <script>
-// messageRoomListCall();
-// messageListCall();
+// 타임스탬프 형식 문자열로 DateToString();
+roomListCall('', 'N');
+messageListCall('', 'N');
 
-$(".search-btn").click(function() {
+// 메시지 룸 불러오기
+$(".room-search-btn").click(function() {
+	var searchText = $(this).closest('.search-box').find('input[type="text"]').val();
+    var reportChecked = $(this).closest('.search-box').find('input[type="checkbox"]').prop('checked');
+    
+    // 체크 됨에 따라서 Y,N으로 구분
+    var reportYN = reportChecked ? 'Y' : 'N';
+    
+    // console.log("Value of input box:", searchText);
+    // console.log("Checkbox value:", reportYN);
+    roomListCall(searchText, reportYN);
+});
+
+function roomListCall(searchText, reportYN){
+	$.ajax({
+		type:'GET',
+		url:'./roomList.ajax',
+		data:{
+			"searchText" : searchText,
+			"reportYN" : reportYN
+		},
+		dataType:'JSON',
+		success:function(data){
+			if (data.result) {
+				roomDrawList(data.list);			
+			}
+		},
+		error:function(error){
+			console.log(error);
+		}
+	});
+}
+
+function roomDrawList(list){
+	var content = '';
+	
+	for (item of list) {
+		content +='<tr data-value="'+item+'">';
+		content +=		'<td>'+item.idx+'</td>';
+		content +=		'<td>'+item.subject+'</td>';
+		content +=		'<td>'+item.receive_email+'</td>';
+		content +=		'<td>'+item.sender_email+'</td>';
+		content +=		'<td>'+DateToString(item.reg_date)+'</td>';
+		content +=		'<td>'+'<a href="">확인</a>'+'</td>';
+		content +='</tr>';
+	}
+
+	$('#roomList').html(content);
+}
+
+// 메시지 리스트 불러오기
+$(".message-search-btn").click(function() {
     var searchText = $(this).closest('.search-box').find('input[type="text"]').val();
     var reportChecked = $(this).closest('.search-box').find('input[type="checkbox"]').prop('checked');
     
@@ -99,8 +156,6 @@ $(".search-btn").click(function() {
     messageListCall(searchText, reportYN);
 });
 
-
-
 function messageListCall(searchText, reportYN){
 	$.ajax({
 		type:'GET',
@@ -111,7 +166,9 @@ function messageListCall(searchText, reportYN){
 		},
 		dataType:'JSON',
 		success:function(data){
-			// messageDrawList(data.list);
+			if (data.result) {
+				messageDrawList(data.list);			
+			}
 		},
 		error:function(error){
 			console.log(error);
@@ -123,37 +180,44 @@ function messageDrawList(list){
 	var content = '';
 	
 	for (item of list) {
-		/* 추가하는 사항에 el 태그를 사용하면 속도차이로 값이 안나올수 있어 사용에 주의해야한다. -> 변수로 사용 */
-		console.log(item);
-		content += '<tr>';
-		content +=	'<td><input type="checkbox" name="del" value="'+item.idx+'" /></td>';
-		content +=	'<td>'+item.idx+'</td>';
-		content +=	'<td>';
-		
-		var img = item.img_cnt > 0 ? 'image.png' : 'no_image.png';
-		content +=	'<img class="icon" src="resources/img/'+img+'"/>';
-		
-		content +=	'</td>';
-		content +=	'<td>'+item.subject+'</td>';
-		content +=	'<td>'+item.user_name+'</td>';
-		content +=	'<td>'+item.bHit+'</td>';
-		
-		// java.sql.Date 는 javascript 에서는 ms 로 변환하여 표시한다.
-		// 방법 1. Back-end : DTO 의 반환 날짜 타입을 문자열로 변경
-		// content +=	'<td>'+item.reg_date+'</td>';
-		
-		// 방법 2. Front-end : js 에서 직접 변환
-		var date = new Date(item.reg_date);
-		var dateStr = date.toLocaleDateString("ko-KR"); // en-US - 그 지역의 표준시로 보여달라
-		
-		content += '<td>'+dateStr+'</td>';
-		
+		content +='<tr onclick="msgDetail(event)" data-value=\''+JSON.stringify(item)+'\'>';
+		content +=		'<td>'+item.message_idx+'</td>';
+		content +=		'<td>'+item.idx+'</td>';
+		content +=		'<td>'+item.sender_email+'</td>';
+		content +=		'<td>'+item.receive_email+'</td>';
+		content +=		'<td>'+DateToString(item.reg_date)+'</td>';
 		content +='</tr>';
 	}
 
-	$('#list').html(content);
+	$('#messageList').html(content);
+}
+
+function msgDetail(event){
+	var data = $(event.target).closest('tr').data("value");
+	$('#msg-detail').show();
+
+	var content = '';
+	content +='<tr>';
+	content +=		'<td>'+data.message_idx+'</td>';
+	content +=		'<td>'+data.content+'</td>';
+	content +=		'<td>'+DateToString(data.reg_date)+'</td>';
+	content +=		'<td>'+data.receive_email+'</td>';
+	content +=		'<td>'+data.receive_del+'</td>';
+	content +=		'<td>'+data.sender_email+'</td>';
+	content +=		'<td>'+data.sender_del+'</td>';
+	content +=		'<td>'+data.read_check+'</td>';
+	content +=		'<td>'+data.idx+'</td>';
+	content +='</tr>';
+
+	$('#msg-detail-Info').html(content);
 }
 
 
+
+$('.escape').click(function() {
+    $(this).closest('.top').parent().hide();
+});
+
+// 선택하면 선택 요소 색상 변경
 </script>
 </html>

@@ -3,11 +3,13 @@ package com.beans.market.admin.dao;
 import java.util.List;
 
 import com.beans.market.member.dto.MemberDTO;
+import com.beans.market.message.dto.MessageDTO;
 import com.beans.market.admin.dto.AdminDTO;
 import com.beans.market.admin.dto.AlarmDTO;
 
 public interface AdminDAO {
 
+	/* 성영 */
 	AdminDTO login(String id, String pw);
 
 	int noCompleteInquiry();
@@ -19,9 +21,14 @@ public interface AdminDAO {
 	int alarmRead(int idx);
 
 	int newAlarm();
+	
+	List<MessageDTO> messageList(int searchText);
+	List<MessageDTO> messageReportList(int searchText);
 
-
-
+	List<MessageDTO> roomListCall(int intSearchText);
+	List<MessageDTO> roomReportListCall(int intSearchText);
+	
+	/* 성영 END*/
 
 
 
@@ -51,4 +58,8 @@ public interface AdminDAO {
 	List<MemberDTO> memberSelect18(int warningCnt, String memberSearch);
 	List<MemberDTO> memberSelect19(int warningCnt, String memberSearch);
 	List<MemberDTO> memberSelect20(int warningCnt, String memberSearch);
+
+
+
+
 }

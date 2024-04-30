@@ -117,7 +117,7 @@ public class AdminController {
 	}
 	
 	/*========================= 이동 =================================*/
-	// 로그인
+	// 로그인 - 성영
 	@RequestMapping(value = "/admin/adminLogin.do", method = RequestMethod.POST)
 	public String adminLoginDo(HttpSession session, Model model, String id, String pw) {
 		logger.info("admin login id : {}, pw : {}", id, pw);
@@ -136,7 +136,7 @@ public class AdminController {
 	     
 	    return page;
 	}
-	// 로그아웃
+	// 로그아웃 - 성영
 	@RequestMapping(value = "/admin/logout.do", method = RequestMethod.GET)
 	public String logoutDo(HttpSession session, Model model) {
 	    
@@ -152,7 +152,7 @@ public class AdminController {
 	    return "admin/adminLogin";
 	}
 	 
-	// 알림 리스트 가져오기
+	// 알림 리스트 가져오기 - 성영
 	@RequestMapping(value="/admin/adminAlarm.ajax")
 	@ResponseBody
 	public Map<String, Object> alarm(HttpSession session) {
@@ -170,7 +170,7 @@ public class AdminController {
 		return map;
 	}
 	
-	// 알림 읽음 처리
+	// 알림 읽음 처리 - 성영
 	@RequestMapping(value="/admin/adminAlarmRead.ajax")
 	@ResponseBody
 	public Map<String, Object> alarm(HttpSession session, String idx) {
@@ -185,7 +185,7 @@ public class AdminController {
 		return map;
 	}
 	
-	// 새로운 알림이 있는지 확인
+	// 새로운 알림이 있는지 확인 - 성영
 	@RequestMapping(value="/admin/adminNewAlarm.ajax")
 	@ResponseBody
 	public Map<String, Object> newAlarm(HttpSession session) {
@@ -198,20 +198,40 @@ public class AdminController {
 		return map;
 	}
 	
-	// 쪽지 번호를 토대로 출력
+	// 쪽지 번호를 토대로 출력 - 성영
 	@RequestMapping(value="/admin/messageList.ajax")
 	@ResponseBody
 	public Map<String, Object> messageList(HttpSession session, String searchText, String reportYN) {
 		logger.info("쪽지 리스트 출력");
 		Map<String, Object> map = new HashMap<String, Object>();
 		
-		// 세션은 나중에
-		map = adminService.newAlarm();
+		logger.info("text : {}, YN : {}", searchText, reportYN);
+		// 세션은 나중에		
+		int intSearchText; 
+		try {
+			intSearchText = searchText.equals("") ? 0 : Integer.parseInt(searchText); // 숫자가 아닐때라고 유효성 검사를 주는게 좋아보임
+		} catch (Exception e) {
+			intSearchText = 0;
+		}
+		
+		map = adminService.messageList(intSearchText , reportYN);
 
 		return map;
 	}
 	
+	// 게시글을 토대로 출력 - 성영
+	@RequestMapping(value="/admin/roomList.ajax")
+	@ResponseBody
+	public Map<String, Object> roomList(HttpSession session, String searchText, String reportYN) {
+		logger.info("게시글에 연결될 쪽지방 리스트 출력");
+		Map<String, Object> map = new HashMap<String, Object>();
+		
+		// 세션은 나중에
+		
+		map = adminService.roomList(searchText, reportYN);
 
+		return map;
+	}
 
 
 

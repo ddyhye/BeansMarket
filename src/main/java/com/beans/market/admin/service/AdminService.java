@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 
 import com.beans.market.admin.dao.AdminDAO;
 import com.beans.market.member.dto.MemberDTO;
+import com.beans.market.message.dto.MessageDTO;
 import com.beans.market.admin.dto.AdminDTO;
 import com.beans.market.admin.dto.AlarmDTO;
 
@@ -22,15 +23,19 @@ public class AdminService {
 
 	@Autowired AdminDAO adminDao;
 	@Autowired AdminDAO adminDAO;
-
+	
+	/* 성영 */
+	// 로그인
 	public AdminDTO login(String id, String pw) {
 		return adminDAO.login(id, pw);
 	}
-
+	
+	// 알림 리스트 가져오기
 	public List<AlarmDTO> alarm() {
 		return adminDAO.alarm();
 	}
 	
+	// 문의, 신고 미처리 횟수 가져오기
 	public Map<String, Object> noComplete() {
 		Map<String, Object> map = new HashMap<String, Object>();
 		int cnt = 0;
@@ -66,9 +71,56 @@ public class AdminService {
 		return map;
 	}
 
+	// 쪽지 리스트 가져오기
+	public Map<String, Object> messageList(int searchText, String reportYN) {
+		Map<String, Object> map = new HashMap<String, Object>();
+		List<MessageDTO> list = new ArrayList<MessageDTO>();
+		boolean result = false;
+		logger.info("searchText : {}", searchText);
+		
+		if (reportYN.equals("Y")) { // 신고 받은거만
+			list = adminDAO.messageReportList(searchText);
+			result = true;
+		} else { // 전부
+			list = adminDAO.messageList(searchText);
+			result = true;
+		}
+		
+		map.put("list", list);
+		map.put("result", result);
+		
+		return map;
+	}
+	
+	// 쪽지 방 리스트 가져오기
+	public Map<String, Object> roomList(String searchText, String reportYN) {
+		Map<String, Object> map = new HashMap<String, Object>();
+		List<MessageDTO> list = new ArrayList<MessageDTO>();
+		boolean result = false;
+		logger.info("searchText : {}", searchText);
+		
+		int intSearchText; 
+		try {
+			intSearchText = searchText.equals("") ? 0 : Integer.parseInt(searchText); // 숫자가 아닐때라고 유효성 검사를 주는게 좋아보임
+		} catch (Exception e) {
+			intSearchText = 0;
+		}
+		
+		if (reportYN.equals("Y")) { // 신고 받은거만
+			list = adminDAO.roomReportListCall(intSearchText);
+			result = true;
+		} else { // 전부
+			list = adminDAO.roomListCall(intSearchText);
+			result = true;
+		}
 
-
-
+		map.put("list", list);
+		map.put("result", result);
+		
+		return map;
+	}
+	
+	/* 성영 END */
 
 
 
@@ -144,6 +196,6 @@ public class AdminService {
 
 		return map;
 	}
-	
+
 	
 }

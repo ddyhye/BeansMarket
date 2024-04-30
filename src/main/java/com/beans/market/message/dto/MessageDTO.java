@@ -14,6 +14,9 @@ public class MessageDTO {
 	private int idx;
 	private String new_picname;
 	
+	// 쪽지 관리에 제목 출력 용
+	private String subject;
+	
 	public int getMessage_idx() {
 		return message_idx;
 	}
@@ -73,6 +76,12 @@ public class MessageDTO {
 	}
 	public void setNew_picname(String new_picname) {
 		this.new_picname = new_picname;
+	}
+	public String getSubject() {
+		return subject;
+	}
+	public void setSubject(String subject) {
+		this.subject = subject;
 	}
 	
 }

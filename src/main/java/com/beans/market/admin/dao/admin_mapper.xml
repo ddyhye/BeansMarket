@@ -3,7 +3,7 @@
 	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.beans.market.admin.dao.AdminDAO">	
 	
-	
+	<!-- 성영 -->
 	<select id="login" resultType="com.beans.market.admin.dto.AdminDTO">
 		SELECT id, admin_name FROM admin WHERE id = #{param1} AND pw = #{param2}
 	</select>
@@ -36,8 +36,75 @@
 			FROM admin_alarm
 			WHERE checked = 'N'
 	</select>
+
+	<select id="messageList" resultType="com.beans.market.message.dto.MessageDTO">
+		SELECT 
+			message_idx, 
+			content, 
+			reg_date, 
+			receive_email, 
+			receive_del, 
+			sender_email, 
+			sender_del,
+			read_check,
+			idx
+		FROM 
+			deal_message
+		WHERE 
+			CASE WHEN #{param1} = 0 THEN 1=1 ELSE message_idx = #{param1} END
+	</select>
+	
+	<select id="messageReportList" resultType="com.beans.market.message.dto.MessageDTO">
+		SELECT 
+			dm.message_idx, 
+			dm.content, 
+			dm.reg_date, 
+			dm.receive_email, 
+			dm.receive_del, 
+			dm.sender_email, 
+			dm.sender_del,
+			dm.read_check,
+			dm.idx,
+			r.idx,
+			r.report_complete
+		FROM deal_message dm 
+		LEFT JOIN 
+			(SELECT r.report_idx, r.option_idx, r.idx, r.report_complete, r.reg_date FROM report r WHERE r.option_idx = 'RB003' AND r.report_complete = 'N') AS r
+			ON dm.message_idx = r.idx
+		WHERE r.idx IS NOT NULL AND
+			CASE WHEN #{param1} = 0 THEN 1=1 ELSE dm.message_idx = #{param1} END
+		ORDER BY r.reg_date
+	</select>
 	
 	
+	<select id="roomListCall" resultType="com.beans.market.message.dto.MessageDTO">
+		SELECT dm.idx, dm.sender_email, dm.receive_email, b.subject, dm.reg_date
+			FROM deal_message dm LEFT JOIN (SELECT b.idx, b.email, b.subject FROM bbs b) AS b ON dm.idx = b.idx
+			WHERE dm.receive_email = b.email AND
+				CASE WHEN #{param1} = 0 THEN 1=1 ELSE dm.idx = #{param1} END
+			GROUP BY dm.idx, dm.receive_email, dm.sender_email
+			ORDER BY dm.idx
+	</select>
+	
+	<select id="roomReportListCall" resultType="com.beans.market.message.dto.MessageDTO">
+		SELECT dm.idx, dm.sender_email, dm.receive_email, b.subject, dm.reg_date, r.report_idx, r.perpet_email, r.reporter_email 
+			FROM deal_message dm 
+			LEFT JOIN (SELECT b.idx, b.email, b.subject FROM bbs b) AS b 
+				ON dm.idx = b.idx
+			LEFT JOIN (SELECT r.report_idx, r.option_idx, r.idx, r.report_complete, r.reg_date, r.perpet_email, r.reporter_email FROM report r WHERE r.option_idx = 'RB002' AND r.report_complete = 'N') AS r
+				ON dm.idx = r.idx 
+					AND (dm.sender_email = r.reporter_email OR dm.sender_email = r.perpet_email)
+					AND (dm.receive_email = r.reporter_email OR dm.receive_email = r.perpet_email)
+			WHERE dm.receive_email = b.email AND r.idx IS NOT NULL AND
+				CASE WHEN #{param1} = 0 THEN 1=1 ELSE dm.idx = #{param1} END
+			GROUP BY dm.idx, dm.receive_email, dm.sender_email
+			ORDER BY dm.idx
+	</select>
+	<!-- GROUP BY에 r.report_idx를 추가하면 신고 번호에 대해서도 구분할 수 있다. -->
+
+	
+	<!-- 성영 END -->
+		
 	
 	
 	
