@@ -377,3 +377,21 @@ table {
 .memberM-center-manage-bottom p:hover {
 	background-color: #16251f;
 }
+#submitBtn {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	
+	position: relative;
+	width: 50px;
+	height: 30px;
+	margin: 0 5px;
+	
+	color: white;
+	font-weight: bold;
+	background-color: #22382e;
+	border-radius: 2px;
+}
+#submitBtn:hover {
+	background-color: #16251f;
+}

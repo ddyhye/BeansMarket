@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 
 import com.beans.market.admin.dao.AdminDAO;
 import com.beans.market.member.dto.MemberDTO;
+import com.beans.market.photo.dto.ProfilePicDTO;
 import com.beans.market.admin.dto.AdminDTO;
 import com.beans.market.admin.dto.AlarmDTO;
 
@@ -77,7 +78,7 @@ public class AdminService {
 
 
 
-		/*                     도혜                       */
+	/*                     도혜                       */
 	public Map<String, Object> memberList(Map<String, Object> map, String memberSearch, String warningOption, String memberStateOption) {
 		
 		List<MemberDTO> list = new ArrayList<MemberDTO>();
@@ -143,6 +144,38 @@ public class AdminService {
 		map.put("list", list);
 
 		return map;
+	}
+	public int userManageDo(Map<String, String> param) {
+		if (param.get("manageOption").equals("경고 1회 추가")) {
+			adminDao.userManageUpdate1(param);
+		} else if (param.get("manageOption").equals("경고 1회 차감")) {
+			adminDao.userManageUpdate2(param);
+		} else if (param.get("manageOption").equals("기간 정지 3일")) {
+			adminDao.userManageUpdate3(param);
+		} else if (param.get("manageOption").equals("기간 정지 해제")) {
+			adminDao.userManageUpdate4(param);
+		} else if (param.get("manageOption").equals("영구 정지")) {
+			adminDao.userManageUpdate5(param);
+		}
+		
+		return adminDao.userManageDo(param);
+	}
+
+	public MemberDTO getMemberProfile(String memberEmail) {
+		return adminDao.getMemberProfile(memberEmail);
+	}
+	public String getmemberProfilePic(String memberEmail) {
+		return adminDao.getmemberProfilePic(memberEmail);
+	}
+
+	public void userPointUpdate1(String memberEmail, int point) {
+		adminDao.userPointUpdate1Insert(memberEmail, point);
+		adminDao.userPointUpdate1(memberEmail, point);
+	}
+
+	public void userPointUpdate2(String memberEmail, int point) {
+		adminDao.userPointUpdate2Insert(memberEmail, point);
+		adminDao.userPointUpdate2(memberEmail, point);
 	}
 	
 	

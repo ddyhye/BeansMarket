@@ -107,36 +107,37 @@
 						</div> -->
 		   			</div>
 		   			<div class="memberM-center-manage">
-		   				<!-- form 데이터 만들기 -->
-		   				<div class="memberM-center-manage-subject">
-		   					<h3>회원 관리</h3>
-		   				</div>
-		   				<div class="memberM-center-manage-memberEmail">
-			   				<div class="memberM-center-manage-head">
-			   					<p>대상 회원</p>
+		   				<form action="<c:url value='/admin/userManage.do'/>", method="POST">
+			   				<div class="memberM-center-manage-subject">
+			   					<h3>회원 관리</h3>
 			   				</div>
-			   				<p id="manageMemberEmail">ahruru@email.com</p>
-		   				</div>
-		   				<div class="memberM-center-manage-option">
-		   					<div class="memberM-center-manage-head">
-		   						<p>제제 옵션</p>
+			   				<div class="memberM-center-manage-memberEmail">
+				   				<div class="memberM-center-manage-head">
+				   					<p>대상 회원</p>
+				   				</div>
+				   				<input type="text" id="manageMemberEmail" name="memberEmail" value="ahruru@email.com" readonly>
 			   				</div>
-			   				<select name="manageOption" id="manageOption">
-								<option value="add">경고 1회 추가</option>
-								<option value="subtract">경고 1회 차감</option>
-								<option value="stop3">기간 정지 3일</option>
-								<option value="unStop">기간 정지 해제</option>
-								<option value="ban">영구 정지</option>
-							</select>
-		   				</div>
-		   				<div class="memberM-center-manage-content">
-		   					<p>제제 사유</p>
-		   					<input type="text" name="manageContent" id="manageContent" placeholder="최대 300자 입력 가능..."/>
-		   				</div>
-		   				<div class="memberM-center-manage-bottom">
-		   					<p>확인</p>
-		   					<p id="back">취소</p>
-		   				</div>
+			   				<div class="memberM-center-manage-option">
+			   					<div class="memberM-center-manage-head">
+			   						<p>제제 옵션</p>
+				   				</div>
+				   				<select name="manageOption" id="manageOption">
+									<option value="경고 1회 추가">경고 1회 추가</option>
+									<option value="경고 1회 차감">경고 1회 차감</option>
+									<option value="기간 정지 3일">기간 정지 3일</option>
+									<option value="기간 정지 해제">기간 정지 해제</option>
+									<option value="영구 정지">영구 정지</option>
+								</select>
+			   				</div>
+			   				<div class="memberM-center-manage-content">
+			   					<p>제제 사유</p>
+			   					<input type="text" name="manageContent" id="manageContent" placeholder="최대 300자 입력 가능..."/>
+			   				</div>
+			   				<div class="memberM-center-manage-bottom">
+			   					<input type="submit" id="submitBtn" value="확인"/>
+			   					<p id="back">취소</p>
+			   				</div>
+			   			</form>
 		   			</div>
 		   		</div>
 		   	</div>
@@ -145,6 +146,10 @@
 </body>
 
 <script>
+	var msg = '${msg}';
+	if(msg != ''){
+	    alert(msg);
+	}
 
 	// option 펼침/닫힘
 	$('.memberM-top-option-skip').on('click', function(){
@@ -189,6 +194,15 @@
 	    memberStateOption = $('input[name="memberStateOption"]:checked').val();
 	    listCall(memberSearch, warningOption, memberStateOption);
 	});
+	// 옵션 초기화
+	$('.fa-rotate-left').on('click', function() {
+		$('#memberSearch').val('');
+		$('#warningOption').val('all');
+	    $('input[name="memberStateOption"]').prop('checked', false); 
+	    $('#memberStateOption1').prop('checked', true); 
+	    
+	    listCall('', 'all', 'all');
+	});
 	
 	
 	// 회원 리스트 요청 AJAX
@@ -217,11 +231,13 @@
 			content += '<tr><td colspan = 8>검색한 회원이 없습니다.</td></tr>';
 		}
 		for (item of data.list) {
-			content += '<tr>';
+			console.log(item.login_banend);
+			content += '<tr class="memberSelect">';
 			content += '<td>'+item.email+'</td>';
 			content += '<td>'+item.name+'</td>';
 			content += '<td>'+item.warn_count+'</td>';
-			var banend = item.login_banend = '1970-01-01'? '0000-00-00':item.login_banend;
+			var banend = item.login_banend === '1970-01-01'? '0000-00-00':item.login_banend;
+			console.log(banend);
 			content += '<td>'+banend+'</td>';
 			content += '<td>'+item.permanent_ban+'</td>';
 			content += '<td>'+item.dormant+'</td>';
@@ -239,10 +255,19 @@
 		var memberEmail = $(this).data('email');
 		
 		$('.memberM-center-manage').addClass('active');
-		$('#manageMemberEmail').text(memberEmail);
+		$('#manageMemberEmail').val(memberEmail);
 	});
 	$('#back').on('click', function(){
 		$('.memberM-center-manage').removeClass('active');
+	});
+	
+	
+	
+	// 회원 상세보기
+	$('#memberListT').on('click', '.memberSelect', function(event) {
+		var memberEmail = $(this).find('.fa-gear').data('email');
+		
+		window.location.href = '<c:url value="/admin/userManageDetail.go?memberEmail='+memberEmail+'"/>';
 	});
 	
 	
