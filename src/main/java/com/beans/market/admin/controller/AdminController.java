@@ -13,11 +13,14 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.beans.market.admin.dto.AdminDTO;
 import com.beans.market.admin.dto.AlarmDTO;
 import com.beans.market.admin.service.AdminService;
+import com.beans.market.member.dto.MemberDTO;
+import com.beans.market.photo.dto.ProfilePicDTO;
 
 @Controller
 public class AdminController {
@@ -130,6 +133,7 @@ public class AdminController {
 	    if(adLoginInfo != null) {
 	        page = "redirect:/admin/messageManage.go";
 	        session.setAttribute("adLoginInfo", adLoginInfo);
+	        session.setAttribute("adminID", adLoginInfo.getId());
         } else {
 			model.addAttribute("msg", msg);
 		}
@@ -144,6 +148,7 @@ public class AdminController {
 	    
 	    if (session.getAttribute("adLoginInfo") != null) {
 			session.removeAttribute("adLoginInfo");
+			session.removeAttribute("adminID");
 			msg = "로그아웃 되셨습니다.";
 		}
 		
@@ -249,7 +254,14 @@ public class AdminController {
 
 
 	
+	
+	
+	
+	
+	
+	
 	/*                     도혜                       */
+	// 회원 리스트 불러오기
 	@RequestMapping(value="/admin/memberList.ajax")
 	@ResponseBody
 	public Map<String, Object> memberListAjax(String memberSearch, String warningOption, String memberStateOption) {
@@ -259,4 +271,155 @@ public class AdminController {
 
 		return map;
 	}
+	
+	// 회원 관리 (제제)
+	@RequestMapping(value="/admin/userManage.do", method=RequestMethod.POST)
+	public String userManage_do(Model model, HttpSession session, @RequestParam Map<String, String> param) {
+		
+		String adminID = (String) session.getAttribute("adminID");
+		param.put("adminID", adminID);
+		
+		if (adminService.userManageDo(param) > 0) {
+			model.addAttribute("msg", param.get("memberEmail")+" 제제 완료");
+		} else {
+			model.addAttribute("msg", param.get("memberEmail")+" 제제 실패");
+		}
+		
+		return "admin/userManage";
+	}
+	// 회원 상세보기
+	@RequestMapping(value="/admin/userManageDetail.go")
+	public String userManageDetail_go(Model model, HttpSession session, String memberEmail) {
+		String adminID = (String) session.getAttribute("adminID");
+		
+		MemberDTO dto = adminService.getMemberProfile(memberEmail);
+		String new_filename = adminService.getmemberProfilePic(memberEmail);
+		
+		model.addAttribute("new_filename", new_filename);
+		model.addAttribute("email", dto.getEmail());
+		model.addAttribute("name", dto.getName());
+		model.addAttribute("location", dto.getLocation());
+		model.addAttribute("scope", dto.getScope());
+		model.addAttribute("gender", dto.getGender());
+		model.addAttribute("birth_date", dto.getBirth_date());
+		model.addAttribute("last_login", dto.getLast_login());
+		// 정보 약관 동의 X
+		model.addAttribute("dormant", dto.getDormant());
+		model.addAttribute("secession", dto.getSecession());
+		model.addAttribute("point", dto.getPoint());
+		model.addAttribute("warn_count", dto.getWarn_count());
+		model.addAttribute("login_banstr", dto.getLogin_banstr());
+		model.addAttribute("login_banend", dto.getLogin_banend());
+		
+		return "admin/userManageDetail";
+	}
+	// 회원 빈즈페이 수정
+	@RequestMapping(value="/admin/userManageDetailAdd.go")
+	public String userManageDetailAdd_go(Model model, HttpSession session, String memberEmail, String inputPoint) {
+		String adminID = (String) session.getAttribute("adminID");
+		
+		int point = Integer.parseInt(inputPoint);
+		adminService.userPointUpdate1(memberEmail, point);
+		
+		MemberDTO dto = adminService.getMemberProfile(memberEmail);
+		String new_filename = adminService.getmemberProfilePic(memberEmail);
+		
+		model.addAttribute("new_filename", new_filename);
+		model.addAttribute("email", dto.getEmail());
+		model.addAttribute("name", dto.getName());
+		model.addAttribute("location", dto.getLocation());
+		model.addAttribute("scope", dto.getScope());
+		model.addAttribute("gender", dto.getGender());
+		model.addAttribute("birth_date", dto.getBirth_date());
+		model.addAttribute("last_login", dto.getLast_login());
+		// 정보 약관 동의 X
+		model.addAttribute("dormant", dto.getDormant());
+		model.addAttribute("secession", dto.getSecession());
+		model.addAttribute("point", dto.getPoint());
+		model.addAttribute("warn_count", dto.getWarn_count());
+		model.addAttribute("login_banstr", dto.getLogin_banstr());
+		model.addAttribute("login_banend", dto.getLogin_banend());
+		
+		return "admin/userManageDetail";
+	}
+	@RequestMapping(value="/admin/userManageDetailMinus.go")
+	public String userManageDetailMinus_go(Model model, HttpSession session, String memberEmail, String inputPoint) {
+		String adminID = (String) session.getAttribute("adminID");
+		
+		int point = Integer.parseInt(inputPoint);
+		adminService.userPointUpdate2(memberEmail, point);
+		
+		MemberDTO dto = adminService.getMemberProfile(memberEmail);
+		String new_filename = adminService.getmemberProfilePic(memberEmail);
+		
+		model.addAttribute("new_filename", new_filename);
+		model.addAttribute("email", dto.getEmail());
+		model.addAttribute("name", dto.getName());
+		model.addAttribute("location", dto.getLocation());
+		model.addAttribute("scope", dto.getScope());
+		model.addAttribute("gender", dto.getGender());
+		model.addAttribute("birth_date", dto.getBirth_date());
+		model.addAttribute("last_login", dto.getLast_login());
+		// 정보 약관 동의 X
+		model.addAttribute("dormant", dto.getDormant());
+		model.addAttribute("secession", dto.getSecession());
+		model.addAttribute("point", dto.getPoint());
+		model.addAttribute("warn_count", dto.getWarn_count());
+		model.addAttribute("login_banstr", dto.getLogin_banstr());
+		model.addAttribute("login_banend", dto.getLogin_banend());
+		
+		return "admin/userManageDetail";
+	}
+	
+	
+
+
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	/*                     정언                       */
+	@RequestMapping(value="/admin/bbsList.ajax")
+	@ResponseBody
+	public Map<String,Object> bbsListAjax(String textVal, String selectedCategory,String selectedState, String selectedRadio) {
+		Map<String, Object> map = new HashMap<String, Object>();
+		
+		adminService.bbsList(map, textVal, selectedCategory, selectedState, selectedRadio);
+		
+		return map;
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 }
+

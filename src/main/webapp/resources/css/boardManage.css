@@ -31,28 +31,27 @@ section .manager-search {
 	padding-bottom: 20px;
 }
 
-.manager-search .search,
-.manager-search .category {
+.manager-search .search {
     text-align: center;
     width: 50%;
 }
 
+.manager-search .category,
 .manager-search .state,
-.manager-search .date,
-.manager-search .blind,
-.manager-search .tempsave {
+.manager-search .blind-tempsave {
 	text-align: center;
     width: 25%;
 }
 
 
 .search input[type="text"] {
-    width: 80%;
+    width: 50%;
     height: 80%
 }
 
 .button-search {
     width: 10%;
+    height: 75%
 }
 
 #auctionCancelModal {
@@ -166,6 +165,10 @@ table {
 .nine {   
 	position: relative;
    	width: 5%;
+}
+
+.search-list table tbody td {
+    text-align: center;
 }
 
 .tbodyDiv {

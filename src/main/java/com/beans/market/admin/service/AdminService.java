@@ -13,8 +13,10 @@ import org.springframework.stereotype.Service;
 import com.beans.market.admin.dao.AdminDAO;
 import com.beans.market.member.dto.MemberDTO;
 import com.beans.market.message.dto.MessageDTO;
+import com.beans.market.photo.dto.ProfilePicDTO;
 import com.beans.market.admin.dto.AdminDTO;
 import com.beans.market.admin.dto.AlarmDTO;
+import com.beans.market.board.dto.BoardDTO;
 
 @Service
 public class AdminService {
@@ -129,7 +131,7 @@ public class AdminService {
 
 
 
-		/*                     도혜                       */
+	/*                     도혜                       */
 	public Map<String, Object> memberList(Map<String, Object> map, String memberSearch, String warningOption, String memberStateOption) {
 		
 		List<MemberDTO> list = new ArrayList<MemberDTO>();
@@ -197,5 +199,139 @@ public class AdminService {
 		return map;
 	}
 
+	public int userManageDo(Map<String, String> param) {
+		if (param.get("manageOption").equals("경고 1회 추가")) {
+			adminDao.userManageUpdate1(param);
+		} else if (param.get("manageOption").equals("경고 1회 차감")) {
+			adminDao.userManageUpdate2(param);
+		} else if (param.get("manageOption").equals("기간 정지 3일")) {
+			adminDao.userManageUpdate3(param);
+		} else if (param.get("manageOption").equals("기간 정지 해제")) {
+			adminDao.userManageUpdate4(param);
+		} else if (param.get("manageOption").equals("영구 정지")) {
+			adminDao.userManageUpdate5(param);
+		}
+		
+		return adminDao.userManageDo(param);
+	}
+
+	public MemberDTO getMemberProfile(String memberEmail) {
+		return adminDao.getMemberProfile(memberEmail);
+	}
+	public String getmemberProfilePic(String memberEmail) {
+		return adminDao.getmemberProfilePic(memberEmail);
+	}
+
+	public void userPointUpdate1(String memberEmail, int point) {
+		adminDao.userPointUpdate1Insert(memberEmail, point);
+		adminDao.userPointUpdate1(memberEmail, point);
+	}
+
+	public void userPointUpdate2(String memberEmail, int point) {
+		adminDao.userPointUpdate2Insert(memberEmail, point);
+		adminDao.userPointUpdate2(memberEmail, point);
+	}
+
+	
+	
+	
+	
+	
+	
+	
+	/*                     정언                       */
+	public Map<String, Object> bbsList(Map<String, Object> map, String textVal, String selectedCategory, String selectedState, String selectedRadio) {
+
+		List<BoardDTO> list = new ArrayList<BoardDTO>();
+		
+		if (textVal.equals("")) { // 검색어 없을 경우
+			if (selectedCategory.equals("all")) { // 카테고리 전체일 경우
+				if (selectedState.equals("all")) { // 거래상태 전체일 경우
+					if (selectedRadio == null || selectedRadio == "") {
+						list = adminDao.bbsSelect1();
+					} else if (selectedRadio.equals("blind")) {
+						list = adminDao.bbsSelect2();
+					} else if (selectedRadio.equals("tempsave")) {
+						list = adminDao.bbsSelect3();
+					}
+				} else {
+					if (selectedRadio == null || selectedRadio == "") {
+						list = adminDao.bbsSelect4(selectedState);
+					} else if (selectedRadio.equals("blind")) {
+						list = adminDao.bbsSelect5(selectedState);
+					} else if (selectedRadio.equals("tempsave")) {
+						list = adminDao.bbsSelect6(selectedState);
+					}
+				}			
+			} else { // 카테고리가 전체가 아닐 경우
+				if (selectedState.equals("all")) { // 거래상태 전체일 경우
+					if (selectedRadio == null || selectedRadio == "") {
+						list = adminDao.bbsSelect7(selectedCategory);
+					} else if (selectedRadio.equals("blind")) {
+						list = adminDao.bbsSelect8(selectedCategory);
+					} else if (selectedRadio.equals("tempsave")) {
+						list = adminDao.bbsSelect9(selectedCategory);
+					}
+				} else {
+					if (selectedRadio == null || selectedRadio == "") {
+						list = adminDao.bbsSelect10(selectedCategory,selectedState);
+					} else if (selectedRadio.equals("blind")) {
+						list = adminDao.bbsSelect11(selectedCategory,selectedState);
+					} else if (selectedRadio.equals("tempsave")) {
+						list = adminDao.bbsSelect12(selectedCategory,selectedState);
+					}
+				}
+			}
+		} else {
+			int textValInt = 0;
+			
+			if (textVal.matches("[0-9]+")) { // 검색어가 숫자일 경우
+				textValInt = Integer.parseInt(textVal);
+			}
+			 
+			if (selectedCategory.equals("all")) { // 카테고리 전체일 경우
+				if (selectedState.equals("all")) { // 거래상태 전체일 경우
+					if (selectedRadio == null || selectedRadio == "") {
+						list = adminDao.bbsSelect13(textVal,textValInt);
+					} else if (selectedRadio.equals("blind")) {
+						list = adminDao.bbsSelect14(textVal,textValInt);
+					} else if (selectedRadio.equals("tempsave")) {
+						list = adminDao.bbsSelect15(textVal,textValInt);
+					}
+				} else {
+					if (selectedRadio == null || selectedRadio == "") {
+						list = adminDao.bbsSelect16(textVal,textValInt,selectedState);
+					} else if (selectedRadio.equals("blind")) {
+						list = adminDao.bbsSelect17(textVal,textValInt,selectedState);
+					} else if (selectedRadio.equals("tempsave")) {
+						list = adminDao.bbsSelect18(textVal,textValInt,selectedState);
+					}
+				}			
+			} else { // 카테고리가 전제가 아닐 경우
+				if (selectedState.equals("all")) { // 거래상태 전체일 경우
+					if (selectedRadio == null || selectedRadio == "") {
+						list = adminDao.bbsSelect19(textVal,textValInt,selectedCategory);
+					} else if (selectedRadio.equals("blind")) {
+						list = adminDao.bbsSelect20(textVal,textValInt,selectedCategory);
+					} else if (selectedRadio.equals("tempsave")) {
+						list = adminDao.bbsSelect21(textVal,textValInt,selectedCategory);
+					}
+				} else {
+					if (selectedRadio == null || selectedRadio == "") {
+						list = adminDao.bbsSelect22(textVal,textValInt,selectedState,selectedCategory);
+					} else if (selectedRadio.equals("blind")) {
+						list = adminDao.bbsSelect23(textVal,textValInt,selectedState,selectedCategory);
+					} else if (selectedRadio.equals("tempsave")) {
+						list = adminDao.bbsSelect24(textVal,textValInt,selectedState,selectedCategory);
+					}
+				}
+			}
+		}
+		
+		map.put("list", list);
+
+		return map;
+	}
+	
 	
 }

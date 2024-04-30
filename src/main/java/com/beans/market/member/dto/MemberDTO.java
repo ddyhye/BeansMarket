@@ -13,7 +13,7 @@ public class MemberDTO {
 	private int price;
 	private String content;
 	@JsonIgnore
-	private Date reg_date;
+	private java.sql.Date reg_date;
 	private String confirmed;
 	
 	private String pw;
@@ -21,18 +21,19 @@ public class MemberDTO {
 	private String scope;
 	private String name;
 	@JsonIgnore
-	private Date birth_date;
+	private java.sql.Date birth_date;
 	private String gender;
 	private int point;
 	@JsonIgnore
-	private Date last_login;
+	private java.sql.Date last_login;
 	private String dormant;
 	private int login_count;
 	private int warn_count;
 	@JsonIgnore
-	private Date login_banstr;
-	@JsonIgnore
-	private Date login_banend;
+	private java.sql.Date login_banstr;
+	//private Date login_banend;
+	private java.sql.Date login_banend; 
+
 	private String secession;
 	
 	public String getConfirmed() {

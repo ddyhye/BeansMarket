@@ -1,11 +1,13 @@
 package com.beans.market.admin.dao;
 
 import java.util.List;
+import java.util.Map;
 
 import com.beans.market.member.dto.MemberDTO;
 import com.beans.market.message.dto.MessageDTO;
 import com.beans.market.admin.dto.AdminDTO;
 import com.beans.market.admin.dto.AlarmDTO;
+import com.beans.market.board.dto.BoardDTO;
 
 public interface AdminDAO {
 
@@ -37,7 +39,7 @@ public interface AdminDAO {
 
 
 
-
+	// 옵션 별 유저 리스트
 	List<MemberDTO> memberSelect1();
 	List<MemberDTO> memberSelect2();
 	List<MemberDTO> memberSelect3();
@@ -59,7 +61,66 @@ public interface AdminDAO {
 	List<MemberDTO> memberSelect19(int warningCnt, String memberSearch);
 	List<MemberDTO> memberSelect20(int warningCnt, String memberSearch);
 
+	// 유저 제제
+	int userManageDo(Map<String, String> param);
+	void userManageUpdate1(Map<String, String> param);
+	void userManageUpdate2(Map<String, String> param);
+	void userManageUpdate3(Map<String, String> param);
+	void userManageUpdate4(Map<String, String> param);
+	void userManageUpdate5(Map<String, String> param);
+
+	// 회원 프로필 가져오기
+	MemberDTO getMemberProfile(String memberEmail);
+	String getmemberProfilePic(String memberEmail);
+
+	// 회원 포인트 수정
+	void userPointUpdate1(String memberEmail, int point);
+	void userPointUpdate1Insert(String memberEmail, int point);
+	void userPointUpdate2(String memberEmail, int point);
+	void userPointUpdate2Insert(String memberEmail, int point);
 
 
 
+
+
+	
+	
+	
+	List<BoardDTO> bbsSelect1();
+	List<BoardDTO> bbsSelect2();
+	List<BoardDTO> bbsSelect3();
+	List<BoardDTO> bbsSelect4(String selectedState);
+	List<BoardDTO> bbsSelect5(String selectedState);
+	List<BoardDTO> bbsSelect6(String selectedState);
+	List<BoardDTO> bbsSelect7(String selectedCategory);
+	List<BoardDTO> bbsSelect8(String selectedCategory);
+	List<BoardDTO> bbsSelect9(String selectedCategory);
+	List<BoardDTO> bbsSelect10(String selectedCategory, String selectedState);
+	List<BoardDTO> bbsSelect11(String selectedCategory, String selectedState);
+	List<BoardDTO> bbsSelect12(String selectedCategory, String selectedState);
+	List<BoardDTO> bbsSelect13(String textVal, int textValInt);
+	List<BoardDTO> bbsSelect14(String textVal, int textValInt);
+	List<BoardDTO> bbsSelect15(String textVal, int textValInt);
+	List<BoardDTO> bbsSelect16(String textVal, int textValInt, String selectedState);
+	List<BoardDTO> bbsSelect17(String textVal, int textValInt, String selectedState);
+	List<BoardDTO> bbsSelect18(String textVal, int textValInt, String selectedState);
+	List<BoardDTO> bbsSelect19(String textVal, int textValInt, String selectedCategory);
+	List<BoardDTO> bbsSelect20(String textVal, int textValInt, String selectedCategory);
+	List<BoardDTO> bbsSelect21(String textVal, int textValInt, String selectedCategory);
+	List<BoardDTO> bbsSelect22(String textVal, int textValInt, String selectedState, String selectedCategory);
+	List<BoardDTO> bbsSelect23(String textVal, int textValInt, String selectedState, String selectedCategory);
+	List<BoardDTO> bbsSelect24(String textVal, int textValInt, String selectedState, String selectedCategory);
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 }
