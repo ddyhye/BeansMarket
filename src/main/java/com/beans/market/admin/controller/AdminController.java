@@ -20,6 +20,8 @@ import com.beans.market.admin.dto.AdminDTO;
 import com.beans.market.admin.dto.AlarmDTO;
 import com.beans.market.admin.service.AdminService;
 import com.beans.market.member.dto.MemberDTO;
+import com.beans.market.member.dto.MemberPenaltyDTO;
+import com.beans.market.pay.dto.PayDTO;
 import com.beans.market.photo.dto.ProfilePicDTO;
 
 @Controller
@@ -371,6 +373,30 @@ public class AdminController {
 		return "admin/userManageDetail";
 	}
 	
+	// 회원 상세보기 - 페이내역
+	@RequestMapping(value="/admin/userManagePayHistory.ajax")
+	@ResponseBody
+	public Map<String, Object> userManagePayHistoryAjax(String memberEmail) {
+		Map<String, Object> map = new HashMap<String, Object>();
+		
+		List<PayDTO> list = adminService.memberPayHistory(memberEmail);
+		
+		map.put("list", list);
+
+		return map;
+	}
+	// 회원 상세보기 - 제제 내역
+	@RequestMapping(value="/admin/userManageDisciplineHistory.ajax")
+	@ResponseBody
+	public Map<String, Object> userManageDisciplineHistoryAjax(String memberEmail) {
+		Map<String, Object> map = new HashMap<String, Object>();
+		
+		List<MemberPenaltyDTO> list = adminService.memberDisciplineHistory(memberEmail);
+		
+		map.put("list", list);
+
+		return map;
+	}
 	
 
 

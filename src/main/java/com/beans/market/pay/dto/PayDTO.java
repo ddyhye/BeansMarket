@@ -12,7 +12,7 @@ public class PayDTO {
 	private String option;
 	private int price;
 	private String content;
-	private Date reg_date;
+	private java.sql.Date reg_date;
 	//충전
 	private int pay;
 	

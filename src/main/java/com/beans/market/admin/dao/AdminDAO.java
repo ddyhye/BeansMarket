@@ -4,7 +4,9 @@ import java.util.List;
 import java.util.Map;
 
 import com.beans.market.member.dto.MemberDTO;
+import com.beans.market.member.dto.MemberPenaltyDTO;
 import com.beans.market.message.dto.MessageDTO;
+import com.beans.market.pay.dto.PayDTO;
 import com.beans.market.admin.dto.AdminDTO;
 import com.beans.market.admin.dto.AlarmDTO;
 import com.beans.market.board.dto.BoardDTO;
@@ -78,6 +80,10 @@ public interface AdminDAO {
 	void userPointUpdate1Insert(String memberEmail, int point);
 	void userPointUpdate2(String memberEmail, int point);
 	void userPointUpdate2Insert(String memberEmail, int point);
+	
+	// 회원 상세보기 - 페이내역
+	List<PayDTO> memberPayHistory(String memberEmail);
+	List<MemberPenaltyDTO> memberDisciplineHistory(String memberEmail);
 
 
 
@@ -110,6 +116,7 @@ public interface AdminDAO {
 	List<BoardDTO> bbsSelect22(String textVal, int textValInt, String selectedState, String selectedCategory);
 	List<BoardDTO> bbsSelect23(String textVal, int textValInt, String selectedState, String selectedCategory);
 	List<BoardDTO> bbsSelect24(String textVal, int textValInt, String selectedState, String selectedCategory);
+
 	
 	
 	

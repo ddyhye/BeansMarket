@@ -85,7 +85,7 @@
 		   						<p>경고 횟수</p>
 		   					</div>
 		   					<p>${warn_count} 회</p>
-		   					<p id="disciplineManageBtn">Discipline History...</p>
+		   					<p id="disciplineHistoryBtn">Discipline History...</p>
 	   					</div>
 	   					<div class="memberP-manage-column">
 		   					<div class="memberP-manage-head">
@@ -122,18 +122,20 @@
 		   			</div>
 		   			<div class="payHistory-center">
 		   				<div class="payHistory-center-head">
-		   					<p>경고 일자</p>
-		   					<p>입출금 구분</p>
-		   					<p>설명</p>
-		   					<p>금액</p>
-		   					<p>글번호</p>
+		   					<p class="history1">일자</p>
+		   					<p class="history2">입출금 구분</p>
+		   					<p class="history3">설명</p>
+		   					<p class="history4">금액</p>
+		   					<p class="history5">글번호</p>
 			   			</div>
 			   			<div class="payHistory-center-body">
-			   				<p>item.reg_date</p>
-		   					<p>item.option</p>
-		   					<p>item.content</p>
-		   					<p>item.price</p>
-		   					<p>item.idx</p>
+			   				<div class="payAjax">
+				   				<p class="history1">item.reg_date</p>
+			   					<p class="history2">item.option</p>
+			   					<p class="history3">item.content</p>
+			   					<p class="history4">item.price</p>
+			   					<p class="history5">item.idx</p>
+		   					</div>
 			   			</div>
 		   			</div>
 	   			</div>
@@ -143,6 +145,22 @@
 	   					<p id="deleteBtn3">X</p>
 		   			</div>
 		   			<div class="disciplineHistory-center">
+		   				<div class="disciplineHistory-center-head">
+		   					<p class="history5">번호</p>
+		   					<p class="history2">제제 옵션</p>
+		   					<p class="history3">제제 사유</p>
+		   					<p class="history1">제제 일자</p>
+		   					<p class="history4">담당자</p>
+			   			</div>
+			   			<div class="disciplineHistory-center-body">
+			   				<div class="disciplineAjax">
+				   				<p class="history5">item.penalty_idx</p>
+			   					<p class="history2">item.option</p>
+			   					<p class="history3">item.content</p>
+			   					<p class="history1">item.penalty_date</p>
+		   						<p class="history4">item.admin_name</p>
+		   					</div>
+			   			</div>
 		   			</div>
 	   			</div>
 	   			
@@ -175,6 +193,95 @@
 		window.location.href = '<c:url value="/admin/userManageDetailMinus.go?memberEmail='+memberEmail+'&inputPoint='+inputPoint+'"/>';
 		
 		$('.minusBtn').removeClass('active');
+	});
+	
+	// 페이 히스토리 보기
+	$('#payHistoryBtn').on('click', function() {
+		$('.payHistory').addClass('active');
+		
+		var memberEmail = $('#memberEmail').text();
+		
+		$.ajax({
+			type: 'get',
+			url: '<c:url value="/admin/userManagePayHistory.ajax"/>',
+			data: {
+				'memberEmail': memberEmail
+			},
+			dataType: 'JSON',
+			success: function(data) {
+				$('.payHistory-center-body').empty();
+				
+				var content = '';
+		
+				if (!data.list || data.list.length === 0) {
+					content += '<p> 입출금 내역이 없습니다... </p>';
+				}
+				for (item of data.list) {
+					content += '<div class="payAjax">';
+					content += '<p class="history1">'+item.reg_date+'</p>';
+					content += '<p class="history2">'+item.option+'</p>';
+					content += '<p class="history3">'+item.content+'</p>';
+					content += '<p class="history4">'+item.price+'</p>';
+					content += '<p class="history5">'+item.idx+'</p>';
+					content += '</div>';
+				}
+				
+				$('.payHistory-center-body').append(content);
+			},
+			error : function(error) {
+			}
+		});
+	});
+	$('#deleteBtn2').on('click', function() {
+		$('.payHistory').removeClass('active');
+	});
+	
+	// 제제 히스토리 보기
+	$('#disciplineHistoryBtn').on('click', function() {
+		$('.disciplineHistory').addClass('active');
+		
+		var memberEmail = $('#memberEmail').text();
+		
+		$.ajax({
+			type: 'get',
+			url: '<c:url value="/admin/userManageDisciplineHistory.ajax"/>',
+			data: {
+				'memberEmail': memberEmail
+			},
+			dataType: 'JSON',
+			success: function(data) {
+				$('.disciplineHistory-center-body').empty();
+				
+				var content = '';
+		
+				if (!data.list || data.list.length === 0) {
+					content += '<p> 입출금 내역이 없습니다... </p>';
+				}
+				for (item of data.list) {
+					content += '<div class="disciplineAjax">';
+					content += '<p class="history5">'+item.penalty_idx+'</p>';
+					content += '<p class="history2">'+item.option+'</p>';
+					content += '<p class="history3">'+item.content+'</p>';
+					dateStr = DateToString(item.penalty_date);
+					content += '<p class="history1">'+dateStr+'</p>';
+					content += '<p class="history4">'+item.admin_name+'</p>';
+					content += '</div>';
+				}
+				
+				$('.disciplineHistory-center-body').append(content);
+			},
+			error : function(error) {
+			}
+		});
+	});
+	// timestamp 형식인 거 문자열로 변환하는 함수
+	function DateToString(timesteamp){
+		var date = new Date(timesteamp);
+		var dateStr = date.toLocaleDateString("ko-KR");
+		return dateStr;
+	}
+	$('#deleteBtn3').on('click', function() {
+		$('.disciplineHistory').removeClass('active');
 	});
 </script>
 </html>
