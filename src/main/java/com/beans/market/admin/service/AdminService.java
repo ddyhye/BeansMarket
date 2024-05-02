@@ -122,6 +122,25 @@ public class AdminService {
 		return map;
 	}
 	
+	public Map<String, Object> roomDetailCall(String idx, String seller, String buyer) {
+		Map<String, Object> map = new HashMap<String, Object>();
+		List<MessageDTO> list = new ArrayList<MessageDTO>();
+		boolean result = false;
+		
+		list = adminDAO.roomDetailCall(Integer.parseInt(idx), seller, buyer);
+		if (list != null) {
+			result = true;
+		}
+		
+		map.put("list", list);
+		map.put("result", result);
+		map.put("seller", seller);
+		map.put("buyer", buyer);
+		map.put("idx", idx);
+		
+		return map;
+	}
+	
 	/* 성영 END */
 
 
@@ -332,6 +351,8 @@ public class AdminService {
 
 		return map;
 	}
+
+
 	
 	
 }

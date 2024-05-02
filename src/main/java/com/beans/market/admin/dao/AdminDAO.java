@@ -29,6 +29,8 @@ public interface AdminDAO {
 
 	List<MessageDTO> roomListCall(int intSearchText);
 	List<MessageDTO> roomReportListCall(int intSearchText);
+	List<MessageDTO> roomDetailCall(int idx, String seller, String buyer);
+	
 	
 	/* 성영 END*/
 
@@ -110,6 +112,7 @@ public interface AdminDAO {
 	List<BoardDTO> bbsSelect22(String textVal, int textValInt, String selectedState, String selectedCategory);
 	List<BoardDTO> bbsSelect23(String textVal, int textValInt, String selectedState, String selectedCategory);
 	List<BoardDTO> bbsSelect24(String textVal, int textValInt, String selectedState, String selectedCategory);
+
 	
 	
 	

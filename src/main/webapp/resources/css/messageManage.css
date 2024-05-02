@@ -104,37 +104,35 @@ section .room-result-box, .message-result-box{
 .room-result-box th:nth-child(1), 
 .room-result-box td:nth-child(1) {
     width: 150px;
-	min-width: 150px; 
+	min-width: 150px;
+	max-width: 150px;
 } 
-.room-result-box td:nth-child(2) {
-    width: 533px;
-    min-width: 533px;
-}
+
 .room-result-box th:nth-child(3),
 .room-result-box td:nth-child(3) {
     width: 300px;
     min-width: 300px;
+   	max-width: 300px;
 }
 .room-result-box th:nth-child(4),
 .room-result-box td:nth-child(4) {
     width: 300px;
     min-width: 300px;
+  	max-width: 300px;
 }
-.room-result-box th:nth-child(5),
-.room-result-box td:nth-child(5) {
+.room-result-box th:nth-child(5) {
     width: 250px;
     min-width: 250px;
-}
-.room-result-box th:nth-child(6){
-    width: 100px;
-    min-width: 100px;
-}
-.room-result-box td:nth-child(6){
-    width: 90px;
-    min-width: 90px;
+  	max-width: 250px;  
 }
 
-/*==================================*/
+.room-result-box td:nth-child(5) {
+    width: 240px;
+    min-width: 240px;
+   	max-width: 240px;
+}
+
+/*========================================*/
 .message-result-box tbody {
 	display: block;
 	width: 100%;
@@ -239,13 +237,78 @@ section .room-result-box, .message-result-box{
     width: 110px;
 }
 
+/*=======room-detail ==================================*/
+#room-detail{
+	position: fixed;
+	display: none;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 1700px;
+    height: auto;
+    background-color: white;
+    border: 1px solid black;
+    padding: 5px;
+}
+
+#room-detail .top{
+    display: flex;
+    justify-content: space-between;
+}
+
+#room-detail .top button{
+    border: none;
+    background-color: white;
+    font-size: 25px;
+}
+
+#room-detail .user_email{
+    display: flex;
+    justify-content: space-between;
+}
+
+#room-detail table{
+	width: 100%;
+}
+
+#room-detail td{
+	width: 100%;
+	overflow: hidden; /* 넘치는 부분 숨김 */
+    text-overflow: ellipsis; /* 생략 부호(...) 표시 */
+    white-space: nowrap; /* 줄 바꿈 방지 */
+}
+
+
+#room-detail table th:nth-child(1),
+#room-detail table td:nth-child(1) {
+    width: 100px;
+}
+
+#room-detail table th:nth-child(2),
+#room-detail table td:nth-child(2) {
+	max-width: 555px;
+    width: 555px;
+}
+
+#room-detail table th:nth-child(3),
+#room-detail table td:nth-child(3) {
+    width: 205px;
+}
+
+#room-detail table th:nth-child(4),
+#room-detail table td:nth-child(4),
+#room-detail table th:nth-child(6),
+#room-detail table td:nth-child(6) {
+    width: 245.5px;
+}
 
 
 
-
-
-
-
-
-
-
+#room-detail table th:nth-child(5),
+#room-detail table td:nth-child(5),
+#room-detail table th:nth-child(7),
+#room-detail table td:nth-child(7),
+#room-detail table th:nth-child(8),
+#room-detail table td:nth-child(8) {
+    width: 110px;
+}

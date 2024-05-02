@@ -34,7 +34,6 @@
 							<th>판매자</th>
 							<th>구매자</th>
 							<th>등록일</th>
-							<th>내용 확인</th>
 						</tr>
 					</thead>
 					<tbody id="roomList"></tbody>
@@ -63,6 +62,7 @@
 				</table>
 			</div>
 
+			<!-- 단일 쪽지 상세보기 -->
 			<div id="msg-detail">
 				<div class="top">
 					<button class="escape"><i class="fa-solid fa-x"></i></button>
@@ -82,6 +82,34 @@
 						</tr>
 					</thead>
 					<tbody id="msg-detail-Info"></tbody>
+				</table>		
+			</div>
+			
+			<!-- 쪽지 방 보기 -->
+			<div id="room-detail">
+				<div class="top">
+					<p class="idx">게시글 번호</p>
+					<p class="subject">제목</p>
+					<button class="escape"><i class="fa-solid fa-x"></i></button>
+				</div>
+				<div class="user_email">
+					<p>판매자 : <span class="seller-email">이메일</span></p>
+					<p>구매자 : <span class="buyer-email">이메일</span></p>
+				</div>
+				<table>
+					<thead>
+						<tr>
+							<th>쪽지번호</th>
+							<th>내용</th>
+							<th>등록일시</th>
+							<th>수신자</th>
+							<th>수신자삭제</th>
+							<th>발신자</th>
+							<th>발신자삭제</th>
+							<th>읽음여부</th>
+						</tr>
+					</thead>
+					<tbody id="room-detail-Info"></tbody>
 				</table>		
 			</div>
 		</section>
@@ -130,13 +158,12 @@ function roomDrawList(list){
 	var content = '';
 	
 	for (item of list) {
-		content +='<tr data-value="'+item+'">';
+		content +='<tr onclick="roomDetail(event)" data-value=\''+JSON.stringify(item)+'\'>';
 		content +=		'<td>'+item.idx+'</td>';
 		content +=		'<td>'+item.subject+'</td>';
 		content +=		'<td>'+item.receive_email+'</td>';
 		content +=		'<td>'+item.sender_email+'</td>';
 		content +=		'<td>'+DateToString(item.reg_date)+'</td>';
-		content +=		'<td>'+'<a href="">확인</a>'+'</td>';
 		content +='</tr>';
 	}
 
@@ -192,6 +219,11 @@ function messageDrawList(list){
 	$('#messageList').html(content);
 }
 
+// 상세 보기
+$('.escape').click(function() {
+    $(this).closest('.top').parent().hide();
+});
+
 function msgDetail(event){
 	var data = $(event.target).closest('tr').data("value");
 	$('#msg-detail').show();
@@ -212,11 +244,52 @@ function msgDetail(event){
 	$('#msg-detail-Info').html(content);
 }
 
-
-
-$('.escape').click(function() {
-    $(this).closest('.top').parent().hide();
-});
+function roomDetail(event){
+	var data = $(event.target).closest('tr').data("value");
+	
+	$.ajax({
+		type:'GET',
+		url:'./roomDetailCall.ajax',
+		data:{
+			"idx" : data.idx,
+			"seller" : data.receive_email,
+			"buyer" : data.sender_email
+		},
+		dataType:'JSON',
+		success:function(data){
+			if (data.result) {
+				$('#room-detail').show();
+			
+				var content = '';
+				var subject = '';
+				for (item of data.list) {
+					content +='<tr>';
+					content +=		'<td>'+item.message_idx+'</td>';
+					content +=		'<td>'+item.content+'</td>';
+					content +=		'<td>'+DateToString(item.reg_date)+'</td>';
+					content +=		'<td>'+item.receive_email+'</td>';
+					content +=		'<td>'+item.receive_del+'</td>';
+					content +=		'<td>'+item.sender_email+'</td>';
+					content +=		'<td>'+item.sender_del+'</td>';
+					content +=		'<td>'+item.read_check+'</td>';
+					content +='</tr>';
+					
+					subject = item.subject;
+				}
+				$('.seller-email').html(data.seller);
+				$('.buyer-email').html(data.buyer);
+				$('.idx').html(data.idx);
+				$('.subject').html(subject);
+				
+				$('#room-detail-Info').html(content);		
+				
+			}
+		},
+		error:function(error){
+			console.log(error);
+		}
+	});
+}
 
 // 선택하면 선택 요소 색상 변경
 </script>

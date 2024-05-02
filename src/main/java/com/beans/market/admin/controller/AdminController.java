@@ -35,16 +35,19 @@ public class AdminController {
 	
 	@RequestMapping(value = "/admin/userManage.go", method = RequestMethod.GET)
 	public String userManageGo(Model model) {
+		model.addAttribute("pageName", "회원 관리");
 		return "admin/userManage";
 	}
 	
 	@RequestMapping(value = "/admin/boardManage.go", method = RequestMethod.GET)
-	public String boardManageGO() {
+	public String boardManageGO(Model model) {
+		model.addAttribute("pageName", "게시글 관리");
 		return "admin/boardManage";
 	}
 	
 	@RequestMapping(value = "/admin/boardManageDetail.go", method = RequestMethod.GET)
-	public String boardManageDetailGO() {
+	public String boardManageDetailGO(Model model) {
+		model.addAttribute("pageName", "게시글 관리");
 		return "admin/boardManageDetail";
 	}
 	
@@ -55,67 +58,80 @@ public class AdminController {
 	}
 	
 	@RequestMapping(value = "/admin/inquiryManage.go", method = RequestMethod.GET)
-	public String inquiryManageGO() {
+	public String inquiryManageGO(Model model) {
+		model.addAttribute("pageName", "1:1 문의 관리");
 		return "admin/inquiryManage";
 	}
 	
 	@RequestMapping(value = "/admin/report.go", method = RequestMethod.GET)
-	public String reportManageGO() {
+	public String reportManageGO(Model model) {
+		model.addAttribute("pageName", "신고 내역 관리");
 		return "admin/report";
 	}
 	
 	@RequestMapping(value = "/admin/notice.go", method = RequestMethod.GET)
-	public String noticeManageGO() {
+	public String noticeManageGO(Model model) {
+		model.addAttribute("pageName", "공지사항 관리");
 		return "admin/notice";
 	}
 	
 	@RequestMapping(value = "/admin/category.go", method = RequestMethod.GET)
-	public String categoryManageGO() {
+	public String categoryManageGO(Model model) {
+		model.addAttribute("pageName", "카테고리 관리");
 		return "admin/category";
 	}
 	
 	@RequestMapping(value = "/admin/question.go", method = RequestMethod.GET)
-	public String questionManageGO() {
+	public String questionManageGO(Model model) {
+		model.addAttribute("pageName", "자주 묻는 질문 관리");
 		return "admin/question";
 	}
 	
 	@RequestMapping(value = "/admin/panaltyHistory.go", method = RequestMethod.GET)
-	public String panaltyHistoryGO() {
+	public String panaltyHistoryGO(Model model) {
+		model.addAttribute("pageName", "경고 및 제재 히스토리");
 		return "admin/panaltyHistory";
 	}
 	
 	@RequestMapping(value = "/admin/reportHistory.go", method = RequestMethod.GET)
-	public String reportHistoryGO() {
+	public String reportHistoryGO(Model model) {
+		model.addAttribute("pageName", "신고처리 히스토리");
 		return "admin/reportHistory";
 	}
 	
 	@RequestMapping(value = "/admin/payHistory.go", method = RequestMethod.GET)
-	public String payHistoryGO() {
+	public String payHistoryGO(Model model) {
+		model.addAttribute("pageName", "입출금 내역 히스토리");
 		return "admin/payHistory";
 	}
 	
 	@RequestMapping(value = "/admin/bidHistory.go", method = RequestMethod.GET)
-	public String bidHistoryGO() {
+	public String bidHistoryGO(Model model) {
+		model.addAttribute("pageName", "경매 입찰 히스토리");
 		return "admin/bidHistory";
 	}
 	
 	@RequestMapping(value = "/admin/approHistory.go", method = RequestMethod.GET)
-	public String approHistoryGO() {
+	public String approHistoryGO(Model model) {
+		model.addAttribute("pageName", "거래 승인 히스토리");
 		return "admin/approHistory";
 	}
 	
 	@RequestMapping(value = "/admin/dealHistory.go", method = RequestMethod.GET)
-	public String dealHistoryGO() {
+	public String dealHistoryGO(Model model) {
+		model.addAttribute("pageName", "거래 내역 히스토리");
 		return "admin/dealHistory";
 	}
 	
 	@RequestMapping(value = "/admin/comentHistory.go", method = RequestMethod.GET)
-	public String comentHistoryGO() {
+	public String comentHistoryGO(Model model) {
+		model.addAttribute("pageName", "거래 후기 히스토리");
 		return "admin/comentHistory";
 	}
 	
 	@RequestMapping(value = "/admin/alarmHistory.go", method = RequestMethod.GET)
-	public String alarmHistoryGO() {
+	public String alarmHistoryGO(Model model) {
+		model.addAttribute("pageName", "알림 히스토리");
 		return "admin/alarmHistory";
 	}
 	
@@ -158,7 +174,7 @@ public class AdminController {
 	}
 	 
 	// 알림 리스트 가져오기 - 성영
-	@RequestMapping(value="/admin/adminAlarm.ajax")
+	@RequestMapping(value="/admin/adminAlarm.ajax", method = RequestMethod.POST)
 	@ResponseBody
 	public Map<String, Object> alarm(HttpSession session) {
 		Map<String, Object> map = new HashMap<String, Object>();
@@ -176,7 +192,7 @@ public class AdminController {
 	}
 	
 	// 알림 읽음 처리 - 성영
-	@RequestMapping(value="/admin/adminAlarmRead.ajax")
+	@RequestMapping(value="/admin/adminAlarmRead.ajax", method = RequestMethod.GET)
 	@ResponseBody
 	public Map<String, Object> alarm(HttpSession session, String idx) {
 		logger.info("{} 번 알림 읽음 처리하기", idx);
@@ -191,7 +207,7 @@ public class AdminController {
 	}
 	
 	// 새로운 알림이 있는지 확인 - 성영
-	@RequestMapping(value="/admin/adminNewAlarm.ajax")
+	@RequestMapping(value="/admin/adminNewAlarm.ajax", method = RequestMethod.GET)
 	@ResponseBody
 	public Map<String, Object> newAlarm(HttpSession session) {
 		logger.info("새로운 알림 가져오기");
@@ -204,7 +220,7 @@ public class AdminController {
 	}
 	
 	// 쪽지 번호를 토대로 출력 - 성영
-	@RequestMapping(value="/admin/messageList.ajax")
+	@RequestMapping(value="/admin/messageList.ajax", method = RequestMethod.GET)
 	@ResponseBody
 	public Map<String, Object> messageList(HttpSession session, String searchText, String reportYN) {
 		logger.info("쪽지 리스트 출력");
@@ -225,7 +241,7 @@ public class AdminController {
 	}
 	
 	// 게시글을 토대로 출력 - 성영
-	@RequestMapping(value="/admin/roomList.ajax")
+	@RequestMapping(value="/admin/roomList.ajax", method = RequestMethod.GET)
 	@ResponseBody
 	public Map<String, Object> roomList(HttpSession session, String searchText, String reportYN) {
 		logger.info("게시글에 연결될 쪽지방 리스트 출력");
@@ -238,7 +254,19 @@ public class AdminController {
 		return map;
 	}
 
-
+	// 게시글을 토대로 출력 - 성영
+	@RequestMapping(value="/admin/roomDetailCall.ajax", method = RequestMethod.GET)
+	@ResponseBody
+	public Map<String, Object> roomDetailCall(HttpSession session, String idx, String seller, String buyer) {
+		logger.info(idx+"번 구매자 : {}, 판매자 {} - 쪽지방 상세보기", seller, buyer);
+		Map<String, Object> map = new HashMap<String, Object>();
+		
+		// 세션은 나중에
+		
+		map = adminService.roomDetailCall(idx, seller, buyer);
+	
+		return map;
+	}
 
 
 
