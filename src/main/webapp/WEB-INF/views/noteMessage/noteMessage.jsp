@@ -19,7 +19,8 @@
 		<div class="container">
 			<div class=leftArea>
 				<div class="left-subject">
-					<p>쪽지함</p>
+					<i class="fa-solid fa-paper-plane" id="fa-paper-plane"></i>
+					<!-- <p>My Message</p> -->
 				</div>
 				<div class="room-select">
 					<div id="room-list">
@@ -38,7 +39,8 @@
 			</div>
 			<div class="view-room" data-value="1">
 				<!-- 아무것도 없을 때는 메시지 이모티콘 하나 띄우기 -->
-				<p class="no-message">메시지를 선택해주세요 <i class="fa-solid fa-message"></i></p>			
+				<i class="fa-solid fa-square-envelope"></i>
+				<p class="no-message">Select Message... <!-- <i class="fa-solid fa-message"></i> --></p>			
 				<div id="view-subject">
 				<!-- 
 					<div class="left">
@@ -95,9 +97,9 @@
 				-->
 				</div>
 				<div id="send-form">
-					<button id="photoBtn"><i class="fa-solid fa-paperclip"></i></button>
+					<button id="photoBtn"><i class="fa-solid fa-paperclip" id="sendIconCss"></i></button>
 					<input type="text" id="sendText"/>
-					<button id="sendBtn"><i class="fa-solid fa-paper-plane"></i></button>
+					<button id="sendBtn"><i class="fa-solid fa-paper-plane" id="sendIconCss"></i></button>
 				</div>
 			</div><!-- view-room 종료 -->
 			<div id="reportForm">
@@ -271,6 +273,7 @@
 			dataType: 'JSON',
 			success: function(data) {
 				$('#send-form').show();
+				$('.fa-square-envelope').hide();
 				$('.no-message').hide();
 				chat_idx = data.bbs_idx;
 				drawSubject(data);
@@ -317,7 +320,7 @@
 		$('#view-subject').append(content);
 		$('#view-subject').css({
 											'background-color':'white',
-											'border-bottom': '1px solid gray'
+											'border-bottom': '2px solid #787878'
 		});
 		
 		$('#deal-btn').prop('disabled', true);
@@ -432,7 +435,7 @@
 		var content = '';
 
 		if (!data.messageList || data.messageList.length === 0) {
-			content += '<p class="no-message">아무것도 없따... <i class="fa-solid fa-message"></i></p>';	
+			content += '<i class="fa-solid fa-square-envelope"></i><p class="no-message">Select Message...</p>';	/* <p class="no-message">아무것도 없따... <i class="fa-solid fa-message"></i></p> */
 		}
 		for (item of data.messageList) {
 			var date = new Date(item.reg_date);
@@ -566,6 +569,7 @@
 											'background-color':'',
 											'border-bottom': 'none'
 										});
+		$('.fa-square-envelope').show();
 		$('.no-message').show();
 		$('#sendText').val('');
 		$('#send-form').hide();

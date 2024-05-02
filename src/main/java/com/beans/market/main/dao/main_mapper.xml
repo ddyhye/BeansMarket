@@ -66,7 +66,7 @@
 			LEFT OUTER JOIN interest i 
 			ON b.idx = i.idx
 		WHERE draft = 'N' AND blind='N' AND hidden='N'
-			AND email NOT IN (SELECT block_email FROM block WHERE email=#{param1})
+			AND b.email NOT IN (SELECT block_email FROM block bl WHERE bl.email=#{param1})
 		GROUP BY b.idx
 		ORDER BY 
 			CASE 
@@ -83,7 +83,7 @@
 			LEFT OUTER JOIN interest i 
 			ON b.idx = i.idx
 		WHERE option = '판매' AND draft = 'N' AND blind='N' AND hidden='N'
-			AND email NOT IN (SELECT block_email FROM block WHERE email=#{param1})
+			AND b.email NOT IN (SELECT block_email FROM block bl WHERE bl.email=#{param1})
 		GROUP BY b.idx
 		ORDER BY 
 			CASE 
@@ -100,7 +100,7 @@
 			LEFT OUTER JOIN interest i 
 			ON b.idx = i.idx
 		WHERE option = '경매' AND draft = 'N' AND blind='N' AND hidden='N'
-			AND email NOT IN (SELECT block_email FROM block WHERE email=#{param1})
+			AND b.email NOT IN (SELECT block_email FROM block bl WHERE bl.email=#{param1})
 		GROUP BY b.idx
 		ORDER BY 
 			CASE 
@@ -117,7 +117,7 @@
 			LEFT OUTER JOIN interest i 
 			ON b.idx = i.idx
 		WHERE option != '판매' AND option != '경매' AND draft = 'N' AND blind='N' AND hidden='N'
-			AND email NOT IN (SELECT block_email FROM block WHERE email=#{param1})
+			AND b.email NOT IN (SELECT block_email FROM block bl WHERE bl.email=#{param1})
 		GROUP BY b.idx
 		ORDER BY 
 			CASE 
