@@ -470,6 +470,17 @@
 		INSERT INTO pay_hist(email, option, price, content)
 		VALUES(#{param1}, '관리자 출금', #{param2}, '관리자 출금');
 	</insert>
+	<!-- 회원 상세보기 - 페이 내역 -->
+	<select id="memberPayHistory" resultType="com.beans.market.pay.dto.PayDTO">
+		SELECT reg_date, option, content, price, idx 
+		FROM pay_hist 
+		WHERE email = #{param1}
+	</select>
+	<select id="memberDisciplineHistory" resultType="com.beans.market.member.dto.MemberPenaltyDTO">
+		SELECT penalty_idx, option, content, penalty_date, admin_name 
+		FROM member_penalty 
+		WHERE email = #{param1}
+	</select>
 
 
 	

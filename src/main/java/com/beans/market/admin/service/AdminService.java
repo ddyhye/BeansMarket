@@ -12,7 +12,9 @@ import org.springframework.stereotype.Service;
 
 import com.beans.market.admin.dao.AdminDAO;
 import com.beans.market.member.dto.MemberDTO;
+import com.beans.market.member.dto.MemberPenaltyDTO;
 import com.beans.market.message.dto.MessageDTO;
+import com.beans.market.pay.dto.PayDTO;
 import com.beans.market.photo.dto.ProfilePicDTO;
 import com.beans.market.admin.dto.AdminDTO;
 import com.beans.market.admin.dto.AlarmDTO;
@@ -250,6 +252,14 @@ public class AdminService {
 		adminDao.userPointUpdate2Insert(memberEmail, point);
 		adminDao.userPointUpdate2(memberEmail, point);
 	}
+	
+	public List<PayDTO> memberPayHistory(String memberEmail) {
+		return adminDao.memberPayHistory(memberEmail);
+	}
+	
+	
+	
+	
 
 	
 	
@@ -352,7 +362,10 @@ public class AdminService {
 		return map;
 	}
 
-
+	public List<MemberPenaltyDTO> memberDisciplineHistory(String memberEmail) {
+		// TODO Auto-generated method stub
+		return adminDao.memberDisciplineHistory(memberEmail);
+	}
 	
 	
 }
