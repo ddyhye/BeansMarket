@@ -5,14 +5,14 @@
 	
 	<!--  나의 빈즈 내역 -->
 	<select id="list" resultType="com.beans.market.pay.dto.PayDTO">
-		SELECT idx, email, option, price, content, reg_date from pay_hist WHERE email = #{email} order by reg_date desc;
-
+		SELECT idx, email, option, price, content, reg_date from pay_hist WHERE email = #{email} order by reg_date desc
 	</select>
 
 	<!--  나의 빈즈페이 액수 -->
 	<select id="getMyAmount" resultType="int">
 		SELECT point FROM member WHERE email = #{email}
 	</select>
+	
 	<!--  나의 빈즈페이 아이디 -->
 	<select id="getUsernameByEmail" resultType="string">
 		SELECT name FROM member WHERE email = #{email}

@@ -17,9 +17,6 @@ import com.beans.market.history.service.HistoryService;
 import com.beans.market.pay.dao.PayDAO;
 import com.beans.market.pay.dto.PayDTO;
 
-
-
-
 @Service
 public class PayService {
 
@@ -29,39 +26,17 @@ public class PayService {
 	@Autowired BoardService boardService;
 	@Autowired HistoryService historyService;
 	
-	
+	// 특정 이메일 빈즈페이 가격 가져오기
 	public int getMyAmount(String email) {
 		return payDAO.getMyAmount(email);
 	}
 
+	// 특정 이메일 입출금 내역 가져오기
 	public List<PayDTO> list(String email) {
 		return payDAO.list(email);
 	}
-
-	public void bidReturn(int bbsIdx) {
-		logger.info("{}번 게시글 입찰금 환불", bbsIdx);
-		// 특정 회원 페이 가격 변경
-		int row = payDAO.payDeposit(bbsIdx);
-		logger.info("입찰 반환 결과 : {}", row);
-		// 입찰금 히스토리
-		row = historyDAO.BidReturnHistory("입찰금 반환", bbsIdx+"번 게시글 입찰금 반환", bbsIdx);
-		logger.info("입찰 반환 히스토리 입력 결과 : {}", row);
-	}
-
-	public void bidWithdrawal(String email, int bid_price, int bbsIdx) {
-		logger.info("{}번 게시글 입찰", bbsIdx);
-		int row = payDAO.payWithdrawal(email, bid_price);
-		logger.info("입찰 결과 변경 row : {}", row);
-		row = historyDAO.BidWithHistory("경매글 입찰", bbsIdx+"번 게시글 입찰", bbsIdx, email, bid_price);
-		logger.info("입출금 내역 히스토리 row : {}", row);
-	}
-	public String getUsernameByEmail(String email) {
-		return payDAO.getUsernameByEmail(email);
-	}
 	
-	
-
-	//포인트 충전
+	// 포인트 충전
 	public void updateMemberPoint(String email, int pay) {
 		payDAO.updatePoint(email, pay);		
 		
@@ -74,10 +49,32 @@ public class PayService {
 
 	    // 포인트 변경 내역을 pay_hist 테이블에 기록
 	    payDAO.insertPayHistory(param);
-		
+	}
+	
+	// 입찰금 반환 - 성영
+	public void bidReturn(int bbsIdx) {
+		logger.info("{}번 게시글 입찰금 환불", bbsIdx);
+		// 특정 회원 페이 가격 변경
+		int row = payDAO.payDeposit(bbsIdx);
+		logger.info("입찰 반환 결과 : {}", row);
+		// 입찰금 히스토리
+		row = historyDAO.BidReturnHistory("입찰금 반환", bbsIdx+"번 게시글 입찰금 반환", bbsIdx);
+		logger.info("입찰 반환 히스토리 입력 결과 : {}", row);
 	}
 
-	// 낙찰 후 거래금 처리
+	// 입찰 진행 - 성영
+	public void bidWithdrawal(String email, int bid_price, int bbsIdx) {
+		logger.info("{}번 게시글 입찰", bbsIdx);
+		int row = payDAO.payWithdrawal(email, bid_price);
+		logger.info("입찰 결과 변경 row : {}", row);
+		row = historyDAO.BidWithHistory("경매글 입찰", bbsIdx+"번 게시글 입찰", bbsIdx, email, bid_price);
+		logger.info("입출금 내역 히스토리 row : {}", row);
+	}
+	public String getUsernameByEmail(String email) {
+		return payDAO.getUsernameByEmail(email);
+	}
+
+	// 낙찰 후 거래금 처리 - 성영
 	public void autionPaySend(String email, int idx) {
 		logger.info("{} 게시물 경매 낙찰 이후 거래 성사", idx);
 		// 거래금 판매자에게 전송
@@ -102,9 +99,9 @@ public class PayService {
 		int price = bbs.getPrice();
 		boolean result = false;
 		
-		// 구매자 금액 차감
 		if (payDAO.getMyAmount(email) >= price) {
 			logger.info("구매 금액 차감 " + price);
+			// 구매자 금액 차감
 			int row = payDAO.payWithdrawal(email, price);
 			
 			// 히스토리 작성
@@ -121,7 +118,6 @@ public class PayService {
 				row = payDAO.updatePoint(email, price);			
 			}
 			
-			// 거래금 수령
 			// 히스토리 작성
 			if(row == 1) {
 				logger.info("입금 히스토리 작성");

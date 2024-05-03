@@ -37,12 +37,10 @@ public class PayController {
 	@RequestMapping(value="/pay/mybeans")
 	public String mybeans(Model model, HttpSession session) {
 		logger.info("나의 빈즈 내역 요청");
+		
 		//빈즈페이 금액
 		String email = "zxz0608@gmail.com";  //테스트용 이메일 //테스트 끝나고 매개변수로 email받기
-//		String logEmail = "";
-//		if (session.getAttribute("logEmail") != null) {
-//			logEmail = (String) session.getAttribute("logEmail");
-//		}
+		
 		int amount = payService.getMyAmount(email);
 		model.addAttribute("my_amount", amount);
 		//빈즈내역
@@ -88,9 +86,6 @@ public class PayController {
 	        // 예외 처리: 로그인하지 않은 사용자
 	        return "redirect:/main/member/login.go"; // 로그인 페이지로 리다이렉트
 	    }//현재는 데드코드라고 뜨지만 , 로그인 세션 주석 삭제시 정상코드로 변환
-	
- 
-	
-}
+	}
     
 }    

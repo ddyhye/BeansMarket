@@ -32,7 +32,12 @@
                 <div class="right">
                     <div class="top">
                         <p class="bbs-state" id="bbs-stateMark">${bbs.bbs_state}</p>
-                        <button class="reportBtn">신고하기</button> 
+                        <div>
+	                        <button class="reportBtn">신고하기</button>
+	                        <button class="modifyBtn">수정하기</button>
+	                        <button class="hiddenBtn">숨기기</button>
+	                        <button class="blindBtn">삭제하기</button> 
+                        </div>
                     </div>
                     <div class="subject">
                         <p>${bbs.subject}</p>
@@ -133,6 +138,15 @@
     	$('.icon i').removeClass('fa-regular fa-heart').addClass('fa-solid fa-heart');
     }
     
+    if (bbsEmail == '${loginInfo.email}') {
+		$('.reportBtn').hide();
+		$('.messageSend').prop('disabled', true).css('background-color', 'lightgray');
+	} else {
+		$('.modifyBtn').hide();
+		$('.hiddenBtn').hide();
+		$('.blindBtn').hide();
+	}
+    
     // 특정 게시물 모든 사진 이름 받아오기
     var photoArray = [];
     $('.goods-content img').each(function() {
@@ -167,7 +181,7 @@
         var login = true;
         if('${loginInfo}' == ''){
             alert('로그인이 필요한 서비스 입니다.');
-            location.href="<c:url value="/member/login.go"/>";
+            location.href="<c:url value='/member/login.go'/>";
             login = false;
         }
         return login;
@@ -243,7 +257,7 @@
     // 신고 버튼 클릭 시 - 회원
     $('.reportBtn').click(function(){
         if(loginCheck()){
-            $('#reportForm').toggle();
+            $('#reportForm').toggle();				
         }
     });
 
