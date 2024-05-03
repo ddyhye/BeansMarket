@@ -85,7 +85,7 @@ section .goods-detail .left .select{
 
 /* 프로필 영역 css*/
 section .goods-detail .right{
-    width: 650px;
+    width: 700px;
     position: relative;
 }
 
@@ -94,14 +94,34 @@ section .goods-detail .right .top{
     justify-content: space-between;
     padding: 0 0 1rem 0;
 }
-
+#bbs-auctionMark {
+    align-items: center;
+    text-align: center;
+    
+    padding: 5px;
+	font-family: 'Poppins', sans-serif;
+	margin-right: 480px;
+    background-color: pink;
+    color: white;
+    font-weight: bold;
+}
 section .goods-detail .right .top p{
 	font-family: 'Poppins', sans-serif;
     align-items: center;
     text-align: center;
     padding: 5px;
-    background-color: dodgerblue;
+    background-color: #7f9ebc;
     color: white;
+    font-weight: bold;
+}
+#bbs-stateMark {
+	font-family: 'Poppins', sans-serif;
+    align-items: center;
+    text-align: center;
+    padding: 5px;
+    background-color: #7f9ebc;
+    color: white;
+    font-weight: bold;
 }
 
 section .goods-detail .right button{
@@ -111,10 +131,26 @@ section .goods-detail .right button{
 
 section .goods-detail .right .profile{
     display: flex;
-    justify-content: left;
-    background-color: #A0D468;
-    border-radius: 1rem;
+    justify-content: left;    
+    /* background-color: #A0D468; */
     padding: 1rem;
+    border-bottom: 1px solid lightgray;
+    margin-bottom: 10px;
+}
+.right-head {	
+	position: relative;
+	width: 20%;
+	
+	font-weight: bold;
+	font-family: 'Poppins', sans-serif;
+}
+.right-body {	
+	display: flex;
+	
+	position: relative;
+	width: 80%;
+	
+	font-family: 'Poppins', sans-serif;
 }
 
 section .goods-detail .right .profile .left{
@@ -149,6 +185,7 @@ section .goods-detail .right .subject{
     display: flex;
     justify-content: space-between;
     margin-bottom: 10px;
+    border-bottom: 1px solid lightgray;
 }
 
 section .goods-detail .right .subject p{
@@ -174,11 +211,18 @@ section .goods-detail .right .subject .icon .interest{
 
 section .goods-detail .right .successful-bid, .now-price, .place, .reg-date, .bid-count, .time{
     display: flex;
+    padding-left: 5px;
 }
+#timeCss, #regDateCss {
+	paddimg-bottom: 16px;
+	margin-bottom: 10px;
+	border-bottom: 1px solid lightgray;
+}
+
 
 section .goods-detail .right .successful-bid p, .now-price p, .place p, .reg-date p, .bid-count p, .time p{
     padding: 10px;
-    font-size: 18px
+    font-size: 16px
 }
 
 section #my-bid{
@@ -189,7 +233,7 @@ section #my-bid{
 
 section .goods-detail .right .title{
     width: 150px;
-    border-right: 1px dotted black;
+    /* border-right: 1px dotted black; */
 }
 
 section .goods-detail .right .btn{
@@ -202,7 +246,7 @@ section .goods-detail .right .btn{
 section .goods-detail .right .btn button{
     font-size: 1.5rem;
     padding: 5px 10px;
-    margin-right: 2rem;
+    /* margin-right: 2rem; */
 }
 
 section .goods-detail .right .btn #buy{
@@ -214,7 +258,7 @@ section .goods-content{
 }
 
 section .goods-content img{
-	width: 100%;
+	width: 50%;
 	height: auto;
 }
 
