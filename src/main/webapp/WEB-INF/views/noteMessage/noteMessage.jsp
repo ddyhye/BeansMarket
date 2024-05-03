@@ -406,6 +406,11 @@
 		}
 		
 		$('#room-list').append(content);
+		
+	    $('.room').click(function() {
+	    	$('.room').css('background-color', 'white');
+	        $(this).css('background-color', 'lightgray');
+	    });
 	}
 	
 	function viewRoomContent(idx, other_email){
@@ -541,6 +546,7 @@
 			handleClick($(this).parent());
 		});
 
+
 	}
 
 	function handleClick(element) {
@@ -594,6 +600,8 @@
 		$('#send-form').hide();
 		var chat_user = '';
 		var chat_idx = 0;
+		
+		$('.room').css('background-color', 'white');
 	}
 
 	// 신고 버튼 클릭 시 - 쪽지 - 게시글 번호로 신고
