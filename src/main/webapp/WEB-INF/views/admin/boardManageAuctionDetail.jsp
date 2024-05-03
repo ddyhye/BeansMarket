@@ -101,6 +101,54 @@
 		</table>
 		</div>
 		
+		<!-- 경매일 때만 보여지는 추가 정보 -->
+		<div class="manager-auction-boarddetail1">
+		<table>
+			<thead>
+			  <tr>
+				<th class="auction-one">현재입찰가</th>
+				<th class="auction-two">시작 가격</th>
+				<th class="auction-three">즉시 낙찰가</th>
+				<th class="auction-four">경매 기간</th>
+				<th class="auction-four">종료 일시</th>
+			  </tr>
+			</thead>
+			<tbody id="auction-list1">
+			  <tr>
+				<td class="auction-one">${price}</td>
+				<td class="auction-two">${start_price}</td>
+				<td class="auction-three">${successful_bid}</td>
+				<td class="auction-four">${auction_period}</td>
+				<td class="auction-four">${close_date}</td>
+			  </tr>	
+			</tbody>
+		</table>
+		</div>
+		
+		<%-- <a href="<c:url value="/admin/bidHistory.go"/>">더보기</a> --%>
+		<p id="moreBtn">더보기</p>
+		
+		<div class="manager-auction-boarddetail2">
+		<table>
+			<thead>
+			  <tr>
+				<th class="auction-eight">입찰번호</th>
+				<th class="auction-nine">등록 일시</th>
+				<th class="auction-ten">대상 회원</th>
+				<th class="auction-eleven">금액</th>
+			  </tr>
+			</thead>
+			<tbody id="auction-list2">
+			  <tr>
+				<td class="eight">입찰번호</td>
+				<td class="nine">등록 일시</td>
+				<td class="ten">대상 회원</td>
+				<td class="eleven">금액</td>
+			  </tr>	
+			</tbody>
+		</table>
+		</div>
+		
 	</div>
 
 </section>
@@ -141,6 +189,33 @@
 	});
 
 
+	$('#moreBtn').on('click', function() {
+		drawAuction();
+	});
+	
+	// drawAuction 함수 : 입찰자 리스트
+	function drawAuction(data) {
+		$('#auction-list2').empty();
+		
+		var content = '';
+		var cnt = 0;
+		
+		if (!data.list || data.list.length === 0) {
+			content += '<tr><td colspan = 4>입찰한 회원이 없습니다.</td></tr>';
+		}
+		for (item of data.list) {
+			cnt++;
+			content += '<tr>';
+			content += '<td class="eight">'+cnt+'</td>';
+			content += '<td class="nine">'+bbs.reg_date+'</td>';
+			content += '<td class="ten">'+bbs.reserve_email+'</td>';			
+			content += '<td class="eleven">'+bbs.price+'</td>';
+			content += '</tr>';
+		}
+		
+		$('#auction-list2').append(content);
+	}
+		
 	
 </script>
 </html>

@@ -66,31 +66,11 @@
 		</tr>
 		</table>
 		</div>
-		
-		<div class="buttons">
-		<button class="Auction-cancel">경매 취소</button>
-		<button class="Blind-button">블라인드</button>
-		</div>
-		
-		<!-- 버튼 모달창 -->
-		<div id="auctionCancelModal" class="modal" style="display: none;">
-			<p>선택하신 내용을 블라인드 처리하시겠습니까?</p>
-			<button>확인</button>
-			<button>취소</button>
-		</div>
-		<div id="BlindModal" class="modal" style="display: none;">
-			<p>해당 게시물 경매를 취소시키겠습니까?</p>
-			<p style="font-size: 12px; color: red;">*입찰금은 마지막 입찰자에게 반환됩니다.</p>
-			<button>확인</button>
-			<button>취소</button>
-		</div>
-			
 			
 		<div class="search-list">
 		<table>
 			<thead>
 			  <tr>
-				<th class="one">선택</th>
 				<th class="two">게시글 번호</th>
 				<th class="three">
 			            <select id="deal" id="deal-state">
@@ -109,7 +89,6 @@
 			</thead>
 			<tbody id="list">
 			  <tr>
-				<td class="one"><input type="checkbox"/></td>
 				<td class="two">게시글 번호</td>
 				<td class="three">전체</td>
 				<td class="four">거래 상태</td>
@@ -193,7 +172,6 @@
 		}
 		for (item of data.list) {
 			content += '<tr>';
-			content += '<td class="one"><input type="checkbox"/></td>';
 			content += '<td class="two">'+item.idx+'</td>';
 			content += '<td class="three">'+item.option+'</td>';
 			content += '<td class="four">'+item.bbs_state+'</td>';
@@ -208,12 +186,22 @@
 		$('#list').append(content);
 	}
 	
+	$('#list').on('click', '.two', function(){
+		var boardIdx = $(this).text();
+		console.log(boardIdx);
+		
+		window.location.href = '<c:url value="/board/detail.go?idx='+boardIdx+'"/>';
+	});
 	
 	
+	$('#list').on('click', '.five', function(){
+		var boardIdx = $(this).closest('tr').find('.two').text();
+		console.log(boardIdx);
+		
+		window.location.href = '<c:url value="/admin/boardManageDetail.go?idx='+boardIdx+'"/>';
+	});
 	
-	
-	
-	
+
 
 </script>
 </html>

@@ -347,6 +347,16 @@ public class AdminService {
 		// TODO Auto-generated method stub
 		return adminDao.memberDisciplineHistory(memberEmail);
 	}
+
+	// 게시글 상세보기
+	public BoardDTO boardDetail(int boardIdx) {
+		return adminDao.boardDetail(boardIdx);
+	}
+
+	// 블라인드 처리
+	public BoardDTO boardBlind(int boardIdx) {
+		return adminDao.boardBlind(boardIdx);
+	}
 	
 	
 }
