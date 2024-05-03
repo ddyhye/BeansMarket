@@ -85,11 +85,10 @@
                         </div>
                     </div>
                     <div class="btn">
-                        <button class="messageSend"> <i class="fa-solid fa-paper-plane">&nbsp;</i> 쪽지 보내기</button> 
+                        <button class="messageSend"><i class="fa-solid fa-paper-plane" id="planeBtn"></i>문의하기</button> 
                     </div>
                 </div>
             </div> 
-            <hr/>
             <br/>
             <div class="goods-content">
             	<h2>상품 설명</h2>

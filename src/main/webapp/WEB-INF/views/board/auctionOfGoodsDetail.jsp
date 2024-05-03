@@ -33,7 +33,7 @@
                     <div class="top">
                     	<p class="bbs-state" id="bbs-stateMark">${bbs.bbs_state}</p>
                     	<p id="bbs-auctionMark">경매</p>
-                        <button class="reportBtn">신고하기</button> 
+                        <button class="reportBtn">신고하기</button>
                     </div>
                     <div class="subject">
                         <p>${bbs.subject}</p>
@@ -123,7 +123,6 @@
                     </div>
                 </div>
             </div><!--goods-detail 종료-->
-            <hr/>
             <br/>
             <div class="goods-content">
             	<h2>상품 설명</h2>
@@ -439,6 +438,15 @@
                 if (remaingTime < 0) {
                     $('.remaing-time').text("종료").css({'color':'red'});
                     $('.btn button, #bid-btn').prop('disabled', true);
+                    
+                    $('#bid').css({
+                        'background-color': 'gray',
+                        'opacity': '0.5'
+                    });
+                    $('#buy').css({
+                        'background-color': 'gray',
+                        'opacity': '0.5'
+                    });
                 } else {
                     // console.log(days + "일 " + hours + "시간 " + minutes + "분 " + seconds + "초");
                     $('.remaing-time').text(days + "일 " + hours + "시간 " + minutes + "분 " + seconds + "초");

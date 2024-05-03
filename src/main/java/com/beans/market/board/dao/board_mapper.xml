@@ -75,7 +75,7 @@
 	</update>
 	
 	<!-- aution에 기간 업데이트 -->
-	<insert id="updateAuctionPrice2"> //
+	<insert id="updateAuctionPrice2">
 		INSERT INTO auction(start_price, successful_bid, auction_period, idx) VALUES(#{param1}, #{param2}, #{param3}, #{param4});
 	</insert>
 	

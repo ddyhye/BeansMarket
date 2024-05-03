@@ -12,14 +12,15 @@
 	.fa-house, .fa-bell, .fa-paper-plane {
 		margin: 0 10px;
 		font-size: 35px;
-		color: rgb(68, 68, 68);
+		/* color: rgb(68, 68, 68); */
+		color: white;
 	}
 	.fa-magnifying-glass {
 		position: absolute;
 		left: 540px;
 		margin: 0 10px;
 		font-size: 30px;
-		color: black;
+		color: #22382e;
 	}
 </style>
 </head>

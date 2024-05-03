@@ -29,7 +29,9 @@ section .goods-detail .left{
 }
 section .goods-detail .left .picture .goodsImg{
     width: 100%;
-    height: 500px;
+    height: auto;
+    max-height: 550px;
+    padding-top: 40px;
 }
 
 section .goods-detail .left .prev{
@@ -127,6 +129,12 @@ section .goods-detail .right .top p{
 section .goods-detail .right button{
     padding: 5px;
     font-size: 1rem;
+    background-color: #22382e;
+    color: white;
+    font-weight: bold;
+    border: none;
+    margin: 0 5px;
+    border-radius: 2px;
 }
 
 section .goods-detail .right .profile{
@@ -227,8 +235,8 @@ section .goods-detail .right .successful-bid p, .now-price p, .place p, .reg-dat
 
 section #my-bid{
     display: none;
-	background-color: aquamarine;
-    color: grey;
+    color: #ff8298;
+    font-weight: bold;
 }
 
 section .goods-detail .right .title{
@@ -248,13 +256,19 @@ section .goods-detail .right .btn button{
     padding: 5px 10px;
     /* margin-right: 2rem; */
 }
+#planeBtn {
+	font-size: 20px;
+}
+
 
 section .goods-detail .right .btn #buy{
     margin-right: 0;
 }
 
-section .goods-content{
+section .goods-content{	
 	width: 100%;
+	border: 2px solid #22382e;
+	padding: 10px;
 }
 
 section .goods-content img{

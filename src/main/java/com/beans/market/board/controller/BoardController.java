@@ -56,6 +56,10 @@ public class BoardController {
 			// 최고 입찰자가 나인가
 			int my_bid = historyService.myBidCheck(idx, email);
 			model.addAttribute("my_bid", my_bid);
+			
+			// 판매자가 나인가
+			// int my_bbs = boardService.myBbsCheck(idx, email);
+			// 글 올리기 수정하고 난 후*****
 		}	
 		
 		return page;
@@ -109,13 +113,13 @@ public class BoardController {
 		logger.info("params: "+params);
 		
 		// 판매일 경우, start-price가 안들어온다.
-		if (params.get("start_priceInt") == null || params.get("immediate-price") == null) {
-			priceInt = Integer.parseInt(params.get("price"));
+		if (params.get("price") != null && !params.get("price").trim().isEmpty()) {
+			priceInt = Integer.parseInt(params.get("price").trim());
 		}
 		// 경매일 경우, price가 안들어온다.
-		if (params.get("price") == null) {
-			start_priceInt = Integer.parseInt(params.get("start-price"));
-			immediate_priceInt = Integer.parseInt(params.get("immediate-price"));
+		if (params.get("start-price") != null && !params.get("start-price").trim().isEmpty()) {
+			start_priceInt = Integer.parseInt(params.get("start-price").trim());
+			immediate_priceInt = Integer.parseInt(params.get("immediate-price").trim());
 		}
 		
 		// 임시저장

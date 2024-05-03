@@ -284,7 +284,7 @@
 	<select id="getBidderY" resultType="Integer">
 		SELECT COUNT(reserve_email) 
 		FROM bbs 
-		WHERE idx=#{param1} AND option='경매' AND bbs_state='거래완료' AND reserve_email = #{param2}
+		WHERE idx=#{param1} AND option='경매' AND (bbs_state='예약중' OR bbs_state='거래완료') AND reserve_email = #{param2}
 	</select>
 	
 </mapper>

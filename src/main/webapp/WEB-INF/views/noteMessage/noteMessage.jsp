@@ -320,7 +320,7 @@
 		$('#view-subject').append(content);
 		$('#view-subject').css({
 											'background-color':'white',
-											'border-bottom': '2px solid #787878'
+											'border-bottom': '2px solid #22382e'
 		});
 		
 		$('#deal-btn').prop('disabled', true);
