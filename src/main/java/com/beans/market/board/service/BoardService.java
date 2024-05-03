@@ -360,4 +360,41 @@ public class BoardService {
 	}
 
 	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	// 게시글의 판매자가 나인가?
+	public int myBbsCheck(Integer idx, String email) {
+		return boardDAO.myBbsCheck(idx, email);
+	}
+	// 게시글 수정하기로 이동
+	public BoardDTO goodsUpdate(int idxInt) {
+		return boardDAO.goodsDetail(idxInt);
+	}
+	// 게시글 수정
+	public void goodsUpdate(int idxInt, int priceInt, String category, String subject, String content, String place, MultipartFile[] photos) {
+		boardDAO.goodsUpdate(idxInt, priceInt, category, subject, content, place);
+	}
+
+	
 }

@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.beans.market.board.dto.BoardDTO;
 import com.beans.market.board.service.BoardService;
 import com.beans.market.history.service.HistoryService;
 import com.beans.market.member.dto.MemberDTO;
@@ -58,7 +59,7 @@ public class BoardController {
 			model.addAttribute("my_bid", my_bid);
 			
 			// 판매자가 나인가
-			// int my_bbs = boardService.myBbsCheck(idx, email);
+			int my_bbs = boardService.myBbsCheck(idx, email);
 			// 글 올리기 수정하고 난 후*****
 		}	
 		
@@ -264,5 +265,51 @@ public class BoardController {
 		
 		return map;
 	}	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	// 판매자 기능 - 수정하기
+	@RequestMapping(value="/board/saleOfGoodsUpdate.go")
+	public String saleOfGoodsUpdate_go(String idx, Model model) {
+		int idxInt = Integer.parseInt(idx);
+		
+		BoardDTO dto = boardService.goodsUpdate(idxInt);
+		model.addAttribute("idx", dto.getIdx());
+		model.addAttribute("price", dto.getPrice());
+		logger.info(dto.getCategory_idx());
+		model.addAttribute("category_idx", dto.getCategory_idx());
+		model.addAttribute("subject", dto.getSubject());
+		model.addAttribute("content", dto.getContent());
+		model.addAttribute("place", dto.getPlace());
+		
+		return "/board/saleOfGoodsUpdate";
+	}
+	// 판매자 기능 - 수정하기 완료
+	@RequestMapping(value="/board/saleOfGoodsUpdate.do")
+	public String saleOfGoodsUpdate_do(Model model, MultipartFile[] photos,
+										@RequestParam Map<String, String> params) {
+		
+		int priceInt = Integer.parseInt(params.get("price"));
+
+		boardService.goodsUpdate(Integer.parseInt(params.get("idx")), priceInt, params.get("category"), params.get("subject"), params.get("content"), params.get("place"), photos);
+		
+		return boardService.goodsDetail(Integer.parseInt(params.get("idx")), model);
+	}
 
 }

@@ -2,6 +2,7 @@ package com.beans.market.board.dao;
 
 import java.sql.Timestamp;
 import java.util.List;
+import java.util.Map;
 
 import com.beans.market.board.dto.BoardDTO;
 
@@ -49,6 +50,10 @@ public interface BoardDAO {
 	List<BoardDTO> list(String email);
 
 	int reserveUpdate(String email, int idx, String bbs_state);
+
+	int myBbsCheck(Integer idx, String email);
+
+	void goodsUpdate(int idxInt, int priceInt, String category, String subject, String content, String place);
 
 
 

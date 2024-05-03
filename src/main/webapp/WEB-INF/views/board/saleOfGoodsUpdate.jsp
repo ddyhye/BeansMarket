@@ -23,11 +23,9 @@
 <div class="salewrite">
     <%-- <div class="draftDiv"><i class="fa-solid fa-bookmark"></i></i><a href="<c:url value="/board/TempSave.go"/>">임시저장 글</a></div> --%>
     <div class="draftDiv">
-    	<i class="fa-solid fa-bookmark"></i>
-    	<p id="draftList">임시저장 리스트</p>
     </div>
-    <h2 id="writeSubject">중고 물품 판매글 작성</h2>
-    <form action="goodsWrite.do" method="POST" enctype="multipart/form-data">
+    <h2 id="writeSubject">나눔/판매 글 수정</h2>
+    <form action="<c:url value='/board/saleOfGoodsUpdate.do'/>" method="POST" enctype="multipart/form-data">
         <div class="salemethod">
         	<div class="form-head">
             	거래방식
@@ -36,7 +34,7 @@
             <div class="option-container">
             	<input type="hidden" id="selectedOption" name="option" value="" />
                 <div class="option" id="sale-option" onclick="toggleSaleMethod('sale')">나눔/판매</div>
-                <div class="option" id="auction-option" onclick="toggleSaleMethod('auction')">경매</div>
+                <!-- <div class="option" id="auction-option" onclick="toggleSaleMethod('auction')">경매</div> -->
             </div>
         </div>
 
@@ -45,58 +43,33 @@
         	<div class="form-head">
             	가격
             </div>
-            <input name="price" type="text" id="price" placeholder="가격을 입력해 주세요">
+            <input name="price" type="text" id="price" value="${price}" placeholder="가격을 입력해 주세요">
             <p id="price-text">*나눔의 경우 가격을 0으로 설정해주세요</p>
         </div>
-
-        <!-- 경매 선택 시 보여질 요소들 -->
-        <div class="auction-details" id="auction-details" style="display: none;">
-            <div class="auction-period">
-            	<div class="form-head">
-	                <label for="auction-period">경매 기간</label>
-	            </div>
-                <select id="auction-period" name="auction-period">
-                    <option value="0">선택</option>
-                    <option value="3">3일</option>
-                    <option value="5">5일</option>
-                    <option value="7">7일</option>
-                </select>
-            </div>
-            <div class="auction-start-price">
-                <div class="form-head">
-	                <label for="start-price">시작 가격</label> 
-	            </div>
-                <input type="text" name="start-price">
-            </div>
-            <div class="auction-immediate-price">
-            	<div class="form-head">
-	                <label for="immediate-price">즉시 낙찰가</label> 
-	            </div>
-                <input type="text" name="immediate-price">
-            </div>
-        </div>
+  
 
         <!-- 공통 요소들 -->
+        <input type="hidden" name="idx" value="${idx}"/>
         <div class="salecategory">
         	<div class="form-head">
 	            <label for="category">카테고리</label>
             </div>
             <select name="category">
                 <option value="m001">선택</option>
-                <option value="m001">디지털 기기</option>
-                <option value="m002">가구/인테리어</option>
-                <option value="m003">유아동</option>
-                <option value="m004">여성 패션</option>
-                <option value="m005">여성 잡화</option>
-                <option value="m006">뷰티 미용</option>
-                <option value="m007">남성 패션/잡화</option>
-                <option value="m008">생활가전</option>
-                <option value="m009">생활/주방</option>
-                <option value="m010">가공식품</option>
-                <option value="m011">스포츠/레저</option>
-                <option value="m012">취미/게임/음반</option>
-                <option value="m013">식물</option>
-                <option value="m014">반려동물 용품</option>
+                <option value="m001" ${category_idx == "m001" ? "selected" : ""}>디지털 기기</option>
+                <option value="m002" ${category_idx == "m002" ? "selected" : ""}>가구/인테리어</option>
+                <option value="m003" ${category_idx == "m003" ? "selected" : ""}>유아동</option>
+                <option value="m004" ${category_idx == "m004" ? "selected" : ""}>여성 패션</option>
+                <option value="m005" ${category_idx == "m005" ? "selected" : ""}>여성 잡화</option>
+                <option value="m006" ${category_idx == "m006" ? "selected" : ""}>뷰티 미용</option>
+                <option value="m007" ${category_idx == "m007" ? "selected" : ""}>남성 패션/잡화</option>
+                <option value="m008" ${category_idx == "m008" ? "selected" : ""}>생활가전</option>
+                <option value="m009" ${category_idx == "m009" ? "selected" : ""}>생활/주방</option>
+                <option value="m010" ${category_idx == "m010" ? "selected" : ""}>가공식품</option>
+                <option value="m011" ${category_idx == "m011" ? "selected" : ""}>스포츠/레저</option>
+                <option value="m012" ${category_idx == "m012" ? "selected" : ""}>취미/게임/음반</option>
+                <option value="m013" ${category_idx == "m013" ? "selected" : ""}>식물</option>
+                <option value="m014" ${category_idx == "m014" ? "selected" : ""}>반려동물 용품</option>
             </select>
         </div>
 
@@ -104,38 +77,38 @@
         	<div class="form-head">
 	            <label for="title">제목</label> 
             </div>
-            <input type="text" name="subject" placeholder="제목을 입력해 주세요">
+            <input type="text" name="subject" value="${subject}" placeholder="제목을 입력해 주세요">
         </div>
 
         <div class="photo">
         	<div class="form-head">
 	            <label for="photo">사진선택</label>
             </div>
-            <input type="file" multiple="multiple" name="photos">
+            <input type="file" multiple="multiple" name="photos" disabled>
         </div>
 
         <div class="content">
         	<div class="form-head">
  	            <label for="content">설명</label>
             </div>
-            <textarea id="content" name="content" placeholder="게시글 내용을 작성해 주세요"></textarea>
+            <textarea id="content" name="content" placeholder="게시글 내용을 작성해 주세요">${content}</textarea>
         </div>
 
         <div class="place">
         	<div class="form-head">
 	            <label for="place">거래 희망 장소</label> 
             </div>
-            <input type="text" name="place" placeholder="ex.가산역 구디빌딩 근처">
+            <input type="text" name="place" value="${place}" placeholder="ex.가산역 구디빌딩 근처">
         </div>
 
         <div class="buttons">
-            <button type="button" onclick="tempwriteFun()" id="temporary-save-button">임시저장</button>
-            <button type="button" onclick="salewrite()" id="save-button">저장</button>
+            <input type="submit" value="수정"/>
         </div>
     </form>
 </div>
 
 <script>
+	var bbsIdx = '${idx}';
 
 	$(document).ready(function() {	    
 	    toggleSaleMethod('sale');
@@ -144,41 +117,23 @@
 	    $('#sale-option').click(function () {
 	        toggleSaleMethod('sale');
 	    });
-	
-	    // "경매" 옵션 클릭 시 처리
-	    $('#auction-option').click(function () {
-	        toggleSaleMethod('auction');
-	    });
 	});
 	
     // 거래방식에 따른 입력요소 변경
     function toggleSaleMethod(method) {
         const salePriceContainer = document.getElementById('sale-price-container');
-        const auctionDetails = document.getElementById('auction-details');
         var selectedOptionInput = document.getElementById('selectedOption');
 
         if (method === 'sale') {
             salePriceContainer.style.display = 'flex';
-            auctionDetails.style.display = 'none';
             selectedOptionInput.value = '판매'; // 숨겨진 필드 값 업데이트
             document.getElementById('sale-option').classList.add('selected');
-            document.getElementById('auction-option').classList.remove('selected');
-        } else if (method === 'auction') {
-            salePriceContainer.style.display = 'none';
-            auctionDetails.style.display = 'flex';
-            selectedOptionInput.value = '경매'; // 숨겨진 필드 값 업데이트
-            document.getElementById('auction-option').classList.add('selected');
-            document.getElementById('sale-option').classList.remove('selected');
-        }
+        } 
     }
 
     $(document).ready(function () {
         $('#sale-option').click(function () {
             toggleSaleMethod('sale');
-        });
-
-        $('#auction-option').click(function () {
-            toggleSaleMethod('auction');
         });
     });
 

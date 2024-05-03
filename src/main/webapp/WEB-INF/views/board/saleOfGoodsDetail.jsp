@@ -316,6 +316,20 @@
     
     
     
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
     // 타 회원 프로필로 이동
     $('.profile').on('click', function(){
     	var otherName = $(this).data('value');
@@ -323,6 +337,12 @@
     	console.log('click!!!');
     	
     	window.location.href = '<c:url value="/member/otherProfile.go?email='+encodeURIComponent(otherName)+'"/>';
+    });
+    
+    
+    // 판매자 기능 - 수정하기
+    $('.modifyBtn').on('click', function() {
+    	window.location.href = '<c:url value="/board/saleOfGoodsUpdate.go?idx='+bbsIdx+'"/>';
     });
     
     
