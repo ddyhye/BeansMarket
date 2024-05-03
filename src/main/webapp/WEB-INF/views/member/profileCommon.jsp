@@ -34,7 +34,7 @@
 			</div>
 			<div class="link-pay">
 				<h3>빈즈페이</h3>
-				<a href=""><p>&nbsp;• 나의 빈즈페이</p></a>
+				<a href="<c:url value='/pay/mybeans.go'/>"><p>&nbsp;• 나의 빈즈페이</p></a>
 			</div>
 		</div>
 </body>

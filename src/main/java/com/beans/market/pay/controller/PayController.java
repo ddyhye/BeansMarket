@@ -34,24 +34,28 @@ public class PayController {
 	
 	@Autowired PayService payService;
 	
-	@RequestMapping(value="/pay/mybeans")
+	@RequestMapping(value="/pay/mybeans.go")
 	public String mybeans(Model model, HttpSession session) {
 		logger.info("나의 빈즈 내역 요청");
+		String page = "redirect:/member/login.go";
 		
-		//빈즈페이 금액
-		String email = "zxz0608@gmail.com";  //테스트용 이메일 //테스트 끝나고 매개변수로 email받기
-		
-		int amount = payService.getMyAmount(email);
-		model.addAttribute("my_amount", amount);
-		//빈즈내역
-		List<PayDTO> mybeansHist = payService.list(email);
-		model.addAttribute("beans", mybeansHist);
-		// 유저 이름 가져오기
-	    String userName = payService.getUsernameByEmail(email); 
-	    model.addAttribute("userName", userName);
-		
-		return "pay/myBeansPay";
-		
+		MemberDTO loginInfo = (MemberDTO) session.getAttribute("loginInfo");
+		if (loginInfo != null) {
+			String email = loginInfo.getEmail();
+			page = "pay/myBeansPay";
+			
+			int amount = payService.getMyAmount(email);
+			model.addAttribute("my_amount", amount);
+			//빈즈내역
+			List<PayDTO> mybeansHist = payService.list(email);
+			model.addAttribute("beans", mybeansHist);
+			// 유저 이름 가져오기
+			String userName = payService.getUsernameByEmail(email); 
+			model.addAttribute("userName", userName);
+		} else {
+			model.addAttribute("로그인이 필요한 서비스 입니다.");
+		}
+		return page;
 	}
 	
 	@RequestMapping(value = "/pay/getPoint.ajax", method = RequestMethod.POST)
@@ -76,16 +80,18 @@ public class PayController {
 	//충전
 	@RequestMapping(value="/pay/charge", method=RequestMethod.POST)
     public String charge( PayDTO payDTO, HttpSession session) {
-    	//String email = (String) session.getAttribute("userEmail"); //파라미터 추가하면 이거 코드 사용
-		String email = "zxz0608@gmail.com";  //테스트용 이메일 //테스트 끝나고 매개변수로 email받기
-	    // 가져온 이메일이 null이 아닐 경우에만 처리
-	    if(email != null) {
-	        payService.updateMemberPoint(email, payDTO.getPay());
-	        return "redirect:/pay/mybeans"; // 충전 성공 페이지로 리다이렉트
-	    } else {
-	        // 예외 처리: 로그인하지 않은 사용자
-	        return "redirect:/main/member/login.go"; // 로그인 페이지로 리다이렉트
-	    }//현재는 데드코드라고 뜨지만 , 로그인 세션 주석 삭제시 정상코드로 변환
+		String page = "redirect:/member/login.go";
+		
+		MemberDTO loginInfo = (MemberDTO) session.getAttribute("loginInfo");
+		if (loginInfo != null) {
+			String email = loginInfo.getEmail();
+			logger.info("{} 빈즈페이 충전 요청", email);
+			payService.updateMemberPoint(email, payDTO.getPay());
+			page = "redirect:/pay/mybeans.go"; // 충전 성공 페이지로 리다이렉트
+		} 
+	        
+        return page;
+	    
 	}
     
 }    
