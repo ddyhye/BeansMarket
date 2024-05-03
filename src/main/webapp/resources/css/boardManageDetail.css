@@ -17,6 +17,80 @@ section .container {
     flex-direction: column;
 }
 
+section .buttons {
+	display: inline-block; 
+	margin-left: 85%;
+	padding-bottom: 20px;
+}
+
+#auctionCancelModal {
+	display: none;
+}
+
+#auctionCancelModal.active {
+	display: flex;
+	flex-direction: column;
+	position: absolute;
+	margin: 250px 300px;
+	background-color: white;
+	width: 400px;
+	text-align: center;
+	border: 2px solid #ccc;	
+	z-index: 100;
+}
+
+.auc-button {
+	display: flex;
+	flex-direction: row;
+	justify-content: center;
+	margin-bottom : 20px;
+}
+
+#auctionCancelModal p {
+    font-size: 15px; /* 글자 크기 설정 */
+    margin: 15px;
+}
+
+#auctionCancelModal button {
+    font-size: 15px;
+    margin: 5px;
+    width: 80px;
+    height: 40px; 
+}
+
+#BlindModal {
+	display: none;
+}
+
+#BlindModal-del1 {
+    width: 85px;
+    height: 32px;
+    font-size: 15px;
+}
+
+#BlindModal.active {
+	display: flex;
+	flex-direction: column;
+	position: absolute;
+	margin: 250px 300px;
+	background-color: white;
+	width: 400px;
+	text-align: center;
+	border: 2px solid #ccc;
+	z-index: 100;
+}
+
+#BlindModal p {
+    font-size: 15px;
+    margin: 20px;
+}
+
+#BlindModal button {
+    font-size: 15px;
+    margin: 20px;
+    width: 80px;
+    height: 30px; 
+}
 
 section .manager-boarddetail1 {
 	display: flex;
@@ -29,11 +103,11 @@ section .manager-boarddetail1 {
 
 .one {
 	position: relative;
-   	width: 10%;
+   	width: 15%;
 }
 .two {
 	position: relative;
-   	width: 15%;
+   	width: 20%;
 }
 .three {
 	position: relative;
@@ -45,17 +119,12 @@ section .manager-boarddetail1 {
 }
 .five {   
 	position: relative;
-   	width: 5%;
+   	width: 20%;
 }
 .six {   
 	position: relative;
-   	width: 15%;
+   	width: 25%;
 }
-.seven {   
-	position: relative;
-   	width: 15%;
-}
-
 
 section .manager-boarddetail2 {
 	display: flex;
@@ -66,27 +135,27 @@ section .manager-boarddetail2 {
 	padding-bottom: 200px;
 }
 
-.eight {
+.seven {
 	position: relative;
    	width: 15%;
 }
-.nine {
+.eight {
 	position: relative;
    	width: 10%;
 }
-.ten {
+.nine {
 	position: relative;
    	width: 20%;
+}
+.ten {   
+	position: relative;
+   	width: 15%;
 }
 .eleven {   
 	position: relative;
    	width: 15%;
 }
 .twelve {   
-	position: relative;
-   	width: 15%;
-}
-.thirteen {   
 	position: relative;
    	width: 25%;
 }
@@ -98,7 +167,7 @@ section .manager-auction-boarddetail1 {
 	width: 800px;
 }
 
-a {
+p {
 	padding-left: 945px;
 }
 section .manager-auction-boarddetail2 {
@@ -109,17 +178,10 @@ section .manager-auction-boarddetail2 {
 	margin: 0 auto;
 }
 
-
-
-
-
-
-
-
-
 table, th, td{
 	border: 1px solid #686868;
 	border-collapse: collapse;
+	text-align: center;
 }
 tr {
 	height: 10px;

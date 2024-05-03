@@ -19,10 +19,10 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.beans.market.admin.dto.AdminDTO;
 import com.beans.market.admin.dto.AlarmDTO;
 import com.beans.market.admin.service.AdminService;
+import com.beans.market.board.dto.BoardDTO;
 import com.beans.market.member.dto.MemberDTO;
 import com.beans.market.member.dto.MemberPenaltyDTO;
 import com.beans.market.pay.dto.PayDTO;
-import com.beans.market.photo.dto.ProfilePicDTO;
 
 @Controller
 public class AdminController {
@@ -45,12 +45,6 @@ public class AdminController {
 	public String boardManageGO(Model model) {
 		model.addAttribute("pageName", "게시글 관리");
 		return "admin/boardManage";
-	}
-	
-	@RequestMapping(value = "/admin/boardManageDetail.go", method = RequestMethod.GET)
-	public String boardManageDetailGO(Model model) {
-		model.addAttribute("pageName", "게시글 관리");
-		return "admin/boardManageDetail";
 	}
 	
 	@RequestMapping(value = "/admin/messageManage.go", method = RequestMethod.GET)
@@ -484,25 +478,107 @@ public class AdminController {
 		return map;
 	}
 	
+
+	 @RequestMapping(value="/admin/adel.ajax") 
+	 @ResponseBody public Map<String, Object> Adel(@RequestParam("aDelList[]") List<Integer> aDelList) {
+	        Map<String, Object> map = new HashMap<>();
+	        
+			/* adminService.deleteItems(aDelList); */
+	        
+	        return map;
+	 }
 	
 	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
+	// 게시글 상세보기
+	@RequestMapping(value = "/admin/boardManageDetail.go")
+	public String boardManageDetailGO(Model model, HttpSession session, String idx) {
+		String adminID = (String)session.getAttribute("adminID");
+		
+		int boardIdx = Integer.parseInt(idx);
+		BoardDTO dto = adminService.boardDetail(boardIdx);
+		
+		String page="/admin/boardManageDetail";
+		
+		// 1. 페이지를 두개 만들기
+		//    dto.getOption === 'sale' --> boardManageDetail
+		//    dto.getOption === 'auction' -->  boardManageAuctionDetail
+		// 2. 한 페이지에 동적으로 생성하기
+		if (dto.getOption().equals("판매")) {
+			page="/admin/boardManageDetail";
+		} else {
+			page="/admin/boardManageAuctionDetail";
+		}
+		
+		model.addAttribute("idx", dto.getIdx());
+		model.addAttribute("email", dto.getEmail());
+		model.addAttribute("option", dto.getOption());
+		model.addAttribute("bbs_state", dto.getBbs_state());
+		model.addAttribute("bHit", dto.getbHit());
+		model.addAttribute("location", dto.getLocation());
+		model.addAttribute("reg_date", dto.getReg_date());
+		model.addAttribute("blind", dto.getBlind());
+		model.addAttribute("hidden", dto.getHidden());
+		model.addAttribute("category_idx", dto.getCategory_idx());
+		model.addAttribute("draft", dto.getDraft());
+		model.addAttribute("price", dto.getPrice());
+		model.addAttribute("reserve_email", dto.getReserve_email());
+			
+		if (dto.getOption().equals("경매")) {
+			model.addAttribute("price", dto.getPrice());
+			model.addAttribute("start_price", dto.getStart_price());
+			model.addAttribute("successful_bid", dto.getSuccessful_bid());
+			model.addAttribute("auction_period", dto.getAuction_period());
+			model.addAttribute("close_date", dto.getClose_date());
+		} 
+		
+		
+		return page;
+	}
+
+	// 블라인드 처리
+	@RequestMapping(value = "/admin/bbsBlind.do")
+	public String bbsBlind(Model model, HttpSession session, String idx) {
+		String adminID = (String)session.getAttribute("adminID");
+		
+		logger.info(idx);
+		
+		
+		int boardIdx = Integer.parseInt(idx);
+		adminService.boardBlind(boardIdx);
+		BoardDTO dto = adminService.boardDetail(boardIdx);
+	    
+		model.addAttribute("idx", dto.getIdx());
+		model.addAttribute("email", dto.getEmail());
+		model.addAttribute("option", dto.getOption());
+		model.addAttribute("bbs_state", dto.getBbs_state());
+		model.addAttribute("bHit", dto.getbHit());
+		model.addAttribute("location", dto.getLocation());
+		model.addAttribute("reg_date", dto.getReg_date());
+		model.addAttribute("blind", dto.getBlind());
+		model.addAttribute("hidden", dto.getHidden());
+		model.addAttribute("category_idx", dto.getCategory_idx());
+		model.addAttribute("draft", dto.getDraft());
+		model.addAttribute("price", dto.getPrice());
+		model.addAttribute("reserve_email", dto.getReserve_email());
+		
+		return "admin/boardManageDetail";		
+	}
 	
 	
 }
+
+
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+
 

@@ -130,6 +130,13 @@ public interface AdminDAO {
 
 
 	
+	// 게시글 상세보기
+	BoardDTO boardDetail(int boardIdx);
+	
+	// 블라인드 처리
+	BoardDTO boardBlind(int boardIdx);
+
+	
 	
 	
 	

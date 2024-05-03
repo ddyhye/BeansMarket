@@ -731,9 +731,114 @@
 		FROM bbs 
 		WHERE (subject LIKE  CONCAT('%', #{param1}, '%') OR idx=#{param2}) AND bbs_state=#{param3} AND draft='Y' 
 	</select>
-	
-	
-	
+	<select id="bbsSelect19" resultType="com.beans.market.board.dto.BoardDTO">
+		SELECT
+			idx,
+			option,
+			bbs_state,
+			subject,
+			price,
+			email,
+			reg_date,
+			blind
+		FROM bbs 
+		WHERE (subject LIKE  CONCAT('%', #{param1}, '%') OR idx=#{param2}) AND category_idx=#{param3} 
+	</select>
+	<select id="bbsSelect20" resultType="com.beans.market.board.dto.BoardDTO">
+		SELECT
+			idx,
+			option,
+			bbs_state,
+			subject,
+			price,
+			email,
+			reg_date,
+			blind
+		FROM bbs 
+		WHERE (subject LIKE  CONCAT('%', #{param1}, '%') OR idx=#{param2}) AND category_idx=#{param3} AND blind='Y'
+	</select>
+	<select id="bbsSelect21" resultType="com.beans.market.board.dto.BoardDTO">
+		SELECT
+			idx,
+			option,
+			bbs_state,
+			subject,
+			price,
+			email,
+			reg_date,
+			blind
+		FROM bbs 
+		WHERE (subject LIKE  CONCAT('%', #{param1}, '%') OR idx=#{param2}) AND category_idx=#{param3} AND tempsave='Y'
+	</select>
+	<select id="bbsSelect22" resultType="com.beans.market.board.dto.BoardDTO">
+		SELECT
+			idx,
+			option,
+			bbs_state,
+			subject,
+			price,
+			email,
+			reg_date,
+			blind
+		FROM bbs 
+		WHERE (subject LIKE  CONCAT('%', #{param1}, '%') OR idx=#{param2}) AND bbs_state={param3} AND category_idx=#{param4}
+	</select>
+	<select id="bbsSelect23" resultType="com.beans.market.board.dto.BoardDTO">
+		SELECT
+			idx,
+			option,
+			bbs_state,
+			subject,
+			price,
+			email,
+			reg_date,
+			blind
+		FROM bbs 
+		WHERE (subject LIKE  CONCAT('%', #{param1}, '%') OR idx=#{param2}) AND bbs_state={param3} AND category_idx=#{param4} AND blind='Y'
+	</select>
+	<select id="bbsSelect24" resultType="com.beans.market.board.dto.BoardDTO">
+		SELECT
+			idx,
+			option,
+			bbs_state,
+			subject,
+			price,
+			email,
+			reg_date,
+			blind
+		FROM bbs 
+		WHERE (subject LIKE  CONCAT('%', #{param1}, '%') OR idx=#{param2}) AND bbs_state={param3} AND category_idx=#{param4} AND tempsave='Y'
+	</select>
+	<!-- 게시글 상세보기 관리 -->
+	<select id="boardDetail" resultType="com.beans.market.board.dto.BoardDTO">
+		SELECT
+		    b.idx,
+		    b.email,
+		    b.option,
+		    b.bbs_state,
+		    b.location,
+		    b.reg_date,
+		    b.blind,
+		    b.hidden,
+		    b.category_idx,
+		    b.draft,
+		    b.price,
+		    b.reserve_email,
+		    a.start_price,
+		    a.successful_bid,
+		    a.auction_period,
+		    a.close_date
+		FROM
+		    bbs b
+		INNER JOIN
+		    auction a ON b.idx = a.idx
+		WHERE
+		    b.idx = #{param1}
+	</select>
+	<!-- 게시글 블라인드 처리 -->	
+	<select id="boardBlind">
+		UPDATE bbs SET blind='Y' WHERE idx=#{param1}
+	</select>
 	
 	
 	
