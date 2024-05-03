@@ -17,10 +17,12 @@ public interface MessageDAO {
 
 	int sendMessagePic(MessageDTO dto);
 
-	MessageDTO getMessageInfo(String message_idx);
+	MessageDTO getMessageInfo(int message_idx);
 
-	int updateSenderDel(String message_idx);
+	int updateSenderDel(int message_idx);
 
-	int updateReceiveDel(String message_idx);
+	int updateReceiveDel(int message_idx);
+
+	void messageRead(int idx, String email, String otherEmail);
 
 }

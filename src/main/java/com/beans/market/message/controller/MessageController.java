@@ -1,6 +1,7 @@
 package com.beans.market.message.controller;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpSession;
@@ -128,12 +129,26 @@ public class MessageController {
 	@RequestMapping(value = "/message/msgDelete.ajax", method = RequestMethod.POST)
 	@ResponseBody
 	public Map<String, Object> msgDeleteAjax(HttpSession session, String message_idx){
-		logger.info("delete data Check {}, {}", message_idx);
+		logger.info("delete data Check {}", message_idx);
 		Map<String, Object> map = new HashMap<String, Object>();
 		MemberDTO loginInfo = (MemberDTO) session.getAttribute("loginInfo");
 		
 		if (loginInfo != null) {
-			map = messageService.msgDeleteAjax(message_idx, loginInfo.getEmail());			
+			map = messageService.msgDeleteAjax(Integer.parseInt(message_idx), loginInfo.getEmail());			
+		}
+		return map;
+	}
+	
+	// 전체 메시지 삭제
+	@RequestMapping(value = "/message/msgAllDelete.ajax", method = RequestMethod.POST)
+	@ResponseBody
+	public Map<String, Object> msgAllDeleteAjax(HttpSession session, @RequestParam(value="delIdxs[]") List<Integer> delIdxs){
+		logger.info("delete data Check {}", delIdxs);
+		Map<String, Object> map = new HashMap<String, Object>();
+		MemberDTO loginInfo = (MemberDTO) session.getAttribute("loginInfo");
+		
+		if (loginInfo != null) {
+			map = messageService.msgAllDeleteAjax(delIdxs, loginInfo.getEmail());			
 		}
 		return map;
 	}
