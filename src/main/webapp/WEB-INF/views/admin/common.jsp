@@ -58,6 +58,17 @@
 	
 	 newAlarm();
 	
+	// 로그인 체크
+	function loginCheck() {
+	    var login = true;
+	    if('${adLoginInfo}' == ''){
+	        alert('로그인이 필요한 서비스 입니다.');
+	        location.href='<c:url value="/admin/"/>';
+	        login = false;
+	    }
+	    return login;
+	}
+	 
 	$('.logout').click(function(){
 		location.href="<c:url value='/admin/logout.do'/>";
 	});
@@ -134,6 +145,20 @@
 		var date = new Date(timesteamp);
 		var dateStr = date.toLocaleDateString("ko-KR");
 		return dateStr;
+	}
+	
+	// timestamp 형식인 거 문자열로 변환하는 함수
+	function formatDate(num) {
+	    return ('0' + num).slice(-2);
+	}
+	function DateToStringTime(timesteamp) {
+	    var date = new Date(timesteamp);
+	    var year = date.getFullYear();
+	    var month = formatDate(date.getMonth() + 1); // getMonth()는 0부터 시작하므로 1을 더함
+	    var day = formatDate(date.getDate());
+	    var hours = formatDate(date.getHours());
+	    var minutes = formatDate(date.getMinutes());
+	    return year + '-' + month + '-' + day + ' ' + hours + ':' + minutes;
 	}
 	
 	// 알림 읽기 처리

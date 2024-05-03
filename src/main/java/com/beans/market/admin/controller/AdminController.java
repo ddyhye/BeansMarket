@@ -30,7 +30,7 @@ public class AdminController {
 	Logger logger = LoggerFactory.getLogger(getClass());
 	@Autowired AdminService adminService;
 	
-	@RequestMapping(value = "/admin/adminLogin.go", method = RequestMethod.GET)
+	@RequestMapping(value = "/admin/", method = RequestMethod.GET)
 		public String adminLoginGo(Model model) {
 		return "admin/adminLogin";
 	}
@@ -181,14 +181,15 @@ public class AdminController {
 	public Map<String, Object> alarm(HttpSession session) {
 		Map<String, Object> map = new HashMap<String, Object>();
 		
-		// 세션은 나중에
-		// 알림 리스트 가져오기
-		List<AlarmDTO> list = adminService.alarm();
-		
-		// 문의, 신고 미처리 갯수 가져오기
-		map = adminService.noComplete(); // inquiryCnt, reportCnt
-		
-		map.put("list", list);
+		if (session.getAttribute("adLoginInfo") != null) {
+			// 알림 리스트 가져오기
+			List<AlarmDTO> list = adminService.alarm();
+			
+			// 문의, 신고 미처리 갯수 가져오기
+			map = adminService.noComplete(); // inquiryCnt, reportCnt
+			
+			map.put("list", list);
+		}
 		
 		return map;
 	}
@@ -200,10 +201,10 @@ public class AdminController {
 		logger.info("{} 번 알림 읽음 처리하기", idx);
 		Map<String, Object> map = new HashMap<String, Object>();
 		
-		// 세션은 나중에
-		int result = adminService.alarmRead(Integer.parseInt(idx));
-
-		map.put("result", result);
+		if (session.getAttribute("adLoginInfo") != null) {
+			int result = adminService.alarmRead(Integer.parseInt(idx));
+			map.put("result", result);			
+		}
 		
 		return map;
 	}
@@ -215,8 +216,9 @@ public class AdminController {
 		logger.info("새로운 알림 가져오기");
 		Map<String, Object> map = new HashMap<String, Object>();
 		
-		// 세션은 나중에
-		map = adminService.newAlarm();
+		if (session.getAttribute("adLoginInfo") != null) {
+			map = adminService.newAlarm();			
+		}
 
 		return map;
 	}
@@ -229,15 +231,16 @@ public class AdminController {
 		Map<String, Object> map = new HashMap<String, Object>();
 		
 		logger.info("text : {}, YN : {}", searchText, reportYN);
-		// 세션은 나중에		
-		int intSearchText; 
-		try {
-			intSearchText = searchText.equals("") ? 0 : Integer.parseInt(searchText); // 숫자가 아닐때라고 유효성 검사를 주는게 좋아보임
-		} catch (Exception e) {
-			intSearchText = 0;
+		if (session.getAttribute("adLoginInfo") != null) {
+			int intSearchText; 
+			try {
+				intSearchText = searchText.equals("") ? 0 : Integer.parseInt(searchText); // 숫자가 아닐때라고 유효성 검사를 주는게 좋아보임
+			} catch (Exception e) {
+				intSearchText = 0;
+			}
+			
+			map = adminService.messageList(intSearchText , reportYN);			
 		}
-		
-		map = adminService.messageList(intSearchText , reportYN);
 
 		return map;
 	}
@@ -249,9 +252,10 @@ public class AdminController {
 		logger.info("게시글에 연결될 쪽지방 리스트 출력");
 		Map<String, Object> map = new HashMap<String, Object>();
 		
-		// 세션은 나중에
+		if (session.getAttribute("adLoginInfo") != null) {
+			map = adminService.roomList(searchText, reportYN);			
+		}
 		
-		map = adminService.roomList(searchText, reportYN);
 
 		return map;
 	}
@@ -263,18 +267,43 @@ public class AdminController {
 		logger.info(idx+"번 구매자 : {}, 판매자 {} - 쪽지방 상세보기", seller, buyer);
 		Map<String, Object> map = new HashMap<String, Object>();
 		
-		// 세션은 나중에
-		
-		map = adminService.roomDetailCall(idx, seller, buyer);
+		if (session.getAttribute("adLoginInfo") != null) {
+			map = adminService.roomDetailCall(idx, seller, buyer);			
+		}
 	
 		return map;
 	}
+	
+	// 게시글을 토대로 출력 - 성영
+	@RequestMapping(value="/admin/categoryCall.ajax", method = RequestMethod.GET)
+	@ResponseBody
+	public Map<String, Object> categoryCall(HttpSession session) {
+		Map<String, Object> map = new HashMap<String, Object>();
+		
+		map = adminService.categoryCall();			
+		
+		return map;
+	}
 
+	// 카테고리 변경사항 저장하기
+	@RequestMapping(value="/admin/categorySave.do", method = RequestMethod.POST)
+	public String categorySave(HttpSession session, Model model, String idx, String name, String hidden) {
+		logger.info(idx+" name : {}, hidden : {}", name, hidden);
+		
+		adminService.categorySave(model, idx, name, hidden);
+		
+		return "admin/category";
+	}
 
-
-
-
-
+	// 카테고리 추가하기
+	@RequestMapping(value="/admin/categoryInsert.do", method = RequestMethod.POST)
+	public String categoryInsert(HttpSession session, Model model, String idx, String name) {
+		logger.info(" idx : {}, name : {}", idx, name);
+		
+		adminService.categoryInsert(model, idx, name);
+		
+		return "admin/category";
+	}
 
 
 

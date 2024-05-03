@@ -42,44 +42,15 @@
 	
 	<select id="roomList" resultType="com.beans.market.message.dto.RoomDTO">
 		SELECT 
-		    m.other_email, 
-		    m.idx, 
-		    m.reg_date, 
-		    mb.name
-		FROM
-		    (
-		        SELECT 
-		            m.sender_email AS other_email, 
-		            m.idx, 
-		            m.reg_date
-		        FROM 
-		            deal_message m
-		        WHERE 
-		            m.receive_email = #{param1}
-		            AND m.idx IN (
-		                SELECT idx 
-		                FROM bbs 
-		                WHERE email = #{param1}
-		            )
-		        UNION ALL
-		        SELECT 
-		            m.receive_email AS other_email, 
-		            m.idx, 
-		            m.reg_date
-		        FROM 
-		            deal_message m
-		        WHERE 
-		            m.sender_email = #{param1}
-		            AND m.idx NOT IN (
-		                SELECT idx 
-		                FROM bbs 
-		                WHERE email = #{param1}
-		            )
-		    ) AS m
-		    JOIN `member` mb ON m.other_email = mb.email
-		GROUP by m.other_email, m.idx
-		ORDER BY 
-		    m.reg_date DESC
+			dm.idx, 
+			IF (dm.receive_email = #{param1}, dm.sender_email, dm.receive_email) AS other_email, 
+			b.subject, 
+			MAX(dm.reg_date) AS reg_date, 
+			(SELECT name FROM member where email = other_email) name
+		FROM deal_message dm LEFT JOIN (SELECT b.idx, b.email, b.subject FROM bbs b) AS b ON dm.idx = b.idx
+		WHERE dm.sender_email = #{param1} OR dm.receive_email = #{param1}
+		GROUP BY dm.idx, other_email
+		ORDER BY reg_date desc
 	</select>
 	
 	<select id="lastContent" resultType="com.beans.market.message.dto.RoomDTO">

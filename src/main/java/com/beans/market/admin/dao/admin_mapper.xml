@@ -118,7 +118,19 @@
 			AND (dm.receive_email = b.email OR dm.receive_email = #{param3})
 		where b.idx = #{param1};
 	</select>
+	
+	<select id="categoryCall" resultType="com.beans.market.admin.dto.CategoryDTO">
+		SELECT category_idx, category_name, hidden FROM category ORDER BY category_idx
+	</select>
 
+	<update id="categorySave">
+		UPDATE category SET category_name = #{param2}, hidden = #{param3}
+			WHERE category_idx = #{param1}
+	</update>
+	
+	<insert id="categoryInsert">
+		INSERT INTO category(category_idx, category_name) VALUES(#{param1}, #{param2});
+	</insert>
 	
 	<!-- 성영 END -->
 		

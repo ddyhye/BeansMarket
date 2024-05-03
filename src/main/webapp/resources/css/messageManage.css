@@ -152,10 +152,14 @@ section .room-result-box, .message-result-box{
 .message-result-box th:nth-child(1),
 .message-result-box td:nth-child(1) {
     width: 150px;
+    min-width: 150px;
+   	max-width: 150px;
 }
 .message-result-box th:nth-child(2),
 .message-result-box td:nth-child(2) {
     width: 150px;
+    min-width: 150px;
+   	max-width: 150px;
 }
 
 .message-result-box th:nth-child(3), 
@@ -163,14 +167,20 @@ section .room-result-box, .message-result-box{
 .message-result-box th:nth-child(4),
 .message-result-box td:nth-child(4) {
     width: 516.5px;
+    min-width: 516.5px;
+   	max-width: 516.5px;
 }
 
 .message-result-box th:nth-child(5) {
     width: 300px;
+    min-width: 300px;
+   	max-width: 300px;
 }
 
 .message-result-box td:nth-child(5) {
     width: 290px;
+    min-width: 290px;
+   	max-width: 290px;
 }
 
 #msg-detail{

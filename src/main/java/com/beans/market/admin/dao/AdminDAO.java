@@ -3,13 +3,14 @@ package com.beans.market.admin.dao;
 import java.util.List;
 import java.util.Map;
 
+import com.beans.market.admin.dto.AdminDTO;
+import com.beans.market.admin.dto.AlarmDTO;
+import com.beans.market.admin.dto.CategoryDTO;
+import com.beans.market.board.dto.BoardDTO;
 import com.beans.market.member.dto.MemberDTO;
 import com.beans.market.member.dto.MemberPenaltyDTO;
 import com.beans.market.message.dto.MessageDTO;
 import com.beans.market.pay.dto.PayDTO;
-import com.beans.market.admin.dto.AdminDTO;
-import com.beans.market.admin.dto.AlarmDTO;
-import com.beans.market.board.dto.BoardDTO;
 
 public interface AdminDAO {
 
@@ -33,6 +34,10 @@ public interface AdminDAO {
 	List<MessageDTO> roomReportListCall(int intSearchText);
 	List<MessageDTO> roomDetailCall(int idx, String seller, String buyer);
 	
+	List<CategoryDTO> categoryCall();
+	
+	int categorySave(String idx, String name, String hidden);
+	int categoryInsert(String idx, String name);
 	
 	/* 성영 END*/
 
@@ -118,6 +123,11 @@ public interface AdminDAO {
 	List<BoardDTO> bbsSelect22(String textVal, int textValInt, String selectedState, String selectedCategory);
 	List<BoardDTO> bbsSelect23(String textVal, int textValInt, String selectedState, String selectedCategory);
 	List<BoardDTO> bbsSelect24(String textVal, int textValInt, String selectedState, String selectedCategory);
+
+
+
+
+
 
 	
 	

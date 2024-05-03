@@ -49,6 +49,7 @@ header{
 }
 
 .left-header .pageName{
+	width: 300px;
 	justify-content: left;
 	border: none;
 }
