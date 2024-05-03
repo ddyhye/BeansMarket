@@ -16,14 +16,7 @@ section .container {
     flex-direction: column;
 }
 
-section .buttons {
-	display: inline-block; 
-	margin-left: 80%;
-	padding-bottom: 20px;
-}
-
-section .manager-search {
-	display: flex;
+section .report-manager {
 	align-items: center;
 	position: relative;
 	width: 1100px;
@@ -31,16 +24,15 @@ section .manager-search {
 	padding-bottom: 20px;
 }
 
-.manager-search .search {
+.report-manager .search {
     text-align: center;
     width: 50%;
 }
 
-.manager-search .category,
-.manager-search .state,
-.manager-search .blind-tempsave {
+.report-manager .incomplete,
+.report-manager .report-category {
 	text-align: center;
-    width: 25%;
+    width: 50%;
 }
 
 
@@ -49,7 +41,7 @@ section .manager-search {
     height: 80%
 }
 
-.button-search {
+.complete-button {
     width: 10%;
     height: 75%
 }
@@ -58,7 +50,7 @@ section .search-list {
 	display: flex;
 	align-items: center;
 	position: relative;
-	width: 1100px;
+	width: 1200px;
 	margin: 0 auto;
 	padding-bottom: 20px;
 }
@@ -77,18 +69,17 @@ td {
 	height: 40px;
 }
 
-td.search {
-	
-}
-
 table {
    position: relative;
-   width: 90%;
+   width: 91%;
 }
-
+.one {
+	position: relative;
+   	width: 5%;
+}
 .two {
 	position: relative;
-   	width: 10%;
+   	width: 5%;
 }
 .three {
 	position: relative;
@@ -96,15 +87,15 @@ table {
 }
 .four {   
 	position: relative;
-   	width: 10%;
+   	width: 5%;
 }
 .five {   
 	position: relative;
-   	width: 20%;
+   	width: 10%;
 }
 .six {   
 	position: relative;
-   	width: 10%;
+   	width: 15%;
 }
 .seven {   
 	position: relative;
@@ -112,9 +103,13 @@ table {
 }
 .eight {   
 	position: relative;
-   	width: 10%;
+   	width: 20%;
 }
 .nine {   
+	position: relative;
+   	width: 10%;
+}
+.ten {   
 	position: relative;
    	width: 5%;
 }
@@ -127,6 +122,5 @@ table {
 	display: flex;
    	align-items: center;
    	justify-content: center;
-   	
    	height: 35px;
 }

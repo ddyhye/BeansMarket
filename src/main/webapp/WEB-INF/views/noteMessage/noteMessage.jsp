@@ -756,24 +756,26 @@
 	}
     
     function apprve() {
-		$.ajax({
-			type:'POST',
-			url:'../message/approve.ajax',
-			data:{
-                'email':chat_user,
-                'idx':chat_idx
-            },
-            dataType:'JSON',
-			success:function(data){
-				if(data.result){
-					$('#dealForm').hide();
-					$('#comentForm').show();				
+    	if(confirm("정말로 거래를 승인하시겠습니까? (취소 불가)")){
+			$.ajax({
+				type:'POST',
+				url:'../message/approve.ajax',
+				data:{
+	                'email':chat_user,
+	                'idx':chat_idx
+	            },
+	            dataType:'JSON',
+				success:function(data){
+					if(data.result){
+						$('#dealForm').hide();
+						$('#comentForm').show();				
+					}
+				}, 
+				error:function(error){
+					console.log(error);
 				}
-			}, 
-			error:function(error){
-				console.log(error);
-			}
-		});
+			});    		
+    	}
 	}
 
 	function coment(data){
@@ -858,25 +860,33 @@
     }
 	
 	function Remittance(){
-        $.ajax({
-			type:'POST',
-			url:'../pay/Remittance.ajax',
-			data:{
-			    'email' : my_email,
-			    'idx' : chat_idx
-			},
-			dataType:'JSON',
-			success:function(data){
-				if (data.result) {
-					alert("송금 완료");
-					location.reload(true);				
+		if(confirm("정말로 송금하시겠습니까? (취소 불가)")){
+	        $.ajax({
+				type:'POST',
+				url:'../pay/Remittance.ajax',
+				data:{
+				    'email' : my_email,
+				    'idx' : chat_idx
+				},
+				dataType:'JSON',
+				success:function(data){
+					if (data.result) {
+						alert("송금 완료");
+						location.reload(true);				
+					} else{
+						alert("송금 실패");
+					}
+	        	},
+				error:function(error){
+				    console.log(error);
 				}
-        	},
-			error:function(error){
-			    console.log(error);
-			}
-		});
+			});
+        }
     }
+	
+	function charging() {
+		window.open('<c:url value="/pay/mybeans.go"/>', '_blank');
+	}
     
 </script>
 </html>

@@ -111,17 +111,18 @@ public class PayService {
 				row = historyService.insertPayHistory(idx, email, "거래금 지불", price, idx+"번 거래금 "+price+"원 지불");
 			}
 			
+			String otherEmail = bbs.getEmail();
 			// 판매자에게 금액 만큼 증가
 			if(row == 1) {
 				row = 0;
 				logger.info("판매 금액 증가");
-				row = payDAO.updatePoint(email, price);			
+				row = payDAO.updatePoint(otherEmail, price);			
 			}
 			
 			// 히스토리 작성
 			if(row == 1) {
 				logger.info("입금 히스토리 작성");
-				row = historyService.insertPayHistory(idx, email, "거래금 수령", price, idx+"번 거래금 "+price+"원 수령");
+				row = historyService.insertPayHistory(idx, otherEmail, "거래금 수령", price, idx+"번 거래금 "+price+"원 수령");
 			}
 			
 			if(row == 1) {
