@@ -1,16 +1,62 @@
 @charset "UTF-8";
+
 .salewrite {
-  margin: 10% auto; /* 수평 가운데 정렬 */
-  width: 70%; /* salewrite의 너비를 조정하여 중앙 정렬 */
-  border: 2px solid #CCCCCC;
-  border-radius: 10px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	flex-direction: column;
+	
+  margin-top: 180px;
+  margin-left: auto;
+  margin-right: auto;
+  width: 1150px;
+  border: 2px solid #22382e;
+  border-radius: 2px;
   padding: 20px;
   overflow-y: auto;
 }
 
-.salewrite div {
-  padding: 10px 0; /* 상하 여백을 줄임 */
+.draftDiv {
+	display: flex;
+	flex-direction: row;
+	
+	width: 95%;
 }
+#draftList {
+	margin-left: 5px;
+}
+
+#writeSubject {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	
+	width: 95%;
+	margin: 5px auto;
+	padding-bottom: 20px;
+	
+	border-bottom: 1px solid lightgray;
+}
+
+
+
+form {
+	display: flex;
+	flex-direction: column;
+	width: 80%;
+}
+.form-head {
+	position: relative;
+	width: 15%;
+	
+	font-size: 14px;
+	font-weight: bold;
+}
+
+.salewrite div {
+  padding: 8px 0; /* 상하 여백을 줄임 */
+}
+
 
 .salemethod {
   display: flex;
@@ -19,7 +65,6 @@
 
 .option-container {
   display: flex;
-  margin-left: 10px; /* 옵션 컨테이너를 오른쪽으로 이동 */
 }
 
 .option {
@@ -34,14 +79,38 @@
 }
 
 .price-container {
-  display: flex;
-  align-items: center;
+	flex-direction: row;
 }
 
 .price-container input {
+	width: 200px;
+	height: 30px;
   margin-right: 20px;
 }
 
+
+.auction-details {
+	flex-direction: column;
+}
+.auction-details div {
+	display: flex;
+	flex-direction: row;
+	padding: 2px;
+}
+.auction-details input[type="text"] {
+	width:200px;
+	height: 30px;
+}
+#auction-period {
+	width:80px;
+	height: 30px;
+}
+
+
+.salecategory,  .title, .photo, .place  {
+	display: flex;
+	flex-direction: row;
+}
 .title input {
   width: 100%; /* 너비를 부모 요소에 맞춤 */
   max-width: 400px; /* 최대 너비 설정 */
@@ -54,8 +123,7 @@
 
 .content {
   display: flex;
-  flex-direction: column; /* 컨텐츠를 세로로 배치 */
-  margin-bottom: 20px; /* 아래쪽 간격 추가 */
+  flex-direction: row; /* 컨텐츠를 세로로 배치 */
 }
 
 label {
@@ -75,10 +143,6 @@ label {
 
 .buttons button {
   margin-left: 10px;
-}
-
-p {
-  font-size: 12px; /* 기본 글꼴 크기 증가 */
 }
 
 .fa-bookmark {
