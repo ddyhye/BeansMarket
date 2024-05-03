@@ -9,10 +9,18 @@
 <link rel="stylesheet" href="<c:url value='/resources/css/common_top.css'/>" type="text/css"/>
 <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
 <style>
-	.fa-magnifying-glass, .fa-house, .fa-bell, .fa-paper-plane {
+	.fa-house, .fa-bell, .fa-paper-plane {
+		margin: 0 10px;
+		font-size: 35px;
+		/* color: rgb(68, 68, 68); */
+		color: white;
+	}
+	.fa-magnifying-glass {
+		position: absolute;
+		left: 540px;
 		margin: 0 10px;
 		font-size: 30px;
-		color: black;
+		color: #22382e;
 	}
 </style>
 </head>
@@ -241,7 +249,7 @@
 
 		if (isToggled) {
 			$(this).attr('src', '<c:url value="/resources/img/detailIcon.png"/>');
-			borderDiv.css('height', '90px');
+			borderDiv.css('height', '80px');
 			borderDiv.find('.memberService').remove();
 		} else {
 			$(this).attr('src','<c:url value="/resources/img/reverseDetailIcon.png"/>');

@@ -68,11 +68,132 @@
 		INSERT INTO deal_detail (seller_email, buyer_email, idx) VALUES (#{param1}, #{param2}, #{param3});
 	</insert>
 	
-	<!-- insertPayHistory가 있길래 다르게 만듬 -->
 	<insert id="insertPayHistory">
 	    INSERT INTO pay_hist (idx, email, option, price, content)
 	    	VALUES (#{param1}, #{param2}, #{param3}, #{param4}, #{param5})
 	</insert>
+	
+	<!-- 관리자 히스토리 리스트 불러오기 -->
+	<!-- 번호 검색 -->
+	<select id="penaltyHistoryListIdx" resultType="com.beans.market.history.dto.HistoryDTO">
+		SELECT penalty_idx, option, content, penalty_date, admin_name, email
+		FROM member_penalty
+		WHERE CASE WHEN #{param1} = 0 THEN 1=1 ELSE penalty_idx = #{param1} END
+		ORDER BY penalty_idx DESC
+	</select>
+	
+	<select id="reportHistoryListIdx" resultType="com.beans.market.history.dto.HistoryDTO">
+		SELECT rh.perper_email, rh.category_idx, rh.content, rh.reg_date, rh.report_idx, rh.admin_name, c.category_name 
+		FROM report_hist rh LEFT JOIN category c ON rh.category_idx = c.category_idx
+		WHERE CASE WHEN #{param1} = 0 THEN 1=1 ELSE rh.report_idx = #{param1} END
+		ORDER BY rh.report_idx DESC
+	</select>
+	
+	<select id="payHistoryListIdx" resultType="com.beans.market.history.dto.HistoryDTO">
+		SELECT idx, email, option, price, content, reg_date
+		FROM pay_hist
+		WHERE CASE WHEN #{param1} = 0 THEN 1=1 ELSE idx = #{param1} END
+		ORDER BY reg_date DESC
+	</select>
+	
+	<select id="dealAutionHistoryListIdx" resultType="com.beans.market.history.dto.HistoryDTO">
+		SELECT bid_idx, email, price, reg_date, idx
+		FROM deal_aution_hist
+		WHERE CASE WHEN #{param1} = 0 THEN 1=1 ELSE idx = #{param1} END
+		ORDER BY reg_date DESC
+	</select>
+	
+	<select id="approveHistoryListIdx" resultType="com.beans.market.history.dto.HistoryDTO">
+		SELECT reg_date, email, idx
+		FROM deal_approv_hist
+		WHERE CASE WHEN #{param1} = 0 THEN 1=1 ELSE idx = #{param1} END
+		ORDER BY reg_date DESC
+	</select>
+	
+	<select id="dealDetailHistoryListIdx" resultType="com.beans.market.history.dto.HistoryDTO">
+		SELECT deal_idx, reg_date, seller_email, buyer_email, blind, idx
+		FROM deal_detail
+		WHERE CASE WHEN #{param1} = 0 THEN 1=1 ELSE idx = #{param1} END
+		ORDER BY reg_date DESC
+	</select>
+	
+	<select id="comentHistoryListIdx" resultType="com.beans.market.history.dto.HistoryDTO">
+		SELECT coment, email, idx
+		FROM deal_coment
+		WHERE CASE WHEN #{param1} = 0 THEN 1=1 ELSE idx = #{param1} END
+	</select>
+	
+	<select id="alarmHistoryListIdx" resultType="com.beans.market.history.dto.HistoryDTO">
+		SELECT idx, content, reg_date, link, checked, email
+		FROM alarm
+		WHERE CASE WHEN #{param1} = 0 THEN 1=1 ELSE idx = #{param1} END
+		ORDER BY reg_date DESC
+	</select>
+	
+	
+	
+	<!-- 이메일 검색 -->
+	<select id="penaltyHistoryListEmail" resultType="com.beans.market.history.dto.HistoryDTO">
+		SELECT penalty_idx, option, content, penalty_date, admin_name, email
+		FROM member_penalty
+		WHERE email = #{param1}
+		ORDER BY penalty_idx DESC
+	</select>
+	
+	<select id="reportHistoryListEmail" resultType="com.beans.market.history.dto.HistoryDTO">
+		SELECT perper_email, category_idx, content, reg_date, report_idx, admin_name
+		FROM report_hist
+		WHERE perper_email = #{param1}
+		ORDER BY rh.report_idx DESC
+	</select>
+	
+	<select id="payHistoryListEmail" resultType="com.beans.market.history.dto.HistoryDTO">
+		SELECT idx, email, option, price, content, reg_date
+		FROM pay_hist
+		WHERE email = #{param1}
+		ORDER BY reg_date DESC
+	</select>
+	
+	<select id="dealAutionHistoryListEmail" resultType="com.beans.market.history.dto.HistoryDTO">
+		SELECT bid_idx, email, price, reg_date, idx
+		FROM deal_aution_hist
+		WHERE email = #{param1}
+		ORDER BY reg_date DESC
+	</select>
+	
+	<select id="approveHistoryListEmail" resultType="com.beans.market.history.dto.HistoryDTO">
+		SELECT reg_date, email, idx
+		FROM deal_approv_hist
+		WHERE email = #{param1}
+		ORDER BY reg_date DESC
+	</select>
+	
+	<select id="dealDetailHistoryListEmail" resultType="com.beans.market.history.dto.HistoryDTO">
+		SELECT deal_idx, reg_date, seller_email, buyer_email, blind, idx
+		FROM deal_detail
+		WHERE seller_email = #{param1} OR buyer_email = #{param1}
+		ORDER BY reg_date DESC
+	</select>
+	
+	<select id="comentHistoryListEmail" resultType="com.beans.market.history.dto.HistoryDTO">
+		SELECT coment, email, idx
+		FROM deal_coment
+		WHERE email = #{param1}
+	</select>
+	
+	<select id="alarmHistoryListEmail" resultType="com.beans.market.history.dto.HistoryDTO">
+		SELECT idx, content, reg_date, link, checked, email
+		FROM alarm
+		WHERE email = #{param1}
+		ORDER BY reg_date DESC
+	</select>
+	
+	
+	
+	
+	
+	
+	
 	
 	
 </mapper>

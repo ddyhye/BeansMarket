@@ -9,16 +9,17 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.ui.Model;
 
 import com.beans.market.admin.dao.AdminDAO;
+import com.beans.market.admin.dto.AdminDTO;
+import com.beans.market.admin.dto.AlarmDTO;
+import com.beans.market.admin.dto.CategoryDTO;
+import com.beans.market.board.dto.BoardDTO;
 import com.beans.market.member.dto.MemberDTO;
 import com.beans.market.member.dto.MemberPenaltyDTO;
 import com.beans.market.message.dto.MessageDTO;
 import com.beans.market.pay.dto.PayDTO;
-import com.beans.market.photo.dto.ProfilePicDTO;
-import com.beans.market.admin.dto.AdminDTO;
-import com.beans.market.admin.dto.AlarmDTO;
-import com.beans.market.board.dto.BoardDTO;
 
 @Service
 public class AdminService {
@@ -122,6 +123,62 @@ public class AdminService {
 		map.put("result", result);
 		
 		return map;
+	}
+	
+	public Map<String, Object> roomDetailCall(String idx, String seller, String buyer) {
+		Map<String, Object> map = new HashMap<String, Object>();
+		List<MessageDTO> list = new ArrayList<MessageDTO>();
+		boolean result = false;
+		
+		list = adminDAO.roomDetailCall(Integer.parseInt(idx), seller, buyer);
+		if (list != null) {
+			result = true;
+		}
+		
+		map.put("list", list);
+		map.put("result", result);
+		map.put("seller", seller);
+		map.put("buyer", buyer);
+		map.put("idx", idx);
+		
+		return map;
+	}
+	
+	public Map<String, Object> categoryCall() {
+		Map<String, Object> map = new HashMap<String, Object>();
+		List<CategoryDTO> list = new ArrayList<CategoryDTO>();
+		boolean result = false;
+		
+		list = adminDAO.categoryCall();
+		if (list != null) {
+			result = true;
+		}
+		
+		map.put("list", list);
+		map.put("result", result);
+		
+		return map;
+	}
+	
+	public void categorySave(Model model, String idx, String name, String hidden) {
+		int row = adminDAO.categorySave(idx, name, hidden);
+		
+		if (row == 1) {
+			model.addAttribute("msg", "변경 완료");
+		} else {
+			model.addAttribute("msg", "변경 실패");
+		}
+	}
+	
+	public void categoryInsert(Model model, String idx, String name) {
+		int row = adminDAO.categoryInsert(idx, name);
+		
+		if (row == 1) {
+			model.addAttribute("msg", "추가 완료");
+		} else {
+			model.addAttribute("msg", "추가 실패");
+		}
+		
 	}
 	
 	/* 성영 END */

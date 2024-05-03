@@ -48,6 +48,9 @@ public class MessageService {
 		
 		List<Integer> messageIdxs = new ArrayList<Integer>();
 		List<MessageDTO> messageList = messageDAO.messageList(idx, email, otherEmail); // 특정 게시물의 특정 인원과의 쪽지 가져오기
+		messageDAO.messageRead(idx, email, otherEmail);
+		
+		
 		for (int i = 0; i < messageList.size(); i++) {
 		  	MessageDTO dto = messageList.get(i);
 		  	// 삭제된 값 안가져오기
@@ -104,6 +107,30 @@ public class MessageService {
 		Map<String, Object> map = new HashMap<String, Object>();
 		List<RoomDTO> roomList = messageDAO.roomList(email); // 특정 게시물의 특정 인원과의 게시물을 가져오기
 		
+		for (int i = 0; i < roomList.size(); i++) {
+			RoomDTO roomDTO = roomList.get(i);
+			
+			logger.info("other_email : {}, idx : {}", roomDTO.getOther_email(), roomDTO.getIdx());
+			logger.info("msg_cnt : {}", roomDTO.getMsg_count());
+			
+			// 메시지가 없으면 리스트에서 뺴기
+		  	if(roomDTO.getMsg_count() != 0) {
+		  		RoomDTO lastContent = messageDAO.lastContent(roomDTO.getIdx(), roomDTO.getOther_email(), email);
+		  		String content = lastContent.getContent();
+		  		Timestamp reg_date = lastContent.getReg_date();
+		  		String new_picname = lastContent.getNew_picname();
+		  		
+		  		roomDTO.setContent(content);
+		  		roomDTO.setReg_date(reg_date);
+		  		roomDTO.setNew_picname(new_picname);		  		
+		  	} else {				
+		  		roomList.remove(i);
+		  		i = i - 1;
+			}
+			
+		}
+		
+		/*
 		for (RoomDTO roomDTO : roomList) {
 			logger.info("other_email : {}, idx : {}", roomDTO.getOther_email(), roomDTO.getIdx());
 			RoomDTO lastContent = messageDAO.lastContent(roomDTO.getIdx(), roomDTO.getOther_email(), email);
@@ -114,19 +141,20 @@ public class MessageService {
 			//logger.info("content : {} ", content);
 			//logger.info("reg_date : {} ", reg_date);
 			//logger.info("new_picname : {}", new_picname);
+
 			
 			roomDTO.setContent(content);
 			roomDTO.setReg_date(reg_date);
 			roomDTO.setNew_picname(new_picname);
 		}
+		*/
 		
-		/*
+		
 		for (RoomDTO roomDTO : roomList) {
 			logger.info("other_email : {}, idx : {}", roomDTO.getOther_email(), roomDTO.getIdx());
 			logger.info("content : {}, reg_date : {}", roomDTO.getContent(), roomDTO.getReg_date());	
-			logger.info("new_picname : {}", roomDTO.getNew_picname());
+			logger.info("new_picname : {}, count : {}", roomDTO.getNew_picname(), roomDTO.getMsg_count());
 		}
-		*/
 		
 		map.put("roomList", roomList);
 		
@@ -238,7 +266,7 @@ public class MessageService {
 		return map;
 	}
 
-	public Map<String, Object> msgDeleteAjax(String message_idx, String email) {
+	public Map<String, Object> msgDeleteAjax(int message_idx, String email) {
 		Map<String, Object> map = new HashMap<String, Object>();
 		
 		MessageDTO msgDTO = messageDAO.getMessageInfo(message_idx);
@@ -257,6 +285,31 @@ public class MessageService {
 			map.put("result", false);
 		}
 		
+		return map;
+	}
+
+	public Map<String, Object> msgAllDeleteAjax(List<Integer> delIdxs, String email) {
+		Map<String, Object> map = new HashMap<String, Object>();
+		
+		int delCnt = delIdxs.size();
+		int cnt = 0;
+		for (Integer idx : delIdxs) {
+			MessageDTO msgDTO = messageDAO.getMessageInfo(idx);
+			
+			// 내가 수신자인지 보낸쪽인지
+			if(msgDTO.getSender_email().equals(email)) {
+				cnt += messageDAO.updateSenderDel(idx);
+			} else if (msgDTO.getReceive_email().equals(email)) {
+				cnt += messageDAO.updateReceiveDel(idx);
+			}
+		}
+		
+		if(cnt >= delCnt) {
+			map.put("result", true);
+		} else {
+			map.put("result", false);
+		}
+	
 		return map;
 	}
 	

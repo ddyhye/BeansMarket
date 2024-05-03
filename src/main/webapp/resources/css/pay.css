@@ -1,0 +1,10 @@
+/* 
+font-family: 'Poppins', sans-serif;
+font-family: 'Varela Round', sans-serif; 
+*/
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&family=Varela+Round&display=swap');
+section{
+    font-family: 'Poppins', sans-serif; /*앞: 메인폰트, 뒤: 대체폰트(구현안될시)*/
+    padding: 180px 0 0 0;
+}
+

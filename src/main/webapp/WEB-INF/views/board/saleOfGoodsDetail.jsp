@@ -31,19 +31,12 @@
                 </div>
                 <div class="right">
                     <div class="top">
-                        <p class="bbs-state">${bbs.bbs_state}</p>
-                        <button class="reportBtn">신고하기</button> 
-                    </div>
-                    <div class="profile" data-value="${sellerInfo.email}">
-                        <div class="left">
-                            <img src="/photo/${sellerPic.new_filename}" alt="profileImage"/>
-                        </div>
-                        <div class="right">
-                            <p class="user_name">${sellerInfo.name}</p>
-                            <div class="reivew">
-                            	<p><i class="fa-solid fa-thumbs-up"></i> ${sellerInfo.positiveCount}</p>
-                                <p><i class="fa-solid fa-thumbs-down"></i> ${sellerInfo.negativeCount}</p>
-                            </div>
+                        <p class="bbs-state" id="bbs-stateMark">${bbs.bbs_state}</p>
+                        <div>
+	                        <button class="reportBtn">신고하기</button>
+	                        <button class="modifyBtn">수정하기</button>
+	                        <button class="hiddenBtn">숨기기</button>
+	                        <button class="blindBtn">삭제하기</button> 
                         </div>
                     </div>
                     <div class="subject">
@@ -54,25 +47,53 @@
                             <button class="interest"><i class="fa-regular fa-heart"></i></button><!-- 빈 하트 -->
                         </div>
                     </div>
+                    <div class="profile" data-value="${sellerInfo.email}">
+                    	<div class="right-head">
+                    		<p>판매자 정보</p>
+                    	</div>
+                    	<div class="right-body">
+	                        <div class="left">
+	                            <img src="/photo/${sellerPic.new_filename}" alt="profileImage"/>
+	                        </div>
+	                        <div class="right">
+	                            <p class="user_name">${sellerInfo.name}</p>
+	                            <div class="reivew">
+	                            	<p><i class="fa-solid fa-thumbs-up"></i> ${sellerInfo.positiveCount}</p>
+	                                <p><i class="fa-solid fa-thumbs-down"></i> ${sellerInfo.negativeCount}</p>
+	                            </div>
+	                        </div>
+                    	</div>
+                    </div>
                     <div class="now-price">
-                        <p class="title">가격</p>
-                        <p class="price">${bbs.price}</p>
-                        <p>원</p>
+                    	<div class="right-head">
+	                        <p class="title">가격</p>
+	                    </div>
+                    	<div class="right-body">
+                        	<p class="price">${bbs.price}</p>
+                        	<p>원</p>
+                        </div>
                     </div>
                     <div class="place">
-                        <p class="title">거래 희망 장소</p>
-                        <p>${bbs.place}</p>
+                    	<div class="right-head">
+	                        <p class="title">거래 희망 장소</p>
+	                    </div>
+                    	<div class="right-body">
+                        	<p>${bbs.place}</p>
+                        </div>
                     </div>
-                    <div class="reg-date">
-                        <p class="title">등록일</p>
-                        <p>${reg_date}</p>
+                    <div class="reg-date" id="regDateCss">
+                    	<div class="right-head">
+	                        <p class="title">등록일</p>
+	                    </div>
+                    	<div class="right-body">
+                        	<p>${reg_date}</p>
+                        </div>
                     </div>
                     <div class="btn">
-                        <button class="messageSend"> <i class="fa-solid fa-paper-plane">&nbsp;</i> 쪽지 보내기</button> 
+                        <button class="messageSend"><i class="fa-solid fa-paper-plane" id="planeBtn"></i>문의하기</button> 
                     </div>
                 </div>
             </div> 
-            <hr/>
             <br/>
             <div class="goods-content">
             	<h2>상품 설명</h2>
@@ -117,6 +138,15 @@
     	$('.icon i').removeClass('fa-regular fa-heart').addClass('fa-solid fa-heart');
     }
     
+    if (bbsEmail == '${loginInfo.email}') {
+		$('.reportBtn').hide();
+		$('.messageSend').prop('disabled', true).css('background-color', 'lightgray');
+	} else {
+		$('.modifyBtn').hide();
+		$('.hiddenBtn').hide();
+		$('.blindBtn').hide();
+	}
+    
     // 특정 게시물 모든 사진 이름 받아오기
     var photoArray = [];
     $('.goods-content img').each(function() {
@@ -151,7 +181,7 @@
         var login = true;
         if('${loginInfo}' == ''){
             alert('로그인이 필요한 서비스 입니다.');
-            location.href="<c:url value="/member/login.go"/>";
+            location.href="<c:url value='/member/login.go'/>";
             login = false;
         }
         return login;
@@ -227,7 +257,7 @@
     // 신고 버튼 클릭 시 - 회원
     $('.reportBtn').click(function(){
         if(loginCheck()){
-            $('#reportForm').toggle();
+            $('#reportForm').toggle();				
         }
     });
 
@@ -277,7 +307,7 @@
         if (bbs_state == '거래완료') {
             $('.bbs-state').css({'background-color':'gray'});
         } else if (bbs_state == '예약중'){
-            $('.bbs-state').css({'background-color':'lightgreen'});
+            $('.bbs-state').css({'background-color':'#b2cb90'});
         }
     }
     

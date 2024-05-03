@@ -10,15 +10,28 @@
 <link rel="stylesheet" href="../resources/css/common.css" type="text/css" />
 <link rel="stylesheet" href="../resources/css/saleofgoods.css" type="text/css" />
 <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+<style>
+	.fa-bookmark {
+		margin-left: 10px;
+		font-size: 20px;
+	}
+</style>
 </head>
 <body>
 <jsp:include page="../common.jsp" />
 
 <div class="salewrite">
-    <div><i class="fa-regular fa-bookmark"></i><a href="<c:url value="/board/TempSave.go"/>">임시저장 글</a></div>
+    <%-- <div class="draftDiv"><i class="fa-solid fa-bookmark"></i></i><a href="<c:url value="/board/TempSave.go"/>">임시저장 글</a></div> --%>
+    <div class="draftDiv">
+    	<i class="fa-solid fa-bookmark"></i>
+    	<p id="draftList">임시저장 리스트</p>
+    </div>
+    <h2 id="writeSubject">중고 물품 판매글 작성하기</h2>
     <form action="goodsWrite.do" method="POST" enctype="multipart/form-data">
         <div class="salemethod">
-            거래방식
+        	<div class="form-head">
+            	거래방식
+            </div>
             <input type="hidden" id="tempwrite" name="draft" value="N" />
             <div class="option-container">
             	<input type="hidden" id="selectedOption" name="option" value="" />
@@ -29,6 +42,9 @@
 
         <!-- 나눔/판매 선택 시 보여질 요소들 -->
         <div class="price-container" id="sale-price-container">
+        	<div class="form-head">
+            	가격
+            </div>
             <input name="price" type="text" id="price" placeholder="가격을 입력해 주세요">
             <p id="price-text">*나눔의 경우 가격을 0으로 설정해주세요</p>
         </div>
@@ -36,7 +52,9 @@
         <!-- 경매 선택 시 보여질 요소들 -->
         <div class="auction-details" id="auction-details" style="display: none;">
             <div class="auction-period">
-                <label for="auction-period">경매 기간</label>
+            	<div class="form-head">
+	                <label for="auction-period">경매 기간</label>
+	            </div>
                 <select id="auction-period" name="auction-period">
                     <option value="0">선택</option>
                     <option value="3">3일</option>
@@ -45,16 +63,24 @@
                 </select>
             </div>
             <div class="auction-start-price">
-                <label for="start-price">시작 가격</label> <input type="text" name="start-price">
+                <div class="form-head">
+	                <label for="start-price">시작 가격</label> 
+	            </div>
+                <input type="text" name="start-price">
             </div>
             <div class="auction-immediate-price">
-                <label for="immediate-price">즉시 낙찰가</label> <input type="text" name="immediate-price">
+            	<div class="form-head">
+	                <label for="immediate-price">즉시 낙찰가</label> 
+	            </div>
+                <input type="text" name="immediate-price">
             </div>
         </div>
 
         <!-- 공통 요소들 -->
         <div class="salecategory">
-            <label for="category">카테고리</label>
+        	<div class="form-head">
+	            <label for="category">카테고리</label>
+            </div>
             <select name="category">
                 <option value="m001">선택</option>
                 <option value="m001">디지털 기기</option>
@@ -75,21 +101,31 @@
         </div>
 
         <div class="title">
-            <label for="title">제목</label> <input type="text" name="subject" placeholder="제목을 입력해 주세요">
+        	<div class="form-head">
+	            <label for="title">제목</label> 
+            </div>
+            <input type="text" name="subject" placeholder="제목을 입력해 주세요">
         </div>
 
         <div class="photo">
-            <label for="photo">사진선택</label>
+        	<div class="form-head">
+	            <label for="photo">사진선택</label>
+            </div>
             <input type="file" multiple="multiple" name="photos">
         </div>
 
         <div class="content">
-            <label for="content">설명</label>
+        	<div class="form-head">
+ 	            <label for="content">설명</label>
+            </div>
             <textarea id="content" name="content" placeholder="게시글 내용을 작성해 주세요"></textarea>
         </div>
 
         <div class="place">
-            <label for="place">거래 희망 장소</label> <input type="text" name="place" placeholder="ex.가산역 구디빌딩 근처">
+        	<div class="form-head">
+	            <label for="place">거래 희망 장소</label> 
+            </div>
+            <input type="text" name="place" placeholder="ex.가산역 구디빌딩 근처">
         </div>
 
         <div class="buttons">
@@ -122,14 +158,14 @@
         var selectedOptionInput = document.getElementById('selectedOption');
 
         if (method === 'sale') {
-            salePriceContainer.style.display = 'block';
+            salePriceContainer.style.display = 'flex';
             auctionDetails.style.display = 'none';
             selectedOptionInput.value = '판매'; // 숨겨진 필드 값 업데이트
             document.getElementById('sale-option').classList.add('selected');
             document.getElementById('auction-option').classList.remove('selected');
         } else if (method === 'auction') {
             salePriceContainer.style.display = 'none';
-            auctionDetails.style.display = 'block';
+            auctionDetails.style.display = 'flex';
             selectedOptionInput.value = '경매'; // 숨겨진 필드 값 업데이트
             document.getElementById('auction-option').classList.add('selected');
             document.getElementById('sale-option').classList.remove('selected');

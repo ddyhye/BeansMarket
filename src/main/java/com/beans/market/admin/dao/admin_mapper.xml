@@ -102,6 +102,35 @@
 	</select>
 	<!-- GROUP BY에 r.report_idx를 추가하면 신고 번호에 대해서도 구분할 수 있다. -->
 
+	<select id="roomDetailCall" resultType="com.beans.market.message.dto.MessageDTO">
+		SELECT b.idx, 
+				b.subject,
+				dm.message_idx, 
+				dm.content, 
+				dm.reg_date, 
+				dm.receive_email, dm.receive_del,
+				dm.sender_email, dm.sender_del,
+				dm.read_check			
+		FROM deal_message dm 
+		LEFT JOIN (SELECT b.idx, b.email, b.subject FROM bbs b) AS b 
+			ON dm.idx = b.idx
+			AND (dm.sender_email = b.email OR dm.sender_email = #{param3})
+			AND (dm.receive_email = b.email OR dm.receive_email = #{param3})
+		where b.idx = #{param1};
+	</select>
+	
+	<select id="categoryCall" resultType="com.beans.market.admin.dto.CategoryDTO">
+		SELECT category_idx, category_name, hidden FROM category ORDER BY category_idx
+	</select>
+
+	<update id="categorySave">
+		UPDATE category SET category_name = #{param2}, hidden = #{param3}
+			WHERE category_idx = #{param1}
+	</update>
+	
+	<insert id="categoryInsert">
+		INSERT INTO category(category_idx, category_name) VALUES(#{param1}, #{param2});
+	</insert>
 	
 	<!-- 성영 END -->
 		

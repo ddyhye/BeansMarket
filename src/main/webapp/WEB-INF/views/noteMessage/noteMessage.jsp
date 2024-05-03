@@ -19,7 +19,8 @@
 		<div class="container">
 			<div class=leftArea>
 				<div class="left-subject">
-					<p>쪽지함</p>
+					<i class="fa-solid fa-paper-plane" id="fa-paper-plane"></i>
+					<!-- <p>My Message</p> -->
 				</div>
 				<div class="room-select">
 					<div id="room-list">
@@ -38,7 +39,8 @@
 			</div>
 			<div class="view-room" data-value="1">
 				<!-- 아무것도 없을 때는 메시지 이모티콘 하나 띄우기 -->
-				<p class="no-message">메시지를 선택해주세요 <i class="fa-solid fa-message"></i></p>			
+				<i class="fa-solid fa-square-envelope"></i>
+				<p class="no-message">Select Message... <!-- <i class="fa-solid fa-message"></i> --></p>			
 				<div id="view-subject">
 				<!-- 
 					<div class="left">
@@ -95,9 +97,9 @@
 				-->
 				</div>
 				<div id="send-form">
-					<button id="photoBtn"><i class="fa-solid fa-paperclip"></i></button>
+					<button id="photoBtn"><i class="fa-solid fa-paperclip" id="sendIconCss"></i></button>
 					<input type="text" id="sendText"/>
-					<button id="sendBtn"><i class="fa-solid fa-paper-plane"></i></button>
+					<button id="sendBtn"><i class="fa-solid fa-paper-plane" id="sendIconCss"></i></button>
 				</div>
 			</div><!-- view-room 종료 -->
 			<div id="reportForm">
@@ -186,6 +188,25 @@
 				</div>
 			</div>		
 		</div><!--deleteForm 종료-->
+		
+		<div id="allDeleteForm">
+			<div class="top">
+				<button class="escape"><i class="fa-solid fa-x"></i></button>
+			</div>
+			<div class="form">
+				<div class="content">
+					<p>전부 삭제하시겠습니까? (방 나가기)</p>
+				</div>
+				<div class="btn-controller">
+					<button class="delete-Btn" onclick="msgAllDelete()">삭제</button>
+					<button class="delete-Btn" onclick="deleteAll()">취소</button>	
+				</div>
+				<div class="content">
+					<p>*삭제해도 상대방에게는 보입니다.</p>			
+				</div>
+			</div>		
+		</div><!--allDeleteForm 종료-->
+		
 		<div id="payForm">
 			<div class="top">
 				<button class="escape"><i class="fa-solid fa-x"></i></button>
@@ -271,6 +292,7 @@
 			dataType: 'JSON',
 			success: function(data) {
 				$('#send-form').show();
+				$('.fa-square-envelope').hide();
 				$('.no-message').hide();
 				chat_idx = data.bbs_idx;
 				drawSubject(data);
@@ -310,14 +332,14 @@
 		content += '<div class="right">';
 		content += 		'<div class="btn-controller">';
 		content +=				'<button class="report" onclick="reportDo(\'room\')">신고하기</button>';
-		content += 			'<button class="delete" onclick="deleteDo()"><i class="fa-solid fa-trash-can"></i></button>';
+		content += 			'<button class="delete" onclick="deleteAll()"><i class="fa-solid fa-trash-can"></i></button>';
 		content += 		'</div>';
 		content += '</div>';
 
 		$('#view-subject').append(content);
 		$('#view-subject').css({
 											'background-color':'white',
-											'border-bottom': '1px solid gray'
+											'border-bottom': '2px solid #22382e'
 		});
 		
 		$('#deal-btn').prop('disabled', true);
@@ -384,6 +406,11 @@
 		}
 		
 		$('#room-list').append(content);
+		
+	    $('.room').click(function() {
+	    	$('.room').css('background-color', 'white');
+	        $(this).css('background-color', 'lightgray');
+	    });
 	}
 	
 	function viewRoomContent(idx, other_email){
@@ -432,7 +459,7 @@
 		var content = '';
 
 		if (!data.messageList || data.messageList.length === 0) {
-			content += '<p class="no-message">아무것도 없따... <i class="fa-solid fa-message"></i></p>';	
+			content += '<i class="fa-solid fa-square-envelope"></i><p class="no-message">Select Message...</p>';	/* <p class="no-message">아무것도 없따... <i class="fa-solid fa-message"></i></p> */
 		}
 		for (item of data.messageList) {
 			var date = new Date(item.reg_date);
@@ -519,6 +546,7 @@
 			handleClick($(this).parent());
 		});
 
+
 	}
 
 	function handleClick(element) {
@@ -566,11 +594,14 @@
 											'background-color':'',
 											'border-bottom': 'none'
 										});
+		$('.fa-square-envelope').show();
 		$('.no-message').show();
 		$('#sendText').val('');
 		$('#send-form').hide();
 		var chat_user = '';
 		var chat_idx = 0;
+		
+		$('.room').css('background-color', 'white');
 	}
 
 	// 신고 버튼 클릭 시 - 쪽지 - 게시글 번호로 신고
@@ -606,12 +637,47 @@
 			type:'POST',
 			url:'./msgDelete.ajax',
 			data:{
-                'message_idx':message_idx,
+                'message_idx':message_idx
             },
             dataType:'JSON',
 			success:function(data){
 				alert(data.result);
 				// $('#deleteForm').toggle();
+				location.reload(true);
+			}, 
+			error:function(error){
+				console.log(error);
+			} 
+		});
+		
+	}
+	
+	// 쪽지방 나가기
+	function deleteAll() {
+		if(loginCheck()){			
+			$('#allDeleteForm').toggle();
+        }
+	}
+	
+	// 현재 방의 전체 쪽지 삭제
+	function msgAllDelete(){
+		var dataValues = []; // 데이터 값을 저장할 배열
+
+	    $('#view-content [data-value]').each(function() {
+	        var dataValue = $(this).attr('data-value');
+	        dataValues.push(dataValue);
+	    });
+		
+		
+		$.ajax({
+			type:'POST',
+			url:'./msgAllDelete.ajax',
+			data:{
+                'delIdxs' : dataValues
+            },
+            dataType:'JSON',
+			success:function(data){
+				alert(data.result);
 				location.reload(true);
 			}, 
 			error:function(error){

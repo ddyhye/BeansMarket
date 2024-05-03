@@ -1,4 +1,6 @@
 @charset "EUC-KR";
+@import url('https://fonts.googleapis.com/css2?family=Archivo+Black&display=swap');
+
 
 
 /* css 기본 초기화 */
@@ -11,6 +13,19 @@ li{
     list-style: none;
 }
 /* css 기본 초기화 */
+
+
+
+
+
+#fa-paper-plane {
+	display: flex;
+	align-items: center;
+	
+	color: white;
+	font-size: 25px;
+    font-weight: bold;
+}
 a {
    display: block;
    padding: 10px 0;
@@ -51,7 +66,7 @@ img {
    height: 70px;
    top: 0;
    
-   background-color: white;
+   background-color: #22382e;
    
    z-index: 1000;
 }
@@ -65,11 +80,12 @@ img {
 }
 #top-first-left-projectName {
    position: relative;
-   
    margin: 0;
    
+   color: white;
    font-weight: bold;
    font-size : 30px;
+   font-family: 'Archivo Black', sans-serif;
 }
 .top-first-center {
    display: flex;
@@ -81,10 +97,10 @@ img {
 }
 #top-first-center-search {
    position: relative;
-   width: 50%;
+   width: 600px;
    height: 60%;
-   border: 3px solid black;
-   border-radius: 5px;
+   border: 3px solid white;
+   border-radius: 20px;
 }
 
 .top-first-right {
@@ -106,8 +122,8 @@ img {
    width: 100%;
    height: 55px;
    
-   border-top: 2px solid lightgray;
-   border-bottom: 2px solid lightgray;
+   border-top: 2px solid #22382e;
+   border-bottom: 2px solid #22382e;
    box-sizing: border-box;
    background-color: white;
    
@@ -132,12 +148,16 @@ img {
    width: 70%;
    height: 100%;
 
-   border-left: 2px solid lightgray;
-   border-right: 2px solid lightgray;
+   border-left: 2px solid #727272;
+   border-right: 2px solid #727272;
 }
 .top-second-left-head {
    display: flex;
    flex-direction: row;
+}
+.top-second-left-head p {
+  	margin: 0;
+  	font-size: 15px;
 }
 .top-second-left-down {
    color: gray;
@@ -169,6 +189,9 @@ img {
    justify-content: flex-end;
    
    width: 80%;
+}
+.top-second-center a {
+	font-size: 15px;
 }
 .top-second-center-link {
    padding: 0px 25px;
@@ -207,13 +230,13 @@ img {
    justify-content: flex-end;
    position: absolute;
    width: 70%;
-   height: 90px;
+   height: 80px;
    top: 0%;
 
    background-color: white;
-   border-left: 2px solid lightgray;
-   border-right: 2px solid lightgray;
-   border-bottom: 2px solid lightgray;
+   border-left: 2px solid #22382e;
+   border-right: 2px solid #22382e;
+   border-bottom: 2px solid #22382e;
 }
 .memberService {
    display:flex;
@@ -231,6 +254,7 @@ img {
 }
 
 .fa-user, .fa-heart, .fa-box-archive, .fa-rectangle-list, .fa-clock-rotate-left {
+	color: #22382e;
    font-size: 30px;
 }
 .memberService a {
