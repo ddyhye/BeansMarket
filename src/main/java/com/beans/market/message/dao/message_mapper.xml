@@ -26,6 +26,14 @@
 				AND dm.sender_email IN(#{param2}, #{param3}))
 	</select>
 	
+	<update id="messageRead">
+		UPDATE deal_message SET read_check = 'Y' 
+			WHERE idx = #{param1} 
+			AND receive_email = #{param2} 
+			AND sender_email = #{param3} 
+			AND read_check = 'N'
+	</update>
+	
 	<insert id="sendMessage">
 		INSERT INTO deal_message(content, receive_email, sender_email, idx) 
 			VALUES(#{param1}, #{param2}, #{param3}, #{param4})
@@ -46,7 +54,13 @@
 			IF (dm.receive_email = #{param1}, dm.sender_email, dm.receive_email) AS other_email, 
 			b.subject, 
 			MAX(dm.reg_date) AS reg_date, 
-			(SELECT name FROM member where email = other_email) name
+			(SELECT name FROM member where email = other_email) name,
+			(SELECT COUNT(idx) 
+				FROM deal_message 
+				WHERE idx = dm.idx 
+					AND( (sender_email = #{param1} AND sender_del = 'N')
+					OR (receive_email = #{param1} AND receive_del = 'N') )
+			) AS msg_count
 		FROM deal_message dm LEFT JOIN (SELECT b.idx, b.email, b.subject FROM bbs b) AS b ON dm.idx = b.idx
 		WHERE dm.sender_email = #{param1} OR dm.receive_email = #{param1}
 		GROUP BY dm.idx, other_email
@@ -60,6 +74,7 @@
 			WHERE dm.idx = #{param1} 
 				AND dm.receive_email IN(#{param2}, #{param3}) 
 				AND dm.sender_email IN(#{param2}, #{param3})
+				AND ( (dm.receive_email = #{param3} AND dm.receive_del = 'N') OR (dm.sender_email = #{param3} AND dm.sender_del = 'N') )
 			ORDER BY dm.reg_date DESC LIMIT 1
 	</select>
 	

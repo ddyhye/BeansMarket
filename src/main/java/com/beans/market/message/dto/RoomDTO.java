@@ -9,6 +9,7 @@ public class RoomDTO {
 	private Timestamp reg_date;
 	private String new_picname;
 	private String name;
+	private int msg_count;
 	
 	public String getOther_email() {
 		return other_email;
@@ -45,6 +46,12 @@ public class RoomDTO {
 	}
 	public void setName(String name) {
 		this.name = name;
+	}
+	public int getMsg_count() {
+		return msg_count;
+	}
+	public void setMsg_count(int msg_count) {
+		this.msg_count = msg_count;
 	}
 	
 	

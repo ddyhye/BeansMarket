@@ -188,6 +188,25 @@
 				</div>
 			</div>		
 		</div><!--deleteForm 종료-->
+		
+		<div id="allDeleteForm">
+			<div class="top">
+				<button class="escape"><i class="fa-solid fa-x"></i></button>
+			</div>
+			<div class="form">
+				<div class="content">
+					<p>전부 삭제하시겠습니까? (방 나가기)</p>
+				</div>
+				<div class="btn-controller">
+					<button class="delete-Btn" onclick="msgAllDelete()">삭제</button>
+					<button class="delete-Btn" onclick="deleteAll()">취소</button>	
+				</div>
+				<div class="content">
+					<p>*삭제해도 상대방에게는 보입니다.</p>			
+				</div>
+			</div>		
+		</div><!--allDeleteForm 종료-->
+		
 		<div id="payForm">
 			<div class="top">
 				<button class="escape"><i class="fa-solid fa-x"></i></button>
@@ -313,7 +332,7 @@
 		content += '<div class="right">';
 		content += 		'<div class="btn-controller">';
 		content +=				'<button class="report" onclick="reportDo(\'room\')">신고하기</button>';
-		content += 			'<button class="delete" onclick="deleteDo()"><i class="fa-solid fa-trash-can"></i></button>';
+		content += 			'<button class="delete" onclick="deleteAll()"><i class="fa-solid fa-trash-can"></i></button>';
 		content += 		'</div>';
 		content += '</div>';
 
@@ -610,12 +629,47 @@
 			type:'POST',
 			url:'./msgDelete.ajax',
 			data:{
-                'message_idx':message_idx,
+                'message_idx':message_idx
             },
             dataType:'JSON',
 			success:function(data){
 				alert(data.result);
 				// $('#deleteForm').toggle();
+				location.reload(true);
+			}, 
+			error:function(error){
+				console.log(error);
+			} 
+		});
+		
+	}
+	
+	// 쪽지방 나가기
+	function deleteAll() {
+		if(loginCheck()){			
+			$('#allDeleteForm').toggle();
+        }
+	}
+	
+	// 현재 방의 전체 쪽지 삭제
+	function msgAllDelete(){
+		var dataValues = []; // 데이터 값을 저장할 배열
+
+	    $('#view-content [data-value]').each(function() {
+	        var dataValue = $(this).attr('data-value');
+	        dataValues.push(dataValue);
+	    });
+		
+		
+		$.ajax({
+			type:'POST',
+			url:'./msgAllDelete.ajax',
+			data:{
+                'delIdxs' : dataValues
+            },
+            dataType:'JSON',
+			success:function(data){
+				alert(data.result);
 				location.reload(true);
 			}, 
 			error:function(error){

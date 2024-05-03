@@ -420,7 +420,7 @@ section #dealForm .msg{
 }
 
 /*========================================*/
-section #comentForm, #deleteForm, #payForm{
+section #comentForm, #deleteForm, #payForm, #allDeleteForm{
     position: fixed;
     display: none;
     top: 50%;
@@ -467,36 +467,36 @@ section #comentForm .form .btn-controller{
     justify-content: center;
 }
 /*=========================*/
-section #deleteForm {
+section #deleteForm, #allDeleteForm {
     height: 150px;
 }
 
-section #deleteForm .form{
+section #deleteForm .form, #allDeleteForm .form{
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
 }
 
-section #deleteForm .top{
+section #deleteForm .top, #allDeleteForm .top{
     display: flex;
     justify-content: right;
 }
 
-section #deleteForm .top button{
+section #deleteForm .top button, #allDeleteForm .top button{
     border: none;
     background-color: white;
     font-size: 25px;
 }
 
-section #deleteForm .form button{
+section #deleteForm .form button, #allDeleteForm .form button{
 	width: 150px;
     font-size: 15px;
     padding: 5px 10px;
     margin: 10px;
 }
 
-section #deleteForm .form .btn-controller{
+section #deleteForm .form .btn-controller, #allDeleteForm .form .btn-controller{
     display: flex;
     justify-content: center;
 }
