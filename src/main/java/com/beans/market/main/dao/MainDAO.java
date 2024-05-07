@@ -71,6 +71,10 @@ public interface MainDAO {
 	void tempoPhotoDel2(int pic_idx);
 	int writeInquire(InquiryDTO dto);
 	void photoSave(int idx, String string);
+	// 문의 리스트 출력
+	List<InquiryDTO> inquireListAjax();
+	InquiryDTO inquireDetail(int idxInt);
+	List<PhotoDTO> inquireGetPhoto(int idxInt);
 	
 	
 

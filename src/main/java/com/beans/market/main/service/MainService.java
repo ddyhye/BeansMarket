@@ -325,10 +325,10 @@ public class MainService {
 
 	public void writeInquire(Map<String, String> params, MultipartFile[] photos, String[] tempoPhotoNames) {
 		InquiryDTO dto = new InquiryDTO();
-		dto.setInquirer(params.get("logEmail"));
+		dto.setEnquirer(params.get("logEmail"));
 		dto.setInquiry_title(params.get("inquireSubject"));
 		dto.setCategory_idx(params.get("category"));
-		dto.setPw(params.get("inquirePw"));
+		dto.setInquiry_pw(params.get("inquirePw"));
 		dto.setInquiry_account(params.get("content"));
 		
 		if (mainDao.writeInquire(dto) > 0) {
@@ -341,6 +341,41 @@ public class MainService {
 		for (String string : tempoPhotoNames) {
 			mainDao.photoSave(idx, string);
 		}
+	}
+
+
+
+	public Map<String, Object> inquireListAjax(Map<String, Object> map, String logEmail, String inquireSort, String inquireSearch) {
+		List<InquiryDTO> list = new ArrayList<InquiryDTO>();
+		
+		// 검색 내용이 있는지
+		if (!inquireSearch.equals("")) {
+			if (inquireSort.equals("all")) {
+				list = mainDao.inquireListAjax();
+			} else if(inquireSort.equals("subject")) {
+				list = mainDao.inquireListAjax();
+			} else if(inquireSort.equals("content")) {
+				list = mainDao.inquireListAjax();
+			}
+		} else {
+			list = mainDao.inquireListAjax();
+		}
+
+		map.put("list", list);
+		
+		return map;
+	}
+
+
+
+	public InquiryDTO inquireDetail(int idxInt) {
+		return mainDao.inquireDetail(idxInt);
+	}
+
+
+
+	public List<PhotoDTO> inquireGetPhoto(int idxInt) {
+		return mainDao.inquireGetPhoto(idxInt);
 	}
 
 

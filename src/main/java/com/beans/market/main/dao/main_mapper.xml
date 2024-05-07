@@ -343,5 +343,33 @@
 			idx = #{param1}
 		where new_picname = #{param2}
 	</update>
+	
+	<!-- 문의 리스트 출력 -->
+	<select id="inquireListAjax" resultType="com.beans.market.main.dto.InquiryDTO">
+		SELECT inquiry_idx, inquiry_pw, inquiry_title, inquiry_account, reg_date, enquirer, category_idx, success 
+		FROM inquiry 
+	</select>
+	<!-- 문의 상세보기 -->
+	<select id="inquireDetail" resultType="com.beans.market.main.dto.InquiryDTO">
+		SELECT i.inquiry_idx, i.inquiry_pw, i.inquiry_title, i.inquiry_account, i.reg_date, i.enquirer, c.category_name , i.success,
+				ir.reply, ir.reply_date, ir.id 
+		FROM inquiry i 
+				left outer join inq_reply ir on i.inquiry_idx = ir.inquiry_idx
+				join category c on i.category_idx = c.category_idx 
+		where i.inquiry_idx = #{param1}
+	</select>
+	<select id="inquireGetPhoto" resultType="com.beans.market.photo.dto.PhotoDTO">
+		SELECT new_picname
+		FROM photo
+		WHERE idx = #{param1} AND option_idx = 3
+	</select>
+	
+	
+	
+	
+	
+	
+	
+	
 
 </mapper>

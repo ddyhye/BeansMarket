@@ -5,15 +5,52 @@ import java.sql.Timestamp;
 public class InquiryDTO {
 	
 	private int inquiry_idx;
-	private String pw;
+	private String inquiry_pw;
 	private String inquiry_title;
 	private String inquiry_account;
 	private Timestamp reg_date;
-	private String inquirer;
+	private String enquirer;
 	private String category_idx;
 	private String success;
 	
 	
+	// 관리자 답변 (inq_reply 테이블)
+	// inquire_idx
+	private String reply;
+	private Timestamp reply_date;
+	private String id;
+	
+	
+	// 카테고리명 (category 테이블)
+	private String category_name;
+	
+	
+	
+	
+	public String getCategory_name() {
+		return category_name;
+	}
+	public void setCategory_name(String category_name) {
+		this.category_name = category_name;
+	}
+	public String getReply() {
+		return reply;
+	}
+	public Timestamp getReply_date() {
+		return reply_date;
+	}
+	public String getId() {
+		return id;
+	}
+	public void setReply(String reply) {
+		this.reply = reply;
+	}
+	public void setReply_date(Timestamp reply_date) {
+		this.reply_date = reply_date;
+	}
+	public void setId(String id) {
+		this.id = id;
+	}
 	public String getSuccess() {
 		return success;
 	}
@@ -22,9 +59,6 @@ public class InquiryDTO {
 	}
 	public int getInquiry_idx() {
 		return inquiry_idx;
-	}
-	public String getPw() {
-		return pw;
 	}
 	public String getInquiry_title() {
 		return inquiry_title;
@@ -35,11 +69,11 @@ public class InquiryDTO {
 	public Timestamp getReg_date() {
 		return reg_date;
 	}
-	public String getInquirer() {
-		return inquirer;
+	public String getEnquirer() {
+		return enquirer;
 	}
-	public void setInquirer(String inquirer) {
-		this.inquirer = inquirer;
+	public void setEnquirer(String enquirer) {
+		this.enquirer = enquirer;
 	}
 	public String getCategory_idx() {
 		return category_idx;
@@ -47,8 +81,12 @@ public class InquiryDTO {
 	public void setInquiry_idx(int inquiry_idx) {
 		this.inquiry_idx = inquiry_idx;
 	}
-	public void setPw(String pw) {
-		this.pw = pw;
+	
+	public String getInquiry_pw() {
+		return inquiry_pw;
+	}
+	public void setInquiry_pw(String inquiry_pw) {
+		this.inquiry_pw = inquiry_pw;
 	}
 	public void setInquiry_title(String inquiry_title) {
 		this.inquiry_title = inquiry_title;
