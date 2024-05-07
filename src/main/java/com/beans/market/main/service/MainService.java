@@ -1,5 +1,8 @@
 package com.beans.market.main.service;
 
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -9,10 +12,12 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.beans.market.board.dao.BoardDAO;
 import com.beans.market.board.dto.BoardDTO;
 import com.beans.market.main.dao.MainDAO;
+import com.beans.market.main.dto.InquiryDTO;
 import com.beans.market.main.dto.MainDTO;
 import com.beans.market.member.dto.MemberDTO;
 import com.beans.market.photo.dto.PhotoDTO;
@@ -21,6 +26,8 @@ import com.beans.market.photo.dto.ProfilePicDTO;
 @Service
 public class MainService {
 	Logger logger = LoggerFactory.getLogger(getClass());
+	
+	public String upload_root="C:/upload/";
 	
 	@Autowired MainDAO mainDao;
 
@@ -223,6 +230,118 @@ public class MainService {
 		return mainDao.nicname(logEmail);
 	}
 
+
+
+	public Map<String, Object> tempoPhoto(Map<String, Object> map, MultipartFile[] photos) {
+		// 포토 임시 인덱스 번호. (게시글의,,)
+		int photoTempoIdx = (int) (System.currentTimeMillis() % Integer.MAX_VALUE);
+		
+		List<String> list = tempoPhotoSave(photoTempoIdx, photos);
+		List<Integer> list2 = new ArrayList<Integer>();
+		
+		// 포토의 새로운 내임으로 pic_idx 찾기
+		for (String string : list) {
+			int pic_idx = mainDao.tempoPhotoGetPicidx(string);
+			list2.add(pic_idx);
+		}
+		
+		map.put("list", list);
+		map.put("list2", list2);
+		map.put("photoTempoIdx", photoTempoIdx);
+		
+		return map;
+	}
+	// 사진 임시 디비 및 서버에 저장
+	private List<String> tempoPhotoSave(long idx, MultipartFile[] photos) {	
+		List<String> tempoPhotosName = new ArrayList<String>();
+		
+	    for(MultipartFile photo : photos) {
+	        // 1. 원래 이름 추출
+	        String orifilename = photo.getOriginalFilename();
+	        // 2. 확장만 뗴내서 새로운 이름 생성
+	        String ext = orifilename.substring(orifilename.lastIndexOf("."));
+	        String newfileName = System.currentTimeMillis()+ext;
+	        tempoPhotosName.add(newfileName);
+	        
+	        try {
+	           // 3. 파일 저장
+	           Path path = Paths.get(upload_root+newfileName);
+	           Files.write(path, photo.getBytes());
+	           // 4. DB에 저장
+	           mainDao.tempoPhoto(idx, orifilename, newfileName);
+	           
+	           Thread.sleep(1);
+	        } catch (Exception e) {
+	           e.printStackTrace();
+	        }
+	    }
+	    
+	    return tempoPhotosName;
+	}
+
+
+
+	public Map<String, Object> tempoPhotoAnother(Map<String, Object> map, MultipartFile[] photos, int tempoBbsIdx) {
+		tempoPhotoSave(tempoBbsIdx, photos);
+		
+		List<String> list = mainDao.tempoPhotoGetNames(tempoBbsIdx);
+		List<Integer> list2 = new ArrayList<Integer>();
+		
+		// 포토의 새로운 내임으로 pic_idx 찾기
+		for (String string : list) {
+			int pic_idx = mainDao.tempoPhotoGetPicidx(string);
+			list2.add(pic_idx);
+		}
+		
+		map.put("list", list);
+		map.put("list2", list2);
+		map.put("photoTempoIdx", tempoBbsIdx);
+		
+		return map;
+	}
+
+
+
+	public Map<String, Object> tempoPhotoDel(Map<String, Object> map, int pic_idx, int tempoBbsIdx) {
+		mainDao.tempoPhotoDel2(pic_idx);
+		
+		List<String> list = mainDao.tempoPhotoGetNames(tempoBbsIdx);
+		List<Integer> list2 = new ArrayList<Integer>();
+		
+		// 포토의 새로운 내임으로 pic_idx 찾기
+		for (String string : list) {
+			int pic_idx2 = mainDao.tempoPhotoGetPicidx(string);
+			list2.add(pic_idx2);
+		}
+		
+		map.put("list", list);
+		map.put("list2", list2);
+		map.put("photoTempoIdx", tempoBbsIdx);
+		
+		return map;
+	}
+
+
+
+	public void writeInquire(Map<String, String> params, MultipartFile[] photos, String[] tempoPhotoNames) {
+		InquiryDTO dto = new InquiryDTO();
+		dto.setInquirer(params.get("logEmail"));
+		dto.setInquiry_title(params.get("inquireSubject"));
+		dto.setCategory_idx(params.get("category"));
+		dto.setPw(params.get("inquirePw"));
+		dto.setInquiry_account(params.get("content"));
+		
+		if (mainDao.writeInquire(dto) > 0) {
+			int inquiry_idx = dto.getInquiry_idx();
+			
+			photoSave(inquiry_idx, tempoPhotoNames);
+		}
+	}
+	private void photoSave(int idx, String[] tempoPhotoNames) {
+		for (String string : tempoPhotoNames) {
+			mainDao.photoSave(idx, string);
+		}
+	}
 
 
 

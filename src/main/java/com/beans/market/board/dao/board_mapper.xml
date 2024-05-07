@@ -61,7 +61,7 @@
 			keyProperty="idx"
 			parameterType="com.beans.market.board.dto.BoardDTO">
 		INSERT into bbs(email, option, category_idx, subject, content, place)
-		VALUES (#{email}, #{option}, #{category_idx}, #{subject}, #{content}, #{place});
+		VALUES (#{email}, #{option}, #{category_idx}, #{subject}, #{content}, #{place})
 	</insert>
 	
 	<!-- 글작성 ::판매 -->
@@ -121,6 +121,12 @@
 	<select id="myBbsCheck" resultType="Integer">
 		select count(*) from bbs where idx= #{param1} and email = #{param2}
 	</select>
+	<!-- 게시글 수정하기 - 페이지 이동 시, 사진 불러오기 -->
+	<select id="goodsUpdatePic" resultType="com.beans.market.photo.dto.PhotoDTO">
+		SELECT new_picname, pic_idx
+		FROM photo
+		WHERE idx = #{param1} AND option_idx = 1
+	</select>
 	<!-- 게시글 수정하기 -->
 	<update id="goodsUpdate">
 		UPDATE bbs
@@ -132,5 +138,39 @@
 		WHERE idx = #{param1}
 	</update>
 	
-	
+	<!-- 글 작성 시, 사진 미리보기 -->
+	<insert id="tempoPhoto">
+		INSERT INTO photo(new_picname, idx, option_idx)
+		VALUES(#{param3}, #{param1}, 1)
+	</insert>
+	<!-- 글 작성 시, 사진의 idx 받아오기 -->
+	<select id="tempoPhotoGetPicidx" resultType="Integer">
+		SELECT pic_idx
+		FROM photo
+		WHERE new_picname = #{param1} AND option_idx = 1
+	</select>
+	<!-- 글 작성 시, 사진 삭제 -->
+	<delete id="tempoPhotoDel">
+		DELETE FROM photo
+		WHERE pic_idx = #{param1} AND option_idx = 1
+	</delete>
+	<!-- 글 작성 시, 사진의 name들 갖고오기... -->
+	<select id="tempoPhotoGetNames" resultType="String">
+		SELECT new_picname
+		FROM photo
+		WHERE idx = #{param1} AND option_idx = 1
+	</select>
+	<!-- 글 사진 업데이트 -->
+	<update id="photoSave">
+		update photo
+		set main = 'Y',
+			idx = #{param1}
+		where new_picname = #{param2}
+	</update>
+	<update id="photoSave2">
+		update photo
+		set main = 'N',
+			idx = #{param1}
+		where new_picname = #{param2}
+	</update>
 </mapper>

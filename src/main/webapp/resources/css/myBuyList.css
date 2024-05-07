@@ -34,6 +34,8 @@
 	
 	position: relative;
 	width: 90%;
+	max-height: 650px;
+	overflow-y: auto;
 	margin: 0 auto;
 }
 .buy-center-list {

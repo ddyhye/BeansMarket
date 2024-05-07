@@ -32,7 +32,9 @@
 	flex-wrap: wrap;
 	
 	position: relative;
-	width: 90%;
+	width: 92%;
+	max-height: 650px;
+	overflow-y: auto;
 	margin: 0 auto;
 }
 .mine-center-goods {

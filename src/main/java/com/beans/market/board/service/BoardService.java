@@ -7,6 +7,7 @@ import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -28,6 +29,7 @@ import com.beans.market.member.dto.SellerDTO;
 import com.beans.market.message.dao.MessageDAO;
 import com.beans.market.pay.service.PayService;
 import com.beans.market.photo.dao.PhotoDAO;
+import com.beans.market.photo.dto.PhotoDTO;
 import com.beans.market.photo.dto.ProfilePicDTO;
 
 
@@ -221,7 +223,7 @@ public class BoardService {
 	//		return boardDAO.writeBoard(params);
 	//	}
 
-	public void writeBoard(Map<String, String> params, int priceInt, int start_priceInt, int immediate_priceInt, int auction_period, MultipartFile[] photos) {
+	public void writeBoard(Map<String, String> params, int priceInt, int start_priceInt, int immediate_priceInt, int auction_period, MultipartFile[] photos, String[] tempoPhotoNames) {
 		BoardDTO dto = new BoardDTO();
 		dto.setEmail(params.get("logEmail"));
 		dto.setOption(params.get("option"));
@@ -237,13 +239,22 @@ public class BoardService {
 			
 			if (dto.getOption().equals("판매")) {
 				boardDAO.updatePrice(priceInt, idx);
-				logger.info("사진왜안됨");
-				logger.info("photos: {}", photos);
-				fileSave(idx, photos);
+				//fileSave(idx, photos);
+				photoSave(idx, tempoPhotoNames);
 			} else {
 				boardDAO.updateAuctionPrice(start_priceInt, immediate_priceInt, idx);
 				boardDAO.updateAuctionPrice2(start_priceInt, immediate_priceInt, auction_period, idx);
-				fileSave(idx, photos);
+				photoSave(idx, tempoPhotoNames);
+			}
+		}
+	}
+
+	private void photoSave(int idx, String[] tempoPhotoNames) {
+		for (String string : tempoPhotoNames) {
+			if (string.equals(tempoPhotoNames[0])) {
+				boardDAO.photoSave(idx, string);
+			} else {
+				boardDAO.photoSave2(idx, string);
 			}
 		}
 	}
@@ -276,11 +287,7 @@ public class BoardService {
 
 
 	// 사진 DB에 저장
-	private void fileSave(int idx, MultipartFile[] photos) {
-		logger.info("사진왜안됨2");
-     
-		
-		
+	private void fileSave(int idx, MultipartFile[] photos) {		
      for(MultipartFile photo : photos) {
         // 1. 원래 이름 추출
         String orifilename = photo.getOriginalFilename();
@@ -293,11 +300,12 @@ public class BoardService {
            Path path = Paths.get(upload_root+newfileName);
            Files.write(path, photo.getBytes());
            // 4. DB에 저장
-           if (photo == photos[0]) {
-        	   boardDAO.savePhoto(idx,orifilename,newfileName);
-           } else {
-        	   boardDAO.savePhoto2(idx,orifilename,newfileName);
-           }
+    	   if (photo == photos[0]) {
+    		   boardDAO.savePhoto(idx,orifilename,newfileName);
+    	   } else {
+    		   boardDAO.savePhoto2(idx,orifilename,newfileName);
+    	   }
+           
            Thread.sleep(1);
         } catch (Exception e) {
            e.printStackTrace();
@@ -395,6 +403,100 @@ public class BoardService {
 	public void goodsUpdate(int idxInt, int priceInt, String category, String subject, String content, String place, MultipartFile[] photos) {
 		boardDAO.goodsUpdate(idxInt, priceInt, category, subject, content, place);
 	}
+
+	// 글 작성 시, 사진 미리보기
+	public Map<String, Object> tempoPhoto(Map<String, Object> map, MultipartFile[] photos) {
+		// 포토 임시 인덱스 번호. (게시글의,,)
+		int photoTempoIdx = (int) (System.currentTimeMillis() % Integer.MAX_VALUE);
+		
+		List<String> list = tempoPhotoSave(photoTempoIdx, photos);
+		List<Integer> list2 = new ArrayList<Integer>();
+		
+		// 포토의 새로운 내임으로 pic_idx 찾기
+		for (String string : list) {
+			int pic_idx = boardDAO.tempoPhotoGetPicidx(string);
+			list2.add(pic_idx);
+		}
+		
+		map.put("list", list);
+		map.put("list2", list2);
+		// 글 작성 완료 누르면 해당 게시글의 idx로 수정하기 위한 식별 임시 idx값..
+		// 근데 이거없어도 new_picname이 unique하므로 괜찮을듯? 확인해보기
+		// --> 아님. 삭제때문ㅇ ㅔ필요함
+		map.put("photoTempoIdx", photoTempoIdx);
+		
+		return map;
+	}
+	// 사진 임시 디비 및 서버에 저장
+	private List<String> tempoPhotoSave(long idx, MultipartFile[] photos) {	
+		List<String> tempoPhotosName = new ArrayList<String>();
+		
+	    for(MultipartFile photo : photos) {
+	        // 1. 원래 이름 추출
+	        String orifilename = photo.getOriginalFilename();
+	        // 2. 확장만 뗴내서 새로운 이름 생성
+	        String ext = orifilename.substring(orifilename.lastIndexOf("."));
+	        String newfileName = System.currentTimeMillis()+ext;
+	        tempoPhotosName.add(newfileName);
+	        
+	        try {
+	           // 3. 파일 저장
+	           Path path = Paths.get(upload_root+newfileName);
+	           Files.write(path, photo.getBytes());
+	           // 4. DB에 저장
+	           boardDAO.tempoPhoto(idx, orifilename, newfileName);
+	           
+	           Thread.sleep(1);
+	        } catch (Exception e) {
+	           e.printStackTrace();
+	        }
+	    }
+	    
+	    return tempoPhotosName;
+	}
+	// 사진 미리보기 삭제
+	public Map<String, Object> tempoPhotoDel(Map<String, Object> map, int pic_idx, int tempoBbsIdx) {
+		boardDAO.tempoPhotoDel(pic_idx);
+		
+		List<String> list = boardDAO.tempoPhotoGetNames(tempoBbsIdx);
+		List<Integer> list2 = new ArrayList<Integer>();
+		
+		// 포토의 새로운 내임으로 pic_idx 찾기
+		for (String string : list) {
+			int pic_idx2 = boardDAO.tempoPhotoGetPicidx(string);
+			list2.add(pic_idx2);
+		}
+		
+		map.put("list", list);
+		map.put("list2", list2);
+		map.put("photoTempoIdx", tempoBbsIdx);
+		
+		return map;
+	}
+
+	public Map<String, Object> tempoPhotoAnother(Map<String, Object> map, MultipartFile[] photos, int tempoBbsIdx) {
+		tempoPhotoSave(tempoBbsIdx, photos);
+		
+		List<String> list = boardDAO.tempoPhotoGetNames(tempoBbsIdx);
+		List<Integer> list2 = new ArrayList<Integer>();
+		
+		// 포토의 새로운 내임으로 pic_idx 찾기
+		for (String string : list) {
+			int pic_idx = boardDAO.tempoPhotoGetPicidx(string);
+			list2.add(pic_idx);
+		}
+		
+		map.put("list", list);
+		map.put("list2", list2);
+		map.put("photoTempoIdx", tempoBbsIdx);
+		
+		return map;
+	}
+
+	public List<PhotoDTO> goodsUpdatePic(int idxInt) {
+		return boardDAO.goodsUpdatePic(idxInt);
+	}
+	
 
 	
 }

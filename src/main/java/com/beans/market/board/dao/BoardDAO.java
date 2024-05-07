@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.beans.market.board.dto.BoardDTO;
+import com.beans.market.photo.dto.PhotoDTO;
 
 public interface BoardDAO {
 
@@ -54,6 +55,19 @@ public interface BoardDAO {
 	int myBbsCheck(Integer idx, String email);
 
 	void goodsUpdate(int idxInt, int priceInt, String category, String subject, String content, String place);
+
+	void tempoPhoto(long idx, String orifilename, String newfileName);
+
+	int tempoPhotoGetPicidx(String string);
+
+	void tempoPhotoDel(int pic_idx);
+
+	List<String> tempoPhotoGetNames(int tempoBbsIdx);
+
+	void photoSave(int idx, String string);
+	void photoSave2(int idx, String string);
+
+	List<PhotoDTO> goodsUpdatePic(int idxInt);
 
 
 

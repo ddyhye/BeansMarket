@@ -13,8 +13,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.beans.market.board.dto.BoardDTO;
@@ -303,6 +305,72 @@ public class MainController {
 		}
 		
 		return page;
+	}
+	
+	// 1:1 문의하기 페이지 이동
+	@RequestMapping(value="/customerService/inquire.go")
+	public String inquire_go() {
+		return "/customerService/inquire";
+	}
+	// 1:1 문의하기 작성 페이지 이동
+	@RequestMapping(value="/customerService/inquireWrite.go")
+	public String inquireWrite_go() {
+		return "/customerService/inquireWrite";
+	}
+	// 1:1 문의하기 사진,,
+	// 글 작성 시, 사진 미리보기,,
+	@RequestMapping(value="/customerService/tempoPhoto.ajax", method = RequestMethod.POST)
+	@ResponseBody
+	public Map<String, Object> tempoPhoto(@RequestParam("photos") MultipartFile[] photos) {
+		Map<String, Object> map = new HashMap<String, Object>();
+		
+		mainService.tempoPhoto(map, photos);
+		
+		return map;
+	}
+	// 글 작성 시, 사진 미리보기에서 사진 삭제
+	@RequestMapping(value="/customerService/tempoPhotoDel.ajax", method = RequestMethod.POST)
+	@ResponseBody
+	public Map<String, Object> tempoPhotoDel(int pic_idx, int tempoBbsIdx) {
+		Map<String, Object> map = new HashMap<String, Object>();
+		
+		mainService.tempoPhotoDel(map, pic_idx, tempoBbsIdx);
+		
+		return map;
+	}
+	// 글 작성 시, 사진 미리보기에 사진 추가하기,,
+	@RequestMapping(value="/customerService/tempoPhotoAnother.ajax", method = RequestMethod.POST)
+	@ResponseBody
+	public Map<String, Object> tempoPhotoAnother(@RequestParam("photos") MultipartFile[] photos, int tempoBbsIdx) {
+		Map<String, Object> map = new HashMap<String, Object>();
+		
+		mainService.tempoPhotoAnother(map, photos, tempoBbsIdx);
+		
+		return map;
+	}
+	
+	// 1:1 문의하기 작성
+	@RequestMapping(value = "/customerService/inquireWrite.do", method = RequestMethod.POST)
+    public String goodsWrite(HttpSession session, Model model,
+                             MultipartFile[] photos,
+                             @RequestParam("tempoPhotoNames[]") String[] tempoPhotoNames,
+                             @RequestParam Map<String, String> params) {
+		
+		if (session.getAttribute("logEmail") != null) {
+			String logEmail = (String) session.getAttribute("logEmail");
+			params.put("logEmail", logEmail);
+		} else {
+			params.put("logEmail", "비회원");
+		}
+		
+		logger.info("params: "+params);
+		
+		mainService.writeInquire(params, photos, tempoPhotoNames);
+		
+		 
+		// 해당 글 상세보기 페이지로 이동
+		return "redirect:/";
+
 	}
 
 }
