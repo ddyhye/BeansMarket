@@ -183,3 +183,55 @@ section tbody {
 	min-width: 100px;
 	max-width: 100px;
 }
+
+section #contentView{
+    position: fixed;
+	display: none;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 400px;
+    height: 250px;
+    background-color: white;
+    border: 1px solid black;
+    padding: 10px;
+}
+
+section #contentView .top p, span{
+    font-size: 15px;
+    padding-bottom: 10px;
+}
+
+section #contentView .from{
+    display: flex;
+    justify-content: flex-start;
+    position: relative;
+}
+
+section #contentView .form .btn-controller{
+    display: flex;
+    justify-content: center;
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translate(-50%, -50%); 
+}
+
+section #contentView .form .btn-controller button{
+    font-size: 15px;
+    padding: 5px 10px; 
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+

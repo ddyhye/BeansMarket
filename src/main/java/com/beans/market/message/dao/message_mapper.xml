@@ -70,7 +70,7 @@
 	<select id="lastContent" resultType="com.beans.market.message.dto.RoomDTO">
 		SELECT dm.content, dm.reg_date, p.new_picname
 			FROM deal_message dm 
-			JOIN (SELECT p.idx, p.new_picname FROM photo p WHERE p.main = 'Y' AND p.idx = #{param1}) AS p ON dm.idx = p.idx
+			LEFT JOIN (SELECT p.idx, p.new_picname FROM photo p WHERE p.main = 'Y' AND p.idx = #{param1}) AS p ON dm.idx = p.idx
 			WHERE dm.idx = #{param1} 
 				AND dm.receive_email IN(#{param2}, #{param3}) 
 				AND dm.sender_email IN(#{param2}, #{param3})
