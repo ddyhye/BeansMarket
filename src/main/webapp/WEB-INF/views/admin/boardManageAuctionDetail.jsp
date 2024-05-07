@@ -193,6 +193,23 @@
 		drawAuction();
 	});
 	
+	// 입찰자 리스트 출력
+	function listCall()
+		$.ajax({
+			type: 'get',
+			url: '<c:url value="/admin/bbsAuctionList.ajax"/>',
+			data: {
+				'textVal': textVal,
+				'selectedCategory': selectedCategory,
+				'selectedState': selectedState,
+				'selectedRadio': selectedRadio,
+			},
+			dataType: 'JSON',
+			success: function(data) {
+				drawAuction(data);
+			}, error: function(error) {}
+		});
+	}
 	// drawAuction 함수 : 입찰자 리스트
 	function drawAuction(data) {
 		$('#auction-list2').empty();
@@ -207,7 +224,7 @@
 			cnt++;
 			content += '<tr>';
 			content += '<td class="eight">'+cnt+'</td>';
-			content += '<td class="nine">'+bbs.reg_date+'</td>';
+			content += '<td class="nine">'+DateToStringTime(bbs.reg_date)+'</td>';
 			content += '<td class="ten">'+bbs.reserve_email+'</td>';			
 			content += '<td class="eleven">'+bbs.price+'</td>';
 			content += '</tr>';

@@ -564,7 +564,16 @@ public class AdminController {
 		return "admin/boardManageDetail";		
 	}
 	
-	
+	// 입찰자 리스트 불러오기
+	@RequestMapping(value="/admin/bbsAuctionList.ajax")
+	@ResponseBody
+	public Map<String,Object> bbsAuctionListAjax(String reg_date, String reserve_email,String price) {
+		Map<String, Object> map = new HashMap<String, Object>();
+		
+		/* adminService.bbsAuctionList(map); */
+		
+		return map;
+	}
 }
 
 
