@@ -22,7 +22,9 @@ import org.springframework.web.multipart.MultipartFile;
 import com.beans.market.board.dao.BoardDAO;
 import com.beans.market.board.dto.BoardDTO;
 import com.beans.market.history.dao.HistoryDAO;
+import com.beans.market.history.service.HistoryService;
 import com.beans.market.main.dao.MainDAO;
+import com.beans.market.main.service.MainService;
 import com.beans.market.member.dao.MemberDAO;
 import com.beans.market.member.dto.MemberDTO;
 import com.beans.market.member.dto.SellerDTO;
@@ -47,6 +49,7 @@ public class BoardService {
 	@Autowired PayService payService;
 	@Autowired MainDAO mainDAO;
 	@Autowired MessageDAO messageDAO;
+	@Autowired MainService mainService;
 
 	public String goodsDetail(int idx, Model model) {
 		String page = "board/saleOfGoodsDetail";
@@ -63,7 +66,6 @@ public class BoardService {
 		boardDAO.upHit(idx); // upHit
 		
 		// 게시글 출력
-		model.addAttribute("bbs", dto);
         logger.info("{} 게시물 정보  {}", idx, dto);
 		
         // logger.info("게시 시간 : {}", dto.getReg_date());
@@ -71,12 +73,44 @@ public class BoardService {
         // SimpleDateFormat을 사용하여 날짜 형식 지정 -> dateFormat으로 날짜 포맷
         // SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         // String formattedDateTime = dateFormat.format(dto.getReg_date());
-		model.addAttribute("reg_date", dto.getReg_date().toString());
 		
 		if(dto.getOption().equals("경매")) {
 			// formattedDateTime = dateFormat.format(dto.getClose_date());
 			model.addAttribute("close_date", dto.getClose_date().toString());
+			
+			// 남은 시간이 종료 됐는데 입찰자가 있다면 예약중으로 변경하고 메시지 보내기 - 원래는 스케줄러로 했어야 함
+			if (dto.getBbs_state().equals("거래가능")){
+				LocalDateTime currentTime = LocalDateTime.now(); // 현재 시간 가져오기
+			    LocalDateTime closeTime = 
+			    		LocalDateTime.parse(dto.getClose_date().toString(), DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss.0")); // 종료시간 설정하기
+			    long remaingTime = ChronoUnit.SECONDS.between(currentTime, closeTime);
+			    
+			    if (remaingTime < 0) {
+			    	// 최고 입찰자 가져오기
+			    	String highestBidder = historyDAO.highestBidder(idx);
+			    	String sellerEmail = dto.getEmail();
+			    	
+			    	if (highestBidder != null) {
+			    		boardDAO.updateBbsState(idx, "예약중"); // 상태 예약중으로 변경
+			    		boardDAO.updateReserveEmail(idx, highestBidder); // 최고 입찰자로 예약자 변경
+			    		
+			    		mainService.alarmSend(idx+"번 게시물 최고 입찰자로 경매 종료", highestBidder);
+			    		mainService.alarmSend(idx+"번 게시물 경매 종료", sellerEmail);
+			    		messageDAO.sendMessage("경매 종료 후 입찰자와 매칭되었습니다.", sellerEmail, highestBidder, idx);						
+					} else { // 입찰자가 없다는 뜻이기에 숨기기
+						mainService.alarmSend(idx+"번 게시물 입찰자 없이 경매 종료", sellerEmail);
+						// 숨기기
+						memberDAO.mySellManage(idx);
+						
+						model.addAttribute("hidden", "종료된 경매 입니다.");
+					}
+			    	
+				}
+			}
+			dto = boardDAO.auctionDetail(idx);			
 		}
+		model.addAttribute("bbs", dto);
+		model.addAttribute("reg_date", dto.getReg_date().toString());
 		
         // 판매자 정보 - 이름, 거래 후기
 		SellerDTO sellerInfo = memberDAO.sellerInfo(dto.getEmail());
@@ -344,12 +378,14 @@ public class BoardService {
 				row = boardDAO.reserveUpdate(email, idx, bbs_state);
 				if (row == 1) {
 					returnReserve = "예약 취소";
+					mainService.alarmSend(idx+"번 게시물 예약되셨습니다.", email);
 				}
 			} else if(reserve.equals("예약 취소")) {
 				bbs_state = "거래가능";
 				row = boardDAO.reserveUpdate(null, idx, bbs_state);
 				if (row == 1) {
 					returnReserve = "예약";
+					mainService.alarmSend(idx+"번 게시물 예약 취소되셨습니다.", email);
 				}
 			}
 			logger.info(returnReserve+"로 변경");

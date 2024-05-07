@@ -61,6 +61,20 @@
 				</thead>
 				<tbody id="list"></tbody>
 			</table>
+			
+			<div id="contentView">
+				<div class="form">
+					<div class="top">
+						<p>신고번호 <span class="idx">99</span>번의 내용</p>
+					</div>
+					<div class="content">
+						<p>피곤하다</p>			
+					</div>
+					<div class="btn-controller">
+						<button onclick="check()">확인</button>
+					</div>
+				</div>		
+			</div><!--deleteForm 종료-->
 		</section>
 	</main>
 </body>
@@ -108,7 +122,7 @@
 		var content = '';
 		
 		for (item of list) {
-			content +='<tr data-value=\''+JSON.stringify(item)+'\'>';
+			content +='<tr onclick="reportDetail(event)" data-value=\''+JSON.stringify(item)+'\'>';
 			content +=		'<td><input type="checkbox" class="select" value="'+item.report_idx+'"/></td>';
 			content +=		'<td>'+item.report_idx+'</td>';
 			content +=		'<td data-value="'+item.option_idx+'">'+item.option_name+'</td>';
@@ -181,6 +195,18 @@
 		}
 	}
 	
+	function reportDetail(event){
+		if(loginCheck()){
+			var data = $(event.target).closest('tr').data("value");
+			
+			$('#contentView span.idx').html(data.report_idx);
+			$('#contentView .content p').html(data.content);
+			
+			check();
+		}
+	}
+	
+	// 필터링 용
 	function applyFilters(selectedOption, selectedCategory) {
 	    // 모든 행 숨기기
 	    $('tbody tr').hide();
@@ -195,5 +221,10 @@
 	        }
 	    });
 	}
+	
+	function check() {
+		$('#contentView').toggle();
+	}
+	
 </script>
 </html>

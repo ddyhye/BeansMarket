@@ -216,7 +216,13 @@
 	var bbsEmail = '${bbs.email}';
     var close_date = '${close_date}';
     var price = '${bbs.price}';
+    var hidden ='${hidden}'; // 들어갔을때 체크 용 - 스케줄러 적용이 안되있어서
     runEverySecond();
+    
+    if(hidden != ''){
+    	alert(hidden);
+    	location.href='<c:url value="/"/>';
+    }
     
     // 관심 표시 되어있으면 하트가 차있도록
     if('${mine}' == 1){

@@ -27,6 +27,8 @@ public interface HistoryDAO {
 	int comentDo(String coment, String email, int idx);
 
 	int insertPayHistory(int idx, String email, String option, int price, String content);
+	
+	String highestBidder(int idx);
 
 	// idx 검색
 	List<HistoryDTO> penaltyHistoryListIdx(int intSearchText);
@@ -47,6 +49,8 @@ public interface HistoryDAO {
 	List<HistoryDTO> dealDetailHistoryListEmail(String searchText);
 	List<HistoryDTO> comentHistoryListEmail(String searchText);
 	List<HistoryDTO> alarmHistoryListEmail(String searchText);
+
+
 
 
 
