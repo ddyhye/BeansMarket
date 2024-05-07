@@ -37,7 +37,7 @@ public class ReportController {
 		MemberDTO loginInfo = (MemberDTO) session.getAttribute("loginInfo");
 		
 		if (loginInfo != null) {
-			map.put("reporter_email", loginInfo.getEmail()); // 로그인 완료되면 세션에서 받아올 예정 + 회원만 신고처리가 되도록
+			map.put("reporter_email", loginInfo.getEmail());
 			reportMap.put("msg", reportService.reportDo(map)); 			
 		} else {
 			reportMap.put("msg", "신고에 실패했습니다."); 	
@@ -45,6 +45,9 @@ public class ReportController {
 		
 		return reportMap;
 	}
+	
+	
+	
 	
 	//차단기능
 	@RequestMapping(value="/report/ban.do", method = RequestMethod.POST)

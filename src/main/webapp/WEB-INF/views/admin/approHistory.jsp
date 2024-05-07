@@ -21,7 +21,7 @@
 			<div class="content-search">
 				<p>검색</p>
 				<div class="search-box" data-value="deal_approv_hist">
-					<input type="text" name="search-val" id="subject-search" placeholder="이메일 혹은 번호를 입력해주세요" />
+					<input type="text" name="search-val" id="subject-search" placeholder="이메일 혹은 게시글 번호를 입력해주세요" />
 					<button class="search-btn"><i class="fa-solid fa-magnifying-glass"></i></button>
 				</div>
 			</div>

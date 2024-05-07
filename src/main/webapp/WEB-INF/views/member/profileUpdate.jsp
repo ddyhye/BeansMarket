@@ -87,7 +87,7 @@
 							<div class="profileUpdate-center-body pw">
 								<p id="pwUpdateBtn">비밀번호 재설정</p>
 							</div>
-							<input type="hidden" name="pwReset" id="pwReset" value=""/>
+							<input type="hidden" name="pwReset" id="pwReset" value="${pw}"/>
 						</div>
 						<div class="profileUpdate-center-column">
 							<div class="profileUpdate-center-head">

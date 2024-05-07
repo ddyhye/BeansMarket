@@ -299,5 +299,77 @@
 		WHERE email = #{param1}
 	</select>
 	
+	
+	
+	
+	
+	
+	<!-- 1:1 문의하기 -->
+	<!-- 글 작성 시, 사진 미리보기 -->
+	<insert id="tempoPhoto">
+		INSERT INTO photo(new_picname, idx, option_idx)
+		VALUES(#{param3}, #{param1}, 3)
+	</insert>
+	<!-- 글 작성 시, 사진의 idx 받아오기 -->
+	<select id="tempoPhotoGetPicidx" resultType="Integer">
+		SELECT pic_idx
+		FROM photo
+		WHERE new_picname = #{param1} AND option_idx = 3
+	</select>
+	<!-- 글 작성 시, 사진의 name들 갖고오기... -->
+	<select id="tempoPhotoGetNames" resultType="String">
+		SELECT new_picname
+		FROM photo
+		WHERE idx = #{param1} AND option_idx = 3
+	</select>
+	<!-- 글 작성 시, 사진 삭제 -->
+	<delete id="tempoPhotoDel2">
+		DELETE FROM photo
+		WHERE pic_idx = #{param1} AND option_idx = 3
+	</delete>
+	<!-- 글 작성 -->
+	<insert id="writeInquire"
+			useGeneratedKeys="true"
+			keyColumn="inquiry_idx"
+			keyProperty="inquiry_idx"
+			parameterType="com.beans.market.main.dto.InquiryDTO">
+		INSERT into inquiry(inquiry_pw, inquiry_title, inquiry_account, enquirer, category_idx)
+		VALUES (#{pw}, #{inquiry_title}, #{inquiry_account}, #{inquirer}, #{category_idx})
+	</insert>
+	<!-- 글 사진 업데이트 -->
+	<update id="photoSave">
+		update photo
+		set main = 'Y',
+			idx = #{param1}
+		where new_picname = #{param2}
+	</update>
+	
+	<!-- 문의 리스트 출력 -->
+	<select id="inquireListAjax" resultType="com.beans.market.main.dto.InquiryDTO">
+		SELECT inquiry_idx, inquiry_pw, inquiry_title, inquiry_account, reg_date, enquirer, category_idx, success 
+		FROM inquiry 
+	</select>
+	<!-- 문의 상세보기 -->
+	<select id="inquireDetail" resultType="com.beans.market.main.dto.InquiryDTO">
+		SELECT i.inquiry_idx, i.inquiry_pw, i.inquiry_title, i.inquiry_account, i.reg_date, i.enquirer, c.category_name , i.success,
+				ir.reply, ir.reply_date, ir.id 
+		FROM inquiry i 
+				left outer join inq_reply ir on i.inquiry_idx = ir.inquiry_idx
+				join category c on i.category_idx = c.category_idx 
+		where i.inquiry_idx = #{param1}
+	</select>
+	<select id="inquireGetPhoto" resultType="com.beans.market.photo.dto.PhotoDTO">
+		SELECT new_picname
+		FROM photo
+		WHERE idx = #{param1} AND option_idx = 3
+	</select>
+	
+	
+	
+	
+	
+	
+	
+	
 
 </mapper>

@@ -35,6 +35,7 @@
 			, #{param4})
 	</insert>
 	
+	<!-- 내가 최고 입찰자인지 확인 -->
 	<select id="myBidCheck" resultType="Integer">
 		SELECT COALESCE(
 	       	(SELECT IF(email = #{param2}, 1, 0) as email 
@@ -72,6 +73,13 @@
 	    INSERT INTO pay_hist (idx, email, option, price, content)
 	    	VALUES (#{param1}, #{param2}, #{param3}, #{param4}, #{param5})
 	</insert>
+	
+	<!-- 최고 입찰자 이메일 가져옴 -->
+	<select id="highestBidder" resultType="String">
+   		SELECT email FROM deal_aution_hist
+			WHERE idx = #{param1}
+			ORDER BY reg_date DESC LIMIT 1
+	</select>
 	
 	<!-- 관리자 히스토리 리스트 불러오기 -->
 	<!-- 번호 검색 -->

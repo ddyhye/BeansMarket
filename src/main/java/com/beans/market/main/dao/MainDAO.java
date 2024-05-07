@@ -3,6 +3,7 @@ package com.beans.market.main.dao;
 import java.util.List;
 
 import com.beans.market.board.dto.BoardDTO;
+import com.beans.market.main.dto.InquiryDTO;
 import com.beans.market.main.dto.MainDTO;
 import com.beans.market.member.dto.MemberDTO;
 import com.beans.market.photo.dto.PhotoDTO;
@@ -60,6 +61,20 @@ public interface MainDAO {
 	MemberDTO profile(String logEmail);
 	ProfilePicDTO profilePic(String logEmail);
 	String nicname(String logEmail);
+	void tempoPhotoDel(int pic_idx);
+	
+	
+	// 문의하기
+	void tempoPhoto(long idx, String orifilename, String newfileName);
+	int tempoPhotoGetPicidx(String string);
+	List<String> tempoPhotoGetNames(int tempoBbsIdx);
+	void tempoPhotoDel2(int pic_idx);
+	int writeInquire(InquiryDTO dto);
+	void photoSave(int idx, String string);
+	// 문의 리스트 출력
+	List<InquiryDTO> inquireListAjax();
+	InquiryDTO inquireDetail(int idxInt);
+	List<PhotoDTO> inquireGetPhoto(int idxInt);
 	
 	
 

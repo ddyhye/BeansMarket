@@ -348,7 +348,7 @@
 		$('.pay-send').show();
 		$('.reserve-toggle').show();
 		
-		$('.price').text(data.roomSubject.price);
+		//$('.price').text(data.roomSubject.price); // 왜 있는건지 몰라서 주석처리
 		
 		//console.log(my_email + data.roomSubject.option+data.roomSubject.reserve_email);
 		// 예약자가 없으면 판매자만 거래버튼 활성화
@@ -358,7 +358,7 @@
 				$('.reserve-toggle').prop('disabled', false);	
 			}
 		} else{ // 예약자가 있으면
-			if(data.roomSubject.reserve_email == my_email || data.roomSubject.email == my_email){
+			if(data.roomSubject.reserve_email == my_email || (data.roomSubject.email == my_email && chat_user == data.roomSubject.reserve_email)){
 				$('#deal-btn').prop('disabled', false);
 				$('.approve').prop('disabled', false);
 				if(data.roomSubject.option != '경매') $('.reserve-toggle').prop('disabled', false);
