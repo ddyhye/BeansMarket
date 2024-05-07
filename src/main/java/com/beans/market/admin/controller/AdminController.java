@@ -77,11 +77,13 @@ public class AdminController {
 		return "admin/category";
 	}
 	
+	/*
 	@RequestMapping(value = "/admin/question.go", method = RequestMethod.GET)
 	public String questionManageGO(Model model) {
 		model.addAttribute("pageName", "자주 묻는 질문 관리");
 		return "admin/question";
 	}
+	*/
 	
 	@RequestMapping(value = "/admin/panaltyHistory.go", method = RequestMethod.GET)
 	public String panaltyHistoryGO(Model model) {
