@@ -183,6 +183,7 @@ public class BoardService {
 					boardDAO.updateBbsState(bbsIdx, "예약중");
 					boardDAO.updateReserveEmail(bbsIdx, email);
 					messageDAO.sendMessage("경매 종료 후 입찰자와 매칭되었습니다.", boardDAO.getEmail(bbsIdx), email, bbsIdx);
+					mainService.alarmSend(bbsIdx+"번 게시물 낙찰되셨습니다.", email);
 					
 					Timestamp currentTimeStamp = Timestamp.valueOf(currentTime);
 					logger.info("종료 시간을 현재시간으로 변경 : 현재 -> {}", currentTimeStamp);

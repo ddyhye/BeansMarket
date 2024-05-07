@@ -81,9 +81,15 @@
 	$(document).ready(function() {
 	    $('#chargeForm').submit(function(event) {
 	        var chargeAmount = $('#chargeAmount').val();
+	        
 	        if (!confirm(chargeAmount + '원을 충전하시겠습니까?')) {
 	            event.preventDefault(); // 제출을 취소합니다.
-	        }
+	        } else {
+	        	if (chargeAmount % 1000 != 0) {
+		            event.preventDefault(); // 제출을 취소합니다.
+					alert("1,000원 단위로 충전 가능합니다.");
+	        	}
+			}
 	    });
 	    
 	    $('#moreButton').click(function() {
