@@ -182,8 +182,8 @@
 	
 	listCall(memberSearch, warningOption, memberStateOption);
 	
-	$('#memberSearch').on('click', function() {
-		memberSearch = $(this).val();
+	$('#memberSearchBtn').on('click', function() {
+		memberSearch = $('#memberSearch').val();
 		listCall(memberSearch, warningOption, memberStateOption);
 	});
 	$('#warningOption').change(function() {

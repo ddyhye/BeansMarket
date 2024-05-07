@@ -178,7 +178,7 @@
 			content += '<td class="five">'+item.subject+'</td>';
 			content += '<td class="six">'+item.price+'</td>';
 			content += '<td class="seven">'+item.email+'</td>';
-			content += '<td class="eight">'+item.reg_date+'</td>';
+			content += '<td class="eight">'+DateToStringTime(item.reg_date)+'</td>';
 			content += '<td class="nine">'+item.blind+'</td>';
 			content += '</tr>';
 		}

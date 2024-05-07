@@ -22,6 +22,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import com.beans.market.board.dto.BoardDTO;
 import com.beans.market.board.service.BoardService;
 import com.beans.market.main.dao.MainDAO;
+import com.beans.market.main.dto.InquiryDTO;
 import com.beans.market.main.dto.MainDTO;
 import com.beans.market.main.service.MainService;
 import com.beans.market.member.dto.MemberDTO;
@@ -370,7 +371,44 @@ public class MainController {
 		 
 		// 해당 글 상세보기 페이지로 이동
 		return "redirect:/";
-
+	}
+	// 1:1 문의하기 리스트 출력
+	@RequestMapping(value="/customerService/inquireList.ajax")
+	@ResponseBody
+	public Map<String, Object> inquireListAjax(HttpSession session, String inquireSort, String inquireSearch){
+		Map<String, Object> map = new HashMap<String, Object>();
+		
+		String logEmail = "비회원";
+		if (session.getAttribute("logEmail") != null) {
+			logEmail = (String) session.getAttribute("logEmail");
+		}
+		
+		mainService.inquireListAjax(map, logEmail, inquireSort, inquireSearch);
+		
+		return map;
+	}
+	// 1:1 문의하기 상세 페이지
+	@RequestMapping(value="/customerService/inquireDetail.go")
+	public String inquireDetail_go(HttpSession session, Model model,String inquiry_idx) {
+		
+		int idxInt = Integer.parseInt(inquiry_idx);
+		
+		InquiryDTO dto = mainService.inquireDetail(idxInt);
+		model.addAttribute("success", dto.getSuccess());
+		model.addAttribute("inquiry_title", dto.getInquiry_title());
+		model.addAttribute("enquirer", dto.getEnquirer());
+		model.addAttribute("category_name", dto.getCategory_name());
+		model.addAttribute("inquiry_pw", dto.getInquiry_pw());
+		model.addAttribute("reg_date", dto.getReg_date());
+		model.addAttribute("inquiry_account", dto.getInquiry_account());
+		model.addAttribute("id", dto.getId());
+		model.addAttribute("reply", dto.getReply());
+		
+		//사진 추가하ㅣ,,
+		List<PhotoDTO> photos = mainService.inquireGetPhoto(idxInt);
+		model.addAttribute("photos", photos);
+		
+		return "/customerService/inquireDetail";
 	}
 
 }
