@@ -108,11 +108,11 @@
 			</div>
 			<div class="top-second-center-parent">
 				<div class="top-second-center-head">
-					<a href="" class="top-second-center-link"
+					<a href="<c:url value='/main/notify.go'/>" class="top-second-center-link"
 						id="top-second-center-down">고객센터</a>
 				</div>
 				<div class="top-second-center-body">
-					<a href="/main/notify.go">공지사항</a> <a href="">자주 묻는 질문</a> <a href="">1:1 문의하기</a>
+					<a href="/main/notify.go">공지사항</a> <!-- <a href="">자주 묻는 질문</a> --> <a href="<c:url value='/customerService/inquire.go'/>">1:1 문의하기</a>
 				</div>
 			</div>
 		</div>

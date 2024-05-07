@@ -1,0 +1,274 @@
+@charset "UTF-8";
+
+
+.containerR, .container {
+	position: relative;
+    margin: 0 auto;
+    width: 1050px;
+    top: 16%;
+}
+
+
+.inquire-top {
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	justify-content: center;
+	
+	position: relative;
+	height: 80px;
+	padding-bottom: 5px;
+	
+	border: 4px solid #22382e;
+}
+.inquire-top-head {
+	display: flex;
+	align-items: center;
+	justify-content: flex-start;
+	
+	position: relative;
+	width: 80%;
+	height: 100%;
+	margin-left: 10px;
+}
+.inquire-top-body {
+	display: flex;
+	align-items: center;
+	justify-content: flex-end;
+	
+	position: relative;
+	width: 20%;
+	height: 100%;
+	margin-right: 10px;
+	
+	color: #22382e;
+	font-size: 30px;
+}
+
+
+
+.inquire-center {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: flex-start;
+	
+	position: relative;
+	height: 600px;
+	max-height: 600px;
+	overflow-y: auto;
+}
+.inquire-center-inquire {
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	justify-content: center;
+	
+	position: relative;
+	width: 95%;
+	height: 60px;
+	
+	margin-bottom: 5px;
+	border-bottom: 2px solid #b0b9b5;
+}
+.inquire-one {
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	justify-content: flex-start;
+	
+	position: relative;
+	width: 80%;
+}
+.inquire-one p {
+	margin-left: 10px;
+	margin-bottom: 0;
+}
+.inquire-mark {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	
+	width: 80px;
+	height: 30px;
+	margin: 0 10px;
+	
+	color: rgb(145 145 145);
+	font-weight: bold;
+	background-color: pink;
+	border: 2px solid rgb(145 145 145);
+	border-radius: 5px;
+}
+.inquire-mark2 {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	
+	width: 80px;
+	height: 30px;
+	margin: 0 10px;
+	
+	color: white;
+	font-weight: bold;
+	background-color: #286090;
+	border: 2px solid #2d3d4b;
+	border-radius: 5px;
+}
+.inquire-two {
+	display: flex;
+	align-items: center;
+	justify-content: flex-start;
+	
+	position: relative;
+	width: 10%;
+	
+	color: darkgray;
+}
+.inquire-two p{
+	margin-bottom: 0;
+}
+.inquire-three {
+	display: flex;
+	align-items: center;
+	justify-content: flex-start;
+	
+	position: relative;
+	width: 10%;
+	
+	color: darkgray;
+}
+.inquire-three p{
+	margin-bottom: 0;
+}
+
+.inquire-center-inquire-pw {
+	display: none;
+}
+.inquire-center-inquire-pw.active {
+	display: flex;
+	flex-direction: column;
+	
+	position: absolute;
+	width: 250px;
+	height: 120px;
+	top: 100px;
+	z-index: 100;
+	
+	border: 4px solid lightgray;
+	background-color: white;
+}
+.pw-top {
+	display: flex;
+	justify-content: flex-end;
+	
+	position: relative;
+	width: 100%;
+	
+	font-wieght: bold;
+	font-size: 15px;
+}
+.deleteBtn2 {
+	position: relative;
+	padding: 2px;
+	width: 20px;
+	height: 20px;
+	font-size: 18px;
+	color: gray;
+}
+.pw1 {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	
+	position: relative;
+	width: 100%;
+	height: 35px;
+	
+	font-weight: bold;
+	font-size: 18px;
+}
+.pw2 {
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	justify-content: center;
+	
+	position: relative;
+	width: 100%;
+	height: 30px;
+	
+	font-weight: bold;
+	font-size: 20px;
+}
+.pwInput {
+	width: 160px;
+	height: 25px;
+}
+.pwBtn {
+	display: flex;
+   align-items: center;
+   justify-content: center;
+
+   position: relative;
+   width: 50px;
+   height: 25px;
+   margin-left: 5px;
+   margin-bottom: 0;
+
+   font-size: 13px;
+   background-color: #f0f0f0;
+   border-radius: 3px;
+   border: 1px solid #626262;
+}
+.pwBtn:hover {
+   background-color: #e0e0e0;
+}
+
+
+
+
+
+.inquire-paging {
+	display: none;
+}
+
+
+.inquire-bottom {
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	justify-content: center;
+	
+	position: relative;
+	height: 50px;
+	
+	background-color: #22382e;
+}
+#inquireSort {
+	width: 80px;
+	height: 25px;
+}
+#inquireSearch {
+	width: 300px;
+	height: 30px;
+	margin-left: 10px;
+}
+#inquireSearchBtn {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	
+	width: 50px;
+	height: 30px;
+	margin-left: 3px;
+	margin-bottom: 0;
+	
+	font-wieght: bold;
+	font-size: 15px;
+    background-color: #f0f0f0;
+    border-radius: 3px;
+    border: 1px solid #626262;
+}
+#inquireSearchBtn:hover {
+	background-color: #e0e0e0;
+}

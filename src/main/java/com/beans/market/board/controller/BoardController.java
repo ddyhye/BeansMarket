@@ -4,6 +4,7 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpSession;
@@ -24,6 +25,7 @@ import com.beans.market.board.service.BoardService;
 import com.beans.market.history.service.HistoryService;
 import com.beans.market.member.dto.MemberDTO;
 import com.beans.market.member.service.MemberService;
+import com.beans.market.photo.dto.PhotoDTO;
 import com.beans.market.photo.service.PhotoService;
 
 @Controller
@@ -100,8 +102,14 @@ public class BoardController {
 	@RequestMapping(value = "/board/goodsWrite.do", method = RequestMethod.POST)
     public String goodsWrite(HttpSession session, Model model,
                              MultipartFile[] photos,
+                             @RequestParam("tempoPhotoNames[]") String[] tempoPhotoNames,
                              @RequestParam Map<String, String> params) {
 
+		// tempoPhotoNames 확인
+	    for (String name : tempoPhotoNames) {
+	        logger.info(name);
+	    }
+	    
 		String logEmail = (String) session.getAttribute("logEmail");
 		
 		params.put("logEmail", logEmail);
@@ -127,11 +135,11 @@ public class BoardController {
 		if (params.get("draft").equals("Y") && params.get("subject") != null) {
 			boardService.tempSave(params, priceInt, start_priceInt, immediate_priceInt, auction_period, photos);
 		} else {
-			boardService.writeBoard(params, priceInt, start_priceInt, immediate_priceInt, auction_period, photos);
+			boardService.writeBoard(params, priceInt, start_priceInt, immediate_priceInt, auction_period, photos, tempoPhotoNames);
 		}
 		 
 		// 해당 글 상세보기 페이지로 이동
-		return "board/saleOfGoodsWrite";
+		return "redirect:/";
 
 	}
 	
@@ -284,6 +292,12 @@ public class BoardController {
 	
 	
 	
+	
+	
+	
+	
+	
+	/*                도혜                  */
 	// 판매자 기능 - 수정하기
 	@RequestMapping(value="/board/saleOfGoodsUpdate.go")
 	public String saleOfGoodsUpdate_go(String idx, Model model) {
@@ -297,6 +311,8 @@ public class BoardController {
 		model.addAttribute("subject", dto.getSubject());
 		model.addAttribute("content", dto.getContent());
 		model.addAttribute("place", dto.getPlace());
+		List<PhotoDTO> list = boardService.goodsUpdatePic(idxInt);
+		model.addAttribute("photoList", list);
 		
 		return "/board/saleOfGoodsUpdate";
 	}
@@ -310,6 +326,37 @@ public class BoardController {
 		boardService.goodsUpdate(Integer.parseInt(params.get("idx")), priceInt, params.get("category"), params.get("subject"), params.get("content"), params.get("place"), photos);
 		
 		return boardService.goodsDetail(Integer.parseInt(params.get("idx")), model);
+	}
+	
+	// 글 작성 시, 사진 미리보기,,
+	@RequestMapping(value="/board/tempoPhoto.ajax", method = RequestMethod.POST)
+	@ResponseBody
+	public Map<String, Object> tempoPhoto(@RequestParam("photos") MultipartFile[] photos) {
+		Map<String, Object> map = new HashMap<String, Object>();
+		
+		boardService.tempoPhoto(map, photos);
+		
+		return map;
+	}
+	// 글 작성 시, 사진 미리보기에서 사진 삭제
+	@RequestMapping(value="/board/tempoPhotoDel.ajax", method = RequestMethod.POST)
+	@ResponseBody
+	public Map<String, Object> tempoPhotoDel(int pic_idx, int tempoBbsIdx) {
+		Map<String, Object> map = new HashMap<String, Object>();
+		
+		boardService.tempoPhotoDel(map, pic_idx, tempoBbsIdx);
+		
+		return map;
+	}
+	// 글 작성 시, 사진 미리보기에 사진 추가하기,,
+	@RequestMapping(value="/board/tempoPhotoAnother.ajax", method = RequestMethod.POST)
+	@ResponseBody
+	public Map<String, Object> tempoPhotoAnother(@RequestParam("photos") MultipartFile[] photos, int tempoBbsIdx) {
+		Map<String, Object> map = new HashMap<String, Object>();
+		
+		boardService.tempoPhotoAnother(map, photos, tempoBbsIdx);
+		
+		return map;
 	}
 
 }

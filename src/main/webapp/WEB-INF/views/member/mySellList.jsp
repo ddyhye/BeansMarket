@@ -130,11 +130,13 @@
 			content += (item.bbs_state === '거래완료' ? '<div class="sell-center-list-center-mark2"><span>거래완료</span></div>' : '');
 			content += '</div></div>';
 			content += '<div class="sell-center-list-right">';
-			content += '<i class="fa-solid fa-ellipsis"></i>';
-			content += '<div class="moreOption">';
-			content += (item.hidden === 'Y' ? '<p>숨김 해제</p>' : '<p>숨김</p>');
-			content += '<p>삭제</p>';
-			content += '</div>';
+			if (item.option !== '경매') {
+				content += '<i class="fa-solid fa-ellipsis"></i>';
+				content += '<div class="moreOption">';
+				content += (item.hidden === 'Y' ? '<p>숨김 해제</p>' : '<p>숨김</p>');
+				content += '<p>삭제</p>';
+				content += '</div>';
+			}
 			content += '</div>';
 			content += '</div>';
 		}

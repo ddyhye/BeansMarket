@@ -229,6 +229,7 @@ public class MemberController {
 			
 			model.addAttribute("photo", dtoPic.getNew_filename());
 			model.addAttribute("name", dto.getName());
+			model.addAttribute("pw", dto.getPw());
 			model.addAttribute("email", dto.getEmail());
 			model.addAttribute("location", dto.getLocation());
 			model.addAttribute("birth_date", dto.getBirth_date());
