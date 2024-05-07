@@ -11,6 +11,7 @@ import com.beans.market.member.dto.MemberDTO;
 import com.beans.market.member.dto.MemberPenaltyDTO;
 import com.beans.market.message.dto.MessageDTO;
 import com.beans.market.pay.dto.PayDTO;
+import com.beans.market.report.dto.ReportDTO;
 
 public interface AdminDAO {
 
@@ -38,6 +39,12 @@ public interface AdminDAO {
 	
 	int categorySave(String idx, String name, String hidden);
 	int categoryInsert(String idx, String name);
+	
+	List<ReportDTO> reportListCallNumber(int intSearchText, String incompleteYN);
+	List<ReportDTO> reportListCallPerpet(String searchText, String incompleteYN);
+	
+	int complete(Integer idx, String admin_name); 	// 신고 처리 완료
+	
 	
 	/* 성영 END*/
 
@@ -135,6 +142,9 @@ public interface AdminDAO {
 	
 	// 블라인드 처리
 	BoardDTO boardBlind(int boardIdx);
+
+
+
 
 	
 	

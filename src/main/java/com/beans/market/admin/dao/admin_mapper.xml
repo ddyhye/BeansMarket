@@ -132,6 +132,37 @@
 		INSERT INTO category(category_idx, category_name) VALUES(#{param1}, #{param2});
 	</insert>
 	
+	<select id="reportListCallNumber" resultType="com.beans.market.report.dto.ReportDTO">
+		SELECT r.report_idx, r.option_idx, r.idx, r.category_idx, r.content, r.report_complete, r.reg_date, r.reporter_email, r.perpet_email, r.admin_name
+			, c.category_name AS category_name
+			, o.category_name AS option_name
+		FROM report r
+		LEFT JOIN (SELECT c.category_idx, c.category_name FROM category c) AS c 
+			ON r.category_idx = c.category_idx
+		LEFT JOIN (SELECT o.category_idx, o.category_name FROM category o) AS o 
+			ON r.option_idx = o.category_idx
+		WHERE CASE WHEN #{param1} = 0 THEN 1=1 ELSE report_idx = #{param1} END
+			AND CASE WHEN #{param2} = 'N' THEN 1=1 ELSE r.report_complete = 'N' END
+		ORDER BY r.reg_date DESC
+	</select>
+	
+	<select id="reportListCallPerpet" resultType="com.beans.market.report.dto.ReportDTO">
+		SELECT r.report_idx, r.option_idx, r.idx, r.category_idx, r.content, r.report_complete, r.reg_date, r.reporter_email, r.perpet_email, r.admin_name
+			, c.category_name AS category_name
+			, o.category_name AS option_name
+		FROM report r
+		LEFT JOIN (SELECT c.category_idx, c.category_name FROM category c) AS c 
+			ON r.category_idx = c.category_idx
+		LEFT JOIN (SELECT o.category_idx, o.category_name FROM category o) AS o 
+			ON r.option_idx = o.category_idx
+		WHERE r.perpet_email = #{param1} AND CASE WHEN #{param2} = 'N' THEN 1=1 ELSE r.report_complete = 'N' END
+		ORDER BY r.reg_date DESC
+	</select>
+	
+	<update id="complete">
+		UPDATE report SET report_complete = 'Y', admin_name = #{param2}
+			WHERE report_idx = #{param1}
+	</update>
 	<!-- 성영 END -->
 		
 	

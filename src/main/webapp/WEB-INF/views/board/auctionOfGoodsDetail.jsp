@@ -184,7 +184,7 @@
 	                    <p class="title">나의 빈즈페이</p>
 	                    <p id=remain-pay></p>
 	                    <p>원</p>
-	                    <input type="button" value="충전하기" />
+	                    <input type="button" onclick="charging()" value="충전하기" />
 	                </div>
 	            </div>
 	            <hr/>
@@ -228,6 +228,11 @@
     	$('#my-bid').show();
         
     }
+ 	
+ 	// 본인 게시물이면 신고하기 없애기
+    if (bbsEmail == '${loginInfo.email}') {
+		$('.reportBtn').hide();
+	}
     
     // 입찰 후 내용 수정용으로 bbs 정보 받아오기
     function getDetail(){
@@ -505,34 +510,38 @@
 
     // 입찰하기
     $('#bid-btn').click(function(){
-        $.ajax({
-            type:'POST',
-            url:'./bidding.ajax',
-            data:{
-                'bid_price' : $('#bid-price').val(),
-                'bbsIdx' : bbsIdx
-            },
-            dataType:'JSON',
-            success:function(data){
-                $('#bid-msg').css({'display':'flex'});
-                getPoint();
-                getDetail();
-                if(!data.result){
-                	console.log(data.content);
-                    $('#bid-msg .head').text("입찰에 실패 했습니다.");
-                    $('#bid-msg .content').text(data.content);
-                    $('.bidForm-price .price').css({'color':'red'});
-                    $('#bid-able').css({'color':'red'});
-                } else {
-                	$('#my-bid').show();
-                	getDetail();
-				}
-                // 입찰 가능가 + 현재 입찰가등 bbs 정보 새로 받아오기
-            },
-            error:function(error){
-                console.log(error);
-            }
-        });
+    	if(confirm("정말로 입찰하시겠습니까? - 취소 불가능")){
+	        $.ajax({
+	            type:'POST',
+	            url:'./bidding.ajax',
+	            data:{
+	                'bid_price' : $('#bid-price').val(),
+	                'bbsIdx' : bbsIdx
+	            },
+	            dataType:'JSON',
+	            success:function(data){
+	                $('#bid-msg').css({'display':'flex'});
+	                getPoint();
+	                getDetail();
+	                if(!data.result){
+	                	console.log(data.content);
+	                    $('#bid-msg .head').text("입찰에 실패 했습니다.");
+	                    $('#bid-msg .content').text(data.content);
+	                    $('.bidForm-price .price').css({'color':'red'});
+	                    $('#bid-able').css({'color':'red'});
+	                } else {
+	                	$('#my-bid').show();
+	                	getDetail();
+					}
+	                // 입찰 가능가 + 현재 입찰가등 bbs 정보 새로 받아오기
+	            },
+	            error:function(error){
+	                console.log(error);
+	            }
+	        });
+    	} else {
+			alert("입찰 취소");
+		}
     });
     
     
@@ -546,6 +555,12 @@
     	
     	window.location.href = '<c:url value="/member/otherProfile.go?email='+encodeURIComponent(otherName)+'"/>';
     });
+ 	
+ 	
+ 	// 충전하기 클릭 시 충전 페이지로
+	function charging() {
+		window.open('<c:url value="/pay/mybeans.go"/>', '_blank');
+	}
     
 </script>
 </html>

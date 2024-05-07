@@ -13,6 +13,12 @@ public class ReportDTO {
 	private String reporter_email	;
 	private String perpet_email;
 	
+	private String category_name;
+	private String option_name;
+	private String admin_name;
+	
+	
+	
 	public int getReport_idx() {
 		return report_idx;
 	}
@@ -66,6 +72,24 @@ public class ReportDTO {
 	}
 	public void setPerpet_email(String perpet_email) {
 		this.perpet_email = perpet_email;
+	}
+	public String getCategory_name() {
+		return category_name;
+	}
+	public void setCategory_name(String category_name) {
+		this.category_name = category_name;
+	}
+	public String getOption_name() {
+		return option_name;
+	}
+	public void setOption_name(String option_name) {
+		this.option_name = option_name;
+	}
+	public String getAdmin_name() {
+		return admin_name;
+	}
+	public void setAdmin_name(String admin_name) {
+		this.admin_name = admin_name;
 	}
 	
 }

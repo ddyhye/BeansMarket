@@ -135,23 +135,25 @@ $(".room-search-btn").click(function() {
 });
 
 function roomListCall(searchText, reportYN){
-	$.ajax({
-		type:'GET',
-		url:'./roomList.ajax',
-		data:{
-			"searchText" : searchText,
-			"reportYN" : reportYN
-		},
-		dataType:'JSON',
-		success:function(data){
-			if (data.result) {
-				roomDrawList(data.list);			
+	if(loginCheck()){
+		$.ajax({
+			type:'GET',
+			url:'./roomList.ajax',
+			data:{
+				"searchText" : searchText,
+				"reportYN" : reportYN
+			},
+			dataType:'JSON',
+			success:function(data){
+				if (data.result) {
+					roomDrawList(data.list);			
+				}
+			},
+			error:function(error){
+				console.log(error);
 			}
-		},
-		error:function(error){
-			console.log(error);
-		}
-	});
+		});
+	}
 }
 
 function roomDrawList(list){
@@ -168,6 +170,17 @@ function roomDrawList(list){
 	}
 
 	$('#roomList').html(content);
+	
+	$(document).ready(function(){
+	    $('#roomList tr').hover(
+	        function(){
+	            $(this).css('background-color', 'lightgray');
+	        },
+	        function(){
+	            $(this).css('background-color', ''); // 마우스가 벗어나면 원래 색상으로 돌아갑니다.
+	        }
+	    );
+	});
 }
 
 // 메시지 리스트 불러오기
@@ -217,6 +230,17 @@ function messageDrawList(list){
 	}
 
 	$('#messageList').html(content);
+	
+	$(document).ready(function(){
+	    $('#messageList tr').hover(
+	        function(){
+	            $(this).css('background-color', 'lightgray');
+	        },
+	        function(){
+	            $(this).css('background-color', ''); // 마우스가 벗어나면 원래 색상으로 돌아갑니다.
+	        }
+	    );
+	});
 }
 
 // 상세 보기

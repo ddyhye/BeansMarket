@@ -20,6 +20,7 @@ import com.beans.market.member.dto.MemberDTO;
 import com.beans.market.member.dto.MemberPenaltyDTO;
 import com.beans.market.message.dto.MessageDTO;
 import com.beans.market.pay.dto.PayDTO;
+import com.beans.market.report.dto.ReportDTO;
 
 @Service
 public class AdminService {
@@ -125,6 +126,7 @@ public class AdminService {
 		return map;
 	}
 	
+	// 쪽지방 내역 불러오기
 	public Map<String, Object> roomDetailCall(String idx, String seller, String buyer) {
 		Map<String, Object> map = new HashMap<String, Object>();
 		List<MessageDTO> list = new ArrayList<MessageDTO>();
@@ -144,6 +146,7 @@ public class AdminService {
 		return map;
 	}
 	
+	// 카테고리 리스트 불러오기
 	public Map<String, Object> categoryCall() {
 		Map<String, Object> map = new HashMap<String, Object>();
 		List<CategoryDTO> list = new ArrayList<CategoryDTO>();
@@ -160,6 +163,7 @@ public class AdminService {
 		return map;
 	}
 	
+	// 카테고리 정보 저장하기
 	public void categorySave(Model model, String idx, String name, String hidden) {
 		int row = adminDAO.categorySave(idx, name, hidden);
 		
@@ -170,6 +174,7 @@ public class AdminService {
 		}
 	}
 	
+	// 카테고리 정보 추가하기
 	public void categoryInsert(Model model, String idx, String name) {
 		int row = adminDAO.categoryInsert(idx, name);
 		
@@ -179,6 +184,34 @@ public class AdminService {
 			model.addAttribute("msg", "추가 실패");
 		}
 		
+	}
+	
+	// 신고리스트 불러오기
+	public Map<String, Object> reportListCall(String searchText, String incompleteYN) {
+		Map<String, Object> map = new HashMap<String, Object>();
+		List<ReportDTO> list = new ArrayList<ReportDTO>();
+		boolean result = false;
+		int intSearchText = -1;
+		
+		try { // 문자가 아니면 0으로
+			if (!searchText.equals("")) {
+				intSearchText = Integer.parseInt(searchText);
+			}else {
+				intSearchText = 0;
+			}
+			list = adminDAO.reportListCallNumber(intSearchText, incompleteYN);
+		} catch (Exception e) {
+			list = adminDAO.reportListCallPerpet(searchText, incompleteYN);
+		}
+		
+		if (list != null) {
+			result = true;
+		}
+		
+		map.put("list", list);
+		map.put("result", result);
+		
+		return map;
 	}
 	
 	/* 성영 END */
@@ -413,6 +446,20 @@ public class AdminService {
 	// 블라인드 처리
 	public BoardDTO boardBlind(int boardIdx) {
 		return adminDao.boardBlind(boardIdx);
+	}
+
+	public Map<String, Object> completeAjax(List<Integer> compleList, String admin_name) {
+		Map<String, Object> map = new HashMap<String, Object>();
+		
+		int cnt = 0;
+		for (Integer idx : compleList) {
+			cnt += adminDAO.complete(idx, admin_name);
+		}
+		
+		logger.info("cnt : {} ", cnt);	
+		map.put("cnt", cnt);
+		
+		return map;
 	}
 	
 	

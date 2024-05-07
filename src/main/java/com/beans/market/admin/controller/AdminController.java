@@ -299,7 +299,34 @@ public class AdminController {
 		return "admin/category";
 	}
 
-
+	// 신고 내역 가져오기 - 성영
+	@RequestMapping(value="/admin/reportListCall.ajax", method = RequestMethod.GET)
+	@ResponseBody
+	public Map<String, Object> reportListCall(HttpSession session, String searchText, String incompleteYN) {
+		logger.info("검색어 : {} - 미처리만 보기 여부 : {}", searchText, incompleteYN);
+		Map<String, Object> map = new HashMap<String, Object>();
+		
+		if (session.getAttribute("adLoginInfo") != null) {
+			map = adminService.reportListCall(searchText, incompleteYN);			
+		}
+	
+		return map;
+	}
+	
+	// 처리완료하기 - 성영
+	@RequestMapping(value="/admin/complete.ajax", method = RequestMethod.POST)
+	@ResponseBody
+	public Map<String, Object> completeAjax(HttpSession session, @RequestParam(value="compleList[]") List<Integer> compleList) {
+		logger.info("처리 리스트 : {}", compleList);
+		Map<String, Object> map = new HashMap<String, Object>();
+		AdminDTO adDTO = (AdminDTO) session.getAttribute("adLoginInfo");
+		
+		if (adDTO != null) {
+			map = adminService.completeAjax(compleList, adDTO.getAdmin_name());			
+		}
+	
+		return map;
+	}
 
 
 
