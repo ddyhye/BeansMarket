@@ -22,7 +22,6 @@ import org.springframework.web.multipart.MultipartFile;
 import com.beans.market.board.dao.BoardDAO;
 import com.beans.market.board.dto.BoardDTO;
 import com.beans.market.history.dao.HistoryDAO;
-import com.beans.market.history.service.HistoryService;
 import com.beans.market.main.dao.MainDAO;
 import com.beans.market.main.service.MainService;
 import com.beans.market.member.dao.MemberDAO;
@@ -184,6 +183,7 @@ public class BoardService {
 					boardDAO.updateReserveEmail(bbsIdx, email);
 					messageDAO.sendMessage("경매 종료 후 입찰자와 매칭되었습니다.", boardDAO.getEmail(bbsIdx), email, bbsIdx);
 					mainService.alarmSend(bbsIdx+"번 게시물 낙찰되셨습니다.", email);
+					mainService.alarmSend(bbsIdx+"번 게시물 경매 종료(낙찰)", boardDAO.getEmail(bbsIdx));
 					
 					Timestamp currentTimeStamp = Timestamp.valueOf(currentTime);
 					logger.info("종료 시간을 현재시간으로 변경 : 현재 -> {}", currentTimeStamp);
