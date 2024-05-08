@@ -16,6 +16,7 @@ import com.beans.market.admin.dto.AdminDTO;
 import com.beans.market.admin.dto.AlarmDTO;
 import com.beans.market.admin.dto.CategoryDTO;
 import com.beans.market.board.dto.BoardDTO;
+import com.beans.market.main.dto.InquiryDTO;
 import com.beans.market.member.dto.MemberDTO;
 import com.beans.market.member.dto.MemberPenaltyDTO;
 import com.beans.market.message.dto.MessageDTO;
@@ -328,6 +329,68 @@ public class AdminService {
 		return adminDao.memberPayHistory(memberEmail);
 	}
 	
+	// 문의
+	public Map<String, Object> inquiryList(Map<String, Object> map, String memberSearch, String warningOption,
+			String memberStateOption) {
+		
+		List<InquiryDTO> list = new ArrayList<InquiryDTO>();
+		
+		if (memberSearch.equals("")) {
+			if (warningOption.equals("all")) {
+				if (memberStateOption.equals("all")) {
+					list = adminDao.inquirySelect1();
+				} else if (memberStateOption.equals("success")) {
+					list = adminDao.inquirySelect2();
+				} else if (memberStateOption.equals("unSuccess")) {
+					list = adminDao.inquirySelect3();
+				}
+			} else {
+				if (memberStateOption.equals("all")) {
+					list = adminDao.inquirySelect4(warningOption);
+				} else if (memberStateOption.equals("success")) {
+					list = adminDao.inquirySelect5(warningOption);
+				} else if (memberStateOption.equals("unSuccess")) {
+					list = adminDao.inquirySelect6(warningOption);
+				}
+			}
+		} else {
+			if (warningOption.equals("all")) {
+				if (memberStateOption.equals("all")) {
+					list = adminDao.inquirySelect7(memberSearch);
+				} else if (memberStateOption.equals("success")) {
+					list = adminDao.inquirySelect8(memberSearch);
+				} else if (memberStateOption.equals("unSuccess")) {
+					list = adminDao.inquirySelect9(memberSearch);
+				}
+			} else {
+				if (memberStateOption.equals("all")) {
+					list = adminDao.inquirySelect10(memberSearch, warningOption);
+				} else if (memberStateOption.equals("success")) {
+					list = adminDao.inquirySelect11(memberSearch, warningOption);
+				} else if (memberStateOption.equals("unSuccess")) {
+					list = adminDao.inquirySelect12(memberSearch, warningOption);
+				}
+			}
+		}
+		
+		map.put("list", list);
+
+		return map;
+		
+	}
+	public String getAdminName(String adminID) {
+		return adminDao.getAdminName(adminID);
+	}
+
+	public InquiryDTO getInquiryData(int inquiry_idx) {
+		return adminDao.getInquiryData(inquiry_idx);
+	}
+
+	public void inquiryReply(int inquiry_idx2, String adminID, String adminReplyContent) {
+		adminDao.inquiryReply(inquiry_idx2, adminID, adminReplyContent);
+		adminDao.inquiryUpdate(inquiry_idx2);
+	}
+	
 	
 	
 	
@@ -461,6 +524,10 @@ public class AdminService {
 		
 		return map;
 	}
+
+	
+
+	
 	
 	
 }

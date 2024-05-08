@@ -7,6 +7,7 @@ import com.beans.market.admin.dto.AdminDTO;
 import com.beans.market.admin.dto.AlarmDTO;
 import com.beans.market.admin.dto.CategoryDTO;
 import com.beans.market.board.dto.BoardDTO;
+import com.beans.market.main.dto.InquiryDTO;
 import com.beans.market.member.dto.MemberDTO;
 import com.beans.market.member.dto.MemberPenaltyDTO;
 import com.beans.market.message.dto.MessageDTO;
@@ -98,6 +99,42 @@ public interface AdminDAO {
 	// 회원 상세보기 - 페이내역
 	List<PayDTO> memberPayHistory(String memberEmail);
 	List<MemberPenaltyDTO> memberDisciplineHistory(String memberEmail);
+	
+	// 문의
+	List<InquiryDTO> inquirySelect1();
+	List<InquiryDTO> inquirySelect2();
+	List<InquiryDTO> inquirySelect3();
+	List<InquiryDTO> inquirySelect4(String warningOption);
+	List<InquiryDTO> inquirySelect5(String warningOption);
+	List<InquiryDTO> inquirySelect6(String warningOption);
+	List<InquiryDTO> inquirySelect7(String memberSearch);
+	List<InquiryDTO> inquirySelect8(String memberSearch);
+	List<InquiryDTO> inquirySelect9(String memberSearch);
+	List<InquiryDTO> inquirySelect10(String memberSearch, String warningOption);
+	List<InquiryDTO> inquirySelect11(String memberSearch, String warningOption);
+	List<InquiryDTO> inquirySelect12(String memberSearch, String warningOption);
+	String getAdminName(String adminID);
+	InquiryDTO getInquiryData(int inquiry_idx);
+	void inquiryReply(int inquiry_idx2, String adminID, String adminReplyContent);
+	void inquiryUpdate(int inquiry_idx2);
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 
 
 
@@ -142,6 +179,23 @@ public interface AdminDAO {
 	
 	// 블라인드 처리
 	BoardDTO boardBlind(int boardIdx);
+
+	
+
+	
+
+	
+
+	
+	
+
+	
+
+	
+
+	
+
+	
 
 
 

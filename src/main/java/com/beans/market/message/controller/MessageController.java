@@ -28,10 +28,13 @@ public class MessageController {
 	
 	// 이동 요청
 	@RequestMapping(value = "/message/noteMessage.go", method = RequestMethod.GET)
-	public String noteMessageGo(Model model, String idx) {	
+	public String noteMessageGo(Model model, String idx, String email) {	
 		logger.info("idx : {}",idx);
 		if (idx != null) {
 			model.addAttribute("callPage", idx);
+		}
+		if (email != null) {
+			model.addAttribute("approveUser", email);
 		}
 		return "noteMessage/noteMessage";
 	}

@@ -69,7 +69,7 @@
 			content += '<p> 예약 중인 모든 거래를 승인하였습니다. </p>';
 		}
 		for (item of data.list) {
-			content += '<div class="approve-center-list">';
+			content += '<div class="approve-center-list" data-value="'+item.reserve_email+'">';
 			content += '<div class="approve-center-list-idx" style="display: none;">'+item.idx+'</div>';
 			content += '<div class="approve-center-list-left">';
 			content += '<img src="/photo/'+item.new_picname+'" alt="'+item.new_picname+'"/>';
@@ -102,8 +102,13 @@
 		event.stopPropagation();
 		
 		var idx = $(this).closest('.approve-center-list').find('.approve-center-list-idx').text();
+		var email = $(this).closest('.approve-center-list').data("value");
 		
-		window.location.href = '<c:url value="/message/noteMessage.go?idx='+idx+'"/>';
+		if (email === '${loginInfo.email}') {
+			window.location.href = '<c:url value="/message/noteMessage.go?idx='+idx+'"/>';
+		} else {
+			window.location.href = '<c:url value="/message/noteMessage.go?idx='+idx+'&email='+email+'"/>';
+		}
 				
 // 		$.ajax({
 // 			type: 'get',

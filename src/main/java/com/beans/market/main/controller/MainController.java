@@ -291,22 +291,6 @@ public class MainController {
 		
 		return page;
 	}
-
-	// 물품 팔기 페이지 이동
-	@RequestMapping(value="/board/goodsWrite.go")
-	public String goodsWrite_go(HttpSession session, Model model, RedirectAttributes redirectAttrs) {
-		logger.info("게시글 작성 페이지...");
-		
-		String page = "redirect:/";
-		
-		if (session.getAttribute("logEmail") != null) {
-			page = "/board/saleOfGoodsWrite";
-		} else {
-			redirectAttrs.addFlashAttribute("msg", "로그인이 필요한 서비스 입니다...");
-		}
-		
-		return page;
-	}
 	
 	// 1:1 문의하기 페이지 이동
 	@RequestMapping(value="/customerService/inquire.go")

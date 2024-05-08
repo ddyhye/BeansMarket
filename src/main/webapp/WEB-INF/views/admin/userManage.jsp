@@ -237,7 +237,6 @@
 			content += '<td>'+item.name+'</td>';
 			content += '<td>'+item.warn_count+'</td>';
 			var banend = item.login_banend === '1970-01-01'? '0000-00-00':item.login_banend;
-			console.log(banend);
 			content += '<td>'+banend+'</td>';
 			content += '<td>'+item.permanent_ban+'</td>';
 			content += '<td>'+item.dormant+'</td>';

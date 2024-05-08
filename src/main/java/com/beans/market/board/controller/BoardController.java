@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.beans.market.board.dto.BoardDTO;
 import com.beans.market.board.service.BoardService;
@@ -88,15 +89,21 @@ public class BoardController {
 		return map;
 	}
 	
-	
-	// 물품 팔기 페이지로 이동
-	@RequestMapping(value = "/board/goodsWrite.go", method = RequestMethod.GET)
-	public String goodsWrite() {
-		logger.info("물품 팔기 페이지...");
+	// 물품 팔기 페이지 이동
+	@RequestMapping(value="/board/goodsWrite.go", method = RequestMethod.GET)
+	public String goodsWrite_go(HttpSession session, Model model, RedirectAttributes redirectAttrs) {
+		logger.info("게시글 작성 페이지...");
 		
-		return "board/saleOfGoodsWrite";
+		String page = "redirect:/";
+		
+		if (session.getAttribute("logEmail") != null) {
+			page = "/board/saleOfGoodsWrite";
+		} else {
+			redirectAttrs.addFlashAttribute("msg", "로그인이 필요한 서비스 입니다...");
+		}
+		
+		return page;
 	}
-	
 	
 	// 물풀 팔기 글쓰기
 	@RequestMapping(value = "/board/goodsWrite.do", method = RequestMethod.POST)

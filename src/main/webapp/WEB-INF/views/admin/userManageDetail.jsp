@@ -12,7 +12,7 @@
 </head>
 
 <body>
-<header>
+	<header>
 		<jsp:include page="./common.jsp"/>
 	</header>
 	<main>

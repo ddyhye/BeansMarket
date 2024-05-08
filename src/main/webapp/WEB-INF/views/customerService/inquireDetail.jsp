@@ -75,5 +75,9 @@
 
 
 <script>
+	//뒤로가기
+	$('.fa-arrow-left').on('click', function() {
+		window.location.href='<c:url value="/customerService/inquire.go"/>';
+	});
 </script>
 </html>

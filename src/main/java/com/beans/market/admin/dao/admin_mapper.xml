@@ -460,7 +460,7 @@
 	<!-- 유저 제제 -->
 	<insert id="userManageDo" parameterType="map">
 		INSERT INTO member_penalty(option, content, admin_name, email)
-		VALUES(#{manageOption}, #{manageContent}, #{adminID}, #{memberEmail});
+		VALUES(#{manageOption}, #{manageContent}, #{admin_name}, #{memberEmail});
 	</insert>
 	<update id="userManageUpdate1" parameterType="map">
 		UPDATE member SET warn_count = warn_count+1 WHERE email = #{memberEmail}
@@ -524,6 +524,280 @@
 		FROM member_penalty 
 		WHERE email = #{param1}
 	</select>
+	
+	
+	<!-- 문의 리스트 출력 -->
+	<select id="inquirySelect1" resultType="com.beans.market.main.dto.InquiryDTO">
+		SELECT i.inquiry_idx, i.inquiry_title, i.reg_date, i.enquirer, i.success,
+		    	c.category_name,
+			    CASE 
+			        WHEN (SELECT a.admin_name 
+			              FROM inq_reply ir
+			              JOIN admin a ON a.id = ir.id
+			              WHERE ir.inquiry_idx = i.inquiry_idx
+			              LIMIT 1) IS NULL THEN 'NULL'
+			        ELSE (SELECT a.admin_name 
+			              FROM inq_reply ir
+			              JOIN admin a ON a.id = ir.id
+			              WHERE ir.inquiry_idx = i.inquiry_idx
+			              LIMIT 1)
+			    END AS admin_name
+		FROM inquiry i
+			JOIN category c ON i.category_idx = c.category_idx 
+			LEFT OUTER JOIN inq_reply ir ON i.inquiry_idx = ir.inquiry_idx
+	</select>
+	<select id="inquirySelect2" resultType="com.beans.market.main.dto.InquiryDTO">
+		SELECT i.inquiry_idx, i.inquiry_title, i.reg_date, i.enquirer, i.success,
+		    	c.category_name,
+			    CASE 
+			        WHEN (SELECT a.admin_name 
+			              FROM inq_reply ir
+			              JOIN admin a ON a.id = ir.id
+			              WHERE ir.inquiry_idx = i.inquiry_idx
+			              LIMIT 1) IS NULL THEN 'NULL'
+			        ELSE (SELECT a.admin_name 
+			              FROM inq_reply ir
+			              JOIN admin a ON a.id = ir.id
+			              WHERE ir.inquiry_idx = i.inquiry_idx
+			              LIMIT 1)
+			    END AS admin_name
+		FROM inquiry i
+			JOIN category c ON i.category_idx = c.category_idx 
+			LEFT OUTER JOIN inq_reply ir ON i.inquiry_idx = ir.inquiry_idx
+		WHERE success = 'Y'
+	</select>
+	<select id="inquirySelect3" resultType="com.beans.market.main.dto.InquiryDTO">
+		SELECT i.inquiry_idx, i.inquiry_title, i.reg_date, i.enquirer, i.success,
+		    	c.category_name,
+			    CASE 
+			        WHEN (SELECT a.admin_name 
+			              FROM inq_reply ir
+			              JOIN admin a ON a.id = ir.id
+			              WHERE ir.inquiry_idx = i.inquiry_idx
+			              LIMIT 1) IS NULL THEN 'NULL'
+			        ELSE (SELECT a.admin_name 
+			              FROM inq_reply ir
+			              JOIN admin a ON a.id = ir.id
+			              WHERE ir.inquiry_idx = i.inquiry_idx
+			              LIMIT 1)
+			    END AS admin_name
+		FROM inquiry i
+			JOIN category c ON i.category_idx = c.category_idx 
+			LEFT OUTER JOIN inq_reply ir ON i.inquiry_idx = ir.inquiry_idx
+		WHERE success = 'N'
+	</select>
+	<select id="inquirySelect4" resultType="com.beans.market.main.dto.InquiryDTO">
+		SELECT i.inquiry_idx, i.inquiry_title, i.reg_date, i.enquirer, i.success,
+		    	c.category_name,
+			    CASE 
+			        WHEN (SELECT a.admin_name 
+			              FROM inq_reply ir
+			              JOIN admin a ON a.id = ir.id
+			              WHERE ir.inquiry_idx = i.inquiry_idx
+			              LIMIT 1) IS NULL THEN 'NULL'
+			        ELSE (SELECT a.admin_name 
+			              FROM inq_reply ir
+			              JOIN admin a ON a.id = ir.id
+			              WHERE ir.inquiry_idx = i.inquiry_idx
+			              LIMIT 1)
+			    END AS admin_name
+		FROM inquiry i
+			JOIN category c ON i.category_idx = c.category_idx 
+			LEFT OUTER JOIN inq_reply ir ON i.inquiry_idx = ir.inquiry_idx
+		WHERE i.category_idx = #{param1}
+	</select>
+	<select id="inquirySelect5" resultType="com.beans.market.main.dto.InquiryDTO">
+		SELECT i.inquiry_idx, i.inquiry_title, i.reg_date, i.enquirer, i.success,
+		    	c.category_name,
+			    CASE 
+			        WHEN (SELECT a.admin_name 
+			              FROM inq_reply ir
+			              JOIN admin a ON a.id = ir.id
+			              WHERE ir.inquiry_idx = i.inquiry_idx
+			              LIMIT 1) IS NULL THEN 'NULL'
+			        ELSE (SELECT a.admin_name 
+			              FROM inq_reply ir
+			              JOIN admin a ON a.id = ir.id
+			              WHERE ir.inquiry_idx = i.inquiry_idx
+			              LIMIT 1)
+			    END AS admin_name
+		FROM inquiry i
+			JOIN category c ON i.category_idx = c.category_idx 
+			LEFT OUTER JOIN inq_reply ir ON i.inquiry_idx = ir.inquiry_idx
+		WHERE success = 'Y' AND i.category_idx = #{param1}
+	</select>
+	<select id="inquirySelect6" resultType="com.beans.market.main.dto.InquiryDTO">
+		SELECT i.inquiry_idx, i.inquiry_title, i.reg_date, i.enquirer, i.success,
+		    	c.category_name,
+			    CASE 
+			        WHEN (SELECT a.admin_name 
+			              FROM inq_reply ir
+			              JOIN admin a ON a.id = ir.id
+			              WHERE ir.inquiry_idx = i.inquiry_idx
+			              LIMIT 1) IS NULL THEN 'NULL'
+			        ELSE (SELECT a.admin_name 
+			              FROM inq_reply ir
+			              JOIN admin a ON a.id = ir.id
+			              WHERE ir.inquiry_idx = i.inquiry_idx
+			              LIMIT 1)
+			    END AS admin_name
+		FROM inquiry i
+			JOIN category c ON i.category_idx = c.category_idx 
+			LEFT OUTER JOIN inq_reply ir ON i.inquiry_idx = ir.inquiry_idx
+		WHERE success = 'N' AND i.category_idx = #{param1}
+	</select>
+	<select id="inquirySelect7" resultType="com.beans.market.main.dto.InquiryDTO">
+		SELECT i.inquiry_idx, i.inquiry_title, i.reg_date, i.enquirer, i.success,
+		    	c.category_name,
+			    CASE 
+			        WHEN (SELECT a.admin_name 
+			              FROM inq_reply ir
+			              JOIN admin a ON a.id = ir.id
+			              WHERE ir.inquiry_idx = i.inquiry_idx
+			              LIMIT 1) IS NULL THEN 'NULL'
+			        ELSE (SELECT a.admin_name 
+			              FROM inq_reply ir
+			              JOIN admin a ON a.id = ir.id
+			              WHERE ir.inquiry_idx = i.inquiry_idx
+			              LIMIT 1)
+			    END AS admin_name
+		FROM inquiry i
+			JOIN category c ON i.category_idx = c.category_idx 
+			LEFT OUTER JOIN inq_reply ir ON i.inquiry_idx = ir.inquiry_idx
+		WHERE i.inquiry_title LIKE CONCAT('%', #{param1}, '%')
+	</select>
+	<select id="inquirySelect8" resultType="com.beans.market.main.dto.InquiryDTO">
+		SELECT i.inquiry_idx, i.inquiry_title, i.reg_date, i.enquirer, i.success,
+		    	c.category_name,
+			    CASE 
+			        WHEN (SELECT a.admin_name 
+			              FROM inq_reply ir
+			              JOIN admin a ON a.id = ir.id
+			              WHERE ir.inquiry_idx = i.inquiry_idx
+			              LIMIT 1) IS NULL THEN 'NULL'
+			        ELSE (SELECT a.admin_name 
+			              FROM inq_reply ir
+			              JOIN admin a ON a.id = ir.id
+			              WHERE ir.inquiry_idx = i.inquiry_idx
+			              LIMIT 1)
+			    END AS admin_name
+		FROM inquiry i
+			JOIN category c ON i.category_idx = c.category_idx 
+			LEFT OUTER JOIN inq_reply ir ON i.inquiry_idx = ir.inquiry_idx
+		WHERE success = 'Y' AND i.inquiry_title LIKE CONCAT('%', #{param1}, '%')
+	</select>
+	<select id="inquirySelect9" resultType="com.beans.market.main.dto.InquiryDTO">
+		SELECT i.inquiry_idx, i.inquiry_title, i.reg_date, i.enquirer, i.success,
+		    	c.category_name,
+			    CASE 
+			        WHEN (SELECT a.admin_name 
+			              FROM inq_reply ir
+			              JOIN admin a ON a.id = ir.id
+			              WHERE ir.inquiry_idx = i.inquiry_idx
+			              LIMIT 1) IS NULL THEN 'NULL'
+			        ELSE (SELECT a.admin_name 
+			              FROM inq_reply ir
+			              JOIN admin a ON a.id = ir.id
+			              WHERE ir.inquiry_idx = i.inquiry_idx
+			              LIMIT 1)
+			    END AS admin_name
+		FROM inquiry i
+			JOIN category c ON i.category_idx = c.category_idx 
+			LEFT OUTER JOIN inq_reply ir ON i.inquiry_idx = ir.inquiry_idx
+		WHERE success = 'N' AND i.inquiry_title LIKE CONCAT('%', #{param1}, '%')
+	</select>
+	<select id="inquirySelect10" resultType="com.beans.market.main.dto.InquiryDTO">
+		SELECT i.inquiry_idx, i.inquiry_title, i.reg_date, i.enquirer, i.success,
+		    	c.category_name,
+			    CASE 
+			        WHEN (SELECT a.admin_name 
+			              FROM inq_reply ir
+			              JOIN admin a ON a.id = ir.id
+			              WHERE ir.inquiry_idx = i.inquiry_idx
+			              LIMIT 1) IS NULL THEN 'NULL'
+			        ELSE (SELECT a.admin_name 
+			              FROM inq_reply ir
+			              JOIN admin a ON a.id = ir.id
+			              WHERE ir.inquiry_idx = i.inquiry_idx
+			              LIMIT 1)
+			    END AS admin_name
+		FROM inquiry i
+			JOIN category c ON i.category_idx = c.category_idx 
+			LEFT OUTER JOIN inq_reply ir ON i.inquiry_idx = ir.inquiry_idx
+		WHERE i.inquiry_title LIKE CONCAT('%', #{param1}, '%') AND i.category_idx = #{param2}
+	</select>
+	<select id="inquirySelect11" resultType="com.beans.market.main.dto.InquiryDTO">
+		SELECT i.inquiry_idx, i.inquiry_title, i.reg_date, i.enquirer, i.success,
+		    	c.category_name,
+			    CASE 
+			        WHEN (SELECT a.admin_name 
+			              FROM inq_reply ir
+			              JOIN admin a ON a.id = ir.id
+			              WHERE ir.inquiry_idx = i.inquiry_idx
+			              LIMIT 1) IS NULL THEN 'NULL'
+			        ELSE (SELECT a.admin_name 
+			              FROM inq_reply ir
+			              JOIN admin a ON a.id = ir.id
+			              WHERE ir.inquiry_idx = i.inquiry_idx
+			              LIMIT 1)
+			    END AS admin_name
+		FROM inquiry i
+			JOIN category c ON i.category_idx = c.category_idx 
+			LEFT OUTER JOIN inq_reply ir ON i.inquiry_idx = ir.inquiry_idx
+		WHERE success = 'Y' AND i.inquiry_title LIKE CONCAT('%', #{param1}, '%') AND i.category_idx = #{param2}
+	</select>
+	<select id="inquirySelect12" resultType="com.beans.market.main.dto.InquiryDTO">
+		SELECT i.inquiry_idx, i.inquiry_title, i.reg_date, i.enquirer, i.success,
+		    	c.category_name,
+			    CASE 
+			        WHEN (SELECT a.admin_name 
+			              FROM inq_reply ir
+			              JOIN admin a ON a.id = ir.id
+			              WHERE ir.inquiry_idx = i.inquiry_idx
+			              LIMIT 1) IS NULL THEN 'NULL'
+			        ELSE (SELECT a.admin_name 
+			              FROM inq_reply ir
+			              JOIN admin a ON a.id = ir.id
+			              WHERE ir.inquiry_idx = i.inquiry_idx
+			              LIMIT 1)
+			    END AS admin_name
+		FROM inquiry i
+			JOIN category c ON i.category_idx = c.category_idx 
+			LEFT OUTER JOIN inq_reply ir ON i.inquiry_idx = ir.inquiry_idx
+		WHERE success = 'N' AND i.inquiry_title LIKE CONCAT('%', #{param1}, '%') AND i.category_idx = #{param2}
+	</select>
+	<select id="getAdminName" resultType="String">
+		SELECT admin_name
+		FROM admin
+		WHERE id = #{param1}
+	</select>
+	<select id="getInquiryData" resultType="com.beans.market.main.dto.InquiryDTO">
+		SELECT i.inquiry_idx, i.inquiry_title, i.reg_date, i.enquirer, i.success, i.inquiry_account, i.inquiry_pw,
+		    	c.category_name,
+			    CASE 
+			        WHEN (SELECT ir.reply 
+			              FROM inq_reply ir
+			              JOIN admin a ON a.id = ir.id
+			              WHERE ir.inquiry_idx = i.inquiry_idx
+			              LIMIT 1) IS NULL THEN 'NULL..'
+			        ELSE (SELECT ir.reply 
+			              FROM inq_reply ir
+			              JOIN admin a ON a.id = ir.id
+			              WHERE ir.inquiry_idx = i.inquiry_idx
+			              LIMIT 1)
+			    END AS reply
+		FROM inquiry i
+			JOIN category c ON i.category_idx = c.category_idx 
+			LEFT OUTER JOIN inq_reply ir ON i.inquiry_idx = ir.inquiry_idx
+		WHERE i.inquiry_idx = #{param1}
+	</select>
+	<insert id="inquiryReply">
+		INSERT INTO inq_reply(inquiry_idx, reply, id)
+		VALUES(#{param1}, #{param3}, #{param2})
+	</insert>
+	<update id="inquiryUpdate">
+		UPDATE inquiry SET success = 'Y' WHERE inquiry_idx = #{param1}
+	</update>
 
 
 	
