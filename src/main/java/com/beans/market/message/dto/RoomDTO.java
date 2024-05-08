@@ -10,6 +10,7 @@ public class RoomDTO {
 	private String new_picname;
 	private String name;
 	private int msg_count;
+	private int no_read;
 	
 	public String getOther_email() {
 		return other_email;
@@ -52,6 +53,12 @@ public class RoomDTO {
 	}
 	public void setMsg_count(int msg_count) {
 		this.msg_count = msg_count;
+	}
+	public int getNo_read() {
+		return no_read;
+	}
+	public void setNo_read(int no_read) {
+		this.no_read = no_read;
 	}
 	
 	

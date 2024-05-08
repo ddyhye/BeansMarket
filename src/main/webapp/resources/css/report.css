@@ -57,12 +57,16 @@ section p{
 .search-box option, select{
 	font-size: 20px;
 	margin-left: 20px;
+	height: 40px;
 }
 
-.search-box input[type="checkbox"] {
+section input[type="checkbox"] {
 	width: 20px; /*Desired width*/
 	height: 20px; /*Desired height*/
 	cursor: pointer;
+}
+
+.search-box input[type="checkbox"]{
 	margin-right: 10px;
 }
 
@@ -95,6 +99,7 @@ table {
 table thead, table tbody tr {
   display: table;
   width: 100%;
+  height: 40px;
 }
 
 table th select{

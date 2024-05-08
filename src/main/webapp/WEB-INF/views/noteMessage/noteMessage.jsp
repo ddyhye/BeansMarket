@@ -98,7 +98,7 @@
 				</div>
 				<div id="send-form">
 					<button id="photoBtn"><i class="fa-solid fa-paperclip" id="sendIconCss"></i></button>
-					<input type="text" id="sendText"/>
+					<input type="text" id="sendText" maxlength='100'/>
 					<button id="sendBtn"><i class="fa-solid fa-paper-plane" id="sendIconCss"></i></button>
 				</div>
 			</div><!-- view-room 종료 -->
@@ -402,6 +402,9 @@
 			content +=			'<p class="room-last-content">'+item.content+'</p>';
 			content +=		'</div>';
 			content +=		'<p class="last-conversation">'+DateToString(item.reg_date)+'</p>';
+			if (item.no_read > 0) {
+				content +=		'<div class="no-read"></div>';				
+			}
 			content +=	'</div>';	
 		}
 		
@@ -546,7 +549,7 @@
 			handleClick($(this).parent());
 		});
 
-
+		roomListCall(my_email);
 	}
 
 	function handleClick(element) {
