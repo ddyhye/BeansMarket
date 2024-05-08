@@ -325,7 +325,8 @@ public class BoardController {
 
 		boardService.goodsUpdate(Integer.parseInt(params.get("idx")), priceInt, params.get("category"), params.get("subject"), params.get("content"), params.get("place"), photos);
 		
-		return boardService.goodsDetail(Integer.parseInt(params.get("idx")), model);
+//		return boardService.goodsDetail(Integer.parseInt(params.get("idx")), model);
+		return "redirect:/board/detail.go?idx="+params.get("idx");
 	}
 	
 	// 글 작성 시, 사진 미리보기,,
@@ -355,6 +356,34 @@ public class BoardController {
 		Map<String, Object> map = new HashMap<String, Object>();
 		
 		boardService.tempoPhotoAnother(map, photos, tempoBbsIdx);
+		
+		return map;
+	}
+	
+	
+	// 게시글 숨김
+	@RequestMapping(value="/board/saleOfGoodsHidden.ajax", method = RequestMethod.POST)
+	@ResponseBody
+	public Map<String, Object> saleOfGoodsHidden(String bbsIdx) {
+		Map<String, Object> map = new HashMap<String, Object>();
+		
+		int idx = Integer.parseInt(bbsIdx);
+		
+		boardService.saleOfGoodsHidden(idx);
+		
+		return map;
+	}
+	// 게시글 삭제
+	@RequestMapping(value="/board/saleOfGoodsDel.ajax", method = RequestMethod.POST)
+	@ResponseBody
+	public Map<String, Object> saleOfGoodsDel(String bbsIdx) {
+		Map<String, Object> map = new HashMap<String, Object>();
+		
+		logger.info(bbsIdx);
+		int idx = Integer.parseInt(bbsIdx);
+		//logger.info(idx);
+		
+		boardService.saleOfGoodsDel(idx);
 		
 		return map;
 	}

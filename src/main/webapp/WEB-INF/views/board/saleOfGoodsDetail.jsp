@@ -342,8 +342,68 @@
     
     // 판매자 기능 - 수정하기
     $('.modifyBtn').on('click', function() {
-    	window.location.href = '<c:url value="/board/saleOfGoodsUpdate.go?idx='+bbsIdx+'"/>';
+    	var bbsState = $('.bbs-state').text();
+    	
+    	if (bbsState === '예약중') {
+			alert('현재 예약자가 있어 게시글 수정이 불가능 합니다...');
+		} else if (bbsState === '거래완료') {
+			alert('거래완료된 게시글은 수정이 불가능 합니다...');
+		} else {
+	    	window.location.href = '<c:url value="/board/saleOfGoodsUpdate.go?idx='+bbsIdx+'"/>';
+		}
     });
+    // 판매자 기능 - 숨김
+    $('.hiddenBtn').on('click', function() {
+		var bbsState = $('.bbs-state').text();
+    	
+    	if (bbsState === '예약중') {
+			alert('현재 예약자가 있어 게시글 숨김이 불가능 합니다...');
+		} else if (bbsState === '거래완료') {
+			alert('거래완료된 게시글은 숨김이 불가능 합니다...');
+		} else {
+			var result = confirm("해당 게시글을 숨김 처리 하겠습니까?");
+	        if (result) {
+	        	$.ajax({
+	    			type: 'POST',
+	    			url: '<c:url value="/board/saleOfGoodsHidden.ajax"/>',
+	    			data: {
+	    				'bbsIdx': bbsIdx,
+	    			},
+	    			dataType: 'JSON',
+	    			success: function(data) {
+	    				alert('숨김 처리가 완료 되었습니다...');
+				    	window.location.href = '<c:url value="/"/>';
+	    			}, error: function(error) {
+	    			}
+	    		});
+	        }
+		}
+    })
+    // 판매자 기능 - 삭제
+    $('.blindBtn').on('click', function() {
+		var bbsState = $('.bbs-state').text();
+    	
+    	if (bbsState === '예약중') {
+			alert('현재 예약자가 있어 게시글 삭제 불가능 합니다...');
+		} else {
+			var result = confirm("해당 게시글을 삭제 하겠습니까?");
+	        if (result) {
+	        	$.ajax({
+	    			type: 'POST',
+	    			url: '<c:url value="/board/saleOfGoodsDel.ajax"/>',
+	    			data: {
+	    				'bbsIdx': bbsIdx,
+	    			},
+	    			dataType: 'JSON',
+	    			success: function(data) {
+	    				alert('삭제 처리가 완료 되었습니다...');
+				    	window.location.href = '<c:url value="/"/>';
+	    			}, error: function(error) {
+	    			}
+	    		});
+	        }
+		}
+    })
     
     
 </script>

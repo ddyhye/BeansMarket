@@ -109,8 +109,16 @@
 							<div class="profileUpdate-center-head">
 								<h3>성별</h3>
 							</div>
-							<div class="profileUpdate-center-body">
-								<input type="text" name="gender" value="${gender}"/>
+							<div class="profileUpdate-center-body pw">
+								<%-- <input type="text" name="gender" value="${gender}"/> --%>
+								<c:if test="${gender eq '남'}">
+								    <input type="radio" name="gender" value="남" checked/>남&nbsp;&nbsp;&nbsp;&nbsp;
+									<input type="radio" name="gender" value="여"/>여
+								</c:if>
+								<c:if test="${gender eq '여'}">
+								    <input type="radio" name="gender" value="남"/>남&nbsp;&nbsp;&nbsp;&nbsp;
+									<input type="radio" name="gender" value="여" checked/>여
+								</c:if>
 							</div>
 						</div>
 					</div>
@@ -168,6 +176,19 @@
 		} else {
 			$('#profilePicture').attr('src', '/photo/user.png');
 			$('#realPicPath').val('user.png');
+			
+			formData.append('photoName', $('#realPicPath').val());
+			
+			$.ajax({
+				type: 'POST',
+				url: './newPicPath.ajax',
+				data: formData,
+				processData: false,
+				contentType: false,
+				success: function(data) {
+					console.log($('#realPicPath').val());
+				}, error: function(data){}
+			});
 		}
 		
 		$('.picUpdate').removeClass('active');
