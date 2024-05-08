@@ -96,6 +96,15 @@ section .goods-detail .right .top{
     justify-content: space-between;
     padding: 0 0 1rem 0;
 }
+
+section .goods-detail .right .top .state{
+    display: flex;
+}
+
+section .goods-detail .right .top .state > *{
+    margin-left: 10px;
+}
+
 #bbs-auctionMark {
     align-items: center;
     text-align: center;

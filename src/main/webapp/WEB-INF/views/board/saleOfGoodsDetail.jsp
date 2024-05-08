@@ -31,7 +31,9 @@
                 </div>
                 <div class="right">
                     <div class="top">
-                        <p class="bbs-state" id="bbs-stateMark">${bbs.bbs_state}</p>
+                    	<div class="state">
+	                        <p class="bbs-state" id="bbs-stateMark">${bbs.bbs_state}</p>
+                    	</div>
                         <div>
 	                        <button class="reportBtn">신고하기</button>
 	                        <button class="modifyBtn">수정하기</button>

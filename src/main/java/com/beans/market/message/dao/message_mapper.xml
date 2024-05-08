@@ -68,7 +68,13 @@
 					OR (receive_email = #{param1} AND receive_del = 'N') )
 					AND( receive_email = #{param1} AND read_check = 'N')
 			) AS no_read
-		FROM deal_message dm LEFT JOIN (SELECT b.idx, b.email, b.subject FROM bbs b) AS b ON dm.idx = b.idx
+		FROM 
+			(SELECT * 
+				FROM deal_message 
+				WHERE ( (sender_email = #{param1} AND sender_del = 'N')
+					OR (receive_email = #{param1} AND receive_del = 'N') )
+			) AS dm 
+		LEFT JOIN (SELECT b.idx, b.email, b.subject FROM bbs b) AS b ON dm.idx = b.idx
 		WHERE dm.sender_email = #{param1} OR dm.receive_email = #{param1}
 		GROUP BY dm.idx, other_email
 		ORDER BY reg_date desc
