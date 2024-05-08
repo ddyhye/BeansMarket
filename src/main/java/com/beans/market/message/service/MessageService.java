@@ -56,20 +56,24 @@ public class MessageService {
 		  	// 삭제된 값 안가져오기
 		  	if(dto.getReceive_email().equals(email) && dto.getReceive_del().equals("Y")) {
 		  		messageList.remove(i);
+		  		i = i - 1;
 		  	} else if (dto.getSender_email().equals(email) && dto.getSender_del().equals("Y")) {
 		  		messageList.remove(i);
+		  		i = i - 1;
 			}
 		}
 		
 		for (MessageDTO messageDTO : messageList) {
 			messageIdxs.add(messageDTO.getMessage_idx());
+			logger.info("idx : {}, content : {}", messageDTO.getIdx(), messageDTO.getContent());
 		}
-		// logger.info(messageIdxs.toString());
+		
 		/*
 		for (MessageDTO messageDTO : messageList) {
 			logger.info("{}번, {}",  messageDTO.getMessage_idx() ,messageDTO.getNew_picname());
 		}
 		*/
+		
 		//logger.info("mssageList : {}", messageList.toString());
 		
 		/*email이 본인인데 후에 세션으로 가져오는게 좋을거 같음*/
@@ -82,7 +86,9 @@ public class MessageService {
 		map.put("bbs_email", email);
 		
 		map.put("name", Info.getName());
-		map.put("profileImg", profileImg.getNew_filename());
+		if (profileImg != null) {
+			map.put("profileImg", profileImg.getNew_filename());			
+		}
 		map.put("msgIdxs", messageIdxs);
 		
 		return map;

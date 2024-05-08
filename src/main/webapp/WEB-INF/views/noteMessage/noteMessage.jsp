@@ -215,9 +215,9 @@
 				<div class="content">
 					<p>빈즈페이로 결제하기</p>			
 					<div>
-						<p>나의 빈즈 페이 잔액 : <span class="point"></span></p>
+						<p>나의 빈즈 페이 잔액 : <span class="point"></span> 원</p>
 					</div>
-					<p>거래 금액 : <span class="price"></span></p>			
+					<p>거래 금액 : <span class="price"></span> 원</p>			
 				</div>
 				<div class="btn-controller">
 					<button class="remittance-Btn" onclick="Remittance()">송금하기</button>
@@ -348,7 +348,7 @@
 		$('.pay-send').show();
 		$('.reserve-toggle').show();
 		
-		//$('.price').text(data.roomSubject.price); // 왜 있는건지 몰라서 주석처리
+		$('span.price').text(data.roomSubject.price);
 		
 		//console.log(my_email + data.roomSubject.option+data.roomSubject.reserve_email);
 		// 예약자가 없으면 판매자만 거래버튼 활성화
@@ -641,9 +641,13 @@
             },
             dataType:'JSON',
 			success:function(data){
-				alert(data.result);
+				if (data.result) {
+					alert("삭제 성공했습니다.");
+					location.reload(true);
+				} else {
+					alert("삭제 실패했습니다.");
+				}
 				// $('#deleteForm').toggle();
-				location.reload(true);
 			}, 
 			error:function(error){
 				console.log(error);
