@@ -242,6 +242,7 @@
 
 	// 고객서비스 펼침/닫힘
 	$('.top-second-right-border-bottom-icon').on('click',function() {
+		console.log('click');
 		// 요소의 토글 상태를 저장
 		var isToggled = $(this).data('toggled');
 		// .top-second-right-border를 변수에 저장
@@ -309,6 +310,9 @@
 							
 							continue;
 						} else {
+							content += '<input type="hidden" class="recentLook-idx" value="'+item.idx+'"/>';
+							content += '<input type="hidden" class="recent-hidden" value="'+item.hidden+'"/>';
+							content += '<input type="hidden" class="recent-blind" value="'+item.blind+'"/>';
 							content += '<div class="recentLook-content-goods-top">';
 							var mark = item.bbs_state === '거래완료'? '<div class="goods-top-right-mark1"><span>Sold Out</span></div>': (item.option === '경매'? '<div class="goods-top-right-mark2"><span>경매</span></div>':'');
 							content += mark;
@@ -327,11 +331,25 @@
 				}, error: function(error) {
 				}
 			});
-			
-			
 		}
 	});
-	
+	// 고객서비스 - 최근 본 물품에서 물품 상세페이지 이동
+	$('.recentLook-content2').on('click', '.recentLook-content-goods', function() {
+		var recentIdx = $(this).find('.recentLook-idx').val();
+		var recentHidden = $(this).find('.recent-hidden').val();
+		var recentBlind = $(this).find('.recent-blind').val();
+		
+		console.log(recentHidden);
+		console.log(recentBlind);
+		
+		if (recentHidden === 'Y') {
+			alert('숨김 처리된 게시글 입니다...');
+		} else if (recentBlind === 'Y') {
+			alert('삭제 처리된 게시글 입니다...');
+		} else {
+			window.location.href = '<c:url value="/board/detail.go?idx='+recentIdx+'"/>';
+		}
+	});
 	// 고객서비스 - 최근 본 물품 닫기
 	$('.recentLook-delete').find('.deleteBtn').on('click', function() {
 		$('.recentLook').removeClass('active');

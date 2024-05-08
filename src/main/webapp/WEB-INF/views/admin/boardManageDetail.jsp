@@ -140,6 +140,13 @@
 	    $('#BlindModal').removeClass('active');
 	});
 
+	$('#list1').on('click', '.one', function(){
+		var boardIdx = $(this).text();
+		console.log(boardIdx);
+		
+	    var url = '<c:url value="/board/detail.go"/>' + '?idx=' + boardIdx;
+	    window.location.href = url;
+	});
 
 	
 </script>

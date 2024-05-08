@@ -258,11 +258,17 @@ public class MemberController {
 	// 마이페이지 - 프로필 사진 변경
 	@RequestMapping(value="/member/newPicPath.ajax", method = RequestMethod.POST)
 	@ResponseBody
-	public Map<String, Object> newPicPathAjax(HttpSession session, @RequestParam("photo") MultipartFile photo){
+	public Map<String, Object> newPicPathAjax(HttpSession session, @RequestParam("photo") MultipartFile photo, String photoName){
 		Map<String, Object> map = new HashMap<String, Object>();
 		
 		String logEmail = (String) session.getAttribute("logEmail");
-		String newFileName = memberService.newPicPath(logEmail, photo);
+		String newFileName = "";
+		if (photoName == null) {
+			newFileName = memberService.newPicPath(logEmail, photo);
+		} else {
+			memberService.newPicPath(logEmail, photoName);
+			newFileName = photoName;
+		}
 		
 		map.put("newFileName", newFileName);
 		
@@ -281,15 +287,21 @@ public class MemberController {
 			
 			logger.info("param: "+param);
 			
-			MemberDTO dto = memberService.profileUpdate(param);
-			ProfilePicDTO dtoPic = memberService.profilePicGet(logEmail);
+			MemberDTO dto2 = memberService.profileUpdate(param);
 			
+			
+			MemberDTO dto = mainService.profile(logEmail);
+			ProfilePicDTO dtoPic = memberService.profilePicGet(logEmail);
+			logger.info(dtoPic.getNew_filename());
 			model.addAttribute("photo", dtoPic.getNew_filename());
 			model.addAttribute("name", dto.getName());
+			model.addAttribute("posiCnt", dto.getPosiCnt());
+			model.addAttribute("negaCnt", dto.getNegaCnt());
 			model.addAttribute("email", dto.getEmail());
 			model.addAttribute("location", dto.getLocation());
 			model.addAttribute("birth_date", dto.getBirth_date());
 			model.addAttribute("gender", dto.getGender());
+			model.addAttribute("point", dto.getPoint());
 			
 			page = "/member/profile";
 		} else {

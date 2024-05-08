@@ -25,8 +25,19 @@ public class InquiryDTO {
 	private String category_name;
 	
 	
+	// 관리자명 (admin 테이블)
+	private String admin_name;
 	
 	
+	
+	
+	
+	public String getAdmin_name() {
+		return admin_name;
+	}
+	public void setAdmin_name(String admin_name) {
+		this.admin_name = admin_name;
+	}
 	public String getCategory_name() {
 		return category_name;
 	}

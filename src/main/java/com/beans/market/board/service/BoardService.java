@@ -266,6 +266,7 @@ public class BoardService {
 		dto.setSubject(params.get("subject"));
 		dto.setContent(params.get("content"));
 		dto.setPlace(params.get("place"));
+		dto.setLocation(params.get("location"));
 		
 		if(boardDAO.writeBoard(dto) > 0) {
 			logger.info("글 작성 완료");
@@ -532,6 +533,17 @@ public class BoardService {
 
 	public List<PhotoDTO> goodsUpdatePic(int idxInt) {
 		return boardDAO.goodsUpdatePic(idxInt);
+	}
+
+	
+	
+	// 글 숨김
+	public void saleOfGoodsHidden(int idx) {
+		memberDAO.mySellManage(idx);
+	}
+	// 글 삭제
+	public void saleOfGoodsDel(int idx) {
+		memberDAO.mySellManage3(idx);
 	}
 	
 

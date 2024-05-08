@@ -135,6 +135,9 @@ public class MemberService {
 		
 		return newFileName;
 	}
+	public void newPicPath(String logEmail, String photoName) {
+		memberDAO.newPicPath(logEmail, photoName);
+	}
 	// 마이페이지 - 프로필 업데이트 완료
 	public MemberDTO profileUpdate(Map<String, String> param) {
 		/*
@@ -449,4 +452,6 @@ public class MemberService {
 		return map;
 		
 	}
+
+	
 }

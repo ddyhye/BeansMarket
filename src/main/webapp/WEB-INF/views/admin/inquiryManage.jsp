@@ -5,8 +5,7 @@
 <meta charset="UTF-8">
 <title>Insert title here</title>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-<link rel="stylesheet" href="resources/css/common.css" type="text/css"/>
-<link rel="stylesheet" href="resources/css/detail.css" type="text/css"/>
+<link rel="stylesheet" href="../resources/css/userManage.css" type="text/css"/>
 <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
 <style>
 </style>
@@ -70,35 +69,25 @@
 		   		</div>
 		   		<div class="memberM-center">
 		   			<div class="memberM-center-t">
-		   				<table>[]
+		   				<table>
 							<thead>
 								<tr>
 									<!-- email, name, warn_count, login_banstr, login_banend, dormant(휴먼), secession(탈퇴) -->
-									<th class="one">EMAIL</th><th class="two">NICNAME</th><th class="three">경고 횟수</th><th class="four">기간 정지</th><th class="five">영구 정지</th><th class="six">휴먼</th><th class="seven">탈퇴</th><th class="eight">관리</th>
+									<th class="one">No</th><th class="two">제목</th><th class="three">문의 옵션</th><th class="four">등록일</th><th class="five">문의자</th><th class="six">담당자</th><th class="seven">처리 상태</th>
 								</tr>
 							</thead>
 							<tbody id="memberListT">
 								<tr>
-									<td>item.email</td>
-									<td>item.name</td>
-									<td>item.warn_count</td>
-									<td>item.login_banend</td>
-									<td>warnCnt>9</td>
-									<td>item.dormant</td>
-									<td>item.secession</td>
-									<td>
-										<i class="fa-solid fa-gear"></i>
-									</td>
+									<td>item.inquiry_idx</td>
+									<td>item.inquiry_title</td>
+									<td>item.category_name</td>
+									<td>item.reg_date</td>
+									<td>item.enquirer</td>
+									<td>item.admin_name</td>
+									<td>item.success</td>
 								</tr>
 							</tbody>
 						</table>
-						<!-- <div class="memberM-center-t-manageList">
-							<p>경고 1회 추가</p>
-							<p>경고 1회 차감</p>
-							<p>3일 기간 정지</p>
-							<p>기간 정지 해제</p>
-							<p id="banban">영구 정지</p>
-						</div> -->
 		   			</div>
 		   			<div class="memberM-center-manage">
 		   				<form action="<c:url value='/admin/userManage.do'/>", method="POST">
@@ -140,5 +129,34 @@
 </body>
 
 <script>
+	//option 펼침/닫힘
+	$('.memberM-top-option-skip').on('click', function(){
+		var isToggled = $(this).data('toggled');
+		
+		// $() 특정 요소 명시
+	    var $caretDown = $(this).find('.fa-caret-down');
+	    var $caretUp = $(this).find('.fa-caret-up');
+	    var $details = $('.memberM-top-option-detail');
+	
+	    if (isToggled) {
+	        $caretDown.addClass('active');
+	        $caretUp.addClass('active');
+	        $details.addClass('active');
+	    } else {
+	        $caretDown.removeClass('active');
+	        $caretUp.removeClass('active');
+	        $details.removeClass('active');
+	    }
+	    
+	    $(this).data('toggled', !isToggled);
+	});
+	
+	
+	// option 초기값
+	var memberSearch = $('#memberSearch').val();
+	var warningOption = $('#warningOption').val();
+	var memberStateOption = $('input[name="memberStateOption"]:checked').val();
+
+
 </script>
 </html>

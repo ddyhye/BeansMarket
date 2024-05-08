@@ -102,20 +102,22 @@
 		event.stopPropagation();
 		
 		var idx = $(this).closest('.approve-center-list').find('.approve-center-list-idx').text();
-	
-		$.ajax({
-			type: 'get',
-			url: '<c:url value="/member/myApproveClick.ajax"/>',
-			data: {
-				'idx': idx
-			},
-			dataType: 'JSON',
-			success: function(data) {
-				listCall();
-			}, error: function(error) {
-				console.log(error);
-			}
-		});
+		
+		window.location.href = '<c:url value="/message/noteMessage.go?idx='+idx+'"/>';
+				
+// 		$.ajax({
+// 			type: 'get',
+// 			url: '<c:url value="/member/myApproveClick.ajax"/>',
+// 			data: {
+// 				'idx': idx
+// 			},
+// 			dataType: 'JSON',
+// 			success: function(data) {
+// 				listCall();
+// 			}, error: function(error) {
+// 				console.log(error);
+// 			}
+// 		});
 	});
 	
 	

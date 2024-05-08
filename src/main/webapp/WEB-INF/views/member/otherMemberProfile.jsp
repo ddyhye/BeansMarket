@@ -207,9 +207,7 @@
 			},
 			dataType: 'JSON',
 			success: function(data) {
-				if (data.msg != '') {
-					alert(data.msg);
-				}
+				alert('차단하였습니다.');
 			}, error: function(error) {
 				console.log(error);
 			}

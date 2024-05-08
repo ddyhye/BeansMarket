@@ -125,8 +125,11 @@
 		</table>
 		</div>
 		
+		<div class="bidHistory">
+		<a href="<c:url value='/admin/bidHistory.go'/>?idx=${idx}">입찰 히스토리보기</a>
+		</div>
 		<%-- <a href="<c:url value="/admin/bidHistory.go"/>">더보기</a> --%>
-		<p id="moreBtn">더보기</p>
+<!-- 		<p id="moreBtn">더보기</p>
 		
 		<div class="manager-auction-boarddetail2">
 		<table>
@@ -147,7 +150,7 @@
 			  </tr>	
 			</tbody>
 		</table>
-		</div>
+		</div> -->
 		
 	</div>
 
@@ -193,24 +196,8 @@
 		drawAuction();
 	});
 	
-	// 입찰자 리스트 출력
-	function listCall()
-		$.ajax({
-			type: 'get',
-			url: '<c:url value="/admin/bbsAuctionList.ajax"/>',
-			data: {
-				'textVal': textVal,
-				'selectedCategory': selectedCategory,
-				'selectedState': selectedState,
-				'selectedRadio': selectedRadio,
-			},
-			dataType: 'JSON',
-			success: function(data) {
-				drawAuction(data);
-			}, error: function(error) {}
-		});
-	}
-	// drawAuction 함수 : 입찰자 리스트
+
+/* 	// drawAuction 함수 : 입찰자 리스트
 	function drawAuction(data) {
 		$('#auction-list2').empty();
 		
@@ -231,8 +218,16 @@
 		}
 		
 		$('#auction-list2').append(content);
-	}
+	} */
 		
+	
+	$('#list1').on('click', '.one', function(){
+		var boardIdx = $(this).text();
+		console.log(boardIdx);
+		
+	    var url = '<c:url value="/board/detail.go"/>' + '?idx=' + boardIdx;
+	    window.location.href = url;
+	});
 	
 </script>
 </html>

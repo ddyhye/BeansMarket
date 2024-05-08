@@ -60,7 +60,7 @@
 	   				<div class="memberP-login">
 	   					<div class="memberP-login-head">
 	   						<p class="login1">마지막 로그인 일자</p>
-	   						<p class="login2">정보 약간 동의</p>
+	   						<p class="login2">정보 약관 동의</p>
 	   						<p class="login3">휴먼</p>
 	   						<p class="login4">탈퇴</p>
 	   					</div>
