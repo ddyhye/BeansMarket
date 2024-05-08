@@ -338,7 +338,7 @@ public class MainController {
 	@RequestMapping(value = "/customerService/inquireWrite.do", method = RequestMethod.POST)
     public String goodsWrite(HttpSession session, Model model,
                              MultipartFile[] photos,
-                             @RequestParam("tempoPhotoNames[]") String[] tempoPhotoNames,
+                             @RequestParam(value="tempoPhotoNames[]", required = false) String[] tempoPhotoNames,
                              @RequestParam Map<String, String> params) {
 		
 		if (session.getAttribute("logEmail") != null) {

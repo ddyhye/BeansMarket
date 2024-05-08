@@ -31,8 +31,10 @@
                 </div>
                 <div class="right">
                     <div class="top">
-                    	<p class="bbs-state" id="bbs-stateMark">${bbs.bbs_state}</p>
-                    	<p id="bbs-auctionMark">경매</p>
+                    	<div class="state">
+	                    	<p class="bbs-state" id="bbs-stateMark">${bbs.bbs_state}</p>
+	                    	<p id="bbs-auctionMark">경매</p>
+                    	</div>
                         <button class="reportBtn">신고하기</button>
                     </div>
                     <div class="subject">

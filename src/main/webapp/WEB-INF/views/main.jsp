@@ -270,13 +270,13 @@
 			content += '<div class="goods-subject"><span>'+item.subject+'</span></div>';
 			content += '<div class="goods-price-1">';
 			content += '<div class="goods-price-1-left">';
-			var priceR = item.price === 0? '나눔':item.price;
+			var priceR = item.price === 0? '나눔':item.price+'&nbsp;원';
 			console.log(priceR);
 			content += '<span>&nbsp;&nbsp;현재가&nbsp;&nbsp;</span><span id="Price">'+priceR+'</span></div>';
 			content += '<div class="goods-price-1-right"><span>❤</span><span class="Hit">&nbsp;'+item.heartCnt+'&nbsp;&nbsp;</span></div>';
 			content += '</div>';
 			content += '<div class="goods-price-2">';
-			content += item.option == '경매'? '<span>&nbsp;&nbsp;즉구가&nbsp;&nbsp;</span><span class="highPrice">'+item.successful_bid+'</span>':'';
+			content += item.option == '경매'? '<span>&nbsp;&nbsp;즉구가&nbsp;&nbsp;</span><span class="highPrice">'+item.successful_bid+'&nbsp;원</span>':'';
 			content += '</div>';
 			content += '<div class="goods-bottom">';
 			content += '<div class="goods-bottom-left">';

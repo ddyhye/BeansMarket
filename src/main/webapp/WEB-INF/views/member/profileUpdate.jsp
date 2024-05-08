@@ -21,7 +21,7 @@
 					</div>
 					<div class="picUpdate-center">
 						<div class="picUpdate-center-pDiv">
-							<p id="basicPic">기본 사진</p><p id="pHidden">&nbsp;기본 사진.jpg</p>
+							<p id="basicPic">기본 사진</p><p id="pHidden">&nbsp;기본 사진.png</p>
 						</div>
 						<input type="file" name="photo" id="newPic"/>
 					</div>
@@ -174,10 +174,13 @@
 				}, error: function(data){}
 			});
 		} else {
+			console.log('안됨');
 			$('#profilePicture').attr('src', '/photo/user.png');
 			$('#realPicPath').val('user.png');
+			var basic = $('#realPicPath').val();
+			console.log(basic);
 			
-			formData.append('photoName', $('#realPicPath').val());
+			formData.append('photoName', basic);
 			
 			$.ajax({
 				type: 'POST',

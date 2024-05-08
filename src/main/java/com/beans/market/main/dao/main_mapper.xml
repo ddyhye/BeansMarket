@@ -334,7 +334,7 @@
 			keyProperty="inquiry_idx"
 			parameterType="com.beans.market.main.dto.InquiryDTO">
 		INSERT into inquiry(inquiry_pw, inquiry_title, inquiry_account, enquirer, category_idx)
-		VALUES (#{pw}, #{inquiry_title}, #{inquiry_account}, #{inquirer}, #{category_idx})
+		VALUES (#{inquiry_pw}, #{inquiry_title}, #{inquiry_account}, #{enquirer}, #{category_idx})
 	</insert>
 	<!-- 글 사진 업데이트 -->
 	<update id="photoSave">

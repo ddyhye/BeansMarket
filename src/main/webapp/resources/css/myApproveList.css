@@ -68,6 +68,7 @@
 .approve-center-list-left img {
 	width: 70%;
 	height: auto;
+	max-height: 100px;
 	margin-top: 5px;
 }
 .approve-center-list-left p {
