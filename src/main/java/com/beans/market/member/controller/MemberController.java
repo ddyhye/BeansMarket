@@ -258,11 +258,12 @@ public class MemberController {
 	// 마이페이지 - 프로필 사진 변경
 	@RequestMapping(value="/member/newPicPath.ajax", method = RequestMethod.POST)
 	@ResponseBody
-	public Map<String, Object> newPicPathAjax(HttpSession session, @RequestParam("photo") MultipartFile photo, String photoName){
+	public Map<String, Object> newPicPathAjax(HttpSession session, @RequestParam(value = "photo", required = false) MultipartFile photo, @RequestParam(value = "photoName", required = false) String photoName){
 		Map<String, Object> map = new HashMap<String, Object>();
 		
 		String logEmail = (String) session.getAttribute("logEmail");
 		String newFileName = "";
+		logger.info(photoName);
 		if (photoName == null) {
 			newFileName = memberService.newPicPath(logEmail, photo);
 		} else {

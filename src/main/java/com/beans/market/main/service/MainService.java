@@ -338,8 +338,10 @@ public class MainService {
 		}
 	}
 	private void photoSave(int idx, String[] tempoPhotoNames) {
-		for (String string : tempoPhotoNames) {
-			mainDao.photoSave(idx, string);
+		if (tempoPhotoNames != null && tempoPhotoNames.length != 0) {
+			for (String string : tempoPhotoNames) {
+				mainDao.photoSave(idx, string);
+			}
 		}
 	}
 
