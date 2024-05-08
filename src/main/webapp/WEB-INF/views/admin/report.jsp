@@ -89,6 +89,8 @@
 	    // 체크 됨에 따라서 Y,N으로 구분
 	    var incompleteYN = incompleteChecked ? 'Y' : 'N';
 	    
+	    $('#option').val("ALL");
+	    $('#report-category').val("ALL");
 	    // console.log("Value of input box:", searchText);
 	    // console.log("Checkbox value:", reportYN);
 	    reportListCall(searchText, incompleteYN);
@@ -197,12 +199,14 @@
 	
 	function reportDetail(event){
 		if(loginCheck()){
-			var data = $(event.target).closest('tr').data("value");
-			
-			$('#contentView span.idx').html(data.report_idx);
-			$('#contentView .content p').html(data.content);
-			
-			check();
+			if (!$(event.target).is('input[type="checkbox"]')) {
+				var data = $(event.target).closest('tr').data("value");
+				
+				$('#contentView span.idx').html(data.report_idx);
+				$('#contentView .content p').html(data.content);
+				
+				check();		       
+		    }	
 		}
 	}
 	
