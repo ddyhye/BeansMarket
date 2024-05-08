@@ -30,7 +30,14 @@ public class BoardDTO {
 	/* 대표 사진 경로 (url 저장용) */
 	private String new_picname;
 	
+	private String category_name;
 	
+	public String getCategory_name() {
+		return category_name;
+	}
+	public void setCategory_name(String category_name) {
+		this.category_name = category_name;
+	}
 	public String getNew_picname() {
 		return new_picname;
 	}

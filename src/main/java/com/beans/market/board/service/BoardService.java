@@ -258,7 +258,7 @@ public class BoardService {
 	//		return boardDAO.writeBoard(params);
 	//	}
 
-	public void writeBoard(Map<String, String> params, int priceInt, int start_priceInt, int immediate_priceInt, int auction_period, MultipartFile[] photos, String[] tempoPhotoNames) {
+	public void writeBoard(Map<String, String> params, MemberDTO loginInfo, int priceInt, int start_priceInt, int immediate_priceInt, int auction_period, MultipartFile[] photos, String[] tempoPhotoNames) {
 		BoardDTO dto = new BoardDTO();
 		dto.setEmail(params.get("logEmail"));
 		dto.setOption(params.get("option"));
@@ -266,7 +266,7 @@ public class BoardService {
 		dto.setSubject(params.get("subject"));
 		dto.setContent(params.get("content"));
 		dto.setPlace(params.get("place"));
-		dto.setLocation(params.get("location"));
+		dto.setLocation(loginInfo.getLocation());
 		
 		if(boardDAO.writeBoard(dto) > 0) {
 			logger.info("글 작성 완료");

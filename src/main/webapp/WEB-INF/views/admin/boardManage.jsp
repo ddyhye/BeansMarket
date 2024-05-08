@@ -111,11 +111,11 @@
 	
 	// 입력 검색
 	var textVal = $('#text-search').val();
-	$('.button-search').on('click'), function() {
-		textVal = $(this).val();
-		
+	$('.button-search').on('click', function() {
+		textVal = $('#text-search').val();
+
 		listCall(textVal,selectedCategory,selectedState,selectedRadio);
-	}
+	});
 	
 	// 카테고리 검색
 	var selectedCategory = $('#category-search').val();

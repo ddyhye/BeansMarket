@@ -92,7 +92,7 @@
 			  <tr>
 				<td class="seven">${blind}</td>
 				<td class="eight">${hidden}</td>
-				<td class="nine">${category_idx}</td>
+				<td class="nine">${category_name}</td>
 				<td class="ten">${draft}</td>
 				<td class="eleven">${price}</td>
 				<td class="twelve">${reserve_email}</td>
@@ -113,6 +113,9 @@
 
 <script>
 
+	var reg_date = DateToStringTime('${reg_date}');
+	$('.six').text(reg_date);
+	
 	// 경매 취소
 	$('.Auction-cancel').on('click', function(){
 		$('#auctionCancelModal').addClass('active');

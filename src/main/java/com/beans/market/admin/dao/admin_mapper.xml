@@ -840,6 +840,7 @@
 		FROM bbs 
 		WHERE (subject LIKE  CONCAT('%', #{param1}, '%') OR idx=#{param2}) AND bbs_state={param3} AND category_idx=#{param4} AND tempsave='Y'
 	</select>
+	
 	<!-- 게시글 상세보기 관리 -->
 	<select id="boardDetail" resultType="com.beans.market.board.dto.BoardDTO">
 		SELECT
@@ -852,6 +853,7 @@
 		    b.blind,
 		    b.hidden,
 		    b.category_idx,
+		    c.category_name,
 		    b.draft,
 		    b.price,
 		    b.reserve_email,
@@ -861,8 +863,10 @@
 		    a.close_date
 		FROM
 		    bbs b
-		INNER JOIN
+		LEFT JOIN
 		    auction a ON b.idx = a.idx
+		LEFT JOIN
+			category c ON b.category_idx = c.category_idx  
 		WHERE
 		    b.idx = #{param1}
 	</select>

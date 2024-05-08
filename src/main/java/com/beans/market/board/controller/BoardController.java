@@ -110,33 +110,39 @@ public class BoardController {
 	        logger.info(name);
 	    }
 	    
-		String logEmail = (String) session.getAttribute("logEmail");
-		
-		params.put("logEmail", logEmail);
-		
-		int priceInt = 0;
-		int start_priceInt = 0;
-		int immediate_priceInt = 0;
-		int auction_period = Integer.parseInt(params.get("auction-period"));
-		
-		logger.info("params: "+params);
-		
-		// 판매일 경우, start-price가 안들어온다.
-		if (params.get("price") != null && !params.get("price").trim().isEmpty()) {
-			priceInt = Integer.parseInt(params.get("price").trim());
-		}
-		// 경매일 경우, price가 안들어온다.
-		if (params.get("start-price") != null && !params.get("start-price").trim().isEmpty()) {
-			start_priceInt = Integer.parseInt(params.get("start-price").trim());
-			immediate_priceInt = Integer.parseInt(params.get("immediate-price").trim());
-		}
-		
-		// 임시저장
-		if (params.get("draft").equals("Y") && params.get("subject") != null) {
-			boardService.tempSave(params, priceInt, start_priceInt, immediate_priceInt, auction_period, photos);
-		} else {
-			boardService.writeBoard(params, priceInt, start_priceInt, immediate_priceInt, auction_period, photos, tempoPhotoNames);
-		}
+	    MemberDTO loginInfo = (MemberDTO) session.getAttribute("loginInfo");
+	    
+	    if(loginInfo != null) {
+	    	String logEmail = (String) session.getAttribute("logEmail");
+	    	
+	    	params.put("logEmail", logEmail);
+	    	
+	    	int priceInt = 0;
+	    	int start_priceInt = 0;
+	    	int immediate_priceInt = 0;
+	    	int auction_period = Integer.parseInt(params.get("auction-period"));
+	    	
+	    	logger.info("params: "+params);
+	    	
+	    	// 판매일 경우, start-price가 안들어온다.
+	    	if (params.get("price") != null && !params.get("price").trim().isEmpty()) {
+	    		priceInt = Integer.parseInt(params.get("price").trim());
+	    	}
+	    	// 경매일 경우, price가 안들어온다.
+	    	if (params.get("start-price") != null && !params.get("start-price").trim().isEmpty()) {
+	    		start_priceInt = Integer.parseInt(params.get("start-price").trim());
+	    		immediate_priceInt = Integer.parseInt(params.get("immediate-price").trim());
+	    	}
+	    	
+	    	// 임시저장
+	    	if (params.get("draft").equals("Y") && params.get("subject") != null) {
+	    		boardService.tempSave(params, priceInt, start_priceInt, immediate_priceInt, auction_period, photos);
+	    	} else {
+	    		boardService.writeBoard(params, loginInfo, priceInt, start_priceInt, immediate_priceInt, auction_period, photos, tempoPhotoNames);
+	    	}
+	    	
+	    }
+	    
 		 
 		// 해당 글 상세보기 페이지로 이동
 		return "redirect:/";

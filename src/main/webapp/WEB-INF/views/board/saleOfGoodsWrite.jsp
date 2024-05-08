@@ -22,10 +22,10 @@
 
 <div class="salewrite">
     <%-- <div class="draftDiv"><i class="fa-solid fa-bookmark"></i></i><a href="<c:url value="/board/TempSave.go"/>">임시저장 글</a></div> --%>
-    <div class="draftDiv">
+<!--     <div class="draftDiv">
     	<i class="fa-solid fa-bookmark"></i>
     	<p id="draftList">임시저장 리스트</p>
-    </div>
+    </div> -->
     <h2 id="writeSubject">중고 물품 판매글 작성</h2>
     <form action="goodsWrite.do" method="POST" enctype="multipart/form-data">
         <div class="salemethod">
@@ -46,7 +46,7 @@
             	가격
             </div>
             <input name="price" type="text" id="price" placeholder="가격을 입력해 주세요">
-            <p id="price-text">*나눔의 경우 가격을 0으로 설정해주세요</p>
+            <p id="price-text">* 나눔의 경우 가격을 0으로 설정해 주세요</p>
         </div>
 
         <!-- 경매 선택 시 보여질 요소들 -->
@@ -66,13 +66,13 @@
                 <div class="form-head">
 	                <label for="start-price">시작 가격</label> 
 	            </div>
-                <input type="text" name="start-price">
+                <input type="text" name="start-price" id="start-price">
             </div>
             <div class="auction-immediate-price">
             	<div class="form-head">
 	                <label for="immediate-price">즉시 낙찰가</label> 
 	            </div>
-                <input type="text" name="immediate-price">
+                <input type="text" name="immediate-price" id="immediate-price">
             </div>
         </div>
 
@@ -113,6 +113,7 @@
             </div>
             <div class="photo-tempo">
             	<p id="photoSelect">사진 선택</p>
+            	<p id="photo-text">* 첫번째 사진이 대표사진으로 설정됩니다</p>
             </div>
             <div class="photo-select">
             	<input type="file" multiple="multiple" name="photos">
@@ -124,7 +125,7 @@
         	<div class="form-head">
  	            <label for="content">설명</label>
             </div>
-            <textarea id="content" name="content" placeholder="게시글 내용을 작성해 주세요"></textarea>
+            <textarea id="content" name="content" placeholder="게시글 내용을 작성해 주세요(1200자 이하)" maxlength='1200'></textarea>
         </div>
 
         <div class="place">
@@ -138,7 +139,7 @@
             <!-- <button type="button" onclick="tempwriteFun()" id="temporary-save-button">임시저장</button> -->
             <button type="button" onclick="salewrite()" id="save-button">저장</button>
         </div>
-    </form>*
+    </form>
 </div>
 
 <script>
@@ -199,7 +200,25 @@
             priceText.innerText = '*나눔의 경우 가격을 0으로 설정해주세요';
         }
     });
-
+    
+    document.getElementById('start-price').addEventListener('blur', function () {
+        const priceInput = document.getElementById('start-price');
+        const enteredValue = parseInt(priceInput.value.replace(/\D/g,''));
+        if (priceInput.value % 1000 !== 0) {
+        	alert("1,000원 단위로 설정 가능합니다.");
+        	priceInput.value = '';
+        }
+    });
+    
+    document.getElementById('immediate-price').addEventListener('blur', function () {
+        const priceInput = document.getElementById('immediate-price');
+        const enteredValue = parseInt(priceInput.value.replace(/\D/g,''));
+        if (priceInput.value % 1000 !== 0) {
+        	alert("1,000원 단위로 설정 가능합니다.");
+        	priceInput.value = '';
+        }
+    });
+    
     function salewrite() {
         var option = $('#selectedOption').val();
         var price = $('#price').val();
@@ -244,6 +263,18 @@
             return;
         }
         
+        if (option === '경매') {
+            if (confirm("경매 게시글의 경우 수정이 불가합니다. 정말로 저장하시겠습니까?")) {
+                sendSaleWriteRequest();
+            }
+        } else {
+            sendSaleWriteRequest();
+        }
+
+	}
+    
+    function sendSaleWriteRequest() {
+    	
         var formData = new FormData($('form')[0]);
 
         // tempoPhotoArr 배열을 FormData에 추가
