@@ -219,7 +219,7 @@
 		WHERE idx=#{param1} AND email = #{param2}
 	</select>
 	<select id="opponentApproved" resultType="com.beans.market.message.dto.ApproveDTO">
-		SELECT b.idx, b.subject, b.option, p.new_picname, a.reg_date
+		SELECT b.idx, b.subject, b.option, p.new_picname, a.reg_date, b.reserve_email
 		FROM bbs b 
 			JOIN photo p ON b.idx = p.idx AND p.option_idx = 1 AND p.main = 'Y'
 			JOIN deal_approv_hist a ON b.idx = a.idx AND a.email != #{param2}

@@ -69,8 +69,7 @@
 	                        <p class="title">가격</p>
 	                    </div>
                     	<div class="right-body">
-                        	<p class="price">${bbs.price}</p>
-                        	<p>원</p>
+                        	<p class="price"><span>${bbs.price} 원</span></p>
                         </div>
                     </div>
                     <div class="place">
@@ -146,6 +145,11 @@
 		$('.hiddenBtn').hide();
 		$('.blindBtn').hide();
 	}
+    
+    // 0원이면 나눔으로 바꾸기
+    if($('.price span').text() === '0 원'){
+    	$('.price span').text('나눔');
+    }
     
     // 특정 게시물 모든 사진 이름 받아오기
     var photoArray = [];

@@ -12,6 +12,8 @@ public class ApproveDTO {
 	private String subject;
 	private String option;
 	private String new_picname;
+	private String reserve_email;
+	
 	public Timestamp getReg_date() {
 		return reg_date;
 	}
@@ -47,5 +49,11 @@ public class ApproveDTO {
 	}
 	public void setNew_picname(String new_picname) {
 		this.new_picname = new_picname;
+	}
+	public String getReserve_email() {
+		return reserve_email;
+	}
+	public void setReserve_email(String reserve_email) {
+		this.reserve_email = reserve_email;
 	}
 }

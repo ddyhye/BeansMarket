@@ -585,6 +585,8 @@ public class AdminController {
 	// 게시글 상세보기
 	@RequestMapping(value = "/admin/boardManageDetail.go")
 	public String boardManageDetailGO(Model model, HttpSession session, String idx) {
+		model.addAttribute("pageName", "게시글 관리");
+		
 		String adminID = (String)session.getAttribute("adminID");
 		
 		int boardIdx = Integer.parseInt(idx);

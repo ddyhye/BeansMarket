@@ -98,7 +98,7 @@
 				</div>
 				<div id="send-form">
 					<button id="photoBtn"><i class="fa-solid fa-paperclip" id="sendIconCss"></i></button>
-					<input type="text" id="sendText"/>
+					<input type="text" id="sendText" maxlength='100'/>
 					<button id="sendBtn"><i class="fa-solid fa-paper-plane" id="sendIconCss"></i></button>
 				</div>
 			</div><!-- view-room 종료 -->
@@ -171,6 +171,7 @@
 				</div>
 			</div> <!--picUpload 종료-->
 		</div> <!-- container 종료 -->
+		
 		<div id="deleteForm">
 			<div class="top">
 				<button class="escape"><i class="fa-solid fa-x"></i></button>
@@ -239,8 +240,11 @@
 	$('#send-form').hide();
 	
 	var callPage = '${callPage}';
-	if(callPage != ''){
-		subjectCall(parseInt(callPage));
+	var approveUser = '${approveUser}';
+	if(callPage != '' && approveUser != ''){
+		viewRoomContent(parseInt(callPage), approveUser);
+	} else if (callPage != '') {
+		subjectCall(parseInt(callPage));		
 	}
 	
 	// 쪽지 우클릭 메뉴 숨기게 하기
@@ -326,7 +330,12 @@
 		content +=		'<img class="circle-img" src="/photo/'+data.roomPhoto+'" alt="'+data.roomSubject.idx+'번 게시물 대표 사진">';
 		content += 		'<div class="room-info">';
 		content += 			'<p class="room-subject">'+data.roomSubject.subject+'</p>';
-		content += 			'<p class="price">'+data.roomSubject.price+'원</p>';
+		if (data.roomSubject.price == 0) {
+			content += 		'<p class="price">나눔</p>';
+		} else {
+			content += 		'<p class="price">'+data.roomSubject.price+'원</p>';
+			
+		}
 		content += 		'</div>';
 		content += '</div>';
 		content += '<div class="right">';
@@ -402,6 +411,9 @@
 			content +=			'<p class="room-last-content">'+item.content+'</p>';
 			content +=		'</div>';
 			content +=		'<p class="last-conversation">'+DateToString(item.reg_date)+'</p>';
+			if (item.no_read > 0) {
+				content +=		'<div class="no-read"></div>';				
+			}
 			content +=	'</div>';	
 		}
 		
@@ -546,7 +558,7 @@
 			handleClick($(this).parent());
 		});
 
-
+		roomListCall(my_email);
 	}
 
 	function handleClick(element) {
