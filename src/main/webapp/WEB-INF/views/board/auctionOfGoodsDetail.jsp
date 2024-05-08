@@ -526,18 +526,21 @@
 	            },
 	            dataType:'JSON',
 	            success:function(data){
-	                $('#bid-msg').css({'display':'flex'});
+	                //$('#bid-msg').css({'display':'flex'});
 	                getPoint();
 	                getDetail();
 	                if(!data.result){
 	                	console.log(data.content);
-	                    $('#bid-msg .head').text("입찰에 실패 했습니다.");
-	                    $('#bid-msg .content').text(data.content);
+	                	//$('#bid-msg .head').text("입찰에 실패 했습니다.");
+	                    //$('#bid-msg .content').text(data.content);
+	                    alert("입찰에 실패 했습니다.\n"+data.content);
 	                    $('.bidForm-price .price').css({'color':'red'});
 	                    $('#bid-able').css({'color':'red'});
 	                } else {
-	                	$('#my-bid').show();
-	                	getDetail();
+	                	//$('#my-bid').show();
+	                	alert("입찰에 성공 했습니다.\n마이페이지 > 경매 > 나의 입찰 을 확인해주세요");
+	                	location.reload(true);
+	                	//getDetail();
 					}
 	                // 입찰 가능가 + 현재 입찰가등 bbs 정보 새로 받아오기
 	            },

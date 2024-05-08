@@ -330,7 +330,12 @@
 		content +=		'<img class="circle-img" src="/photo/'+data.roomPhoto+'" alt="'+data.roomSubject.idx+'번 게시물 대표 사진">';
 		content += 		'<div class="room-info">';
 		content += 			'<p class="room-subject">'+data.roomSubject.subject+'</p>';
-		content += 			'<p class="price">'+data.roomSubject.price+'원</p>';
+		if (data.roomSubject.price == 0) {
+			content += 		'<p class="price">나눔</p>';
+		} else {
+			content += 		'<p class="price">'+data.roomSubject.price+'원</p>';
+			
+		}
 		content += 		'</div>';
 		content += '</div>';
 		content += '<div class="right">';
