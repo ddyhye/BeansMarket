@@ -107,11 +107,11 @@ public class AdminController {
 		return "admin/payHistory";
 	}
 	
-	@RequestMapping(value = "/admin/bidHistory.go", method = RequestMethod.GET)
-	public String bidHistoryGO(Model model) {
-		model.addAttribute("pageName", "경매 입찰 히스토리");
-		return "admin/bidHistory";
-	}
+	/*
+	 * @RequestMapping(value = "/admin/bidHistory.go", method = RequestMethod.GET)
+	 * public String bidHistoryGO(Model model) { model.addAttribute("pageName",
+	 * "경매 입찰 히스토리"); return "admin/bidHistory"; }
+	 */
 	
 	@RequestMapping(value = "/admin/approHistory.go", method = RequestMethod.GET)
 	public String approHistoryGO(Model model) {
@@ -660,6 +660,18 @@ public class AdminController {
 		return "admin/boardManageDetail";		
 	}
 	
+	// 히스토리 내역으로 이동 요청
+	@RequestMapping(value = "/admin/bidHistory.go", method = RequestMethod.GET)
+	public String bidHistoryGO(Model model, String idx) {
+		model.addAttribute("pageName", "경매 입찰 히스토리");
+		
+		logger.info("idx : {}",idx);
+		if (idx != null) {
+			model.addAttribute("callPage", idx);
+		}
+
+		return "admin/bidHistory";
+	}
 }
 
 

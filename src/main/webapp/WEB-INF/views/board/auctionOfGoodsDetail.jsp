@@ -220,8 +220,15 @@
     runEverySecond();
     
     if(hidden != ''){
-    	alert(hidden);
-    	location.href='<c:url value="/"/>';
+    	if('${adLoginInfo}' != ''){
+			return;
+    	} else if (bbsEmail == '${loginInfo.email}') {
+    		return;
+    	} else {
+	    	alert(hidden);
+	    	location.href='<c:url value="/"/>';	
+    	}
+
     }
     
     // 관심 표시 되어있으면 하트가 차있도록

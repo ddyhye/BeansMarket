@@ -26,14 +26,14 @@ com.beans.market<%@ page language="java" contentType="text/html; charset=UTF-8" 
 						</tr>
 					</thead>
 					<tbody id="auctionList">
-						<!-- <tr>
-							<td>사진</td>
-							<td>제목</td>
-							<td>나의 입찰가</td>
-							<td>경매 마감</td>
-							<td>경매 상태</td>
-							<td>현재 입찰자</td>
-						</tr> -->
+						<tr>
+							<td class="one">사진</td>
+							<td class="two">제목</td>
+							<td class="three">나의 입찰가</td>
+							<td class="four">경매 마감</td>
+							<td class="five">경매 상태</td>
+							<td class="six">현재 입찰자</td>
+						</tr>
 					</tbody>
 				</table>
 			</div>
@@ -65,17 +65,18 @@ com.beans.market<%@ page language="java" contentType="text/html; charset=UTF-8" 
 		}
 		for (item of data.list) {
 			content += '<tr>';
-			content += '<td><img src="/photo/'+item.new_picname+'" alt="'+item.new_picname+'"/></td>';
-			content += '<td>'+item.subject+'</td>';
-			content += '<td>'+item.price+'</td>';
-			content += '<td>'+item.close_date+'</td>';
-			content += '<td>'+item.bbs_state+'</td>';
-			content += '<td>'+item.bidder+'</td>';
+			content += '<td class="one"><img src="/photo/'+item.new_picname+'" alt="'+item.new_picname+'"/></td>';
+			content += '<td class="two">'+item.subject+'</td>';
+			content += '<td class="three">'+item.price+'</td>';
+			content += '<td class="four">'+DateToStringTime(item.close_date)+'</td>';
+			content += '<td class="five">'+item.bbs_state+'</td>';
+			content += '<td class="six">'+item.bidder+'</td>';
 			content += '</tr>';
 		}
 		
 		$('#auctionList').append(content);
 	}
+	
 
 
 </script>

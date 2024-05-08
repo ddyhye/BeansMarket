@@ -44,7 +44,12 @@
 </body>
 
 <script>
-historyCall('', 'deal_aution_hist');
+var callPage = '${callPage}';
+if(callPage != '') {
+	historyCall(callPage, 'deal_aution_hist');	
+} else{
+	historyCall('', 'deal_aution_hist');	
+}
 
 $(".search-btn").click(function(event) {
 	var searchText = $(this).closest('.search-box').find('input[type="text"]').val();

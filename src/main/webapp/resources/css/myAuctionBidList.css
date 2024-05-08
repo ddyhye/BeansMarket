@@ -77,6 +77,10 @@ table {
    	width: 10%;
 }
 
+#auctionList td {
+  text-align: center;
+}
+
 .tbodyDiv {
 	display: flex;
    	align-items: center;

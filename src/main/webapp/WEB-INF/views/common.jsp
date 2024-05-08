@@ -452,5 +452,21 @@
 		$('.alarm').removeClass('active');
 		newAlarm();
 	});
+	
+	
+	
+	// timestamp 형식인 거 문자열로 변환하는 함수
+	function formatDate(num) {
+	    return ('0' + num).slice(-2);
+	}
+	function DateToStringTime(timesteamp) {
+	    var date = new Date(timesteamp);
+	    var year = date.getFullYear();
+	    var month = formatDate(date.getMonth() + 1); // getMonth()는 0부터 시작하므로 1을 더함
+	    var day = formatDate(date.getDate());
+	    var hours = formatDate(date.getHours());
+	    var minutes = formatDate(date.getMinutes());
+	    return year + '-' + month + '-' + day + ' ' + hours + ':' + minutes;
+	}
 </script>
 </html>

@@ -165,7 +165,7 @@
 <script>
 
 	var reg_date = DateToStringTime('${reg_date}');
-	$('.six').text(reg_date);
+	$('td.one:contains(${idx})').siblings('.six').text(reg_date);
 
 	// 경매 취소
 	$('.Auction-cancel').on('click', function(){
@@ -232,5 +232,7 @@
 	    window.location.href = url;
 	});
 	
+	
+		
 </script>
 </html>

@@ -61,7 +61,7 @@
 	        </td>
 	        <td class="blind-tempsave">
 				    <input type="radio" name="blind-tempsave" value="blind" class="radioOption"/>블라인드
-      				<input type="radio" name="blind-tempsave" value="tempsave" class="radioOption"/>임시저장
+<!--       				<input type="radio" name="blind-tempsave" value="tempsave" class="radioOption"/>임시저장 -->
 			</td>
 		</tr>
 		</table>
@@ -109,57 +109,60 @@
 
 <script>
 	
-	// 입력 검색
+	//입력 검색
 	var textVal = $('#text-search').val();
 	$('.button-search').on('click', function() {
-		textVal = $('#text-search').val();
-
-		listCall(textVal,selectedCategory,selectedState,selectedRadio);
+	    //textVal = $('#text-search').val();
+	    listCall();
 	});
 	
 	// 카테고리 검색
 	var selectedCategory = $('#category-search').val();
 	$('#category-search').change(function() {
-		selectedCategory = $(this).val();
-		
-		listCall(textVal,selectedCategory,selectedState,selectedRadio);
+	    //selectedCategory = $(this).val();
+	    listCall();
 	});
 	
 	// 거래 상태 검색
 	var selectedState = $('#state-search').val();
-	$('#state-search').change(function() {	
-		selectedState = $(this).val();
-		
-		listCall(textVal,selectedCategory,selectedState,selectedRadio);
+	$('#state-search').change(function() {   
+	    //selectedState = $(this).val();
+	    listCall();
 	});
 	
 	// 블라인드, 임시저장 선택
 	var selectedRadio = $('input[name="blind-tempsave"]:checked').val();
 	$('input[name="blind-tempsave"]').change(function() {
-		selectedRadio = $(this).val();
-		
-		listCall(textVal,selectedCategory,selectedState,selectedRadio);
+	    //selectedRadio = $(this).val();
+	    listCall();
 	});
-
-	listCall(textVal,selectedCategory,selectedState,selectedRadio);
+	
+	listCall(); // 초기 호출
 	
 	// 게시글 리스트 출력
-	function listCall(textVal,selectedCategory,selectedState,selectedRadio) {
-		$.ajax({
-			type: 'get',
-			url: '<c:url value="/admin/bbsList.ajax"/>',
-			data: {
-				'textVal': textVal,
-				'selectedCategory': selectedCategory,
-				'selectedState': selectedState,
-				'selectedRadio': selectedRadio,
-			},
-			dataType: 'JSON',
-			success: function(data) {
-				drawBbsList(data);
-			}, error: function(error) {}
-		});
+	function listCall() {
+		textVal = $('#text-search').val();
+	    selectedCategory = $('#category-search').val();
+	    selectedState = $('#state-search').val();
+	    selectedRadio = $('input[name="blind-tempsave"]:checked').val();
+		
+	    $.ajax({
+	        type: 'get',
+	        url: '<c:url value="/admin/bbsList.ajax"/>',
+	        data: {
+	            'textVal': textVal,
+	            'selectedCategory': selectedCategory,
+	            'selectedState': selectedState,
+	            'selectedRadio': selectedRadio
+	        },
+	        dataType: 'JSON',
+	        success: function(data) {
+	            drawBbsList(data);
+	        },
+	        error: function(error) {}
+	    });
 	}
+
 	
 	// drawBbsList 함수 : 게시글 그리기
 	function drawBbsList(data) {

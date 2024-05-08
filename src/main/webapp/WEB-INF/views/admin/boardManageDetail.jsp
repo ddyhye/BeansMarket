@@ -45,7 +45,7 @@
 				<p>선택하신 내용을 블라인드 처리하시겠습니까?</p>
 				<div class="bli-button">
 					<!-- <button id="BlindModal-del1" onclick="Bdel()">확인</button> -->
-					<input type="hidden" name="idx2" value="${idx}"/>
+					<input type="hidden" name="idx" value="${idx}"/>
 					<input type="submit" id="BlindModal-del1" value="확인"/>
 					<button id="BlindModal-del2">취소</button>
 				</div>
@@ -114,7 +114,7 @@
 <script>
 
 	var reg_date = DateToStringTime('${reg_date}');
-	$('.six').text(reg_date);
+	$('td.one:contains(${idx})').siblings('.six').text(reg_date);
 	
 	// 경매 취소
 	$('.Auction-cancel').on('click', function(){
