@@ -157,6 +157,83 @@
 	var warningOption = $('#warningOption').val();
 	var memberStateOption = $('input[name="memberStateOption"]:checked').val();
 
+	listCall(memberSearch, warningOption, memberStateOption);
+	
+	$('#memberSearchBtn').on('click', function() {
+		memberSearch = $('#memberSearch').val();
+		listCall(memberSearch, warningOption, memberStateOption);
+	});
+	$('#warningOption').change(function() {
+		warningOption = $(this).val();
+		listCall(memberSearch, warningOption, memberStateOption);
+	});
+	$('.memberStateOption').change(function() {
+	    memberStateOption = $('input[name="memberStateOption"]:checked').val();
+	    listCall(memberSearch, warningOption, memberStateOption);
+	});
+	// 옵션 초기화
+	$('.fa-rotate-left').on('click', function() {
+		$('#memberSearch').val('');
+		$('#warningOption').val('all');
+	    $('input[name="memberStateOption"]').prop('checked', false); 
+	    $('#memberStateOption1').prop('checked', true); 
+	    
+	    listCall('', 'all', 'all');
+	});
+	
+	// 1:1 문의 리스트 요청 AJAX
+	function listCall(memberSearch, warningOption, memberStateOption){
+		$.ajax({
+			type: 'get',
+			url: '<c:url value="/admin/inquiryList.ajax"/>',
+			data: {
+				'memberSearch': memberSearch,
+				'warningOption': warningOption,
+				'memberStateOption': memberStateOption
+			},
+			dataType: 'JSON',
+			success: function(data) {
+				drawMemberList(data);
+			}, error: function(error) {}
+		});
+	}
+	// 1:1 문의 리스트 그리기
+	function drawMemberList(data) {
+		$('#memberListT').empty();
+		
+		var content = '';
+		
+		if (!data.list || data.list.length === 0) {
+			content += '<tr><td colspan = 7>검색한 문의 내역이 없습니다.</td></tr>';
+		}
+		for (item of data.list) {
+			content += '<tr class="memberSelect">';
+			content += '<td class="inquiry_idx">'+item.inquiry_idx+'</td>';
+			content += '<td>'+item.inquiry_title+'</td>';
+			content += '<td>'+item.category_name+'</td>';
+			dateStr = DateToString(item.reg_date);
+			content += '<td>'+dateStr+'</td>';
+			content += '<td>'+item.enquirer+'</td>';
+			content += '<td>'+item.admin_name+'</td>';
+			content += '<td>'+item.success+'</td>';
+			content += '</tr>';
+		}
+		
+		$('#memberListT').append(content);
+	}
+	// timestamp 형식인 거 문자열로 변환하는 함수
+   	function DateToString(timesteamp){
+      	var date = new Date(timesteamp);
+      	var dateStr = date.toLocaleDateString("ko-KR");
+      	return dateStr;
+   	}
+	
+	// 1:1 문의 상세보기
+	$('#memberListT').on('click', '.memberSelect', function(event) {
+		var inquiry_idx = $(this).find('.inquiry_idx').text();
+		
+		window.location.href = '<c:url value="/admin/inquiryManageDetail.go?inqIdx='+inquiry_idx+'"/>';
+	});
 
 </script>
 </html>

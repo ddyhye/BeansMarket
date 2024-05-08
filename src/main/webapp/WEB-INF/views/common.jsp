@@ -67,7 +67,7 @@
 				</div>
 			</div>
 			<a href="<c:url value="/message/noteMessage.go"/>"><i class="fa-solid fa-paper-plane"></i></a> 
-			<a href="/main"><i class="fa-solid fa-house"></i></a>
+			<a href="<c:url value="/"/>"><i class="fa-solid fa-house"></i></a>
 			
 		</div>
 	</div>

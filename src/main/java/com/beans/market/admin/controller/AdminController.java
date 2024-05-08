@@ -20,15 +20,19 @@ import com.beans.market.admin.dto.AdminDTO;
 import com.beans.market.admin.dto.AlarmDTO;
 import com.beans.market.admin.service.AdminService;
 import com.beans.market.board.dto.BoardDTO;
+import com.beans.market.main.dto.InquiryDTO;
+import com.beans.market.main.service.MainService;
 import com.beans.market.member.dto.MemberDTO;
 import com.beans.market.member.dto.MemberPenaltyDTO;
 import com.beans.market.pay.dto.PayDTO;
+import com.beans.market.photo.dto.PhotoDTO;
 
 @Controller
 public class AdminController {
 	
 	Logger logger = LoggerFactory.getLogger(getClass());
 	@Autowired AdminService adminService;
+	@Autowired MainService mainService;
 	
 	@RequestMapping(value = "/admin/", method = RequestMethod.GET)
 		public String adminLoginGo(Model model) {
@@ -359,7 +363,10 @@ public class AdminController {
 	public String userManage_do(Model model, HttpSession session, @RequestParam Map<String, String> param) {
 		
 		String adminID = (String) session.getAttribute("adminID");
+		String admin_name = adminService.getAdminName(adminID);
+		
 		param.put("adminID", adminID);
+		param.put("admin_name", admin_name);
 		
 		if (adminService.userManageDo(param) > 0) {
 			model.addAttribute("msg", param.get("memberEmail")+" 제제 완료");
@@ -478,8 +485,65 @@ public class AdminController {
 		return map;
 	}
 	
+	
+	// 1:1 문의 리스트 불러오기
+	@RequestMapping(value="/admin/inquiryList.ajax")
+	@ResponseBody
+	public Map<String, Object> inquiryListAjax(String memberSearch, String warningOption, String memberStateOption) {
+		Map<String, Object> map = new HashMap<String, Object>();
+		
+		adminService.inquiryList(map, memberSearch, warningOption, memberStateOption);
 
+		return map;
+	}
+	// 문의 상세보기
+	@RequestMapping(value="/admin/inquiryManageDetail.go")
+	public String inquiryManageDetail_go(Model model, HttpSession session, String inqIdx) {
+		
+		String adminID = (String) session.getAttribute("adminID");
+		String admin_name = adminService.getAdminName(adminID);
+		int inquiry_idx = Integer.parseInt(inqIdx);
+		
+		InquiryDTO dto = adminService.getInquiryData(inquiry_idx);
+		dto.setAdmin_name(admin_name);
+		
+		List<PhotoDTO> photos = mainService.inquireGetPhoto(inquiry_idx); 
+		model.addAttribute("photos", photos);
+		
+		model.addAttribute("id", adminID);
+		model.addAttribute("inquiry_idx", dto.getInquiry_idx());
+		model.addAttribute("success", dto.getSuccess());
+		model.addAttribute("inquiry_title", dto.getInquiry_title());
+		model.addAttribute("enquirer", dto.getEnquirer());
+		model.addAttribute("category_name", dto.getCategory_name());
+		model.addAttribute("inquiry_pw", dto.getInquiry_pw());
+		model.addAttribute("reg_date", dto.getReg_date());
+		model.addAttribute("inquiry_account", dto.getInquiry_account());
+		model.addAttribute("admin_name", dto.getAdmin_name());
+		model.addAttribute("reply", dto.getReply());
+		
+		return "admin/inquiryManageDetail";
+	}
+	// 1:1 문의 답변 불러오기
+	@RequestMapping(value="/admin/inquiryReply.ajax")
+	@ResponseBody
+	public Map<String, Object> inquiryReplyAjax(String adminReplyContent, String inquiry_idx, String adminID, HttpSession session) {
+		Map<String, Object> map = new HashMap<String, Object>();
+		
+		int inquiry_idx2 = Integer.parseInt(inquiry_idx);
+		
+		adminService.inquiryReply(inquiry_idx2, adminID, adminReplyContent);
 
+		return map;
+	}
+
+	
+	
+	
+	
+	
+	
+	
 	
 	
 	
