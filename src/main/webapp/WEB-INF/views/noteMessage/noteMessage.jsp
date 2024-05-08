@@ -171,6 +171,7 @@
 				</div>
 			</div> <!--picUpload 종료-->
 		</div> <!-- container 종료 -->
+		
 		<div id="deleteForm">
 			<div class="top">
 				<button class="escape"><i class="fa-solid fa-x"></i></button>
@@ -239,8 +240,11 @@
 	$('#send-form').hide();
 	
 	var callPage = '${callPage}';
-	if(callPage != ''){
-		subjectCall(parseInt(callPage));
+	var approveUser = '${approveUser}';
+	if(callPage != '' && approveUser != ''){
+		viewRoomContent(parseInt(callPage), approveUser);
+	} else if (callPage != '') {
+		subjectCall(parseInt(callPage));		
 	}
 	
 	// 쪽지 우클릭 메뉴 숨기게 하기
