@@ -60,8 +60,8 @@
 			keyColumn="idx"
 			keyProperty="idx"
 			parameterType="com.beans.market.board.dto.BoardDTO">
-		INSERT into bbs(email, option, category_idx, subject, content, place)
-		VALUES (#{email}, #{option}, #{category_idx}, #{subject}, #{content}, #{place})
+		INSERT into bbs(email, option, category_idx, subject, content, place, location)
+		VALUES (#{email}, #{option}, #{category_idx}, #{subject}, #{content}, #{place}, #{location})
 	</insert>
 	
 	<!-- 글작성 ::판매 -->

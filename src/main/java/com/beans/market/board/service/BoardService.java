@@ -265,6 +265,7 @@ public class BoardService {
 		dto.setSubject(params.get("subject"));
 		dto.setContent(params.get("content"));
 		dto.setPlace(params.get("place"));
+		dto.setLocation(params.get("location"));
 		
 		if(boardDAO.writeBoard(dto) > 0) {
 			logger.info("글 작성 완료");
