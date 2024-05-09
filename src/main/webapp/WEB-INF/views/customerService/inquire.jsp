@@ -184,12 +184,14 @@
 			} else {
 				alert('비밀번호가 틀렸습니다...');
 			}
-			
+			$('.pwBtn').off('click');
 			$('.pwInput').val('');
 			$('.inquire-center-inquire-pw').removeClass('active');
 		});
 	});
 	$('.deleteBtn2').on('click', function() {
+		$('.pwBtn').off('click');
+		$('.pwInput').val('');
 		$('.inquire-center-inquire-pw').removeClass('active');
 	});
 
