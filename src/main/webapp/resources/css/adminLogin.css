@@ -1,0 +1,87 @@
+@charset "UTF-8";
+/* css 기본 초기화 */
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+body{
+	background-color: RGB(34, 56, 46);
+}
+
+.admin-login-container{
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 500px;
+    height: 350px;
+    background-color: white;
+    display: flex;
+    flex-direction: column;
+    border-radius: 80px;
+}
+
+.admin-login-container .head{
+	background-color: RGB(34, 56, 46);
+	display: flex;
+	justify-content: center;
+	font-size: 60px;
+	color: white;
+	padding-bottom: 20px;
+}
+
+.admin-login-container #loginForm{
+	display: flex;
+	justify-content: flex-start;
+	color: black;
+	padding: 30px;
+	width: 100%;
+	height: 100%;
+}
+.admin-login-container #loginForm .login_box{
+	width: 100%;
+	height: 100%;
+	position: relative;
+}
+
+.admin-login-container #loginForm p{
+	font-size: 25px;
+	font-weight: 900;
+}
+
+.admin-login-container #loginForm input[type="text"], input[type="password"]{
+	width: 270px;
+}
+
+.admin-login-container #loginForm div div{
+	display: flex;
+	margin-bottom: 40px;
+	width: 100%;
+	justify-content: space-between;
+}
+
+.admin-login-container #loginForm .login_btm{
+	position: absolute;
+	width: 100%;
+	bottom: 0px;
+	display: flex;
+	justify-content: center;
+	margin: 0;
+}
+
+.admin-login-container #loginForm .login_btm input[type="submit"]{
+	width: 100%;
+	height: 50px;
+	border-bottom-left-radius: 80px;
+	border-bottom-right-radius: 80px;
+	border: none;
+	background-color: lightgray;
+	font-size: 20px;
+	font-weight: bold;
+}
+.admin-login-container #loginForm .login_btm input[type="submit"]:hover{
+	background-color: #008080;
+}
+
+

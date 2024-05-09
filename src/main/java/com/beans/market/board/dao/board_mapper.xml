@@ -13,7 +13,7 @@
 	</select>
 	
 	<select id="auctionDetail" resultType="com.beans.market.board.dto.BoardDTO">
-		SELECT b.idx, b.email, b.option, b.subject, b.price, b.place, b.reg_date, b.content, b.hidden, b.bbs_state, a.start_price, a.successful_bid, a.auction_period, a.close_date, a.bid_count 
+		SELECT b.idx, b.email, b.option, b.subject, b.price, b.place, b.reg_date, b.content, b.hidden, b.bbs_state, a.start_price, b.reserve_email, a.successful_bid, a.auction_period, a.close_date, a.bid_count 
 			FROM auction a join bbs b on a.idx=b.idx WHERE b.idx = #{param1}
 	</select>
 	

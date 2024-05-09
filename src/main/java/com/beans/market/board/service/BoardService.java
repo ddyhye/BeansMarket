@@ -202,11 +202,15 @@ public class BoardService {
 					if(bbsInfo.getBid_count() != 0) {
 						// 이전 입찰자에게 반환과정 필요
 						payService.bidReturn(bbsIdx);
+						mainService.alarmSend(bbsIdx+"번 게시물 입찰 경쟁에서 밀리셨습니다.", historyDAO.highestBidder(bbsIdx));
 					}					
 				}
 				// 입찰 히스토리에 추가
 				int bidHisResult = historyDAO.bidHistoryInsert(email, bid_price, bbsIdx);
-				if(bidHisResult == 1) logger.info("{} 번 게시물 입찰 완료", bbsIdx);
+				if(bidHisResult == 1 && successful_bid != bid_price) {
+					mainService.alarmSend(bbsIdx+"번 게시물 입찰되셨습니다.", email); // 입찰 완료했다는 알림이 없길래, 문구만 폼에 나오고
+					logger.info("{} 번 게시물 입찰 완료", bbsIdx);
+				}
 				
 				// 입찰금 차감하고 입출금 히스토리 남기기
 				payService.bidWithdrawal(email, bid_price, bbsIdx);						

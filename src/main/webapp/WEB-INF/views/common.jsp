@@ -108,7 +108,7 @@
 			</div>
 			<div class="top-second-center-parent">
 				<div class="top-second-center-head">
-					<a href="<c:url value='/main/notify.go'/>" class="top-second-center-link"
+					<a href="<c:url value='/customerService/inquire.go'/>" class="top-second-center-link"
 						id="top-second-center-down">고객센터</a>
 				</div>
 				<div class="top-second-center-body">

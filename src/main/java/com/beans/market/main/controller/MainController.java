@@ -36,6 +36,12 @@ public class MainController {
 	@Autowired MainService mainService;
 	@Autowired BoardService boardService;
 	
+	@RequestMapping(value = "/error/500")
+	public String serverError(Model model) {
+		model.addAttribute("msg", "새로고침,,, 플리즈!!!");
+		return "error";
+	}
+	
 	@RequestMapping(value="/")
 	public String main(Model model, @RequestParam(value="msg", required=false) String msg) {
 		logger.info("메인 페이지...");

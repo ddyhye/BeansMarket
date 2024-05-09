@@ -18,7 +18,7 @@
               <li><a href="<c:url value='/admin/messageManage.go'/>">쪽지 관리</a></li>
               <li><a href="<c:url value='/admin/inquiryManage.go'/>">1 : 1 문의 관리</a></li>
               <li><a href="<c:url value='/admin/report.go'/>">신고 내역 관리</a></li>
-              <li><a href="<c:url value='/admin/notice.go'/>">공지사항 관리</a></li>
+              <!-- <li><a href="<c:url value='/admin/notice.go'/>">공지사항 관리</a></li>  -->
               <li><a href="<c:url value='/admin/category.go'/>">카테고리 관리</a></li>
               <!-- <li><a href="<c:url value='/admin/question.go'/>">자주 묻는 질문 관리</a></li> -->
            	  <li class="history-item">히스토리 관리

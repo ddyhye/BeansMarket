@@ -150,6 +150,7 @@ section .login_box{
         if (!emailInput.val().trim()) {
             event.preventDefault(); // 폼 제출을 막습니다.
             alert('이메일을 입력하세요.');
+            $('#email').focus();
         }
     });
     

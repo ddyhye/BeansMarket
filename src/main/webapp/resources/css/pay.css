@@ -100,7 +100,7 @@ font-family: 'Varela Round', sans-serif;
 }
 
 	
-.main .modal_body h2, p{
+.main .modal_body h2, .modal_body p{
     padding-bottom: 20px;
 }
 

@@ -65,7 +65,7 @@ public class MessageService {
 		
 		for (MessageDTO messageDTO : messageList) {
 			messageIdxs.add(messageDTO.getMessage_idx());
-			logger.info("idx : {}, content : {}", messageDTO.getIdx(), messageDTO.getContent());
+			// logger.info("idx : {}, content : {}", messageDTO.getIdx(), messageDTO.getContent());
 		}
 		
 		/*
@@ -116,8 +116,8 @@ public class MessageService {
 		for (int i = 0; i < roomList.size(); i++) {
 			RoomDTO roomDTO = roomList.get(i);
 			
-			logger.info("other_email : {}, idx : {}", roomDTO.getOther_email(), roomDTO.getIdx());
-			logger.info("msg_cnt : {}", roomDTO.getMsg_count());
+			// logger.info("other_email : {}, idx : {}", roomDTO.getOther_email(), roomDTO.getIdx());
+			// logger.info("msg_cnt : {}", roomDTO.getMsg_count());
 			
 			// 메시지가 없으면 리스트에서 뺴기
 		  	if(roomDTO.getMsg_count() != 0) {
@@ -155,12 +155,13 @@ public class MessageService {
 		}
 		*/
 		
-		
+		/*
 		for (RoomDTO roomDTO : roomList) {
 			logger.info("other_email : {}, idx : {}", roomDTO.getOther_email(), roomDTO.getIdx());
 			logger.info("content : {}, reg_date : {}", roomDTO.getContent(), roomDTO.getReg_date());	
 			logger.info("new_picname : {}, count : {}", roomDTO.getNew_picname(), roomDTO.getMsg_count());
 		}
+		*/
 		
 		map.put("roomList", roomList);
 		

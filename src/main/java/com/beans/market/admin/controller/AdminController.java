@@ -149,7 +149,7 @@ public class AdminController {
 		logger.info("adinfo: {}", adLoginInfo);
 		
 	    if(adLoginInfo != null) {
-	        page = "redirect:/admin/messageManage.go";
+	        page = "redirect:/admin/userManage.go";
 	        session.setAttribute("adLoginInfo", adLoginInfo);
 	        session.setAttribute("adminID", adLoginInfo.getId());
         } else {

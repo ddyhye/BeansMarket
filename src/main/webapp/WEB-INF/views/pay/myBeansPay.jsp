@@ -66,9 +66,9 @@
 							</form>
 						</div>
 					</div>
-
+				</div><!--container 종료-->
 			</div><!-- main 종료 -->
-	</div> <!-- include 무리 하는 태그 -->
+		</div> <!-- include 마무리 하는 태그 -->
 </body>
 
 <script>
