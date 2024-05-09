@@ -64,9 +64,9 @@
 			(SELECT COUNT(idx) 
 				FROM deal_message 
 				WHERE idx = dm.idx 
-					AND( (sender_email = #{param1} AND sender_del = 'N')
-					OR (receive_email = #{param1} AND receive_del = 'N') )
-					AND( receive_email = #{param1} AND read_check = 'N')
+					AND (receive_email = #{param1} AND receive_del = 'N')
+					AND (receive_email = #{param1} AND read_check = 'N')
+					AND (sender_email = other_email)
 			) AS no_read
 		FROM 
 			(SELECT * 
