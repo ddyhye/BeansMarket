@@ -22,7 +22,15 @@ public interface MemberDAO {
 	int overlay(String id);
 
 	MemberDTO login(String email, String pw);
-
+	
+	// 성영 수정 로그인 카운트
+	void loginCountUp(String email);
+	int loginCount(String email);
+	void loginCountReset(String email);
+	int emailCheck(String email); // 이메일이 있는지 체크 joinoverlay라고 있는데 Object길래 뭔가 싶어서 새로 만듬
+	
+	
+	
 	String newPW(String pw);
 
 
@@ -132,5 +140,9 @@ public interface MemberDAO {
 	String getBidState(int idx);
 	
 	int getBidderY(int idx, String logEmail);
+
+
+
+	
 
 }

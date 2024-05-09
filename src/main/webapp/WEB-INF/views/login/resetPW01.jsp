@@ -93,7 +93,7 @@
 <jsp:include page="../common.jsp" />
 <section>
     <form action="updatepw.do" method="post" id="resetPWForm">
-        <h3>BeansPassword찾기(Email인증)</h3>
+        <h3>BeansPassword변경(Email인증)</h3>
         <div class="Email_box">
             <dl>
                 <dt>ID(EMAIL) :</dt>

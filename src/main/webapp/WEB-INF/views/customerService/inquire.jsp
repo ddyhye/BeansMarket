@@ -185,7 +185,7 @@
 				alert('비밀번호가 틀렸습니다...');
 			}
 			
-			$('.inquire-pw').text('');
+			$('.pwInput').val('');
 			$('.inquire-center-inquire-pw').removeClass('active');
 		});
 	});

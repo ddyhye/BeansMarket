@@ -57,7 +57,7 @@ public class MemberController {
 		logger.info("로그인페이지 이동");
 		return "/login/login";
 	}
-	//로그인
+	//로그인 - 성영 수정 들어갑니다. - 로그인 실패시 카운트, 성공시 카운트 추가
 	@RequestMapping(value ="member/login.do", method=RequestMethod.POST)
 	public String login(HttpSession session, Model model, String email, String password, RedirectAttributes redirectAttrs) {
 
@@ -69,21 +69,42 @@ public class MemberController {
 		logger.info("info: {}", loginInfo);
 		logger.info("email {}",logEmail);
 
-
 	    if(loginInfo != null) {
-	        page = "redirect:/";
-	        msg = logEmail+"님, 환영합니다!!!";
-	        session.setAttribute("loginInfo", loginInfo);
-			session.setAttribute("logEmail", logEmail);
-	        redirectAttrs.addFlashAttribute("msg", msg);
-	        // 로그인 성공 시 마지막 로그인 날짜 업데이트 메서드 호출
-	        Map<String, Object> params = new HashMap<>();
-	        params.put("email", email);
-	        params.put("lastLoginDate", LocalDateTime.now());
-	        memberService.updateLastLoginDate(params);
-	    }
-	     //model.addAttribute("msg", msg);
-	     redirectAttrs.addFlashAttribute("msg", msg);
+	    	boolean cntCheck = memberService.loginCountCheck(email);
+	    	boolean loginBanCheck = memberService.loginBanCheck(loginInfo);
+	        if (cntCheck && loginBanCheck) {
+	        	page = "redirect:/";
+	        	msg = logEmail+"님, 환영합니다!!!";
+	        	session.setAttribute("loginInfo", loginInfo);
+	        	session.setAttribute("logEmail", logEmail);
+	        	
+	        	// 로그인 성공 시 마지막 로그인 날짜 업데이트 메서드 호출
+	        	Map<String, Object> params = new HashMap<>();
+	        	params.put("email", email);
+	        	params.put("lastLoginDate", LocalDateTime.now());
+	        	memberService.updateLastLoginDate(params);
+	        	
+	        	// 로그인 횟수 0으로 초기화
+	        	memberService.loginCountReset(email);
+	        	
+	        	redirectAttrs.addFlashAttribute("msg", msg);
+			} else {
+				if (!loginBanCheck) {
+					msg = "제재를 통해 로그인 차단된 아이디입니다. 차단 해제일 : "+loginInfo.getLogin_banend();
+				} else if (!cntCheck) {
+					msg = "로그인 횟수로 인하여 차단된 아이디입니다.";					
+				}
+			}
+	    } else {
+	    	// 로그인 실패시 카운트 증가
+	    	int cnt = memberService.loginCountUp(email);
+	    	if (cnt == -1) {
+				msg = "없는 아이디 입니다.";
+			} else {
+				msg = "로그인 카운트 1회 증가, "+cnt+"회 실패";				
+			}
+		}
+	    model.addAttribute("msg", msg);
 	     
 	    return page;
 	}    

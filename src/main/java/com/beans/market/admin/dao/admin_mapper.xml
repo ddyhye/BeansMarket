@@ -399,7 +399,7 @@
 			dormant, 
 			secession
 		FROM member
-		WHERE warn_count = #{param1} AND (email LIKE CONCAT('%', #{param1}, '%') OR name LIKE CONCAT('%', #{param1}, '%'))
+		WHERE warn_count = #{param1} AND (email LIKE CONCAT('%', #{param2}, '%') OR name LIKE CONCAT('%', #{param2}, '%'))
 	</select>
 	<select id="memberSelect17" resultType="com.beans.market.member.dto.MemberDTO">
 		SELECT email, 
@@ -413,7 +413,7 @@
 			dormant, 
 			secession
 		FROM member
-		WHERE login_banend != '1970-01-01' AND login_banend != '9999-12-31' AND warn_count = #{param1} AND (email LIKE CONCAT('%', #{param1}, '%') OR name LIKE CONCAT('%', #{param1}, '%'))
+		WHERE login_banend != '1970-01-01' AND login_banend != '9999-12-31' AND warn_count = #{param1} AND (email LIKE CONCAT('%', #{param2}, '%') OR name LIKE CONCAT('%', #{param2}, '%'))
 	</select>
 	<select id="memberSelect18" resultType="com.beans.market.member.dto.MemberDTO">
 		SELECT email, 
@@ -427,7 +427,7 @@
 			dormant, 
 			secession
 		FROM member
-		WHERE login_banend = '9999-12-31' AND warn_count = #{param1} AND (email LIKE CONCAT('%', #{param1}, '%') OR name LIKE CONCAT('%', #{param1}, '%'))
+		WHERE login_banend = '9999-12-31' AND warn_count = #{param1} AND (email LIKE CONCAT('%', #{param2}, '%') OR name LIKE CONCAT('%', #{param2}, '%'))
 	</select>
 	<select id="memberSelect19" resultType="com.beans.market.member.dto.MemberDTO">
 		SELECT email, 
@@ -441,7 +441,7 @@
 			dormant, 
 			secession
 		FROM member
-		WHERE dormant = 'Y' AND warn_count = #{param1} AND (email LIKE CONCAT('%', #{param1}, '%') OR name LIKE CONCAT('%', #{param1}, '%'))
+		WHERE dormant = 'Y' AND warn_count = #{param1} AND (email LIKE CONCAT('%', #{param2}, '%') OR name LIKE CONCAT('%', #{param2}, '%'))
 	</select>
 	<select id="memberSelect20" resultType="com.beans.market.member.dto.MemberDTO">
 		SELECT email, 
@@ -455,7 +455,7 @@
 			dormant, 
 			secession
 		FROM member
-		WHERE secession = 'Y' AND warn_count = #{param1} AND (email LIKE CONCAT('%', #{param1}, '%') OR name LIKE CONCAT('%', #{param1}, '%'))
+		WHERE secession = 'Y' AND warn_count = #{param1} AND (email LIKE CONCAT('%', #{param2}, '%') OR name LIKE CONCAT('%', #{param2}, '%'))
 	</select>
 	<!-- 유저 제제 -->
 	<insert id="userManageDo" parameterType="map">
@@ -476,7 +476,7 @@
 	</update>
 	<update id="userManageUpdate4" parameterType="map">
 		UPDATE member
-		SET login_banstr = NULL,
+		SET login_banstr = '9999-12-31',
 		    login_banend = '1970-01-01'
 		WHERE email = #{memberEmail}
 	</update>
@@ -518,11 +518,13 @@
 		SELECT reg_date, option, content, price, idx 
 		FROM pay_hist 
 		WHERE email = #{param1}
+		ORDER BY reg_date DESC
 	</select>
 	<select id="memberDisciplineHistory" resultType="com.beans.market.member.dto.MemberPenaltyDTO">
 		SELECT penalty_idx, option, content, penalty_date, admin_name 
 		FROM member_penalty 
 		WHERE email = #{param1}
+		ORDER BY penalty_date DESC
 	</select>
 	
 	

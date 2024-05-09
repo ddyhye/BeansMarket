@@ -135,7 +135,7 @@ section .login_box{
                 <input type="submit" value="로그인">
                 <div class="link">
                     <a href="findEmail.go">아이디 등록 확인</a>
-                    <a href="resetPW01.go" id = "resetPW01">비밀번호 찾기</a> <!-- 비밀번호 찾기 페이지로 이동하면 막힌거 풀림 -->
+                    <a href="resetPW01.go" id = "resetPW01">비밀번호 변경</a> <!-- 비밀번호 찾기 페이지로 이동하면 막힌거 풀림 -->
                 </div>
             </div>
         </div>
@@ -143,24 +143,29 @@ section .login_box{
 </section>
 
 <script>
-var msg = '${msg}';
-if(msg != ''){
-    alert(msg);
-}
+// common에도 똑같이 msg를 띄우는 기능이 있기에 여기에 있으면 중복으로 적용되어 두번 나오게 됨
 
-$(function() {
-    $('.eyes').click(function() {
-        var $password = $('#password');
-        var $icon = $(this).find('i');
-        if ($password.attr('type') === 'password') {
-            $password.attr('type', 'text');
-            $icon.removeClass('fa-eye-slash').addClass('fa-eye');
-        } else {
-            $password.attr('type', 'password');
-            $icon.removeClass('fa-eye').addClass('fa-eye-slash');
+    $('#loginForm').submit(function(event) {
+        var emailInput = $('#email');
+        if (!emailInput.val().trim()) {
+            event.preventDefault(); // 폼 제출을 막습니다.
+            alert('이메일을 입력하세요.');
         }
     });
-});
+    
+	$(function() {
+	    $('.eyes').click(function() {
+	        var $password = $('#password');
+	        var $icon = $(this).find('i');
+	        if ($password.attr('type') === 'password') {
+	            $password.attr('type', 'text');
+	            $icon.removeClass('fa-eye-slash').addClass('fa-eye');
+	        } else {
+	            $password.attr('type', 'password');
+	            $icon.removeClass('fa-eye').addClass('fa-eye-slash');
+	        }
+	    });
+	});
 
 /*
 $(function(){

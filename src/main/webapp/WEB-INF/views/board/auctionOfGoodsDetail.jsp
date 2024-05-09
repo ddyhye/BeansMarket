@@ -221,17 +221,14 @@
     var hidden ='${hidden}'; // 들어갔을때 체크 용 - 스케줄러 적용이 안되있어서
     runEverySecond();
     
+    
     if(hidden != ''){
-    	if('${adLoginInfo}' != ''){
-			return;
-    	} else if (bbsEmail == '${loginInfo.email}') {
-    		return;
-    	} else {
+    	if('${adLoginInfo}' == '' && bbsEmail != '${loginInfo.email}'){
 	    	alert(hidden);
 	    	location.href='<c:url value="/"/>';	
     	}
-
     }
+    
     
     // 관심 표시 되어있으면 하트가 차있도록
     if('${mine}' == 1){

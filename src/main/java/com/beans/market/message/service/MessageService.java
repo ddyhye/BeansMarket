@@ -212,7 +212,7 @@ public class MessageService {
 					historyService.insertDealHistory(email, myEmail, idx);	
 				}
 				if (dto.getOption().equals("경매")) {
-					payService.autionPaySend(dto.getEmail(), idx);
+					payService.autionPaySend(dto.getEmail(), idx, dto.getReserve_email());
 				}
 				dealSuccess = true;
 				logger.info("거래 완료");

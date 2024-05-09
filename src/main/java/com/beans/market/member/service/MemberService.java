@@ -4,7 +4,13 @@ package com.beans.market.member.service;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.sql.Date;
 import java.sql.Timestamp;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.Period;
+import java.time.format.DateTimeFormatter;
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -47,7 +53,6 @@ public class MemberService {
    }
 
    public MemberDTO login(String email, String password) {
-      
       return memberDAO.login(email,password);
    }
 
@@ -71,7 +76,7 @@ public class MemberService {
        logger.info("email: " + email);
        logger.info("pw: " + pw);
        memberDAO.newPW(email, pw);
-       
+       loginCountReset(email);
     }
 
 	public void saveProfilePic(Map<String, Object> profileParam) {
@@ -79,7 +84,56 @@ public class MemberService {
 		
 	} 
 	
+	// 로그인 차단 관련 성영
 	
+	public int loginCountUp(String email) {
+		logger.info("로그인 카운트 증가");
+		
+		// 있는 email인지 확인
+		int overlay= memberDAO.emailCheck(email);
+		if (overlay == 0) {
+			return -1;
+		}
+		
+		// 카운트 올리기
+		memberDAO.loginCountUp(email);
+		// 현재 카운트 수 알려주기
+		int cnt = memberDAO.loginCount(email);
+		return cnt;
+	}
+
+	public boolean loginCountCheck(String email) {
+		logger.info("로그인 카운트 체크");
+		int cnt = memberDAO.loginCount(email);
+		boolean result = true;
+		
+		if (cnt >= 5) {
+			result = false;
+		}
+		
+		return result;
+	}
+
+	public boolean loginBanCheck(MemberDTO loginInfo) {
+		boolean result = true;
+		LocalDate currentTime = LocalDate.now();
+		LocalDate banEndTime = LocalDate.parse(loginInfo.getLogin_banend());
+	    
+		long remainingDays = ChronoUnit.DAYS.between(currentTime, banEndTime);
+		
+		// 아직 ban 시간을 안지났으면 로그인 차단
+		logger.info("남은 차단 날짜 : {}", remainingDays);
+		if (remainingDays > 0) {
+			result = false;
+		}
+		
+		return result;
+	}
+
+	public void loginCountReset(String email) {
+		logger.info("로그인 카운트 리셋");
+		memberDAO.loginCountReset(email);
+	}
 	
 	
 	
@@ -452,6 +506,5 @@ public class MemberService {
 		return map;
 		
 	}
-
 	
 }

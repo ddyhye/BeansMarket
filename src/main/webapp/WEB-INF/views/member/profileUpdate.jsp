@@ -94,7 +94,37 @@
 								<h3>주소</h3>
 							</div>
 							<div class="profileUpdate-center-body">
-								<input type="text" name="location" value="${location}"/>
+								<%-- <input type="text" name="location" value="${location}"/> --%>
+								<div class="select-div">
+									<select name="location">
+						                <option value="addr001" ${location == "addr001" ? "selected" : ""}>서울</option>
+						                <option value="addr002" ${location == "addr002" ? "selected" : ""}>강남구</option>
+						                <option value="addr003" ${location == "addr003" ? "selected" : ""}>강동구</option>
+						                <option value="addr004" ${location == "addr004" ? "selected" : ""}>강북구</option>
+						                <option value="addr005" ${location == "addr005" ? "selected" : ""}>강서구</option>
+						                <option value="addr006" ${location == "addr006" ? "selected" : ""}>관악구</option>
+						                <option value="addr007" ${location == "addr007" ? "selected" : ""}>광진구</option>
+						                <option value="addr008" ${location == "addr008" ? "selected" : ""}>구로구</option>
+						                <option value="addr009" ${location == "addr009" ? "selected" : ""}>금천구</option>
+						                <option value="addr010" ${location == "addr010" ? "selected" : ""}>노원구</option>
+						                <option value="addr011" ${location == "addr011" ? "selected" : ""}>도봉구</option>
+						                <option value="addr012" ${location == "addr012" ? "selected" : ""}>동대문구</option>
+						                <option value="addr013" ${location == "addr013" ? "selected" : ""}>동작구</option>
+						                <option value="addr014" ${location == "addr014" ? "selected" : ""}>마포구</option>
+						                <option value="addr015" ${location == "addr015" ? "selected" : ""}>서대문구</option>
+						                <option value="addr016" ${location == "addr016" ? "selected" : ""}>서초구</option>
+						                <option value="addr017" ${location == "addr017" ? "selected" : ""}>성동구</option>
+						                <option value="addr018" ${location == "addr018" ? "selected" : ""}>성북구</option>
+						                <option value="addr019" ${location == "addr019" ? "selected" : ""}>송파구</option>
+						                <option value="addr020" ${location == "addr020" ? "selected" : ""}>양천구</option>
+						                <option value="addr021" ${location == "addr021" ? "selected" : ""}>영등포구</option>
+						                <option value="addr022" ${location == "addr022" ? "selected" : ""}>용산구</option>
+						                <option value="addr023" ${location == "addr023" ? "selected" : ""}>은평구</option>
+						                <option value="addr024" ${location == "addr024" ? "selected" : ""}>종로구</option>
+						                <option value="addr025" ${location == "addr025" ? "selected" : ""}>중구</option>
+						                <option value="addr026" ${location == "addr026" ? "selected" : ""}>중랑구</option>
+									</select>
+								</div>
 							</div>
 						</div>
 						<div class="profileUpdate-center-column">
