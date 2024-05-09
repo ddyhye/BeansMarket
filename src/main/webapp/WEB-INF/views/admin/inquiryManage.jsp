@@ -163,6 +163,10 @@
 		memberSearch = $('#memberSearch').val();
 		listCall(memberSearch, warningOption, memberStateOption);
 	});
+	$('#memberSearch').change(function() {
+		memberSearch = $('#memberSearch').val();
+		listCall(memberSearch, warningOption, memberStateOption);
+	});
 	$('#warningOption').change(function() {
 		warningOption = $(this).val();
 		listCall(memberSearch, warningOption, memberStateOption);

@@ -61,6 +61,7 @@ public class MainService {
 	public Map<String, Object> goodsListAjax(Map<String, Object> map, String logEmail, String selectedSort, boolean isSell, boolean isAuction, int currentPage) {
 		
 		List<MainDTO> list;
+		List<MainDTO> list2 = new ArrayList<MainDTO>();
 		
 		int startNo = (currentPage-1) * 24;
 		int totalPages = 1;
@@ -103,8 +104,33 @@ public class MainService {
 				}
 			}
 		}
+		
+		logger.info(logEmail);
+		String my_location = mainDao.myGetLocation(logEmail);
+		
+		if (logEmail != null && !logEmail.equals("") && my_location.equals("addr001")) {
+			list2.addAll(list);
+		} else if (logEmail != null && !logEmail.equals("")) {
+			for (MainDTO dto : list) {
+				if (mainDao.equalsLocation(dto.getIdx(), logEmail) > 0) {
+					list2.add(dto);
+					logger.info(dto.getEmail());
+					//totalPages = mainDao.allCount(logEmail, startNo);
+				} else {
+					continue;
+				}
+			}
+		} else {
+			logger.info(logEmail);
+			/*
+			 * for (MainDTO dto : list) { list2.add(dto); }
+			 */
+			list2.addAll(list);
+		}
+		
+		
 
-		map.put("list", bbsListDB(list, logEmail));
+		map.put("list", bbsListDB(list2, logEmail));
 		map.put("currentPage", currentPage);
 		map.put("totalPages", totalPages);
 		

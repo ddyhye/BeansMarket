@@ -400,3 +400,14 @@ input[type="file"] {
    color: white;
    background-color: rgb(68, 68, 68);
 }
+
+
+
+/* 주소 수정 */
+.select-div {
+	display: flex;
+	justify-content: flex-start;
+	
+	position: relative;
+	width: 400px;
+}

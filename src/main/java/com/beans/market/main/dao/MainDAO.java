@@ -22,6 +22,9 @@ public interface MainDAO {
 	List<MainDTO> goodsHitList2(String logEmail, int startNo);
 	List<MainDTO> goodsHitList3(String logEmail, int startNo);
 	List<MainDTO> goodsHitList4(String logEmail, int startNo);
+	// 로그인 시, 로그인 계정의 범위 내에서 보이도록 
+	String myGetLocation(String logEmail);
+	int equalsLocation(int idx, String logEmail);
 	// 게시글 리스트 총 페이지 수
 	int allCount(String logEmail, int startNo);
 	int allCount2(String logEmail, int startNo);
@@ -75,6 +78,8 @@ public interface MainDAO {
 	List<InquiryDTO> inquireListAjax();
 	InquiryDTO inquireDetail(int idxInt);
 	List<PhotoDTO> inquireGetPhoto(int idxInt);
+	
+	
 	
 	
 
