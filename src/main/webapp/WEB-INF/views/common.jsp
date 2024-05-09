@@ -100,7 +100,7 @@
 		</div>
 
 		<div class="top-second-center">
-			<div><h4 id="nameBold">${name}&nbsp;</h4></div>
+			<div id="nameBoldAdd"><h4 id="nameBold">${name}&nbsp;</h4></div>
 			<div>
 				<a href="<c:url value='/member/login.go'/>" class="top-second-center-link" id="top-second-center-link-log">로그인</a>
 			</div>
@@ -167,6 +167,10 @@
 	loggedIn();
 	
 	function loggedIn() {
+		var content = '';
+		
+		$('#nameBoldAdd').empty();
+		
 		$.ajax({
 			type: 'get',
 			url: '<c:url value="/loggedIn.ajax"/>',
@@ -179,6 +183,9 @@
 				} else {
 					$('#top-second-center-link-log').attr('href', '<c:url value="/member/login.go"/>').removeAttr('onclick').text('로그인');
 				}
+				content += '<h4 id="nameBold">'+data.name+'&nbsp;</h4>';
+				
+				$('#nameBoldAdd').append(content);
 			}, error: function(data){}
 		});
 	}

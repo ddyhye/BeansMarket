@@ -76,6 +76,8 @@ public class MainController {
 		
 		if (session.getAttribute("logEmail") != null) {
 			map.put("logged", "on");
+			String name = mainService.getName((String)session.getAttribute("logEmail"));
+			map.put("name", name);
 		} else {
 			map.put("logged", "off");
 		}

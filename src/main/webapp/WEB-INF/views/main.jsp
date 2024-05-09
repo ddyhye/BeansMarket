@@ -271,7 +271,6 @@
 			content += '<div class="goods-price-1">';
 			content += '<div class="goods-price-1-left">';
 			var priceR = item.price === 0? '나눔':item.price+'&nbsp;원';
-			console.log(priceR);
 			content += '<span>&nbsp;&nbsp;현재가&nbsp;&nbsp;</span><span id="Price">'+priceR+'</span></div>';
 			content += '<div class="goods-price-1-right"><span>❤</span><span class="Hit">&nbsp;'+item.heartCnt+'&nbsp;&nbsp;</span></div>';
 			content += '</div>';
