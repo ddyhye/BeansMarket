@@ -75,7 +75,7 @@ public class PayService {
 	}
 
 	// 낙찰 후 거래금 처리 - 성영
-	public void autionPaySend(String email, int idx) {
+	public void autionPaySend(String email, int idx, String reserveEmail) {
 		logger.info("{} 게시물 경매 낙찰 이후 거래 성사", idx);
 		// 거래금 판매자에게 전송
 		int row = payDAO.transactionDeposit(email, idx);
@@ -84,10 +84,10 @@ public class PayService {
 		// 거래금 수신에 대해서 입출금 내역에 저장
 		if(row == 1) {
 			row = historyDAO.InsertDepositHistoty(idx, email, "경매금 수령", idx+"번 게시글 경매금 수령");
+			// 게시물 입찰 히스토리와 구매자 입출금 내역에 낙찰이라는 내역 추가하기
+			row = historyService.insertPayHistory(idx, reserveEmail, "경매 낙찰", 0, idx+"번 게시글 경매 낙찰");
 			logger.info("거래금 수령 내역 작성 완료 여부 ", row);			
 		}
-		
-		// 게시물 입찰 히스토리와 구매자 입출금 내역에 낙찰이라는 내역 추가하기
 		
 	}
 

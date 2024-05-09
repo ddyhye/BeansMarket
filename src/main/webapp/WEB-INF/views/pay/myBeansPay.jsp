@@ -41,7 +41,7 @@
 					                        <c:when test="${bean.option =='경매글 입찰' || bean.option == '거래금 지불'}">
 					                            <div class="amount" style="color: red;">-${bean.price}</div>
 					                        </c:when>
-					                        <c:when test="${bean.option == '거래금 수령' || bean.option == '입찰금 반환' || bean.option == '빈즈페이 충전'}">
+					                        <c:when test="${bean.option == '거래금 수령' || bean.option == '입찰금 반환' || bean.option == '빈즈페이 충전' || bean.option == '경매금 수령'}">
 					                            <div class="amount" style="color: blue;">+${bean.price}</div>
 					                        </c:when>
 					                        <c:otherwise>

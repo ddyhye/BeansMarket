@@ -9,10 +9,28 @@
 	</select>
 	<!--로그인-->
 	<select id="login" resultType="com.beans.market.member.dto.MemberDTO">
-		SELECT email,location,scope,name,birth_date,gender,point 
+		SELECT email, location, scope, name, birth_date, gender, point, login_banend
 		FROM member 
 		WHERE email= #{param1} AND pw= #{param2} AND secession = 'N'
 	</select>
+	
+	<select id="loginCount" resultType="Integer">
+		SELECT login_count FROM member WHERE email = #{param1}
+	</select>
+	
+	<update id="loginCountUp">
+    	UPDATE member SET login_count = login_count + 1 WHERE email = #{param1}
+	</update>
+	
+	<update id="loginCountReset">
+    	UPDATE member SET login_count = 0 WHERE email = #{param1}
+	</update>
+	
+	<select id="emailCheck" resultType="Integer">
+		SELECT COUNT(email)FROM member WHERE email = #{param1}
+	</select>
+	
+	
 	<!-- 로그인 이메일만 -->
 	<select id="logEmail" resultType="String">
 		SELECT email, location, scope, name, birth_date, gender, point, dormant, login_count, warn_count
