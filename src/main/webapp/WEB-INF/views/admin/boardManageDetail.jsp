@@ -23,7 +23,6 @@
 	<div class="container">
 		
 		<div class="buttons">
-<!-- 			<button class="Auction-cancel">경매 취소</button> -->
 			<button class="Blind-button">블라인드</button>
 		</div>
 		
@@ -42,12 +41,21 @@
 		</div> --%>
 		<div id="BlindModal">
 			<form action="<c:url value='/admin/bbsBlind.do'/>">
-				<p>선택하신 내용을 블라인드 처리하시겠습니까?</p>
+				<p>해당 게시글을 블라인드 처리하시겠습니까?</p>
 				<div class="bli-button">
-					<!-- <button id="BlindModal-del1" onclick="Bdel()">확인</button> -->
 					<input type="hidden" name="idx" value="${idx}"/>
 					<input type="submit" id="BlindModal-del1" value="확인"/>
 					<button id="BlindModal-del2">취소</button>
+				</div>
+			</form>
+		</div>
+		<div id="BlindModalDel">
+			<form action="<c:url value='/admin/bbsBlindDel.do'/>">
+				<p>해당 게시글을 블라인드 해제하시겠습니까?</p>
+				<div class="bliDel-button">
+					<input type="hidden" name="idx" value="${idx}"/>
+					<input type="submit" id="BlindModalDel-del3" value="확인"/>
+					<button id="BlindModalDel-del4">취소</button>
 				</div>
 			</form>
 		</div>
@@ -117,7 +125,7 @@
 	$('td.one:contains(${idx})').siblings('.six').text(reg_date);
 	
 	// 경매 취소
-	$('.Auction-cancel').on('click', function(){
+/* 	$('.Auction-cancel').on('click', function(){
 		$('#auctionCancelModal').addClass('active');
 	});
 	
@@ -127,11 +135,33 @@
 	
 	$('#auctionCancelModal-del2').on('click', function(){
 		$('#auctionCancelModal').removeClass('active');
-	});
+	}); */
 	
 	// 블라인드 처리
-	$('.Blind-button').on('click', function() {
+/* 	$('.Blind-button').on('click', function() {
 	    $('#BlindModal').addClass('active');
+	}); */
+	
+
+	$('#list1').on('click', '.one', function(){
+		var boardIdx = $(this).text();
+		console.log(boardIdx);
+		
+	    var url = '<c:url value="/board/detail.go"/>' + '?idx=' + boardIdx;
+	    window.location.href = url;
+	});
+
+
+	$('.Blind-button').on('click', function() {
+	    var blindValue = "${blind}";
+
+	    if (blindValue === 'Y') {
+	    	$('#BlindModalDel').addClass('active');
+	        window.location.href = '<c:url value="/admin/bbsBlindDel.do"/>'; // 블라인드가 Y일 때
+	    } else if (blindValue === 'N') {
+	    	$('#BlindModal').addClass('active');
+	        window.location.href = '<c:url value="/admin/bbsBlind.do"/>'; // 블라인드가 N일 때
+	    }
 	});
 	
 	$('#BlindModal-del1').on('click', function() {
@@ -142,15 +172,16 @@
 	$('#BlindModal-del2').on('click', function() {
 	    $('#BlindModal').removeClass('active');
 	});
-
-	$('#list1').on('click', '.one', function(){
-		var boardIdx = $(this).text();
-		console.log(boardIdx);
-		
-	    var url = '<c:url value="/board/detail.go"/>' + '?idx=' + boardIdx;
-	    window.location.href = url;
+	
+	$('#BlindModal-del3').on('click', function() {
+	    $('#BlindModalDel').removeClass('active');
+	    
 	});
-
+	
+	$('#BlindModal-del4').on('click', function() {
+	    $('#BlindModalDel').removeClass('active');
+	});
+	
 	
 </script>
 </html>

@@ -511,6 +511,11 @@ public class AdminService {
 		return adminDao.boardBlind(boardIdx);
 	}
 
+	// 블라인드 해제
+	public BoardDTO boardBlindDel(int boardIdx) {
+		return adminDao.boardBlindDel(boardIdx);		
+	}
+	
 	public Map<String, Object> completeAjax(List<Integer> compleList, String admin_name) {
 		Map<String, Object> map = new HashMap<String, Object>();
 		
@@ -524,6 +529,7 @@ public class AdminService {
 		
 		return map;
 	}
+
 
 	
 

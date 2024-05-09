@@ -180,6 +180,8 @@ public interface AdminDAO {
 	// 블라인드 처리
 	BoardDTO boardBlind(int boardIdx);
 
+	BoardDTO boardBlindDel(int boardIdx);
+
 	
 
 	

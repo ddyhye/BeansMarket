@@ -660,6 +660,35 @@ public class AdminController {
 		return "admin/boardManageDetail";		
 	}
 	
+	// 블라인드 해제
+	@RequestMapping(value = "/admin/bbsBlindDel.do")
+	public String bbsBlindDel(Model model, HttpSession session, String idx) {
+		String adminID = (String)session.getAttribute("adminID");
+		
+		logger.info(idx);
+		
+		
+		int boardIdx = Integer.parseInt(idx);
+		adminService.boardBlindDel(boardIdx);
+		BoardDTO dto = adminService.boardDetail(boardIdx);
+		
+		model.addAttribute("idx", dto.getIdx());
+		model.addAttribute("email", dto.getEmail());
+		model.addAttribute("option", dto.getOption());
+		model.addAttribute("bbs_state", dto.getBbs_state());
+		model.addAttribute("bHit", dto.getbHit());
+		model.addAttribute("location", dto.getLocation());
+		model.addAttribute("reg_date", dto.getReg_date());
+		model.addAttribute("blind", dto.getBlind());
+		model.addAttribute("hidden", dto.getHidden());
+		model.addAttribute("category_idx", dto.getCategory_idx());
+		model.addAttribute("draft", dto.getDraft());
+		model.addAttribute("price", dto.getPrice());
+		model.addAttribute("reserve_email", dto.getReserve_email());
+		
+		return "admin/boardManageDetail";		
+	}
+	
 	// 히스토리 내역으로 이동 요청
 	@RequestMapping(value = "/admin/bidHistory.go", method = RequestMethod.GET)
 	public String bidHistoryGO(Model model, String idx) {

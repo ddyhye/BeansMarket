@@ -1148,6 +1148,9 @@
 	<select id="boardBlind">
 		UPDATE bbs SET blind='Y' WHERE idx=#{param1}
 	</select>
+	<select id="boardBlindDel">
+		UPDATE bbs SET blind='N' WHERE idx=#{param1}
+	</select>
 	
 	
 	
