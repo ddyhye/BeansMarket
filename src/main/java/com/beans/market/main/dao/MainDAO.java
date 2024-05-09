@@ -82,5 +82,11 @@ public interface MainDAO {
 	
 	
 	
+	// 로그인 네임
+	String getName(String logEmail);
+	
+	
+	
+	
 
 }

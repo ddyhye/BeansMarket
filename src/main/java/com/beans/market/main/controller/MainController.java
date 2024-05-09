@@ -43,13 +43,25 @@ public class MainController {
 	}
 	
 	@RequestMapping(value="/")
-	public String main(Model model, @RequestParam(value="msg", required=false) String msg) {
+	public String main(Model model, HttpSession session, @RequestParam(value="msg", required=false) String msg) {
 		logger.info("메인 페이지...");
 		
 		//mainService.goodsList(model); 	/* css 테스트용 */
 		
 		if (msg != null && !msg.isEmpty()) {
 			model.addAttribute("msg", msg);
+		}
+		
+		String logEmail = "";
+		String name = "";
+		
+		if (session.getAttribute("logEmail") != null) {
+			logEmail = (String) session.getAttribute("logEmail");
+			name = mainService.getName(logEmail);
+		}
+		
+		if (!name.equals("")) {
+			model.addAttribute("name", name);
 		}
 		
 		return "main";

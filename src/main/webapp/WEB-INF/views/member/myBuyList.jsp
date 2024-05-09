@@ -124,7 +124,7 @@
 			},
 			dataType: 'JSON',
 			success: function(data){
-				drawSellList(data);
+				drawBuyList(data);
 			}, error: function(data){}
 		});
 		
