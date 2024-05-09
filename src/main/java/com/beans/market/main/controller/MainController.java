@@ -368,8 +368,6 @@ public class MainController {
 			params.put("logEmail", "비회원");
 		}
 		
-		logger.info("params: "+params);
-		
 		mainService.writeInquire(params, photos, tempoPhotoNames);
 		
 		 

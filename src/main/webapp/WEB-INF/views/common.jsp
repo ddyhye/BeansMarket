@@ -183,7 +183,9 @@
 				} else {
 					$('#top-second-center-link-log').attr('href', '<c:url value="/member/login.go"/>').removeAttr('onclick').text('로그인');
 				}
-				content += '<h4 id="nameBold">'+data.name+'&nbsp;</h4>';
+				if (data.name != null) {
+					content += '<h4 id="nameBold">'+data.name+'&nbsp;</h4>';
+				}
 				
 				$('#nameBoldAdd').append(content);
 			}, error: function(data){}

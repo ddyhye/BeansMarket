@@ -105,7 +105,6 @@ public class MainService {
 			}
 		}
 		
-		logger.info(logEmail);
 		String my_location = mainDao.myGetLocation(logEmail);
 		
 		if (logEmail != null && !logEmail.equals("") && my_location.equals("addr001")) {
@@ -114,14 +113,12 @@ public class MainService {
 			for (MainDTO dto : list) {
 				if (mainDao.equalsLocation(dto.getIdx(), logEmail) > 0) {
 					list2.add(dto);
-					logger.info(dto.getEmail());
 					//totalPages = mainDao.allCount(logEmail, startNo);
 				} else {
 					continue;
 				}
 			}
 		} else {
-			logger.info(logEmail);
 			/*
 			 * for (MainDTO dto : list) { list2.add(dto); }
 			 */
