@@ -169,7 +169,6 @@
 	
 	// 문의 상세보기
 	$('.inquire-center').on('click', '.inquire-center-inquire', function() {
-		console.log('click!!!');
 		
 		$('.inquire-center-inquire-pw').addClass('active');
 		
@@ -186,6 +185,7 @@
 			}
 			
 			$('.pwInput').val('');
+			console.log();
 			$('.inquire-center-inquire-pw').removeClass('active');
 		});
 	});

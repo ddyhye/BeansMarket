@@ -64,8 +64,8 @@
 }
 .buy-center-list-left img {
 	position: relative;
-	width: auto;
-	height: 95%;
+	width: 100px;
+	height: 100px;
 }
 .buy-center-list-left .fa-eye-slash {
 	position: absolute;

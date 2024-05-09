@@ -530,3 +530,8 @@ img {
    position: relative;
    height: 5%;
 }
+
+
+#nameBold {
+	font-weight: bold;
+}

@@ -408,6 +408,17 @@ public class MainService {
 
 
 
+	// 로그인 네임
+	public String getName(String logEmail) {
+		return mainDao.getName(logEmail);
+	}
+
+
+
+	
+
+
+
 
 
 
